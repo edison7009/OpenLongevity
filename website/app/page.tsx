@@ -36,7 +36,7 @@ const copy = {
     products: [
       {
         no: "01",
-        title: "笔记展示",
+        title: "最新科学进展",
         en: "KNOWLEDGE",
         body: "补剂、运动、饮食与人物案例，以普通人能读懂的方式组织；专业证据仍然随时可追溯。",
       },
