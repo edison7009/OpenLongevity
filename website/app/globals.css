@@ -29,6 +29,7 @@
   --coral: #df705f;
   --line-dark: rgba(216, 194, 139, 0.25);
   --line-paper: rgba(7, 25, 29, 0.2);
+  --page-gutter: clamp(40px, 10vw, 190px);
   --serif: "Newsreader", "Noto Serif SC", "Source Han Serif SC", "Songti SC",
     STSong, Georgia, serif;
   --sans: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -88,7 +89,7 @@ button {
   align-items: center;
   width: 100%;
   height: 88px;
-  padding: 0 clamp(22px, 4.5vw, 76px);
+  padding: 0 var(--page-gutter);
   border-bottom: 1px solid var(--line-dark);
   background: linear-gradient(180deg, rgba(3, 17, 20, 0.76), transparent);
 }
@@ -168,7 +169,7 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
   min-height: min(940px, 100svh);
-  padding: 150px clamp(22px, 4.5vw, 76px) 82px;
+  padding: 150px var(--page-gutter) 82px;
   background:
     linear-gradient(
       90deg,
@@ -255,7 +256,10 @@ p {
 }
 
 .hero-body {
-  width: min(720px, calc(100vw - 40px));
+  width: min(
+    720px,
+    calc(100vw - var(--page-gutter) - var(--page-gutter))
+  );
   max-width: none;
   margin-bottom: 38px;
   color: rgba(232, 225, 203, 0.72);
@@ -405,7 +409,7 @@ p {
 .hero-index {
   position: absolute;
   bottom: 26px;
-  left: clamp(22px, 4.5vw, 76px);
+  left: var(--page-gutter);
   color: rgba(232, 225, 203, 0.35);
   font-family: var(--mono);
   font-size: 9px;
@@ -1191,6 +1195,15 @@ footer p:last-child {
   }
 }
 
+@media (min-width: 781px) and (max-width: 1400px) {
+  .hero-body {
+    width: min(
+      660px,
+      calc(100vw - var(--page-gutter) - var(--page-gutter))
+    );
+  }
+}
+
 @media (max-width: 1100px) {
   .site-header {
     grid-template-columns: 1fr auto;
@@ -1238,6 +1251,7 @@ footer p:last-child {
   }
 
   .hero {
+    --page-gutter: 20px;
     display: block;
     min-height: auto;
     padding: 124px 20px 40px;
