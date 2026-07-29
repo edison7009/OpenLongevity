@@ -1,3 +1,4 @@
+# Open Longevity installer for Windows PowerShell
 $ErrorActionPreference = "Stop"
 
 $repository = "edison7009/OpenLongevity"

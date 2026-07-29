@@ -7,7 +7,7 @@ type Locale = "zh" | "en";
 const githubRepository = "https://github.com/edison7009/OpenLongevity";
 const latestRelease = `${githubRepository}/releases/latest`;
 const installCommand =
-  "irm https://edison7009.github.io/OpenLongevity/install.ps1 | iex";
+  "irm https://edison7009.github.io/OpenLongevity/install.txt | iex";
 
 const assetPath = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
