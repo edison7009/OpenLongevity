@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Locale = "zh" | "en";
 
@@ -9,6 +9,9 @@ const assetPath = (path: string) =>
 
 const copy = {
   zh: {
+    metaTitle: "Open Longevity · 让 AI 与科学照亮你的生命之树",
+    metaDescription:
+      "本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。",
     nav: ["理念", "产品", "证据", "开源"],
     eyebrow: "本地优先 · 科学依据 · AI 驱动",
     heroLead: "让 AI 与科学，",
@@ -78,6 +81,9 @@ const copy = {
     footerNote: "科学长寿知识与 AI 桌面应用",
   },
   en: {
+    metaTitle: "Open Longevity · Let AI and science illuminate your Tree of Life",
+    metaDescription:
+      "A local-first longevity knowledge and AI desktop app grounded in scientific evidence, with an independent bilingual library for Windows, macOS, and Linux.",
     nav: ["Principles", "Product", "Evidence", "Open source"],
     eyebrow: "Local-first · Science-grounded · AI-driven",
     heroLead: "Let AI and science",
@@ -153,6 +159,19 @@ export default function Home() {
   const t = copy[locale];
 
   const sectionLinks = ["#principles", "#product", "#evidence", "#open-source"];
+
+  useEffect(() => {
+    document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
+    document.title = t.metaTitle;
+
+    const setMetaContent = (selector: string, content: string) => {
+      document.querySelector(selector)?.setAttribute("content", content);
+    };
+
+    setMetaContent('meta[name="description"]', t.metaDescription);
+    setMetaContent('meta[property="og:title"]', t.metaTitle);
+    setMetaContent('meta[property="og:description"]', t.heroBody);
+  }, [locale, t.heroBody, t.metaDescription, t.metaTitle]);
 
   return (
     <main className="site-shell">
