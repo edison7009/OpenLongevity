@@ -96,6 +96,12 @@ to the product template.
   `deepseek-v4-pro`, and `kimi-k3`; Chinese “Custom” is **自定义** and examples
   should be visibly marked `e.g.`.
 - API keys stay in memory and are not written to disk.
+- Evidence-oriented questions automatically use an app-managed live research
+  layer: the configured model produces a concise English biomedical query that
+  is instructed to exclude personal identifiers and measurements,
+  then the backend searches PubMed, ClinicalTrials.gov, and bioRxiv (through
+  Europe PMC). Answers receive a deterministic source list and must distinguish
+  peer-reviewed papers, trial registrations/results, and preprints.
 - The app silently checks the latest GitHub release. When an update exists, a
   small teal update control appears beside the sidebar product name. Windows
   downloads the published NSIS installer with circular progress and launches

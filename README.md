@@ -85,12 +85,20 @@ AI context is prioritized in this order:
 
 When an answer depends on local material, the assistant is instructed to preserve the corresponding note path for further inspection.
 
+For evidence-oriented questions, Open Longevity can also build a concise
+English biomedical query that excludes personal identifiers and retrieve a small live snapshot from PubMed,
+ClinicalTrials.gov, and bioRxiv. The answer receives deterministic PMID, NCT,
+and preprint links and must distinguish papers, trial registrations/results,
+and non-peer-reviewed preprints.
+
 ### Keep control of your data
 
 - The default library is independent and never binds to a developer's private notes.
 - Markdown and CSV remain portable, readable, and easy to back up.
 - The API key exists only in memory for the current run.
 - Content is sent to the configured model provider only after the user initiates an AI request.
+- For an evidence-oriented request, only that reduced biomedical query is sent
+  to the public scientific databases.
 - The model receives no shell access and cannot write arbitrary files.
 
 ## Default library locations
@@ -183,7 +191,7 @@ Public macOS distribution still requires Apple Developer ID signing and notariza
 ## Roadmap
 
 - Mature personal longevity plans and periodic review.
-- PubMed, DOI, and OpenAlex research connectors.
+- Broader DOI, OpenAlex, and target-discovery research connectors.
 - Local full-text search and more transparent evidence citation.
 - An auditable health-metric timeline.
 - Community-maintained strategies, public cases, and research notes.
