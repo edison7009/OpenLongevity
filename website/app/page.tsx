@@ -158,7 +158,6 @@ export default function Home() {
     <main className="site-shell">
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Open Longevity home">
-          <img src={assetPath("/open-longevity-logo.png")} alt="" />
           <span>Open Longevity</span>
         </a>
         <nav aria-label={locale === "zh" ? "主要导航" : "Primary navigation"}>
@@ -366,7 +365,6 @@ export default function Home() {
 
       <footer>
         <div className="brand footer-brand">
-          <img src={assetPath("/open-longevity-logo.png")} alt="" />
           <span>Open Longevity</span>
         </div>
         <p>{t.footerNote}</p>

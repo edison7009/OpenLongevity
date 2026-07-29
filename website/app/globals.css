@@ -80,19 +80,11 @@ button {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   width: fit-content;
   font-family: var(--serif);
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-}
-
-.brand img {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  filter: drop-shadow(0 6px 15px rgba(78, 218, 190, 0.16));
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.045em;
 }
 
 .site-header nav {
@@ -1089,13 +1081,8 @@ footer p:last-child {
 }
 
 .footer-brand {
-  font-size: 16px;
-}
-
-.footer-brand img {
-  width: 29px;
-  height: 29px;
-  border-radius: 8px;
+  font-size: 15px;
+  letter-spacing: 0.06em;
 }
 
 @keyframes pulse {
@@ -1168,11 +1155,6 @@ footer p:last-child {
 
   .brand {
     font-size: 16px;
-  }
-
-  .brand img {
-    width: 30px;
-    height: 30px;
   }
 
   .hero {
