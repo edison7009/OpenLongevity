@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/brand/logo.png" width="112" alt="Open Longevity logo">
+  <img src="src-tauri/icons/icon.png" width="112" alt="Open Longevity logo">
 </p>
 
 <h1 align="center">Open Longevity</h1>
@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  Windows · macOS · Linux · <a href="https://open-longevity.ebenxp707.chatgpt.site/">Website</a>
+  Windows · macOS · Linux · <a href="https://edison7009.github.io/OpenLongevity-website/">Website</a>
 </p>
 
 > Wealth can buy private medical teams, continuous measurement, research support, and rapidly evolving personal protocols.<br>

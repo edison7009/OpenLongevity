@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/brand/logo.png" width="112" alt="Open Longevity logo">
+  <img src="src-tauri/icons/icon.png" width="112" alt="Open Longevity logo">
 </p>
 
 <h1 align="center">Open Longevity · 科学长寿</h1>
@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://open-longevity.ebenxp707.chatgpt.site/">项目网站</a>
+  <a href="https://edison7009.github.io/OpenLongevity-website/">项目网站</a>
 </p>
 
 > 富豪可以组建医疗团队、持续追踪指标、整理研究并迭代个人方案。<br>

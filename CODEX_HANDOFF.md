@@ -102,9 +102,9 @@ to the product template.
 
 - Website source: `website/`
 - Current hosted URL:
-  `https://open-longevity.ebenxp707.chatgpt.site/`
-- Hosting project identity is stored in `website/.openai/hosting.json`. Never
-  create a second site for this source.
+  `https://edison7009.github.io/OpenLongevity-website/`
+- The website is a static Vite/React site deployed publicly through GitHub
+  Pages from its own repository and workflow.
 - `website/` is a separate Git repository. The desktop root currently is not a
   Git repository.
 - Visual direction: dark teal, Renaissance scientific engraving, warm paper,
@@ -181,4 +181,3 @@ machine-specific.
 5. Before GitHub release, initialize or restore a Git repository for the desktop
    root, confirm version `0.0.1` in all three version files, then exercise the
    cross-platform release workflow.
-

@@ -16,6 +16,5 @@ Project rules:
   labels, and web-like decoration inside the desktop app.
 - Do not commit generated dependencies or build output (`node_modules/`,
   `dist/`, `src-tauri/target/`).
-- `website/` is its own Git repository and Sites project. Read
-  `website/.openai/hosting.json` and use the Sites workflow when publishing it.
-
+- `website/` is its own Git repository and is deployed publicly with GitHub
+  Pages. Preserve its static Vite build and Pages workflow when publishing it.
