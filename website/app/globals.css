@@ -255,7 +255,8 @@ p {
 }
 
 .hero-body {
-  max-width: 630px;
+  width: min(720px, calc(100vw - 40px));
+  max-width: none;
   margin-bottom: 38px;
   color: rgba(232, 225, 203, 0.72);
   font-family: var(--serif);
