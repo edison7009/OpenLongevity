@@ -102,11 +102,11 @@ to the product template.
 
 - Website source: `website/`
 - Current hosted URL:
-  `https://edison7009.github.io/OpenLongevity-website/`
+  `https://edison7009.github.io/OpenLongevity/`
 - The website is a static Vite/React site deployed publicly through GitHub
-  Pages from its own repository and workflow.
-- `website/` is a separate Git repository. The desktop root is published at
-  `https://github.com/edison7009/OpenLongevity`.
+  Pages from the main repository workflow.
+- The desktop app and website are separate products in the same repository.
+  The former `OpenLongevity-website` repository remains as a migration backup.
 - Visual direction: dark teal, Renaissance scientific engraving, warm paper,
   copper/brass lines, and a full-bleed Tree of Life hero image. It should feel
   optimistic, healthy, literary, and scientific—not dense or

@@ -1,0 +1,377 @@
+"use client";
+
+import { useState } from "react";
+
+type Locale = "zh" | "en";
+
+const assetPath = (path: string) =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
+const copy = {
+  zh: {
+    nav: ["理念", "产品", "证据", "开源"],
+    eyebrow: "本地优先 · 科学依据 · AI 驱动",
+    heroLead: "让 AI 与科学，",
+    heroAccent: "照亮你的生命之树",
+    heroBody:
+      "Open Longevity 以 Bryan Johnson 的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。",
+    explore: "探索产品",
+    philosophy: "阅读我们的理念",
+    available: "0.0.1 · 桌面端筹备中",
+    specimen: "标本 OL—001",
+    treeLabel: "生命之树 / 持续生长的知识",
+    statementEyebrow: "OPEN LONGEVITY / 开放宣言",
+    statement: "科技长寿，不应该是富豪独有。",
+    statementBody:
+      "昂贵的私人团队、封闭的数据和难以验证的建议，不该成为通往更长生命的门槛。Open Longevity 希望把知识、证据与工具打开，让每个人都能理解、检查并建立自己的延寿计划。",
+    openPrinciples: [
+      ["01", "开放知识", "OPEN KNOWLEDGE", "中英文出厂资料公开组织，让专业信息变得可读、可检索、可继续生长。"],
+      ["02", "可验证证据", "TRACEABLE EVIDENCE", "结论始终保留来源、证据边界与适用条件，欢迎追问，而不是要求盲信。"],
+      ["03", "开源工具", "OPEN SOURCE", "代码与数据结构可以被检查、改进和扩展；模型可替换，个人资料默认属于你。"],
+    ],
+    productEyebrow: "三条生长路径",
+    productTitle: "AI + 科学的时代",
+    products: [
+      {
+        no: "01",
+        title: "笔记展示",
+        en: "KNOWLEDGE",
+        body: "补剂、运动、饮食与人物案例，以普通人能读懂的方式组织；专业证据仍然随时可追溯。",
+      },
+      {
+        no: "02",
+        title: "AI 快速收录",
+        en: "CAPTURE",
+        body: "把论文链接、摘要或临时想法直接交给 AI，提炼研究对象、结果、局限与来源，再由你决定是否保存。",
+      },
+      {
+        no: "03",
+        title: "AI 长寿助力",
+        en: "DIALOGUE",
+        body: "围绕你的资料持续对话。它记得当前上下文，也清楚地区分个人方案、一般信息与尚未证实的推测。",
+      },
+    ],
+    interfaceEyebrow: "一间属于你的研究室",
+    interfaceTitle: "复杂的证据，安静的界面。",
+    interfaceBody:
+      "左侧是知识地图，中间是阅读与证据，右侧是计划与收藏。无需打开开发工具，也无需把私人资料上传到陌生平台。",
+    evidenceEyebrow: "优先级，不是假装精确的分数",
+    evidenceTitle: "先做确定性更高的事。",
+    evidenceBody:
+      "Open Longevity 默认参考公开方案与证据成熟度给出起始排序，但保留适用条件与不确定性。你可以按自己的理解调整，也可以让 AI 协助重排。",
+    tiers: [
+      ["T1", "力量训练 · 有氧运动 · 健康饮食", "FOUNDATION"],
+      ["T2", "肌酸 · 可溶性膳食纤维 · Omega-3", "HIGH VALUE"],
+      ["T3", "维生素 D3 · 镁 · 维生素 C", "CONTEXTUAL"],
+      ["T4", "辅酶 Q10 · NAD+ · 亚精胺", "EMERGING"],
+      ["T5", "麦角硫因 · PQQ · Ca-AKG", "FRONTIER"],
+    ],
+    openEyebrow: "开放，但不轻率",
+    openTitle: "你的数据属于你。科学也应该经得起追问。",
+    openBody:
+      "独立资料库、可替换模型、中英文默认内容，以及面向 Windows、macOS 与 Linux 的统一体验。Open Longevity 将以开源方式发布，让每一项能力都可以被检查和扩展。",
+    release: "首个公开版本",
+    releaseValue: "0.0.1",
+    releaseNote: "正在整理 GitHub 首发版本",
+    platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
+    closing: "更长的生命，值得更清楚的依据。",
+    footerNote: "科学长寿知识与 AI 桌面应用",
+  },
+  en: {
+    nav: ["Principles", "Product", "Evidence", "Open source"],
+    eyebrow: "Local-first · Science-grounded · AI-driven",
+    heroLead: "Let AI and science",
+    heroAccent: "illuminate your Tree of Life",
+    heroBody:
+      "Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence so ordinary people can access a level of strategy once reserved for the wealthy.",
+    explore: "Explore the product",
+    philosophy: "Read our principles",
+    available: "0.0.1 · Desktop release in preparation",
+    specimen: "SPECIMEN OL—001",
+    treeLabel: "TREE OF LIFE / KNOWLEDGE IN GROWTH",
+    statementEyebrow: "OPEN LONGEVITY / AN OPEN MANIFESTO",
+    statement: "Longevity technology should not belong only to the wealthy.",
+    statementBody:
+      "Expensive private teams, closed data, and advice that cannot be examined should not stand between people and a longer life. Open Longevity opens the knowledge, evidence, and tools so anyone can understand, inspect, and build a plan of their own.",
+    openPrinciples: [
+      ["01", "Open knowledge", "OPEN KNOWLEDGE", "Bilingual starter material makes specialist information readable, searchable, and ready to grow."],
+      ["02", "Traceable evidence", "TRACEABLE EVIDENCE", "Every conclusion keeps its sources, boundaries, and conditions—inviting questions instead of blind trust."],
+      ["03", "Open-source tools", "OPEN SOURCE", "Code and data structures can be inspected, improved, and extended. Models are replaceable; your data stays yours."],
+    ],
+    productEyebrow: "Three paths of growth",
+    productTitle: "The age of AI + science",
+    products: [
+      {
+        no: "01",
+        title: "Knowledge",
+        en: "READ",
+        body: "Supplements, movement, nutrition, and public cases are written for clarity, while the underlying evidence remains traceable.",
+      },
+      {
+        no: "02",
+        title: "AI capture",
+        en: "CAPTURE",
+        body: "Give AI a paper, abstract, link, or rough thought. It extracts populations, outcomes, limits, and sources before you decide what to keep.",
+      },
+      {
+        no: "03",
+        title: "AI dialogue",
+        en: "UNDERSTAND",
+        body: "Keep asking questions against your own library. The assistant separates personal protocols, general information, and unproven hypotheses.",
+      },
+    ],
+    interfaceEyebrow: "A research room of your own",
+    interfaceTitle: "Complex evidence. A quiet interface.",
+    interfaceBody:
+      "A knowledge map on the left, reading and evidence in the center, plans and favorites on the right. No developer tool and no need to surrender private notes to an unfamiliar platform.",
+    evidenceEyebrow: "Priorities, not pretend precision",
+    evidenceTitle: "Start with what is more certain.",
+    evidenceBody:
+      "The default order reflects public protocols and evidence maturity while preserving conditions and uncertainty. Adjust it yourself or ask AI to help reorder it.",
+    tiers: [
+      ["T1", "Strength · Aerobic exercise · Healthy diet", "FOUNDATION"],
+      ["T2", "Creatine · Soluble fiber · Omega-3", "HIGH VALUE"],
+      ["T3", "Vitamin D3 · Magnesium · Vitamin C", "CONTEXTUAL"],
+      ["T4", "CoQ10 · NAD+ · Spermidine", "EMERGING"],
+      ["T5", "Ergothioneine · PQQ · Ca-AKG", "FRONTIER"],
+    ],
+    openEyebrow: "Open, without being careless",
+    openTitle: "Your data is yours. Science should survive scrutiny.",
+    openBody:
+      "An independent library, replaceable models, bilingual starter content, and one experience across Windows, macOS, and Linux. Open Longevity will be released as open source so every capability can be inspected and extended.",
+    release: "FIRST PUBLIC RELEASE",
+    releaseValue: "0.0.1",
+    releaseNote: "GitHub launch package in preparation",
+    platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
+    closing: "A longer life deserves clearer evidence.",
+    footerNote: "Scientific longevity knowledge and AI desktop app",
+  },
+} as const;
+
+export default function Home() {
+  const [locale, setLocale] = useState<Locale>("zh");
+  const t = copy[locale];
+
+  const sectionLinks = ["#principles", "#product", "#evidence", "#open-source"];
+
+  return (
+    <main className="site-shell">
+      <header className="site-header">
+        <a className="brand" href="#top" aria-label="Open Longevity home">
+          <img src={assetPath("/open-longevity-logo.png")} alt="" />
+          <span>Open Longevity</span>
+        </a>
+        <nav aria-label={locale === "zh" ? "主要导航" : "Primary navigation"}>
+          {t.nav.map((label, index) => (
+            <a href={sectionLinks[index]} key={label}>
+              {label}
+            </a>
+          ))}
+        </nav>
+        <button
+          className="language-switch"
+          type="button"
+          onClick={() => setLocale(locale === "zh" ? "en" : "zh")}
+          aria-label={locale === "zh" ? "Switch to English" : "切换至中文"}
+        >
+          <span className={locale === "zh" ? "active" : ""}>中</span>
+          <i />
+          <span className={locale === "en" ? "active" : ""}>EN</span>
+        </button>
+      </header>
+
+      <section className="hero" id="top">
+        <div className="hero-copy">
+          <p className="eyebrow">
+            <span>✦</span>
+            {t.eyebrow}
+          </p>
+          <h1>
+            {t.heroLead}
+            <em>{t.heroAccent}</em>
+          </h1>
+          <p className="hero-body">{t.heroBody}</p>
+          <div className="hero-actions">
+            <a className="button button-primary" href="#product">
+              {t.explore}
+              <span aria-hidden="true">↘</span>
+            </a>
+            <a className="button button-ghost" href="#principles">
+              {t.philosophy}
+            </a>
+          </div>
+          <p className="release-line">
+            <span className="pulse" />
+            {t.available}
+          </p>
+        </div>
+
+        <div className="hero-visual" role="img" aria-label={t.treeLabel} />
+        <div className="hero-index">01 / THE LIVING INDEX</div>
+      </section>
+
+      <div className="signal-strip" aria-hidden="true">
+        <div className="signal-track">
+          {[0, 1].flatMap((round) =>
+            t.tiers.map(([tier, items, label]) => (
+              <span className="signal-item" key={`${round}-${tier}`}>
+                <strong>{tier}</strong>
+                <span>{items}</span>
+                <small>{label}</small>
+                <i>✦</i>
+              </span>
+            )),
+          )}
+        </div>
+      </div>
+
+      <section className="manifesto paper-section" id="principles">
+        <div className="manifesto-mark" aria-hidden="true">
+          <strong>01</strong>
+          <span>OPEN / FOR ALL</span>
+        </div>
+        <div className="manifesto-copy">
+          <p className="section-eyebrow">{t.statementEyebrow}</p>
+          <h2>{t.statement}</h2>
+          <p>{t.statementBody}</p>
+        </div>
+        <div className="open-principles">
+          {t.openPrinciples.map(([number, title, label, body]) => (
+            <article className="open-principle" key={number}>
+              <div className="open-principle-heading">
+                <span>{number}</span>
+                <small>{label}</small>
+              </div>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="product-section" id="product">
+        <div className="section-heading">
+          <p className="section-eyebrow">{t.productEyebrow}</p>
+          <h2>{t.productTitle}</h2>
+        </div>
+        <div className="product-grid">
+          {t.products.map((product) => (
+            <article className="product-card" key={product.no}>
+              <div className="card-topline">
+                <span>{product.no}</span>
+                <span>{product.en}</span>
+              </div>
+              <div className={`process-mark mark-${product.no}`}>
+                <i />
+                <i />
+                <i />
+              </div>
+              <h3>{product.title}</h3>
+              <p>{product.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="interface-section">
+        <div className="interface-copy">
+          <p className="section-eyebrow">{t.interfaceEyebrow}</p>
+          <h2>{t.interfaceTitle}</h2>
+          <p>{t.interfaceBody}</p>
+          <div className="material-list" aria-label="Key product qualities">
+            <span>LOCAL MARKDOWN</span>
+            <span>YOUR MODEL</span>
+            <span>SOURCE-AWARE AI</span>
+          </div>
+        </div>
+
+        <div className="interface-gallery" aria-label={locale === "zh" ? "产品界面预览" : "Product interface preview"}>
+          <figure className="product-shot product-shot-home">
+            <img
+              src={assetPath(
+                locale === "zh"
+                  ? "/product-ui/home-zh.png"
+                  : "/product-ui/home-en.png",
+              )}
+              alt={locale === "zh" ? "Open Longevity 中文首页与策略地图" : "Open Longevity home and strategy map"}
+            />
+            <figcaption>
+              {locale === "zh" ? "首页 · 长寿策略地图" : "HOME · LONGEVITY STRATEGY MAP"}
+            </figcaption>
+          </figure>
+          <figure className="product-shot product-shot-settings">
+            <img
+              src={assetPath(
+                locale === "zh"
+                  ? "/product-ui/settings-zh.png"
+                  : "/product-ui/settings-en.png",
+              )}
+              alt={locale === "zh" ? "Open Longevity 中文模型与知识库设置" : "Open Longevity model and knowledge-library settings"}
+            />
+            <figcaption>
+              {locale === "zh" ? "模型 · 本地知识库" : "MODEL · LOCAL KNOWLEDGE LIBRARY"}
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section className="evidence-section" id="evidence">
+        <div className="evidence-intro">
+          <p className="section-eyebrow">{t.evidenceEyebrow}</p>
+          <h2>{t.evidenceTitle}</h2>
+          <p>{t.evidenceBody}</p>
+        </div>
+        <div className="tier-table">
+          {t.tiers.map(([tier, items, label], index) => (
+            <div className="tier-row" key={tier}>
+              <strong style={{ "--tier": index } as React.CSSProperties}>{tier}</strong>
+              <span>{items}</span>
+              <small>{label}</small>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="open-section paper-section" id="open-source">
+        <div className="open-copy">
+          <p className="section-eyebrow">{t.openEyebrow}</p>
+          <h2>{t.openTitle}</h2>
+          <p>{t.openBody}</p>
+          <div className="platforms">
+            {t.platforms.map((platform) => (
+              <span key={platform}>{platform}</span>
+            ))}
+          </div>
+        </div>
+        <div className="release-plate">
+          <span>{t.release}</span>
+          <strong>{t.releaseValue}</strong>
+          <p>{t.releaseNote}</p>
+          <div className="release-tree">♧</div>
+        </div>
+      </section>
+
+      <section className="closing-section">
+        <div className="closing-tree" aria-hidden="true">
+          <span>│</span>
+          <span>╱╲</span>
+          <span>╱┼╲</span>
+        </div>
+        <p>OPEN LONGEVITY · SCIENTIA VITAE</p>
+        <h2>{t.closing}</h2>
+        <a href="#top">
+          {locale === "zh" ? "回到生命之树" : "Return to the Tree of Life"} ↑
+        </a>
+      </section>
+
+      <footer>
+        <div className="brand footer-brand">
+          <img src={assetPath("/open-longevity-logo.png")} alt="" />
+          <span>Open Longevity</span>
+        </div>
+        <p>{t.footerNote}</p>
+        <p>© 2026 · OPEN SOURCE IN PREPARATION</p>
+      </footer>
+    </main>
+  );
+}
