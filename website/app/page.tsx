@@ -14,7 +14,7 @@ const assetPath = (path: string) =>
 
 const copy = {
   zh: {
-    brand: "OpenLongevity（开源长寿）",
+    brand: "Open Longevity（开源长寿）",
     metaTitle: "Open Longevity · 让 AI 与科学照亮你的生命之树",
     metaDescription:
       "本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。",
