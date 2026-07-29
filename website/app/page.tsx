@@ -1,8 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Locale = "zh" | "en";
+
+const githubRepository = "https://github.com/edison7009/OpenLongevity";
+const latestRelease = `${githubRepository}/releases/latest`;
+const installCommand =
+  "irm https://edison7009.github.io/OpenLongevity/install.ps1 | iex";
 
 const assetPath = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
@@ -17,9 +22,12 @@ const copy = {
     heroAccent: "照亮你的生命之树",
     heroBody:
       "Open Longevity 以 Bryan Johnson 的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。",
-    explore: "探索产品",
-    philosophy: "阅读我们的理念",
-    available: "0.0.1 · 桌面端筹备中",
+    install: "Install Open Longevity",
+    star: "Star on GitHub",
+    copyCommand: "复制 PowerShell 安装命令",
+    copied: "已复制",
+    copy: "复制",
+    available: "0.0.1 · 现已发布",
     specimen: "标本 OL—001",
     treeLabel: "生命之树 / 持续生长的知识",
     statementEyebrow: "OPEN LONGEVITY / 开放宣言",
@@ -71,10 +79,10 @@ const copy = {
     openEyebrow: "开放，但不轻率",
     openTitle: "你的数据属于你。科学也应该经得起追问。",
     openBody:
-      "独立资料库、可替换模型、中英文默认内容，以及面向 Windows、macOS 与 Linux 的统一体验。Open Longevity 将以开源方式发布，让每一项能力都可以被检查和扩展。",
+      "独立资料库、可替换模型、中英文默认内容，以及面向 Windows、macOS 与 Linux 的统一体验。Open Longevity 已以开源方式发布，让每一项能力都可以被检查和扩展。",
     release: "首个公开版本",
     releaseValue: "0.0.1",
-    releaseNote: "正在整理 GitHub 首发版本",
+    releaseNote: "Windows、macOS 与 Linux 安装包现已发布",
     platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
     closing: "更长的生命，值得更清楚的依据。",
     footerNote: "科学长寿知识与 AI 桌面应用",
@@ -88,9 +96,12 @@ const copy = {
     heroAccent: "illuminate your Tree of Life",
     heroBody:
       "Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence so ordinary people can access a level of strategy once reserved for the wealthy.",
-    explore: "Explore the product",
-    philosophy: "Read our principles",
-    available: "0.0.1 · Desktop release in preparation",
+    install: "Install Open Longevity",
+    star: "Star on GitHub",
+    copyCommand: "Copy the PowerShell install command",
+    copied: "Copied",
+    copy: "Copy",
+    available: "0.0.1 · Available now",
     specimen: "SPECIMEN OL—001",
     treeLabel: "TREE OF LIFE / KNOWLEDGE IN GROWTH",
     statementEyebrow: "OPEN LONGEVITY / AN OPEN MANIFESTO",
@@ -142,10 +153,10 @@ const copy = {
     openEyebrow: "Open, without being careless",
     openTitle: "Your data is yours. Science should survive scrutiny.",
     openBody:
-      "An independent library, replaceable models, bilingual starter content, and one experience across Windows, macOS, and Linux. Open Longevity will be released as open source so every capability can be inspected and extended.",
+      "An independent library, replaceable models, bilingual starter content, and one experience across Windows, macOS, and Linux. Open Longevity is open source, so every capability can be inspected and extended.",
     release: "FIRST PUBLIC RELEASE",
     releaseValue: "0.0.1",
-    releaseNote: "GitHub launch package in preparation",
+    releaseNote: "Installers available for Windows, macOS, and Linux",
     platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
     closing: "A longer life deserves clearer evidence.",
     footerNote: "Scientific longevity knowledge and AI desktop app",
@@ -154,6 +165,8 @@ const copy = {
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
+  const [commandCopied, setCommandCopied] = useState(false);
+  const copyResetTimer = useRef<number | undefined>(undefined);
   const t = copy[locale];
 
   const sectionLinks = ["#principles", "#product", "#evidence", "#open-source"];
@@ -170,6 +183,36 @@ export default function Home() {
     setMetaContent('meta[property="og:title"]', t.metaTitle);
     setMetaContent('meta[property="og:description"]', t.heroBody);
   }, [locale, t.heroBody, t.metaDescription, t.metaTitle]);
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(copyResetTimer.current);
+    },
+    [],
+  );
+
+  const copyInstallCommand = async () => {
+    try {
+      await navigator.clipboard.writeText(installCommand);
+    } catch {
+      const field = document.createElement("textarea");
+      field.value = installCommand;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand("copy");
+      field.remove();
+    }
+
+    setCommandCopied(true);
+    window.clearTimeout(copyResetTimer.current);
+    copyResetTimer.current = window.setTimeout(
+      () => setCommandCopied(false),
+      2200,
+    );
+  };
 
   return (
     <main className="site-shell">
@@ -204,14 +247,40 @@ export default function Home() {
           </h1>
           <p className="hero-body">{t.heroBody}</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#product">
-              {t.explore}
-              <span aria-hidden="true">↘</span>
+            <a
+              className="button button-primary"
+              href={latestRelease}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t.install}
+              <span className="button-icon" aria-hidden="true">↓</span>
             </a>
-            <a className="button button-ghost" href="#principles">
-              {t.philosophy}
+            <a
+              className="button button-ghost"
+              href={githubRepository}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t.star}
+              <span className="button-icon star-icon" aria-hidden="true">☆</span>
             </a>
           </div>
+          <button
+            className="install-command"
+            type="button"
+            onClick={copyInstallCommand}
+            aria-label={t.copyCommand}
+          >
+            <span className="terminal-prompt" aria-hidden="true">PS&gt;</span>
+            <code>{installCommand}</code>
+            <span
+              className={`copy-state ${commandCopied ? "is-copied" : ""}`}
+              aria-live="polite"
+            >
+              {commandCopied ? t.copied : t.copy}
+            </span>
+          </button>
           <p className="release-line">
             <span className="pulse" />
             {t.available}
@@ -381,7 +450,7 @@ export default function Home() {
           <span>Open Longevity</span>
         </div>
         <p>{t.footerNote}</p>
-        <p>© 2026 · OPEN SOURCE IN PREPARATION</p>
+        <p>© 2026 · OPEN SOURCE · v0.0.1</p>
       </footer>
     </main>
   );

@@ -1,5 +1,29 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Computer Modern Concrete";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/CMUConcrete-Roman.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Concrete";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/CMUConcrete-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Concrete";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/CMUConcrete-Italic.woff2") format("woff2");
+}
+
 :root {
   --ink: #07191d;
   --ink-deep: #031114;
@@ -13,7 +37,7 @@
   --coral: #df705f;
   --line-dark: rgba(216, 194, 139, 0.25);
   --line-paper: rgba(7, 25, 29, 0.2);
-  --serif: "Iowan Old Style", "Palatino Linotype", "Noto Serif SC", "Songti SC",
+  --serif: "Computer Modern Concrete", "Noto Serif SC", "Songti SC", STSong,
     Georgia, serif;
   --sans: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
   --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -226,8 +250,8 @@ p {
   font-family: var(--serif);
   font-size: clamp(52px, 4.65vw, 78px);
   font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 0.96;
+  letter-spacing: -0.035em;
+  line-height: 1.01;
 }
 
 .hero h1 em {
@@ -243,8 +267,8 @@ p {
   margin-bottom: 38px;
   color: rgba(232, 225, 203, 0.72);
   font-family: var(--serif);
-  font-size: clamp(17px, 1.25vw, 21px);
-  line-height: 1.78;
+  font-size: clamp(18px, 1.32vw, 22px);
+  line-height: 1.7;
 }
 
 .hero-actions {
@@ -257,20 +281,27 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 52px;
+  min-height: 48px;
   padding: 0 24px;
   border: 1px solid rgba(139, 228, 202, 0.45);
-  font-size: 13px;
-  letter-spacing: 0.05em;
+  font-family: var(--serif);
+  font-size: 15px;
+  letter-spacing: 0.01em;
   transition:
     background 180ms ease,
     color 180ms ease,
     border 180ms ease;
 }
 
-.button span {
+.button .button-icon {
   margin-left: 26px;
-  font-size: 18px;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1;
+}
+
+.button .star-icon {
+  font-size: 20px;
 }
 
 .button-primary {
@@ -287,6 +318,63 @@ p {
 .button-ghost:focus-visible {
   border-color: var(--brass-light);
   color: var(--brass-light);
+}
+
+.install-command {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  width: min(100%, 610px);
+  min-height: 46px;
+  margin-top: 14px;
+  padding: 0 13px 0 16px;
+  border: 1px solid rgba(232, 225, 203, 0.18);
+  color: rgba(242, 236, 217, 0.72);
+  background: rgba(3, 17, 20, 0.62);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.install-command:hover,
+.install-command:focus-visible {
+  border-color: rgba(139, 228, 202, 0.48);
+  background: rgba(3, 17, 20, 0.78);
+}
+
+.terminal-prompt {
+  margin-right: 13px;
+  color: var(--teal-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: -0.06em;
+}
+
+.install-command code {
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: -0.025em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy-state {
+  min-width: 42px;
+  margin-left: 14px;
+  color: rgba(232, 225, 203, 0.4);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-align: right;
+  transition: color 180ms ease;
+}
+
+.copy-state.is-copied {
+  color: var(--teal-bright);
 }
 
 .release-line {
@@ -1317,6 +1405,20 @@ footer p:last-child {
 
   .button {
     width: 100%;
+  }
+
+  .install-command {
+    min-height: 48px;
+  }
+
+  .install-command code {
+    font-size: 9px;
+  }
+
+  .copy-state {
+    min-width: 36px;
+    margin-left: 8px;
+    font-size: 9px;
   }
 
   .hero-visual {

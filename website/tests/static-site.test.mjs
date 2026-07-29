@@ -13,4 +13,25 @@ test("builds a portable GitHub Pages site", async () => {
   assert.match(html, /OpenLongevity\/open-longevity-logo\.png/);
   await access(new URL("../dist/product-ui/home-en.png", import.meta.url));
   await access(new URL("../dist/product-ui/settings-zh.png", import.meta.url));
+  await access(new URL("../dist/install.ps1", import.meta.url));
+  await access(
+    new URL("../dist/fonts/CMUConcrete-Roman.woff2", import.meta.url),
+  );
+
+  const assetsDirectory = new URL("../dist/assets/", import.meta.url);
+  const { readdir } = await import("node:fs/promises");
+  const scripts = (await readdir(assetsDirectory)).filter((file) =>
+    file.endsWith(".js"),
+  );
+  const javascript = (
+    await Promise.all(
+      scripts.map((file) =>
+        readFile(new URL(file, assetsDirectory), "utf8"),
+      ),
+    )
+  ).join("\n");
+
+  assert.match(javascript, /github\.com\/edison7009\/OpenLongevity/);
+  assert.match(javascript, /\/releases\/latest/);
+  assert.match(javascript, /install\.ps1/);
 });
