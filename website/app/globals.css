@@ -17,18 +17,18 @@
 }
 
 :root {
-  --ink: #07191d;
-  --ink-deep: #031114;
-  --ink-soft: #0e292d;
+  --ink: #071a13;
+  --ink-deep: #03120c;
+  --ink-soft: #0e2b1f;
   --paper: #e8e1cb;
   --paper-light: #f2ecd9;
-  --teal: #57c9b1;
-  --teal-bright: #8be4ca;
+  --teal: #63c98a;
+  --teal-bright: #a1e6b4;
   --brass: #b79a60;
   --brass-light: #d8c28b;
   --coral: #df705f;
   --line-dark: rgba(216, 194, 139, 0.25);
-  --line-paper: rgba(7, 25, 29, 0.2);
+  --line-paper: rgba(7, 26, 19, 0.2);
   --page-gutter: clamp(40px, 10vw, 190px);
   --serif: "Newsreader", "Noto Serif SC", "Source Han Serif SC", "Songti SC",
     STSong, Georgia, serif;
@@ -91,7 +91,7 @@ button {
   height: 88px;
   padding: 0 var(--page-gutter);
   border-bottom: 1px solid var(--line-dark);
-  background: linear-gradient(180deg, rgba(3, 17, 20, 0.76), transparent);
+  background: linear-gradient(180deg, rgba(3, 18, 12, 0.76), transparent);
 }
 
 .brand {
@@ -173,12 +173,12 @@ button {
   background:
     linear-gradient(
       90deg,
-      rgba(3, 17, 20, 0.96) 0%,
-      rgba(3, 17, 20, 0.84) 34%,
-      rgba(3, 17, 20, 0.34) 58%,
-      rgba(3, 17, 20, 0.04) 82%
+      rgba(3, 18, 12, 0.96) 0%,
+      rgba(3, 18, 12, 0.84) 34%,
+      rgba(3, 18, 12, 0.34) 58%,
+      rgba(3, 18, 12, 0.04) 82%
     ),
-    linear-gradient(0deg, rgba(3, 17, 20, 0.58) 0%, transparent 34%),
+    linear-gradient(0deg, rgba(3, 18, 12, 0.58) 0%, transparent 34%),
     linear-gradient(rgba(116, 191, 171, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(116, 191, 171, 0.035) 1px, transparent 1px),
     url("/tree-of-life-engraving.png"),
@@ -281,8 +281,8 @@ p {
   justify-content: center;
   flex: 1 1 0;
   min-height: 48px;
-  padding: 0 24px;
-  border: 1px solid rgba(139, 228, 202, 0.45);
+  padding: 0 20px;
+  border: 1px solid rgba(161, 230, 180, 0.45);
   font-family: var(--serif);
   font-size: 15px;
   letter-spacing: 0.01em;
@@ -294,7 +294,7 @@ p {
 }
 
 .button .button-icon {
-  margin-left: 26px;
+  margin-left: 18px;
   font-family: var(--sans);
   font-size: 17px;
   line-height: 1;
@@ -331,7 +331,7 @@ p {
   padding: 0 13px 0 16px;
   border: 1px solid rgba(232, 225, 203, 0.18);
   color: rgba(242, 236, 217, 0.72);
-  background: rgba(3, 17, 20, 0.62);
+  background: rgba(3, 18, 12, 0.62);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
   cursor: pointer;
   text-align: left;
@@ -342,8 +342,8 @@ p {
 
 .install-command:hover,
 .install-command:focus-visible {
-  border-color: rgba(139, 228, 202, 0.48);
-  background: rgba(3, 17, 20, 0.78);
+  border-color: rgba(161, 230, 180, 0.48);
+  background: rgba(3, 18, 12, 0.78);
 }
 
 .terminal-prompt {
@@ -397,8 +397,8 @@ p {
 
 .signal-strip {
   overflow: hidden;
-  border-top: 1px solid rgba(139, 228, 202, 0.35);
-  border-bottom: 1px solid rgba(139, 228, 202, 0.35);
+  border-top: 1px solid rgba(161, 230, 180, 0.35);
+  border-bottom: 1px solid rgba(161, 230, 180, 0.35);
   color: var(--ink-deep);
   background: var(--teal);
   white-space: nowrap;
@@ -635,7 +635,7 @@ p {
   width: 122px;
   height: 122px;
   margin: 54px 0 48px;
-  border: 1px solid rgba(139, 228, 202, 0.3);
+  border: 1px solid rgba(161, 230, 180, 0.3);
   border-radius: 50%;
 }
 
@@ -665,7 +665,7 @@ p {
 .process-mark i {
   width: 1px;
   height: 104px;
-  background: rgba(139, 228, 202, 0.26);
+  background: rgba(161, 230, 180, 0.26);
 }
 
 .process-mark i:nth-child(2) {
@@ -1096,7 +1096,7 @@ p {
   font-family: var(--mono);
   font-size: 25px;
   line-height: 0.8;
-  text-shadow: 0 0 22px rgba(139, 228, 202, 0.5);
+  text-shadow: 0 0 22px rgba(161, 230, 180, 0.5);
 }
 
 .closing-section > p {
@@ -1116,7 +1116,7 @@ p {
 
 .closing-section a {
   padding-bottom: 7px;
-  border-bottom: 1px solid rgba(139, 228, 202, 0.5);
+  border-bottom: 1px solid rgba(161, 230, 180, 0.5);
   color: var(--teal-bright);
   font-size: 13px;
 }

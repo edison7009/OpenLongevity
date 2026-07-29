@@ -252,7 +252,7 @@ export default function Home() {
               rel="noreferrer"
             >
               {t.install}
-              <span className="button-icon" aria-hidden="true">↓</span>
+              <span className="button-icon" aria-hidden="true">↗</span>
             </a>
             <a
               className="button button-ghost"
