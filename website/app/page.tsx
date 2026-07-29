@@ -18,7 +18,7 @@ const copy = {
     metaTitle: "Open Longevity · 让 AI 与科学照亮你的生命之树",
     metaDescription:
       "本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。",
-    nav: ["理念", "产品", "证据", "开源"],
+    nav: ["理念", "产品", "证据", "AI 模型"],
     heroLead: "让 AI 与科学，",
     heroAccent: "照亮你的生命之树",
     heroBody:
@@ -76,14 +76,13 @@ const copy = {
       ["T4", "辅酶 Q10 · NAD+ · 亚精胺", "EMERGING"],
       ["T5", "麦角硫因 · PQQ · Ca-AKG", "FRONTIER"],
     ],
-    openEyebrow: "开放，但不轻率",
-    openTitle: "你的数据属于你。科学也应该经得起追问。",
+    openEyebrow: "选择你的 AI",
+    openTitle: ["模型由你选择，", "AI 真正为你运行。"],
     openBody:
-      "独立资料库、可替换模型、中英文默认内容，以及面向 Windows、macOS 与 Linux 的统一体验。Open Longevity 已以开源方式发布，让每一项能力都可以被检查和扩展。",
-    release: "首个公开版本",
-    releaseValue: "0.0.1",
-    releaseNote: "Windows、macOS 与 Linux 安装包现已发布",
-    platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
+      "OpenAI、DeepSeek、OpenRouter，或任何兼容接口都可以接入。选择模型、API 地址与本地知识库后，AI 即可参与资料收录、证据理解和持续对话；密钥仅保留在本次运行的内存中。",
+    modelFeatures: ["OPENAI", "DEEPSEEK", "OPENROUTER", "CUSTOM API", "LOCAL LIBRARY"],
+    modelAlt: "Open Longevity 模型与知识库配置界面",
+    modelCaption: "模型与知识库 · 密钥仅存本次运行",
     closing: ["AI 和科学，", "改变人类命运。"],
     footerNote: "科学长寿知识与 AI 桌面应用",
   },
@@ -92,7 +91,7 @@ const copy = {
     metaTitle: "Open Longevity · Let AI and science illuminate your Tree of Life",
     metaDescription:
       "A local-first longevity knowledge and AI desktop app grounded in scientific evidence, with an independent bilingual library for Windows, macOS, and Linux.",
-    nav: ["Principles", "Product", "Evidence", "Open source"],
+    nav: ["Principles", "Product", "Evidence", "AI models"],
     heroLead: "Let AI and science",
     heroAccent: "illuminate your Tree of Life",
     heroBody:
@@ -150,14 +149,13 @@ const copy = {
       ["T4", "CoQ10 · NAD+ · Spermidine", "EMERGING"],
       ["T5", "Ergothioneine · PQQ · Ca-AKG", "FRONTIER"],
     ],
-    openEyebrow: "Open, without being careless",
-    openTitle: "Your data is yours. Science should survive scrutiny.",
+    openEyebrow: "Choose your AI",
+    openTitle: ["Choose a model.", "Run AI your way."],
     openBody:
-      "An independent library, replaceable models, bilingual starter content, and one experience across Windows, macOS, and Linux. Open Longevity is open source, so every capability can be inspected and extended.",
-    release: "FIRST PUBLIC RELEASE",
-    releaseValue: "0.0.1",
-    releaseNote: "Installers available for Windows, macOS, and Linux",
-    platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
+      "Connect OpenAI, DeepSeek, OpenRouter, or any compatible endpoint. Once you choose a model, API address, and local library, AI can capture research, interpret evidence, and continue the conversation. Your key stays only in memory for the current run.",
+    modelFeatures: ["OPENAI", "DEEPSEEK", "OPENROUTER", "CUSTOM API", "LOCAL LIBRARY"],
+    modelAlt: "Open Longevity model and knowledge-library configuration",
+    modelCaption: "MODEL & LIBRARY · KEYS KEPT IN MEMORY",
     closing: ["AI and science", "change humanity’s destiny."],
     footerNote: "Scientific longevity knowledge and AI desktop app",
   },
@@ -356,13 +354,13 @@ export default function Home() {
           <h2>{t.interfaceTitle}</h2>
           <p>{t.interfaceBody}</p>
           <div className="material-list" aria-label="Key product qualities">
-            <span>LOCAL MARKDOWN</span>
-            <span>YOUR MODEL</span>
-            <span>SOURCE-AWARE AI</span>
+            <span>KNOWLEDGE MAP</span>
+            <span>TRACEABLE EVIDENCE</span>
+            <span>PLANS & FAVORITES</span>
           </div>
         </div>
 
-        <div className="interface-gallery" aria-label={locale === "zh" ? "产品界面预览" : "Product interface preview"}>
+        <div className="interface-gallery" aria-label={locale === "zh" ? "主界面预览" : "Main interface preview"}>
           <figure className="product-shot product-shot-home">
             <img
               src={assetPath(
@@ -374,19 +372,6 @@ export default function Home() {
             />
             <figcaption>
               {locale === "zh" ? "首页 · 长寿策略地图" : "HOME · LONGEVITY STRATEGY MAP"}
-            </figcaption>
-          </figure>
-          <figure className="product-shot product-shot-settings">
-            <img
-              src={assetPath(
-                locale === "zh"
-                  ? "/product-ui/settings-zh.png"
-                  : "/product-ui/settings-en.png",
-              )}
-              alt={locale === "zh" ? "Open Longevity 中文模型与知识库设置" : "Open Longevity model and knowledge-library settings"}
-            />
-            <figcaption>
-              {locale === "zh" ? "模型 · 本地知识库" : "MODEL · LOCAL KNOWLEDGE LIBRARY"}
             </figcaption>
           </figure>
         </div>
@@ -409,23 +394,32 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="open-section paper-section" id="open-source">
+      <section className="open-section model-section" id="open-source">
         <div className="open-copy">
           <p className="section-eyebrow">{t.openEyebrow}</p>
-          <h2>{t.openTitle}</h2>
+          <h2>
+            {t.openTitle.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </h2>
           <p>{t.openBody}</p>
-          <div className="platforms">
-            {t.platforms.map((platform) => (
-              <span key={platform}>{platform}</span>
+          <div className="model-features">
+            {t.modelFeatures.map((feature) => (
+              <span key={feature}>{feature}</span>
             ))}
           </div>
         </div>
-        <div className="release-plate">
-          <span>{t.release}</span>
-          <strong>{t.releaseValue}</strong>
-          <p>{t.releaseNote}</p>
-          <div className="release-tree">♧</div>
-        </div>
+        <figure className="model-stage">
+          <img
+            src={assetPath(
+              locale === "zh"
+                ? "/product-ui/settings-zh.png"
+                : "/product-ui/settings-en.png",
+            )}
+            alt={t.modelAlt}
+          />
+          <figcaption>{t.modelCaption}</figcaption>
+        </figure>
       </section>
 
       <section className="closing-section">
