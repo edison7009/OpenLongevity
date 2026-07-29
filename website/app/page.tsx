@@ -83,7 +83,7 @@ const copy = {
     releaseValue: "0.0.1",
     releaseNote: "Windows、macOS 与 Linux 安装包现已发布",
     platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
-    closing: "更长的生命，值得更清楚的依据。",
+    closing: "AI 和科学，改变人类命运。",
     footerNote: "科学长寿知识与 AI 桌面应用",
   },
   en: {
@@ -156,7 +156,7 @@ const copy = {
     releaseValue: "0.0.1",
     releaseNote: "Installers available for Windows, macOS, and Linux",
     platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
-    closing: "A longer life deserves clearer evidence.",
+    closing: "AI and science change humanity’s destiny.",
     footerNote: "Scientific longevity knowledge and AI desktop app",
   },
 } as const;
