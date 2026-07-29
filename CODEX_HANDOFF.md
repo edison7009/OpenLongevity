@@ -105,8 +105,8 @@ to the product template.
   `https://edison7009.github.io/OpenLongevity-website/`
 - The website is a static Vite/React site deployed publicly through GitHub
   Pages from its own repository and workflow.
-- `website/` is a separate Git repository. The desktop root currently is not a
-  Git repository.
+- `website/` is a separate Git repository. The desktop root is published at
+  `https://github.com/edison7009/OpenLongevity`.
 - Visual direction: dark teal, Renaissance scientific engraving, warm paper,
   copper/brass lines, and a full-bleed Tree of Life hero image. It should feel
   optimistic, healthy, literary, and scientific—not dense or
@@ -135,7 +135,8 @@ to the product template.
 - Architecture notes: `docs/ARCHITECTURE.md`.
 - Bilingual-library rules: `docs/BILINGUAL_LIBRARY.md`.
 - Cross-platform release workflow: `.github/workflows/release.yml`.
-- Website: Vinext/React in `website/app/`; public assets in `website/public/`.
+- Website: static Vite/React in `website/app/`; public assets in
+  `website/public/`.
 
 ## Restore development dependencies on a new machine
 
@@ -178,6 +179,6 @@ machine-specific.
    calls.
 4. Review the bilingual starter library for scientific sourcing and product
    neutrality.
-5. Before GitHub release, initialize or restore a Git repository for the desktop
-   root, confirm version `0.0.1` in all three version files, then exercise the
-   cross-platform release workflow.
+5. Test the published `v0.0.1` installers on real Windows, macOS, and Linux
+   machines. Future production releases should add Windows and Apple code
+   signing when certificates are available.
