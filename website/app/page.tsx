@@ -13,7 +13,6 @@ const copy = {
     metaDescription:
       "本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。",
     nav: ["理念", "产品", "证据", "开源"],
-    eyebrow: "本地优先 · 科学依据 · AI 驱动",
     heroLead: "让 AI 与科学，",
     heroAccent: "照亮你的生命之树",
     heroBody:
@@ -85,7 +84,6 @@ const copy = {
     metaDescription:
       "A local-first longevity knowledge and AI desktop app grounded in scientific evidence, with an independent bilingual library for Windows, macOS, and Linux.",
     nav: ["Principles", "Product", "Evidence", "Open source"],
-    eyebrow: "Local-first · Science-grounded · AI-driven",
     heroLead: "Let AI and science",
     heroAccent: "illuminate your Tree of Life",
     heroBody:
@@ -200,10 +198,6 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <p className="eyebrow">
-            <span>✦</span>
-            {t.eyebrow}
-          </p>
           <h1>
             {t.heroLead}
             <em>{t.heroAccent}</em>
