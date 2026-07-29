@@ -2,7 +2,7 @@
   <img src="src-tauri/icons/icon.png" width="112" alt="Open Longevity logo">
 </p>
 
-<h1 align="center">Open Longevity · 科学长寿</h1>
+<h1 align="center">Open Longevity · 开源长寿</h1>
 
 <p align="center">
   <a href="README.md">English</a> · <strong>简体中文</strong>
