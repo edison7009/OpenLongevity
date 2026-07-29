@@ -1,27 +1,19 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "Computer Modern Concrete";
+  font-family: "Newsreader";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 200 800;
   font-display: swap;
-  src: url("/fonts/CMUConcrete-Roman.woff2") format("woff2");
+  src: url("/fonts/Newsreader-Variable-Latin.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Computer Modern Concrete";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/CMUConcrete-Bold.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Computer Modern Concrete";
+  font-family: "Newsreader";
   font-style: italic;
-  font-weight: 400;
+  font-weight: 200 800;
   font-display: swap;
-  src: url("/fonts/CMUConcrete-Italic.woff2") format("woff2");
+  src: url("/fonts/Newsreader-Italic-Variable-Latin.woff2") format("woff2");
 }
 
 :root {
@@ -37,8 +29,8 @@
   --coral: #df705f;
   --line-dark: rgba(216, 194, 139, 0.25);
   --line-paper: rgba(7, 25, 29, 0.2);
-  --serif: "Computer Modern Concrete", "Noto Serif SC", "Songti SC", STSong,
-    Georgia, serif;
+  --serif: "Newsreader", "Noto Serif SC", "Source Han Serif SC", "Songti SC",
+    STSong, Georgia, serif;
   --sans: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
   --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
@@ -274,6 +266,7 @@ p {
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  width: min(100%, 452px);
   gap: 14px;
 }
 
@@ -281,12 +274,14 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 1 1 0;
   min-height: 48px;
   padding: 0 24px;
   border: 1px solid rgba(139, 228, 202, 0.45);
   font-family: var(--serif);
   font-size: 15px;
   letter-spacing: 0.01em;
+  white-space: nowrap;
   transition:
     background 180ms ease,
     color 180ms ease,
@@ -305,6 +300,7 @@ p {
 }
 
 .button-primary {
+  flex-grow: 1.2;
   color: var(--ink-deep);
   background: var(--teal-bright);
 }
@@ -324,7 +320,7 @@ p {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  width: min(100%, 610px);
+  width: min(100%, 452px);
   min-height: 46px;
   margin-top: 14px;
   padding: 0 13px 0 16px;

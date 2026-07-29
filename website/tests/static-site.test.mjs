@@ -15,7 +15,7 @@ test("builds a portable GitHub Pages site", async () => {
   await access(new URL("../dist/product-ui/settings-zh.png", import.meta.url));
   await access(new URL("../dist/install.txt", import.meta.url));
   await access(
-    new URL("../dist/fonts/CMUConcrete-Roman.woff2", import.meta.url),
+    new URL("../dist/fonts/Newsreader-Variable-Latin.woff2", import.meta.url),
   );
 
   const assetsDirectory = new URL("../dist/assets/", import.meta.url);
