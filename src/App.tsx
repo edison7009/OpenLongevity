@@ -66,6 +66,7 @@ import type {
 
 const APP_VERSION = packageMetadata.version;
 const PRODUCT_WEBSITE = 'https://edison7009.github.io/OpenLongevity/';
+const FEEDBACK_URL = 'https://github.com/edison7009/OpenLongevity/issues';
 
 function createAmbientAssignments(count: number) {
   const assignments: Array<{
@@ -2514,7 +2515,13 @@ function SettingsDialog({
         </div>
 
         <footer className="dialog-footer">
-          <span>Open Longevity · v{APP_VERSION}</span>
+          <div className="dialog-meta">
+            <span>Open Longevity · v{APP_VERSION}</span>
+            <button onClick={() => void openExternalUrl(FEEDBACK_URL)}>
+              <MessageCircleMore size={13} strokeWidth={1.8} />
+              {t('feedback')}
+            </button>
+          </div>
           <button className="primary-button" onClick={onClose}>
             {t('close')}
           </button>

@@ -2196,12 +2196,31 @@ body.resizing-panels * {
   background: #f3f6f5;
 }
 
-.dialog-footer > span {
+.dialog-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
+}
+
+.dialog-meta > span {
   color: #82938f;
   font-size: 10px;
+}
+
+.dialog-meta > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 0;
+  color: #376f69;
+  background: none;
+  border: 0;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.dialog-meta > button:hover {
+  color: #075a58;
 }
 
 .primary-button {
@@ -2586,7 +2605,7 @@ body.resizing-panels * {
 [data-theme='dark'] .related-list small,
 [data-theme='dark'] .rail-disclosure,
 [data-theme='dark'] .dialog-header p,
-[data-theme='dark'] .dialog-footer > span,
+[data-theme='dark'] .dialog-meta > span,
 [data-theme='dark'] .capture-guide-note {
   color: #929794;
 }
@@ -2891,6 +2910,14 @@ body.resizing-panels * {
 
 [data-theme='dark'] .dialog-footer {
   background: #1c1e1d;
+}
+
+[data-theme='dark'] .dialog-meta > button {
+  color: #78b8ab;
+}
+
+[data-theme='dark'] .dialog-meta > button:hover {
+  color: #9bd7cb;
 }
 
 [data-theme='dark'] .secondary-button:hover {
