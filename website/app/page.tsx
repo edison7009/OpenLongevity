@@ -27,7 +27,6 @@ const copy = {
     copyCommand: "复制 PowerShell 安装命令",
     copied: "已复制",
     copy: "复制",
-    available: "0.0.1 · 现已发布",
     specimen: "标本 OL—001",
     treeLabel: "生命之树 / 持续生长的知识",
     statementEyebrow: "OPEN LONGEVITY / 开放宣言",
@@ -101,7 +100,6 @@ const copy = {
     copyCommand: "Copy the PowerShell install command",
     copied: "Copied",
     copy: "Copy",
-    available: "0.0.1 · Available now",
     specimen: "SPECIMEN OL—001",
     treeLabel: "TREE OF LIFE / KNOWLEDGE IN GROWTH",
     statementEyebrow: "OPEN LONGEVITY / AN OPEN MANIFESTO",
@@ -281,10 +279,6 @@ export default function Home() {
               {commandCopied ? t.copied : t.copy}
             </span>
           </button>
-          <p className="release-line">
-            <span className="pulse" />
-            {t.available}
-          </p>
         </div>
 
         <div className="hero-visual" role="img" aria-label={t.treeLabel} />
