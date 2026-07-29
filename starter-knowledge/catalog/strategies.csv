@@ -1,0 +1,18 @@
+id,name_zh,name_en,category,bryan_status,evidence_status,tier,review_priority,notes
+strength-training,力量训练,Strength training,运动,reference,reviewed,T1,maintain,维持力量肌肉骨骼和老年独立生活能力
+aerobic-exercise,有氧运动,Aerobic exercise,运动,reference,reviewed,T1,maintain,支持心肺适能代谢健康和全因死亡风险管理
+healthy-diet,健康饮食,Healthy diet,饮食,reference,reviewed,T1,maintain,以可长期坚持的整体饮食模式支持健康衰老
+quality-protein,优质蛋白质,Quality protein,饮食,reference,reviewed,T1,maintain,满足蛋白质需要并与力量训练共同维护肌肉
+creatine,肌酸,Creatine,运动营养,example,starter,T2,review,配合阻力训练理解力量与训练适应
+soluble-fiber,可溶性膳食纤维,Soluble fiber,肠道,example,starter,T2,review,按具体纤维原料和目标拆分
+omega3,DHA / EPA,DHA / EPA,脂肪酸,example,starter,T2,review,结合膳食摄入与产品质量理解
+vitamin-d3,维生素 D3,Vitamin D3,维生素,example,starter,T3,review,结合检测日照饮食和个体风险
+magnesium,镁,Magnesium,矿物质,example,starter,T3,review,关注剂型元素剂量和相互作用
+vitamin-c,维生素 C,Vitamin C,维生素,example,starter,T3,review,优先从饮食与缺乏风险理解
+coq10,辅酶 Q10,CoQ10,线粒体,example,starter,T4,review,结合具体健康情境理解
+nmn,NAD+,NAD+,NAD 相关,example,starter,T4,review,区分 NAD+ NADH NMN NR 与长期健康结局
+spermidine,亚精胺,Spermidine,细胞稳态,example,starter,T4,review,区分食物来源与提取物
+ergothioneine,麦角硫因,Ergothioneine,抗氧化,example,starter,T5,review,持续跟踪人体研究
+pqq,PQQ,PQQ,线粒体,example,starter,T5,review,追踪认知疲劳与人体研究
+ca-akg,Ca-AKG,Ca-AKG,代谢,example,starter,T5,review,区分机制复方和人体数据
+partial-reprogramming,部分细胞重编程（山中因子）,Partial cellular reprogramming,前沿生物技术,frontier,experimental,T5,track,OSK与山中因子相关的细胞年轻化研究；目前不可自行实践

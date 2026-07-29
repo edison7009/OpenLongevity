@@ -1,0 +1,54 @@
+id,name_zh,name_en,category,bryan_status,evidence_status,tier,review_priority,notes
+omega3,DHA/EPA/Omega-3,Omega-3 fatty acids,脂肪酸,current-explicit,reviewed,T1,maintain,适用性依赖饮食摄入和心血管风险
+creatine,肌酸一水合物,Creatine monohydrate,运动营养,current-explicit,reviewed,T1,maintain,主要证据在力量训练和肌肉功能
+vitamin-d3,维生素D3,Vitamin D3,维生素,current-blend,reviewed,T2,maintain,《新英格兰医学杂志》VITAL确认自身免疫病发生率下降22%；BMJ荟萃分析确认老年人死亡率下降；Bryan Johnson方案采纳
+vitamin-k2,维生素K2,Vitamin K2,维生素,unverified,candidate,pending,backlog,需核对当前配方及独立临床结局
+vitamin-c,维生素C,Vitamin C,维生素,current-blend,reviewed,T2,maintain,2026 Cell Metabolism 灵长类40月干预多器官年龄逆转；ACSL4铁衰老机制明确
+b-complex,B族复合维生素,B-complex vitamins,维生素,current-blend,candidate,pending,backlog,复方不能作为单一干预评估
+vitamin-b12,维生素B12,Vitamin B12,维生素,current-blend,candidate,pending,next,优先评审素食和吸收障碍人群
+folate,叶酸,Folate,维生素,current-blend,candidate,pending,backlog,需区分叶酸与甲基叶酸及特殊人群
+magnesium,镁,Magnesium,矿物质,current-blend,reviewed,T2,maintain,条件性使用需记录元素镁剂量剂型肾功能与药物相互作用
+zinc,锌,Zinc,矿物质,needs-source-check,candidate,pending,backlog,先核对当前配方
+selenium,硒,Selenium,矿物质,needs-source-check,candidate,pending,backlog,安全窗口较窄需记录上限
+iodine,碘,Iodine,矿物质,needs-source-check,candidate,pending,backlog,甲状腺情境高度相关
+iron,铁/Proferrin,Iron,矿物质,current-explicit,candidate,pending,next,仅能结合个体缺铁状态评估
+coq10,辅酶Q10/泛醇,Coenzyme Q10/Ubiquinol,抗氧化与线粒体,current-blend,reviewed,T2,maintain,健康人与疾病或他汀情境需分开
+pqq,PQQ,Pyrroloquinoline quinone,抗氧化与线粒体,historical-or-discussed,reviewed,T4,maintain,2022年随机双盲试验确认认知改善；Bryan Johnson方案曾采用
+quercetin,槲皮素,Quercetin,多酚,historical-or-discussed,candidate,pending,backlog,不能用机制或清除衰老细胞叙事直接判级
+curcumin,姜黄素,Curcumin,多酚,official-product,candidate,pending,next,评审需按适应症和制剂生物利用度拆分
+resveratrol,白藜芦醇,Resveratrol,多酚,historical-or-discussed,candidate,pending,backlog,人体长期结局待系统核对
+egcg,EGCG/绿茶提取物,Epigallocatechin gallate,多酚,historical-or-discussed,candidate,pending,backlog,需记录浓缩提取物肝损伤风险
+grape-seed-extract,葡萄籽提取物,Grape seed extract,多酚,unverified,candidate,pending,backlog,先确认一手来源与具体结局
+alpha-lipoic-acid,α-硫辛酸,Alpha-lipoic acid,代谢,historical-or-discussed,candidate,pending,backlog,按糖尿病神经病变等具体场景评审
+probiotics,益生菌,Probiotics,肠道,unverified,candidate,pending,next,必须按菌株疾病和结局拆分
+essential-microbiome,官方微生物组复方,Essential Microbiome,肠道,official-product,candidate,pending,backlog,产品为后生元组合不等于传统益生菌
+soluble-fiber,可溶性膳食纤维,Soluble fiber,肠道,current-explicit,reviewed,T1,split,仅限明确原料与目标需拆分车前子β葡聚糖菊粉GOS
+gos,半乳寡糖,Galactooligosaccharides,肠道,current-explicit,candidate,pending,backlog,当前日程直接列出
+inulin,菊粉,Inulin,肠道,current-explicit,candidate,pending,backlog,当前日程直接列出
+arabinogalactan,阿拉伯半乳聚糖,Arabinogalactan,肠道,current-explicit,candidate,pending,backlog,当前日程直接列出
+collagen,胶原蛋白肽,Collagen peptides,皮肤与关节,current-explicit,candidate,pending,next,按皮肤关节和训练恢复分别评审
+melatonin,褪黑素,Melatonin,睡眠,historical-or-discussed,candidate,pending,next,剂量适应症和长期使用需分开
+potassium,钾,Potassium,电解质,historical-or-discussed,candidate,pending,backlog,优先食物和医疗监测避免自行高剂量
+sodium-electrolytes,钠与电解质,Sodium and electrolytes,电解质,historical-or-discussed,candidate,pending,backlog,仅在运动出汗或特定医疗情境讨论
+nmn,NMN,Nicotinamide mononucleotide,NAD相关,current-explicit,reviewed,T3,maintain,与NR并列评审；人体试验确认NAD⁺提升；Bryan Johnson方案采纳
+nr,NR/烟酰胺核糖,Nicotinamide riboside,NAD相关,current-explicit,reviewed,T3,maintain,与NMN并列评审；确认提升NAD⁺；Bryan Johnson方案采纳
+nicotinic-acid,烟酸,Nicotinic acid,NAD相关,needs-source-check,candidate,pending,next,营养纠缺高剂量药理用途与抗衰宣传必须分开
+nicotinamide,烟酰胺,Nicotinamide,NAD相关,needs-source-check,candidate,pending,next,营养用途与高剂量长期安全需独立评审
+nad-plus,NAD+,Nicotinamide adenine dinucleotide,NAD相关,unverified,candidate,pending,next,直接口服与静脉制剂必须分开评审
+spermidine,亚精胺,Spermidine,自噬,historical-or-discussed,reviewed,T3,maintain,欧洲队列确认全因死亡风险降低约40%；2026年免疫随机试验出现信号
+ca-akg,Ca-AKG/α-酮戊二酸钙,Calcium alpha-ketoglutarate,代谢与长寿,current-blend,reviewed,T4,maintain,Cell Metabolism确认动物长寿；人体生物年龄改善信号；ABLE随机试验推进中
+glycine,甘氨酸,Glycine,氨基酸,current-blend,candidate,pending,next,需区分单方与复方以及睡眠代谢结局
+taurine,牛磺酸,Taurine,氨基酸,current-blend,candidate,pending,next,Science 2023确认牛磺酸缺乏是衰老驱动因素；长寿证据强
+nac,NAC/N-乙酰半胱氨酸,N-acetylcysteine,抗氧化与药理,official-product,candidate,pending,next,药物用途与健康人补充必须分开
+sulforaphane,萝卜硫素/西兰花芽素,Sulforaphane,植物活性物,historical-or-discussed,candidate,pending,backlog,制剂和生成方式影响实际暴露
+lutein,叶黄素,Lutein,类胡萝卜素,needs-source-check,candidate,pending,next,优先评审年龄相关黄斑变性情境
+zeaxanthin,玉米黄质,Zeaxanthin,类胡萝卜素,needs-source-check,candidate,pending,next,通常与叶黄素组合评审
+astaxanthin,虾青素,Astaxanthin,类胡萝卜素,unverified,candidate,pending,backlog,当前使用状态和临床结局均需核对
+phosphatidylserine,磷脂酰丝氨酸,Phosphatidylserine,认知与磷脂,unverified,candidate,pending,backlog,不能依据电脑使用场景直接推荐
+nervonic-acid,神经酸/元宝枫籽油,Nervonic acid,脂肪酸,unverified,candidate,pending,backlog,需优先核对人体试验和产品法规
+ergothioneine,麦角硫因,Ergothioneine,抗氧化,unverified,reviewed,T4,maintain,队列统计确认与更低心血管死亡风险相关；Bryan Johnson方案采纳
+ashwagandha,南非醉茄,Ashwagandha,适应原,current-explicit,candidate,pending,next,安全性药物相互作用和适用人群需评审
+rhodiola,红景天,Rhodiola rosea,适应原,current-explicit,candidate,pending,backlog,与南非醉茄复方使用
+glutathione,谷胱甘肽,Glutathione,抗氧化与线粒体,current-blend,candidate,pending,backlog,口服生物利用度和临床结局需核对
+l-theanine,L-茶氨酸,L-theanine,氨基酸,current-blend,candidate,pending,backlog,按睡眠压力和咖啡因组合拆分
+lysine,赖氨酸,Lysine,氨基酸,current-blend,candidate,pending,backlog,一般健康人额外补充价值需核对
