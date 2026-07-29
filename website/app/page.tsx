@@ -15,12 +15,12 @@ const assetPath = (path: string) =>
 const copy = {
   zh: {
     brand: "Open Longevity（开源长寿）",
-    metaTitle: "Open Longevity · 让 AI 与科学照亮你的生命之树",
+    metaTitle: "Open Longevity · 让 AI 与科学滋养你的生命之树",
     metaDescription:
       "本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。",
     nav: ["理念", "产品", "证据", "AI 模型"],
     heroLead: "让 AI 与科学，",
-    heroAccent: "照亮你的生命之树",
+    heroAccent: "滋养你的生命之树",
     heroBody:
       "Open Longevity 以 Bryan Johnson 的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。",
     install: "Install Open Longevity",
@@ -88,12 +88,12 @@ const copy = {
   },
   en: {
     brand: "Open Longevity",
-    metaTitle: "Open Longevity · Let AI and science illuminate your Tree of Life",
+    metaTitle: "Open Longevity · Let AI and science nurture your Tree of Life",
     metaDescription:
       "A local-first longevity knowledge and AI desktop app grounded in scientific evidence, with an independent bilingual library for Windows, macOS, and Linux.",
     nav: ["Principles", "Product", "Evidence", "AI models"],
     heroLead: "Let AI and science",
-    heroAccent: "illuminate your Tree of Life",
+    heroAccent: "nurture your Tree of Life",
     heroBody:
       "Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence so ordinary people can access a level of strategy once reserved for the wealthy.",
     install: "Install Open Longevity",
