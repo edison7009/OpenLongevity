@@ -9,6 +9,9 @@ use std::time::Duration;
 
 const MAX_NOTE_BYTES: usize = 120_000;
 const MAX_CONTEXT_BYTES: usize = 52_000;
+const MAX_CAPTURE_INPUT_BYTES: usize = 180_000;
+const MAX_CAPTURE_DOWNLOAD_BYTES: usize = 600_000;
+const MAX_CAPTURE_SOURCE_BYTES: usize = 110_000;
 const STARTER_PACK_VERSION: &str = "11";
 const REMOVED_STARTER_FILES: &[&str] = &[
     "cases/ray-lui.md",
@@ -116,6 +119,24 @@ struct CaptureRequest {
     content: String,
     source_url: Option<String>,
     locale: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct PrepareCaptureRequest {
+    api_key: String,
+    base_url: String,
+    model: String,
+    input: String,
+    locale: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct CaptureDraft {
+    title: String,
+    content: String,
+    source_url: Option<String>,
 }
 
 fn default_knowledge_root() -> PathBuf {
@@ -720,11 +741,38 @@ fn slugify(value: &str) -> String {
 }
 
 fn yaml_string(value: &str) -> String {
-    format!("\"{}\"", value.replace('\\', "\\\\").replace('"', "\\\""))
+    format!(
+        "\"{}\"",
+        value
+            .replace('\\', "\\\\")
+            .replace('"', "\\\"")
+            .replace('\r', "\\r")
+            .replace('\n', "\\n")
+    )
 }
 
 #[tauri::command]
 fn save_capture(request: CaptureRequest) -> Result<String, String> {
+    let title = request.title.trim();
+    let content = request.content.trim();
+    if title.is_empty() || content.is_empty() {
+        return Err("A title and note content are required".to_string());
+    }
+    if title.chars().count() > 180 {
+        return Err("The note title is too long".to_string());
+    }
+    if content.len() > MAX_NOTE_BYTES {
+        return Err("The note is too large to save".to_string());
+    }
+    if !matches!(request.locale.as_str(), "zh" | "en") {
+        return Err("Unsupported note locale".to_string());
+    }
+    if let Some(source_url) = request.source_url.as_deref() {
+        let parsed =
+            reqwest::Url::parse(source_url).map_err(|_| "The source URL is invalid".to_string())?;
+        validate_public_url(&parsed)?;
+    }
+
     let root = PathBuf::from(&request.knowledge_root);
     if !root.is_dir() {
         return Err("Choose a valid knowledge directory before saving".to_string());
@@ -733,7 +781,7 @@ fn save_capture(request: CaptureRequest) -> Result<String, String> {
     let inbox = root.join("inbox");
     fs::create_dir_all(&inbox).map_err(|error| format!("Could not create inbox: {error}"))?;
     let date = Local::now().format("%Y-%m-%d").to_string();
-    let base_name = format!("{date}-{}", slugify(&request.title));
+    let base_name = format!("{date}-{}", slugify(title));
     let mut path = inbox.join(format!("{base_name}.md"));
     let mut suffix = 2;
     while path.exists() {
@@ -748,12 +796,12 @@ fn save_capture(request: CaptureRequest) -> Result<String, String> {
         .unwrap_or_default();
     let markdown = format!(
         "---\ntitle: {}\ncaptured_at: {}\nlocale: {}\n{}status: inbox\n---\n\n# {}\n\n{}\n",
-        yaml_string(&request.title),
+        yaml_string(title),
         Local::now().to_rfc3339(),
         request.locale,
         source_line,
-        request.title,
-        request.content.trim()
+        title,
+        content
     );
 
     fs::write(&path, markdown).map_err(|error| format!("Could not save capture: {error}"))?;
@@ -897,6 +945,335 @@ fn chat_endpoint(base_url: &str) -> String {
     }
 }
 
+fn validate_public_url(url: &reqwest::Url) -> Result<(), String> {
+    if !matches!(url.scheme(), "http" | "https") {
+        return Err("Only public HTTP and HTTPS links are supported".to_string());
+    }
+
+    let host = url
+        .host_str()
+        .ok_or_else(|| "The source URL has no host".to_string())?;
+    let normalized_host = host.trim_end_matches('.').to_ascii_lowercase();
+    if normalized_host == "localhost"
+        || normalized_host.ends_with(".localhost")
+        || normalized_host.ends_with(".local")
+        || normalized_host.ends_with(".internal")
+        || normalized_host.ends_with(".lan")
+    {
+        return Err("Local network links cannot be imported".to_string());
+    }
+
+    if let Ok(address) = normalized_host.parse::<std::net::IpAddr>() {
+        if blocked_capture_address(address) {
+            return Err("Local network links cannot be imported".to_string());
+        }
+    }
+
+    Ok(())
+}
+
+fn blocked_capture_address(address: std::net::IpAddr) -> bool {
+    match address {
+        std::net::IpAddr::V4(address) => {
+            address.is_private()
+                || address.is_loopback()
+                || address.is_link_local()
+                || address.is_broadcast()
+                || address.is_documentation()
+                || address.is_multicast()
+                || address.is_unspecified()
+                || (address.octets()[0] == 100 && (64..=127).contains(&address.octets()[1]))
+        }
+        std::net::IpAddr::V6(address) => {
+            address.is_loopback()
+                || address.is_unspecified()
+                || address.is_unique_local()
+                || address.is_unicast_link_local()
+                || address.is_multicast()
+        }
+    }
+}
+
+fn remove_html_block(mut html: String, tag: &str) -> String {
+    let opening = format!("<{tag}");
+    let closing = format!("</{tag}>");
+    loop {
+        let lower = html.to_ascii_lowercase();
+        let Some(start) = lower.find(&opening) else {
+            break;
+        };
+        let end = lower[start..]
+            .find(&closing)
+            .map(|offset| start + offset + closing.len())
+            .unwrap_or(html.len());
+        html.replace_range(start..end, " ");
+    }
+    html
+}
+
+fn extract_visible_text(html: &str) -> String {
+    let mut cleaned = remove_html_block(html.to_string(), "script");
+    cleaned = remove_html_block(cleaned, "style");
+    cleaned = remove_html_block(cleaned, "noscript");
+    cleaned = remove_html_block(cleaned, "svg");
+
+    let mut text = String::with_capacity(cleaned.len());
+    let mut inside_tag = false;
+    for character in cleaned.chars() {
+        match character {
+            '<' => inside_tag = true,
+            '>' if inside_tag => {
+                inside_tag = false;
+                text.push(' ');
+            }
+            _ if !inside_tag => text.push(character),
+            _ => {}
+        }
+    }
+
+    let decoded = text
+        .replace("&nbsp;", " ")
+        .replace("&#160;", " ")
+        .replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&#39;", "'");
+    decoded.split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
+async fn fetch_capture_source(url: &reqwest::Url) -> Result<String, String> {
+    use std::net::ToSocketAddrs;
+
+    validate_public_url(url)?;
+    let source_host = url
+        .host_str()
+        .ok_or_else(|| "The source URL has no host".to_string())?
+        .to_ascii_lowercase();
+    let port = url
+        .port_or_known_default()
+        .ok_or_else(|| "The source URL has no usable port".to_string())?;
+    let mut builder = reqwest::Client::builder()
+        .timeout(Duration::from_secs(35))
+        .user_agent("Open Longevity/0.0.1")
+        .redirect(reqwest::redirect::Policy::custom({
+            let source_host = source_host.clone();
+            move |attempt| {
+                let same_host = attempt
+                    .url()
+                    .host_str()
+                    .is_some_and(|host| host.eq_ignore_ascii_case(&source_host));
+                if same_host
+                    && validate_public_url(attempt.url()).is_ok()
+                    && attempt.previous().len() < 5
+                {
+                    attempt.follow()
+                } else {
+                    attempt.stop()
+                }
+            }
+        }));
+    if source_host.parse::<std::net::IpAddr>().is_err() {
+        let addresses = (source_host.as_str(), port)
+            .to_socket_addrs()
+            .map_err(|error| format!("Could not resolve the webpage host: {error}"))?
+            .collect::<Vec<_>>();
+        if addresses.is_empty()
+            || addresses
+                .iter()
+                .any(|address| blocked_capture_address(address.ip()))
+        {
+            return Err("Local network links cannot be imported".to_string());
+        }
+        builder = builder.resolve(&source_host, addresses[0]);
+    }
+    let client = builder
+        .build()
+        .map_err(|error| format!("Could not create the webpage client: {error}"))?;
+    let mut response = client
+        .get(url.clone())
+        .send()
+        .await
+        .map_err(|error| format!("Could not read the webpage: {error}"))?;
+    if !response.status().is_success() {
+        return Err(format!("The webpage returned HTTP {}", response.status()));
+    }
+    if response
+        .content_length()
+        .is_some_and(|length| length > MAX_CAPTURE_DOWNLOAD_BYTES as u64)
+    {
+        return Err("The webpage is too large to import".to_string());
+    }
+
+    let content_type = response
+        .headers()
+        .get(reqwest::header::CONTENT_TYPE)
+        .and_then(|value| value.to_str().ok())
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    if !content_type.is_empty()
+        && !content_type.contains("text/")
+        && !content_type.contains("application/xhtml")
+    {
+        return Err("This link is not a readable webpage".to_string());
+    }
+
+    let mut bytes = Vec::new();
+    while let Some(chunk) = response
+        .chunk()
+        .await
+        .map_err(|error| format!("Could not finish reading the webpage: {error}"))?
+    {
+        if bytes.len() + chunk.len() > MAX_CAPTURE_DOWNLOAD_BYTES {
+            return Err("The webpage is too large to import".to_string());
+        }
+        bytes.extend_from_slice(&chunk);
+    }
+
+    let html = String::from_utf8_lossy(&bytes);
+    let text = extract_visible_text(&html);
+    if text.trim().is_empty() {
+        return Err("No readable text was found on this webpage".to_string());
+    }
+    Ok(truncate_utf8(&text, MAX_CAPTURE_SOURCE_BYTES))
+}
+
+async fn request_model_text(
+    api_key: &str,
+    base_url: &str,
+    model: &str,
+    messages: Vec<Value>,
+) -> Result<String, String> {
+    let client = reqwest::Client::builder()
+        .timeout(Duration::from_secs(180))
+        .build()
+        .map_err(|error| format!("Could not create model client: {error}"))?;
+    let response = client
+        .post(chat_endpoint(base_url))
+        .bearer_auth(api_key)
+        .header("HTTP-Referer", "https://openlongevity.science")
+        .header("X-Title", "Open Longevity")
+        .json(&json!({
+            "model": model,
+            "messages": messages
+        }))
+        .send()
+        .await
+        .map_err(|error| format!("Could not reach the model provider: {error}"))?;
+
+    let status = response.status();
+    let payload: Value = response
+        .json()
+        .await
+        .map_err(|error| format!("Provider returned invalid JSON: {error}"))?;
+    if !status.is_success() {
+        let message = payload
+            .pointer("/error/message")
+            .and_then(Value::as_str)
+            .unwrap_or("Unknown provider error");
+        return Err(format!("Provider error {status}: {message}"));
+    }
+
+    payload
+        .pointer("/choices/0/message/content")
+        .and_then(Value::as_str)
+        .map(str::to_string)
+        .ok_or_else(|| "The provider response did not contain assistant text".to_string())
+}
+
+fn parse_capture_draft(response: &str, source_url: Option<String>) -> Result<CaptureDraft, String> {
+    let trimmed = response.trim();
+    let unfenced = trimmed
+        .strip_prefix("```json")
+        .or_else(|| trimmed.strip_prefix("```"))
+        .unwrap_or(trimmed)
+        .strip_suffix("```")
+        .unwrap_or(trimmed)
+        .trim();
+    let json_slice = match (unfenced.find('{'), unfenced.rfind('}')) {
+        (Some(start), Some(end)) if end >= start => &unfenced[start..=end],
+        _ => unfenced,
+    };
+    let mut draft: CaptureDraft = serde_json::from_str(json_slice)
+        .map_err(|_| "The model did not return a usable structured note".to_string())?;
+    draft.title = draft.title.trim().to_string();
+    draft.content = draft.content.trim().to_string();
+    draft.source_url = source_url;
+    if draft.title.is_empty() || draft.content.is_empty() {
+        return Err("The model returned an empty note".to_string());
+    }
+    if draft.title.chars().count() > 180 {
+        draft.title = draft.title.chars().take(177).collect::<String>() + "…";
+    }
+    if draft.content.len() > MAX_NOTE_BYTES {
+        draft.content = truncate_utf8(&draft.content, MAX_NOTE_BYTES);
+    }
+    Ok(draft)
+}
+
+#[tauri::command]
+async fn prepare_capture(request: PrepareCaptureRequest) -> Result<CaptureDraft, String> {
+    if request.api_key.trim().is_empty() {
+        return Err("An API key is required".to_string());
+    }
+    if request.base_url.trim().is_empty() || request.model.trim().is_empty() {
+        return Err("API URL and model are required".to_string());
+    }
+    if !matches!(request.locale.as_str(), "zh" | "en") {
+        return Err("Unsupported note locale".to_string());
+    }
+
+    let input = request.input.trim();
+    if input.is_empty() {
+        return Err("Paste a webpage link or source text first".to_string());
+    }
+    if input.len() > MAX_CAPTURE_INPUT_BYTES {
+        return Err("The source material is too large".to_string());
+    }
+
+    let parsed_url = reqwest::Url::parse(input)
+        .ok()
+        .filter(|url| matches!(url.scheme(), "http" | "https"));
+    let (source_material, source_url) = if let Some(url) = parsed_url {
+        let material = fetch_capture_source(&url).await?;
+        (material, Some(url.to_string()))
+    } else {
+        (input.to_string(), None)
+    };
+    let language_rule = if request.locale == "en" {
+        "Write the note in English."
+    } else {
+        "使用简体中文撰写笔记。"
+    };
+    let system_prompt = format!(
+        "You organize source material for Open Longevity, a scientific longevity knowledge library. \
+         Preserve factual nuance and clearly distinguish evidence from inference. Never invent a study, \
+         sample size, result, limitation, quotation, or source. If information is absent, say it is not \
+         stated. Do not diagnose or prescribe. {language_rule} Return JSON only with exactly two string \
+         fields: \"title\" and \"content\". The content must be clean Markdown and should include a concise \
+         overview, key claims or findings, evidence limitations, and items that still need verification."
+    );
+    let source_label = source_url
+        .as_deref()
+        .map(|url| format!("Source URL: {url}\n\n"))
+        .unwrap_or_default();
+    let messages = vec![
+        json!({ "role": "system", "content": system_prompt }),
+        json!({
+            "role": "user",
+            "content": format!("{source_label}SOURCE MATERIAL:\n{source_material}")
+        }),
+    ];
+    let response = request_model_text(
+        &request.api_key,
+        &request.base_url,
+        &request.model,
+        messages,
+    )
+    .await?;
+    parse_capture_draft(&response, source_url)
+}
+
 #[tauri::command]
 async fn chat_completion(request: ChatRequest) -> Result<String, String> {
     if request.api_key.trim().is_empty() {
@@ -952,41 +1329,13 @@ async fn chat_completion(request: ChatRequest) -> Result<String, String> {
     };
     messages.push(json!({ "role": "user", "content": grounded_question }));
 
-    let client = reqwest::Client::builder()
-        .timeout(Duration::from_secs(180))
-        .build()
-        .map_err(|error| format!("Could not create model client: {error}"))?;
-    let response = client
-        .post(chat_endpoint(&request.base_url))
-        .bearer_auth(request.api_key)
-        .header("HTTP-Referer", "https://openlongevity.science")
-        .header("X-Title", "Open Longevity")
-        .json(&json!({
-            "model": request.model,
-            "messages": messages
-        }))
-        .send()
-        .await
-        .map_err(|error| format!("Could not reach the model provider: {error}"))?;
-
-    let status = response.status();
-    let payload: Value = response
-        .json()
-        .await
-        .map_err(|error| format!("Provider returned invalid JSON: {error}"))?;
-    if !status.is_success() {
-        let message = payload
-            .pointer("/error/message")
-            .and_then(Value::as_str)
-            .unwrap_or("Unknown provider error");
-        return Err(format!("Provider error {status}: {message}"));
-    }
-
-    payload
-        .pointer("/choices/0/message/content")
-        .and_then(Value::as_str)
-        .map(str::to_string)
-        .ok_or_else(|| "The provider response did not contain assistant text".to_string())
+    request_model_text(
+        &request.api_key,
+        &request.base_url,
+        &request.model,
+        messages,
+    )
+    .await
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -997,6 +1346,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             load_library,
             read_note,
+            prepare_capture,
             save_capture,
             chat_completion
         ])
@@ -1024,6 +1374,116 @@ mod tests {
     #[test]
     fn utf8_truncation_stays_on_character_boundaries() {
         assert_eq!(truncate_utf8("科学长寿", 7), "科学…");
+    }
+
+    #[test]
+    fn capture_html_extraction_removes_code_and_tags() {
+        let html = r#"<html><style>.hidden{}</style><body><h1>Study &amp; result</h1><script>alert("x")</script><p>Sample: 42</p></body></html>"#;
+        assert_eq!(extract_visible_text(html), "Study & result Sample: 42");
+    }
+
+    #[test]
+    fn capture_rejects_local_network_urls() {
+        for source in [
+            "http://127.0.0.1/private",
+            "http://192.168.1.4/private",
+            "http://localhost/private",
+            "http://device.local/private",
+        ] {
+            let url = reqwest::Url::parse(source).expect("fixture should be a valid URL");
+            assert!(
+                validate_public_url(&url).is_err(),
+                "{source} should be rejected"
+            );
+        }
+        let public =
+            reqwest::Url::parse("https://example.com/article").expect("fixture should be valid");
+        assert!(validate_public_url(&public).is_ok());
+    }
+
+    #[test]
+    fn capture_draft_parses_fenced_json() {
+        let draft = parse_capture_draft(
+            "```json\n{\"title\":\"Trial summary\",\"content\":\"## Findings\\n\\nEvidence.\"}\n```",
+            Some("https://example.com/trial".to_string()),
+        )
+        .expect("structured model output should parse");
+        assert_eq!(draft.title, "Trial summary");
+        assert!(draft.content.contains("## Findings"));
+        assert_eq!(
+            draft.source_url.as_deref(),
+            Some("https://example.com/trial")
+        );
+    }
+
+    #[test]
+    fn yaml_values_escape_line_breaks() {
+        assert_eq!(yaml_string("first\nsecond"), "\"first\\nsecond\"");
+    }
+
+    #[test]
+    fn capture_flow_prepares_and_saves_with_a_compatible_model() {
+        use std::io::{Read, Write};
+        use std::net::TcpListener;
+
+        let listener = TcpListener::bind("127.0.0.1:0").expect("mock model should bind");
+        let address = listener
+            .local_addr()
+            .expect("mock address should be available");
+        let server = std::thread::spawn(move || {
+            let (mut stream, _) = listener.accept().expect("mock model should accept");
+            let mut request_bytes = [0_u8; 8192];
+            let read = stream
+                .read(&mut request_bytes)
+                .expect("mock request should be readable");
+            let request = String::from_utf8_lossy(&request_bytes[..read]);
+            assert!(request.starts_with("POST /v1/chat/completions "));
+            let model_content =
+                r###"{"title":"Creatine trial","content":"## Findings\n\nA structured draft."}"###;
+            let payload = json!({
+                "choices": [{ "message": { "content": model_content } }]
+            })
+            .to_string();
+            let response = format!(
+                "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+                payload.len(),
+                payload
+            );
+            stream
+                .write_all(response.as_bytes())
+                .expect("mock response should be writable");
+        });
+
+        let draft = tauri::async_runtime::block_on(prepare_capture(PrepareCaptureRequest {
+            api_key: "test-key".to_string(),
+            base_url: format!("http://{address}/v1"),
+            model: "test-model".to_string(),
+            input: "A 12-week creatine trial with 42 participants.".to_string(),
+            locale: "en".to_string(),
+        }))
+        .expect("capture should be prepared");
+        server.join().expect("mock model should finish");
+        assert_eq!(draft.title, "Creatine trial");
+
+        let unique = format!(
+            "openlongevity-capture-{}-{}",
+            std::process::id(),
+            Local::now().timestamp_nanos_opt().unwrap_or_default()
+        );
+        let root = std::env::temp_dir().join(unique);
+        fs::create_dir_all(&root).expect("capture root should be created");
+        let saved = save_capture(CaptureRequest {
+            knowledge_root: path_string(&root),
+            title: draft.title,
+            content: draft.content,
+            source_url: draft.source_url,
+            locale: "en".to_string(),
+        })
+        .expect("capture should save");
+        let saved_content = fs::read_to_string(&saved).expect("saved note should be readable");
+        assert!(saved_content.contains("# Creatine trial"));
+        assert!(saved_content.contains("A structured draft."));
+        fs::remove_dir_all(root).expect("capture fixture should be removed");
     }
 
     #[test]

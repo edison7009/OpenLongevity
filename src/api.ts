@@ -2,7 +2,13 @@ import { invoke } from '@tauri-apps/api/core';
 import { open } from '@tauri-apps/plugin-dialog';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { fallbackLibrary, fallbackMarkdown } from './data';
-import type { CaptureRequest, ChatRequest, LibrarySnapshot } from './types';
+import type {
+  CaptureDraft,
+  CaptureRequest,
+  ChatRequest,
+  LibrarySnapshot,
+  PrepareCaptureRequest,
+} from './types';
 
 export const isTauri = '__TAURI_INTERNALS__' in window;
 
@@ -51,6 +57,24 @@ export async function saveCapture(request: CaptureRequest): Promise<string> {
     return 'prototype/inbox';
   }
   return invoke<string>('save_capture', { request });
+}
+
+export async function prepareCapture(request: PrepareCaptureRequest): Promise<CaptureDraft> {
+  if (!isTauri) {
+    await new Promise((resolve) => setTimeout(resolve, 650));
+    const sourceUrl = /^https?:\/\/\S+$/i.test(request.input.trim())
+      ? request.input.trim()
+      : undefined;
+    return {
+      title: request.locale === 'zh' ? '待核查的科学笔记' : 'Science note for verification',
+      content:
+        request.locale === 'zh'
+          ? `## 原始资料\n\n${request.input.trim()}\n\n## 待核查事项\n\n- 浏览器预览不会调用模型或抓取网页。`
+          : `## Source material\n\n${request.input.trim()}\n\n## Items to verify\n\n- The browser preview does not call a model or fetch webpages.`,
+      sourceUrl,
+    };
+  }
+  return invoke<CaptureDraft>('prepare_capture', { request });
 }
 
 export async function chatCompletion(request: ChatRequest): Promise<string> {

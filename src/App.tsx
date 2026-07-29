@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   BookOpen,
-  Bookmark,
   Bot,
   Check,
   ChevronRight,
@@ -11,6 +10,7 @@ import {
   FolderOpen,
   Globe2,
   History,
+  House,
   Leaf,
   Library,
   LoaderCircle,
@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   Square,
   Sparkles,
+  Star,
   Sun,
   Utensils,
   UserRound,
@@ -34,18 +35,22 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import packageMetadata from '../package.json';
 import {
   chatCompletion,
   chooseKnowledgeFolder,
   isTauri,
   loadLibrary,
   openExternalUrl,
+  prepareCapture,
   readNote,
+  saveCapture,
 } from './api';
 import { fallbackLibrary, fallbackMarkdown } from './data';
 import { translate, type TranslationKey } from './i18n';
 import type {
   ChatMessage,
+  CaptureDraft,
   LibrarySnapshot,
   Locale,
   ModelConfig,
@@ -54,6 +59,33 @@ import type {
   Supplement,
   View,
 } from './types';
+
+const APP_VERSION = packageMetadata.version;
+
+function createAmbientAssignments(count: number) {
+  const assignments: Array<{
+    delay: string;
+    duration: string;
+    direction: 'alternate' | 'alternate-reverse';
+    secondaryDelay: string;
+    secondaryDuration: string;
+    secondaryDirection: 'alternate' | 'alternate-reverse';
+  }> = [];
+  const durationOffset = Math.random() * 11;
+
+  for (let index = 0; index < count; index += 1) {
+    assignments.push({
+      delay: `${(-4 - Math.random() * 17).toFixed(2)}s`,
+      duration: `${(10.6 + ((durationOffset + index * 2.71) % 12.8)).toFixed(2)}s`,
+      direction: Math.random() > 0.5 ? 'alternate' : 'alternate-reverse',
+      secondaryDelay: `${(-3 - Math.random() * 19).toFixed(2)}s`,
+      secondaryDuration: `${(14.2 + ((durationOffset + index * 3.17) % 13.6)).toFixed(2)}s`,
+      secondaryDirection: Math.random() > 0.5 ? 'alternate' : 'alternate-reverse',
+    });
+  }
+
+  return assignments;
+}
 
 const providerPresets: Record<
   ModelConfig['provider'],
@@ -419,6 +451,11 @@ function locationsMatch(left: NavigationLocation, right: NavigationLocation): bo
   );
 }
 
+type ToastState = {
+  message: string;
+  kind: 'status' | 'favorite-added' | 'favorite-removed';
+};
+
 function App() {
   const [locale, setLocale] = useStoredState<Locale>('openlongevity:locale', 'zh');
   const [themeMode, setThemeMode] = useStoredState<ThemeMode>(
@@ -460,7 +497,7 @@ function App() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatActive, setChatActive] = useState(false);
   const [chatBusy, setChatBusy] = useState(false);
-  const [toast, setToast] = useState('');
+  const [toast, setToast] = useState<ToastState | null>(null);
   const [resizingPane, setResizingPane] = useState<ResizeSide | null>(null);
   const chatComposerRef = useRef<HTMLTextAreaElement>(null);
   const navigationHistoryRef = useRef<NavigationLocation[]>([]);
@@ -481,6 +518,10 @@ function App() {
     systemTheme.addEventListener('change', applyTheme);
     return () => systemTheme.removeEventListener('change', applyTheme);
   }, [themeMode]);
+
+  useEffect(() => {
+    document.documentElement.lang = locale === 'zh' ? 'zh-CN' : 'en';
+  }, [locale]);
 
   const resizePane = (side: ResizeSide, requestedSize: number) => {
     const viewportWidth = window.innerWidth;
@@ -538,7 +579,7 @@ function App() {
 
   useEffect(() => {
     if (!toast) return;
-    const timer = window.setTimeout(() => setToast(''), 3200);
+    const timer = window.setTimeout(() => setToast(null), 2400);
     return () => window.clearTimeout(timer);
   }, [toast]);
 
@@ -701,7 +742,10 @@ function App() {
         return;
       }
     }
-    setToast(locale === 'zh' ? '没有找到对应的本地文章' : 'The linked local note was not found');
+    setToast({
+      message: locale === 'zh' ? '没有找到对应的本地文章' : 'The linked local note was not found',
+      kind: 'status',
+    });
   };
 
   const isFavorite = (target: Omit<InternalNoteTarget, 'label'>) =>
@@ -714,19 +758,29 @@ function App() {
           (favorite) => favorite.kind !== target.kind || favorite.id !== target.id,
         ),
       );
-      setToast(t('favoriteRemoved'));
+      setToast({ message: t('favoriteRemoved'), kind: 'favorite-removed' });
       return;
     }
 
     setFavorites([{ ...target, addedAt: Date.now() }, ...favorites]);
-    setToast(t('favoriteAdded'));
+    setToast({ message: t('favoriteAdded'), kind: 'favorite-added' });
   };
 
-  const startCaptureConversation = () => {
+  const finishCapture = async (path: string) => {
     setCaptureGuideOpen(false);
-    setView('home');
-    setChatActive(false);
-    window.setTimeout(() => chatComposerRef.current?.focus(), 0);
+    try {
+      const snapshot = await loadLibrary(library.root || knowledgeRoot || undefined, locale);
+      setLibrary(snapshot);
+    } catch {
+      // The note is already saved; a later library refresh can recover the updated count.
+    }
+    setToast({
+      message:
+        locale === 'zh'
+          ? `已保存到本地收件箱：${path}`
+          : `Saved to the local inbox: ${path}`,
+      kind: 'status',
+    });
   };
 
   const handleSend = async (question: string) => {
@@ -801,7 +855,10 @@ function App() {
     if (selected) {
       setKnowledgeRoot(selected);
       setSettingsOpen(false);
-      setToast(locale === 'zh' ? '正在切换本地知识库…' : 'Switching local library…');
+      setToast({
+        message: locale === 'zh' ? '正在切换本地知识库…' : 'Switching local library…',
+        kind: 'status',
+      });
     }
   };
 
@@ -892,6 +949,7 @@ function App() {
                   library={library}
                   onCapture={() => setCaptureGuideOpen(true)}
                   onPeople={() => navigate('people')}
+                  onPlan={() => navigate('plan')}
                   onSupplement={openSupplement}
                   t={t}
                 />
@@ -1033,16 +1091,25 @@ function App() {
 
       {captureGuideOpen && (
         <CaptureGuideDialog
+          locale={locale}
+          config={modelConfig}
+          knowledgeRoot={library.root || knowledgeRoot}
           onClose={() => setCaptureGuideOpen(false)}
-          onStartChat={startCaptureConversation}
+          onSaved={finishCapture}
           t={t}
         />
       )}
 
       {toast && (
-        <div className="toast">
-          <Check size={17} />
-          <span>{toast}</span>
+        <div className={`toast ${toast.kind}`} role="status" aria-live="polite">
+          {toast.kind === 'favorite-added' ? (
+            <Star size={17} fill="currentColor" />
+          ) : toast.kind === 'favorite-removed' ? (
+            <Star size={17} />
+          ) : (
+            <Check size={17} />
+          )}
+          <span>{toast.message}</span>
         </div>
       )}
     </div>
@@ -1230,7 +1297,7 @@ function Sidebar({
 
         <nav className="primary-nav" aria-label="Primary">
           <SidebarButton
-            icon={<MessageCircleMore size={17} />}
+            icon={<House size={17} />}
             label={t('home')}
             active={view === 'home'}
             onClick={() => onNavigate('home')}
@@ -1385,6 +1452,7 @@ function HomeView({
   library,
   onCapture,
   onPeople,
+  onPlan,
   onSupplement,
   t,
 }: {
@@ -1392,6 +1460,7 @@ function HomeView({
   library: LibrarySnapshot;
   onCapture: () => void;
   onPeople: () => void;
+  onPlan: () => void;
   onSupplement: (supplement: Supplement) => void;
   t: (key: TranslationKey) => string;
 }) {
@@ -1402,6 +1471,7 @@ function HomeView({
       supplements: library.supplements.filter((supplement) => supplement.tier === tier),
     }));
   }, [library.supplements]);
+  const ambientAssignments = useMemo(() => createAmbientAssignments(3), []);
 
   return (
     <div className="home-view page">
@@ -1416,28 +1486,22 @@ function HomeView({
       <section className="start-section" aria-label={t('coreModules')}>
         <div className="start-cards">
           <ActionCard
-            className="capture"
-            icon={<FilePlus2 size={21} />}
             title={t('collectCard')}
             description={t('collectCardSub')}
             onClick={onCapture}
+            ambient={ambientAssignments[0]}
           />
           <ActionCard
-            className="people"
-            icon={<UsersRound size={21} />}
             title={t('peopleCard')}
             description={t('peopleCardSub')}
             onClick={onPeople}
+            ambient={ambientAssignments[1]}
           />
           <ActionCard
-            className="map"
-            icon={<Dumbbell size={21} />}
-            title={t('mapCard')}
-            description={t('mapCardSub')}
-            onClick={() => {
-              const first = library.supplements[0];
-              if (first) onSupplement(first);
-            }}
+            title={t('aiPlanCard')}
+            description={t('aiPlanCardSub')}
+            onClick={onPlan}
+            ambient={ambientAssignments[2]}
           />
         </div>
       </section>
@@ -1478,21 +1542,31 @@ function HomeView({
 }
 
 function ActionCard({
-  className,
-  icon,
   title,
   description,
   onClick,
+  ambient,
 }: {
-  className: string;
-  icon: ReactNode;
   title: string;
   description: string;
   onClick: () => void;
+  ambient: ReturnType<typeof createAmbientAssignments>[number];
 }) {
   return (
-    <button className={`action-card ${className}`} onClick={onClick}>
-      <span className="action-icon">{icon}</span>
+    <button
+      className="action-card"
+      onClick={onClick}
+      style={
+        {
+          '--ambient-delay': ambient.delay,
+          '--ambient-duration': ambient.duration,
+          '--ambient-direction': ambient.direction,
+          '--ambient-secondary-delay': ambient.secondaryDelay,
+          '--ambient-secondary-duration': ambient.secondaryDuration,
+          '--ambient-secondary-direction': ambient.secondaryDirection,
+        } as React.CSSProperties
+      }
+    >
       <span className="action-copy">
         <strong>{title}</strong>
         <small>{description}</small>
@@ -1515,6 +1589,11 @@ function PeopleView({
   onBack: () => void;
   t: (key: TranslationKey) => string;
 }) {
+  const ambientAssignments = useMemo(
+    () => createAmbientAssignments(people.length),
+    [people.length],
+  );
+
   return (
     <div className="page people-view">
       <section className="page-intro">
@@ -1534,7 +1613,17 @@ function PeopleView({
             className="person-card"
             key={person.id}
             onClick={() => onPerson(person)}
-            style={{ '--person-accent': person.accent } as React.CSSProperties}
+            style={
+              {
+                '--person-accent': person.accent,
+                '--ambient-delay': ambientAssignments[index].delay,
+                '--ambient-duration': ambientAssignments[index].duration,
+                '--ambient-direction': ambientAssignments[index].direction,
+                '--ambient-secondary-delay': ambientAssignments[index].secondaryDelay,
+                '--ambient-secondary-duration': ambientAssignments[index].secondaryDuration,
+                '--ambient-secondary-direction': ambientAssignments[index].secondaryDirection,
+              } as React.CSSProperties
+            }
           >
             <span className="person-index">{String(index + 1).padStart(2, '0')}</span>
             <span className="person-avatar">
@@ -1568,6 +1657,11 @@ function StoriesView({
   onBack: () => void;
   t: (key: TranslationKey) => string;
 }) {
+  const ambientAssignments = useMemo(
+    () => createAmbientAssignments(stories.length),
+    [stories.length],
+  );
+
   return (
     <div className="page stories-view">
       <section className="page-intro">
@@ -1588,7 +1682,17 @@ function StoriesView({
             className="story-card"
             key={story.id}
             onClick={() => onStory(story)}
-            style={{ '--story-accent': story.accent } as React.CSSProperties}
+            style={
+              {
+                '--story-accent': story.accent,
+                '--ambient-delay': ambientAssignments[index].delay,
+                '--ambient-duration': ambientAssignments[index].duration,
+                '--ambient-direction': ambientAssignments[index].direction,
+                '--ambient-secondary-delay': ambientAssignments[index].secondaryDelay,
+                '--ambient-secondary-duration': ambientAssignments[index].secondaryDuration,
+                '--ambient-secondary-direction': ambientAssignments[index].secondaryDirection,
+              } as React.CSSProperties
+            }
           >
             <span className="story-index">{String(index + 1).padStart(2, '0')}</span>
             <span className="story-copy">
@@ -1698,7 +1802,7 @@ function NoteView({
               aria-pressed={favorite}
               onClick={onToggleFavorite}
             >
-              <Bookmark size={17} fill={favorite ? 'currentColor' : 'none'} />
+              <Star size={18} fill={favorite ? 'currentColor' : 'none'} />
             </button>
           </div>
           <h1>{title}</h1>
@@ -1991,7 +2095,7 @@ function RightRail({
         <div>
           <span className="rail-kicker">
             {favoritesOpen ? (
-              <Bookmark size={15} />
+              <Star size={15} fill="currentColor" />
             ) : chatActive ? (
               <History size={15} />
             ) : hasOpenContent ? (
@@ -2014,8 +2118,16 @@ function RightRail({
               ? locale === 'zh'
                 ? '当前对话'
                 : 'Current conversation'
-              : supplement?.nameZh ||
-                person?.name ||
+              : (supplement
+                  ? locale === 'zh'
+                    ? supplement.nameZh
+                    : supplement.nameEn
+                  : null) ||
+                (person
+                  ? locale === 'zh'
+                    ? person.nameZh || person.name
+                    : person.name
+                  : null) ||
                 (story ? (locale === 'zh' ? story.title : story.titleEn || story.title) : null) ||
                 t('myPlan')}
           </h3>
@@ -2026,7 +2138,7 @@ function RightRail({
           aria-label={favoritesOpen ? t('hideFavorites') : t('showFavorites')}
           aria-pressed={favoritesOpen}
         >
-          <Bookmark size={17} fill={favoritesOpen ? 'currentColor' : 'none'} />
+          <Star size={18} fill={favoritesOpen ? 'currentColor' : 'none'} />
         </button>
       </div>
 
@@ -2064,7 +2176,7 @@ function RightRail({
             </>
           ) : (
             <div className="favorite-empty">
-              <Bookmark size={24} />
+              <Star size={25} />
               <strong>{t('favoriteEmpty')}</strong>
               <span>{t('favoriteHint')}</span>
             </div>
@@ -2312,10 +2424,7 @@ function SettingsDialog({
         </div>
 
         <footer className="dialog-footer">
-          <span>
-            <ShieldCheck size={15} />
-            {locale === 'zh' ? '本地优先 · 密钥不落盘' : 'Local first · Key is not persisted'}
-          </span>
+          <span>Open Longevity · v{APP_VERSION}</span>
           <button className="primary-button" onClick={onClose}>
             {t('close')}
           </button>
@@ -2326,14 +2435,86 @@ function SettingsDialog({
 }
 
 function CaptureGuideDialog({
+  locale,
+  config,
+  knowledgeRoot,
   onClose,
-  onStartChat,
+  onSaved,
   t,
 }: {
+  locale: Locale;
+  config: ModelConfig;
+  knowledgeRoot: string;
   onClose: () => void;
-  onStartChat: () => void;
+  onSaved: (path: string) => Promise<void>;
   t: (key: TranslationKey) => string;
 }) {
+  const [source, setSource] = useState('');
+  const [draft, setDraft] = useState<CaptureDraft | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  const organize = async () => {
+    const clean = source.trim();
+    if (!clean) {
+      setError(t('captureInputRequired'));
+      return;
+    }
+    if (isTauri && !config.apiKey.trim()) {
+      setError(t('captureNeedsModel'));
+      return;
+    }
+
+    setBusy(true);
+    setError('');
+    try {
+      setDraft(
+        await prepareCapture({
+          apiKey: config.apiKey,
+          baseUrl: config.baseUrl,
+          model: config.model,
+          input: clean,
+          locale,
+        }),
+      );
+    } catch (requestError) {
+      setError(
+        `${t('capturePrepareFailed')}: ${String(requestError).replace(/^Error:\s*/i, '')}`,
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const save = async () => {
+    if (!draft || saving) return;
+    if (!knowledgeRoot) {
+      setError(t('captureNeedsLibrary'));
+      return;
+    }
+    if (!draft.title.trim() || !draft.content.trim()) {
+      setError(t('captureDraftRequired'));
+      return;
+    }
+
+    setSaving(true);
+    setError('');
+    try {
+      const path = await saveCapture({
+        knowledgeRoot,
+        title: draft.title,
+        content: draft.content,
+        sourceUrl: draft.sourceUrl,
+        locale,
+      });
+      await onSaved(path);
+    } catch (saveError) {
+      setError(`${t('captureSaveFailed')}: ${String(saveError).replace(/^Error:\s*/i, '')}`);
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="modal-backdrop capture-backdrop" onMouseDown={onClose}>
       <section className="capture-dialog" onMouseDown={(event) => event.stopPropagation()}>
@@ -2353,30 +2534,82 @@ function CaptureGuideDialog({
         </header>
 
         <div className="capture-guide">
-          <div className="capture-guide-steps">
-            {[t('captureStep1'), t('captureStep2'), t('captureStep3')].map((step, index) => (
-              <div className="capture-guide-step" key={step}>
-                <span>{index + 1}</span>
-                <p>{step}</p>
+          {!draft ? (
+            <>
+              <label className="capture-field">
+                <span>{t('captureInputLabel')}</span>
+                <textarea
+                  value={source}
+                  onChange={(event) => setSource(event.target.value)}
+                  placeholder={t('captureInputPlaceholder')}
+                  maxLength={180000}
+                  autoFocus
+                />
+              </label>
+              <div className="capture-prompt-example">
+                <Sparkles size={17} />
+                <div>
+                  <strong>{t('captureExampleTitle')}</strong>
+                  <p>{t('captureExample')}</p>
+                </div>
               </div>
-            ))}
-          </div>
-
-          <div className="capture-prompt-example">
-            <Sparkles size={17} />
-            <div>
-              <strong>{t('captureExampleTitle')}</strong>
-              <p>{t('captureExample')}</p>
+            </>
+          ) : (
+            <div className="capture-draft">
+              <label className="capture-field">
+                <span>{t('captureDraftTitle')}</span>
+                <input
+                  value={draft.title}
+                  onChange={(event) => setDraft({ ...draft, title: event.target.value })}
+                  maxLength={180}
+                />
+              </label>
+              <label className="capture-field">
+                <span>{t('captureDraftContent')}</span>
+                <textarea
+                  className="capture-draft-content"
+                  value={draft.content}
+                  onChange={(event) => setDraft({ ...draft, content: event.target.value })}
+                  maxLength={120000}
+                />
+              </label>
+              {draft.sourceUrl && <p className="capture-source-url">{draft.sourceUrl}</p>}
             </div>
-          </div>
+          )}
+
+          {error && (
+            <p className="capture-error" role="alert">
+              {error}
+            </p>
+          )}
 
           <div className="capture-guide-actions">
-            <button className="secondary-button" onClick={onClose}>
-              {t('notNow')}
+            <button
+              className="secondary-button"
+              onClick={draft ? () => setDraft(null) : onClose}
+              disabled={busy || saving}
+            >
+              {draft ? t('captureBack') : t('notNow')}
             </button>
-            <button className="primary-button" onClick={onStartChat} autoFocus>
-              <MessageCircleMore size={16} />
-              {t('startChat')}
+            <button
+              className="primary-button"
+              onClick={draft ? save : organize}
+              disabled={busy || saving || (!draft && !source.trim())}
+            >
+              {busy || saving ? (
+                <LoaderCircle className="spinning" size={16} />
+              ) : draft ? (
+                <Check size={16} />
+              ) : (
+                <Sparkles size={16} />
+              )}
+              {busy
+                ? t('capturePreparing')
+                : saving
+                  ? t('captureSaving')
+                  : draft
+                    ? t('captureConfirmSave')
+                    : t('capturePrepare')}
             </button>
           </div>
           <p className="capture-guide-note">{t('captureNote')}</p>

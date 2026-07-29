@@ -71,3 +71,17 @@ export interface CaptureRequest {
   sourceUrl?: string;
   locale: Locale;
 }
+
+export interface PrepareCaptureRequest {
+  apiKey: string;
+  baseUrl: string;
+  model: string;
+  input: string;
+  locale: Locale;
+}
+
+export interface CaptureDraft {
+  title: string;
+  content: string;
+  sourceUrl?: string;
+}

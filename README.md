@@ -1,78 +1,210 @@
-# Open Longevity / 科学长寿
+<p align="center">
+  <img src="public/brand/logo.png" width="112" alt="Open Longevity logo">
+</p>
 
-Open Longevity 是一个本地优先的科学长寿桌面应用，支持 Windows、macOS 与 Linux。它把个人长寿知识库、快速资料收录和 AI 对话放进一个无需开发工具的垂直工作台。
+<h1 align="center">Open Longevity</h1>
 
-当前首版包括：
+<p align="center">
+  <strong>Longevity technology should not be reserved for the wealthy.</strong><br>
+  An open-source, local-first longevity knowledge app powered by AI and scientific evidence.
+</p>
 
-- 中英文界面；
-- 中英文成对的出厂资料，缺少译文时自动回退原文；
-- 首次启动自动创建产品自己的本地 Markdown 资料库；
-- 以“长寿策略”和“人物案例”为核心的三栏阅读界面；
-- T1–T5 长寿策略优先级地图；
-- 本地 `inbox/` 快速收录；
-- OpenAI-compatible 模型配置与基于本地笔记的轻量检索问答；
-- API Key 仅保留在当前运行内存中，不写入磁盘。
+<p align="center">
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
+</p>
 
-Open Longevity 不依赖开发者的私人笔记目录。首次启动会在系统应用数据目录创建独立资料库和不含私人内容的入门档案：
+<p align="center">
+  Windows · macOS · Linux · <a href="https://open-longevity.ebenxp707.chatgpt.site/">Website</a>
+</p>
 
-- Windows：`%LOCALAPPDATA%\OpenLongevity\library`
-- macOS：`~/Library/Application Support/OpenLongevity/library`
-- Linux：`$XDG_DATA_HOME/OpenLongevity/library`，通常为 `~/.local/share/OpenLongevity/library`
+> Wealth can buy private medical teams, continuous measurement, research support, and rapidly evolving personal protocols.<br>
+> Everyone should have the tools to understand evidence, manage personal knowledge, and benefit from responsible AI.
 
-用户可以从设置中主动选择其他存储目录；外部笔记导入将作为独立功能提供，而不是默认绑定。
+Open Longevity turns scattered papers, public protocols, and personal notes into a workspace that people can read, inspect, grow, and control. It does not sell an immortality shortcut, and it does not suggest copying an expensive protocol blindly. It offers a transparent, traceable, local-first foundation for learning about longevity science.
 
-## 本地开发
+## Why Open Longevity
 
-```powershell
-npm install
-npm run dev
+Longevity technology has a serious access gap:
+
+- New research, testing, and interventions often reach high-net-worth users first.
+- Useful information is scattered across papers, podcasts, news, social media, and public protocols.
+- It is difficult to separate evidence, inference, marketing, and personal experience.
+- General-purpose AI rarely understands the knowledge a user has accumulated over time.
+- Health data is deeply personal and should not be locked into a platform by default.
+
+Our principles:
+
+1. **Open knowledge** — Markdown and CSV instead of a closed data silo.
+2. **Traceable evidence** — Keep sources, limitations, and unresolved questions visible.
+3. **Open-source tools** — Let people inspect and improve the product and its safety boundaries.
+4. **Local first** — Keep the library on the user's computer and never persist API keys.
+5. **AI in service of people** — Help users organize and understand; never replace clinical judgment.
+
+## What it can do today
+
+### Read an open bilingual longevity library
+
+- Ships with **84 Chinese documents and 84 maintained English companions**.
+- Covers strength training, aerobic exercise, healthy diet, creatine, Omega-3, vitamins, NAD+, and more.
+- Includes trackable public cases such as Bryan Johnson and cultural longevity observations.
+- Presents a T1–T5 map for navigating priority and evidence maturity.
+- Supports internal note links, external references, and favorites.
+
+T1–T5 is a starting framework for reading and discussion—not a medical ranking for every person.
+
+### Organize webpages and source material with AI
+
+Paste a public webpage, paper abstract, article text, or rough note. Open Longevity can:
+
+1. Extract readable webpage content.
+2. Ask your configured OpenAI-compatible model for a structured Markdown draft.
+3. Surface key findings, limitations, and items that still need verification.
+4. Let you review and edit the title and content.
+5. Save the approved note into the local `inbox/`.
+
+The capture flow limits download size and duration and blocks access to localhost and private-network addresses.
+
+## Product preview
+
+### Home and the longevity strategy map
+
+![Open Longevity home screen](docs/assets/product-ui/home-en.png)
+
+### Model and local knowledge library
+
+![Open Longevity model settings](docs/assets/product-ui/settings-en.png)
+
+### Ask AI against your own local notes
+
+AI context is prioritized in this order:
+
+1. The note currently open.
+2. Personal profile, current protocol, and records.
+3. Relevant notes retrieved from the local library.
+4. General model knowledge.
+
+When an answer depends on local material, the assistant is instructed to preserve the corresponding note path for further inspection.
+
+### Keep control of your data
+
+- The default library is independent and never binds to a developer's private notes.
+- Markdown and CSV remain portable, readable, and easy to back up.
+- The API key exists only in memory for the current run.
+- Content is sent to the configured model provider only after the user initiates an AI request.
+- The model receives no shell access and cannot write arbitrary files.
+
+## Default library locations
+
+Open Longevity creates its own local library on first launch:
+
+| Platform | Default directory |
+| --- | --- |
+| Windows | `%LOCALAPPDATA%\OpenLongevity\library` |
+| macOS | `~/Library/Application Support/OpenLongevity/library` |
+| Linux | `$XDG_DATA_HOME/OpenLongevity/library`, usually `~/.local/share/OpenLongevity/library` |
+
+Users can explicitly select another directory in Settings.
+
+## Technology
+
+- [Tauri 2](https://tauri.app/) for the cross-platform shell and local permission boundary.
+- React, TypeScript, and Vite for the desktop interface.
+- Rust for library access, path safety, webpage capture, retrieval, and model requests.
+- Markdown and CSV for open, portable knowledge.
+- OpenAI-compatible APIs for replaceable providers and custom endpoints.
+
+```text
+React UI
+   │
+   ▼
+Tauri commands
+   ├── Local Markdown library
+   ├── Safe webpage capture
+   ├── Lightweight local retrieval
+   └── OpenAI-compatible provider
 ```
 
-启动 Tauri 桌面窗口：
+See [Architecture](docs/ARCHITECTURE.md) and
+[Bilingual starter library](docs/BILINGUAL_LIBRARY.md) for implementation details.
+
+## Local development
+
+### Requirements
+
+- A current Node.js LTS release and npm.
+- Rust toolchain.
+- The platform-specific [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/).
+
+After cloning the repository:
 
 ```powershell
+cd OpenLongevity
+npm install
+npm run library:check
 npm run tauri:dev
 ```
 
-生产构建：
+Start only the browser preview:
+
+```powershell
+npm run dev
+```
+
+Create a production desktop build:
 
 ```powershell
 npm run tauri:build
 ```
 
-## 跨平台发行
+## Release and verification
 
-窗口会按平台适配：
+`.github/workflows/release.yml` builds Windows x64, Linux x64, macOS Apple Silicon, and macOS Intel packages.
 
-- Windows 与 Linux 使用 Open Longevity 自绘标题栏和右侧窗口控制；
-- macOS 使用系统原生红黄绿窗口按钮，自绘标题栏只保留右侧设置入口；
-- macOS GitHub 构建目前使用 ad-hoc 签名，正式面向普通用户发布时应配置 Apple Developer ID 与公证。
+Run before publishing:
 
-仓库包含 `.github/workflows/release.yml`。推送与应用版本一致的 `v*` 标签后，GitHub Actions 会并行生成：
+```powershell
+npm run library:check
+npm run release:check
+npm run typecheck
+npm run build
+cargo fmt --check --manifest-path src-tauri/Cargo.toml
+cargo test --manifest-path src-tauri/Cargo.toml
+```
 
-- Windows x64 安装包；
-- Linux x64 安装包；
-- macOS Apple Silicon 安装包；
-- macOS Intel 安装包。
-
-发布 `0.0.1` 的示例：
+Pushing a version tag creates the corresponding GitHub Release:
 
 ```bash
 git tag v0.0.1
 git push origin v0.0.1
 ```
 
-工作流会创建对应的 GitHub Release 并上传各平台安装文件。创建标签前，应同步更新 `package.json`、`src-tauri/tauri.conf.json` 和 `src-tauri/Cargo.toml` 中的版本号。
+Public macOS distribution still requires Apple Developer ID signing and notarization.
 
-## 验证
+## Roadmap
 
-```powershell
-npm run typecheck
-npm run build
-cargo fmt --check --manifest-path src-tauri/Cargo.toml
-cargo check --manifest-path src-tauri/Cargo.toml
-cargo test --manifest-path src-tauri/Cargo.toml
-```
+- Mature personal longevity plans and periodic review.
+- PubMed, DOI, and OpenAlex research connectors.
+- Local full-text search and more transparent evidence citation.
+- An auditable health-metric timeline.
+- Community-maintained strategies, public cases, and research notes.
+- Stronger accessibility and cross-platform polish.
 
-技术取舍与后续演进见 [架构说明](docs/ARCHITECTURE.md)，双语资料维护规则见
-[Bilingual starter library](docs/BILINGUAL_LIBRARY.md)。
+## Contributing
+
+Issues, pull requests, corrections, translations, and product ideas are welcome.
+
+For scientific content:
+
+- Preserve original sources, numbers, units, and study populations.
+- Clearly distinguish human evidence, animal evidence, mechanisms, and anecdote.
+- Do not strengthen causal claims beyond the source.
+- Update both the Chinese source and its `.en.md` companion.
+- Never commit real API keys, personal health records, or other sensitive data.
+
+## Medical disclaimer
+
+Open Longevity is a knowledge-management and research-assistance tool. It does not provide diagnosis, prescriptions, or individualized medical advice. Decisions involving medication, supplements, tests, or interventions should consider individual circumstances and qualified medical guidance. Public protocols are provided for study, not direct imitation.
+
+## License
+
+[MIT](LICENSE) © 2026 Open Longevity contributors.
