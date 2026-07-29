@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Longevity technology should not be reserved for the wealthy.</strong><br>
-  An open-source, local-first longevity knowledge app powered by AI and scientific evidence.
+  Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint.
 </p>
 
 <p align="center">

@@ -10,7 +10,7 @@
 
 <p align="center">
   <strong>科技长寿，不再是富豪专属。</strong><br>
-  由 AI 与科学证据驱动的长寿知识应用，主要以 Bryan Johnson 的长寿方案为蓝本。
+  Open Longevity 以 Bryan Johnson 的延寿计划为蓝本。
 </p>
 
 <p align="center">
