@@ -96,6 +96,11 @@ to the product template.
   `deepseek-v4-pro`, and `kimi-k3`; Chinese “Custom” is **自定义** and examples
   should be visibly marked `e.g.`.
 - API keys stay in memory and are not written to disk.
+- The app silently checks the latest GitHub release. When an update exists, a
+  small teal update control appears beside the sidebar product name. Windows
+  downloads the published NSIS installer with circular progress and launches
+  it; unsupported platforms or failed installs fall back to the product
+  website.
 - A future night mode is desirable but not yet a release blocker.
 
 ## Website

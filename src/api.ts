@@ -26,6 +26,30 @@ export async function openExternalUrl(url: string): Promise<void> {
   window.open(parsed.href, '_blank', 'noopener,noreferrer');
 }
 
+export interface SelfUpdateProgress {
+  status: 'checking' | 'downloading' | 'launching' | 'error';
+  percent: number;
+}
+
+export async function checkForUpdate(): Promise<string | null> {
+  if (!isTauri) return null;
+  return invoke<string | null>('check_for_update');
+}
+
+export async function downloadAndInstallUpdate(): Promise<void> {
+  if (!isTauri) {
+    throw new Error('Self-update is only available in the desktop app.');
+  }
+  await invoke('download_and_install_update');
+}
+
+export async function onSelfUpdateProgress(
+  callback: (progress: SelfUpdateProgress) => void,
+): Promise<() => void> {
+  const { listen } = await import('@tauri-apps/api/event');
+  return listen<SelfUpdateProgress>('self-update-progress', (event) => callback(event.payload));
+}
+
 export async function loadLibrary(root: string | undefined, locale: 'zh' | 'en'): Promise<LibrarySnapshot> {
   if (!isTauri) {
     return { ...fallbackLibrary, root: root || fallbackLibrary.root };

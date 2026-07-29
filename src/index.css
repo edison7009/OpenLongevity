@@ -221,10 +221,18 @@ body.resizing-panels * {
 
 .brand {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 5px;
   width: 100%;
   padding: 2px 7px 18px;
+}
+
+.brand-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
   background: none;
   border: 0;
   text-align: left;
@@ -259,6 +267,64 @@ body.resizing-panels * {
   font-size: 11.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.brand-update {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 25px;
+  width: 25px;
+  height: 25px;
+  margin-top: 1px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(7, 90, 88, 0.08);
+  color: #075a58;
+  cursor: pointer;
+}
+
+.brand-update:hover {
+  background: rgba(7, 90, 88, 0.14);
+}
+
+.brand-update:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.update-ring {
+  width: 18px;
+  height: 18px;
+  transform: rotate(-90deg);
+}
+
+.update-ring circle {
+  fill: none;
+  stroke-width: 2;
+}
+
+.update-ring-track {
+  stroke: rgba(7, 90, 88, 0.2);
+}
+
+.update-ring-progress {
+  stroke: #075a58;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  transition: stroke-dashoffset 180ms linear;
+}
+
+.update-ring-progress.indeterminate {
+  stroke-dasharray: 24 76;
+  animation: update-ring-spin 0.8s linear infinite;
+}
+
+@keyframes update-ring-spin {
+  to {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
 }
 
 .primary-nav {
@@ -2479,6 +2545,23 @@ body.resizing-panels * {
   border-color: #202220;
 }
 
+[data-theme='dark'] .brand-update {
+  background: rgba(120, 200, 181, 0.1);
+  color: #78c8b5;
+}
+
+[data-theme='dark'] .brand-update:hover {
+  background: rgba(120, 200, 181, 0.16);
+}
+
+[data-theme='dark'] .update-ring-track {
+  stroke: rgba(120, 200, 181, 0.22);
+}
+
+[data-theme='dark'] .update-ring-progress {
+  stroke: #78c8b5;
+}
+
 [data-theme='dark'] .brand small,
 [data-theme='dark'] .nav-count,
 [data-theme='dark'] .tree-chevron,
@@ -2927,16 +3010,26 @@ body.resizing-panels * {
   }
 
   .brand {
+    position: relative;
     justify-content: center;
     padding-inline: 0;
   }
 
-  .brand span,
+  .brand-main span,
   .nav-button span,
   .nav-count,
   .tree-chevron,
   .tree-children {
     display: none;
+  }
+
+  .brand-update {
+    position: absolute;
+    top: -4px;
+    right: 0;
+    width: 21px;
+    height: 21px;
+    min-width: 21px;
   }
 
   .nav-button {

@@ -6,6 +6,7 @@ use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
+use tauri::Emitter;
 
 const MAX_NOTE_BYTES: usize = 120_000;
 const MAX_CONTEXT_BYTES: usize = 52_000;
@@ -13,6 +14,10 @@ const MAX_CAPTURE_INPUT_BYTES: usize = 180_000;
 const MAX_CAPTURE_DOWNLOAD_BYTES: usize = 600_000;
 const MAX_CAPTURE_SOURCE_BYTES: usize = 110_000;
 const STARTER_PACK_VERSION: &str = "11";
+const LATEST_RELEASE_API: &str =
+    "https://api.github.com/repos/edison7009/OpenLongevity/releases/latest";
+const RELEASE_DOWNLOAD_PREFIX: &str =
+    "https://github.com/edison7009/OpenLongevity/releases/download/";
 const REMOVED_STARTER_FILES: &[&str] = &[
     "cases/ray-lui.md",
     "research-log/2026-07-21-ray-lui-case.md",
@@ -119,6 +124,25 @@ struct CaptureRequest {
     content: String,
     source_url: Option<String>,
     locale: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct GithubRelease {
+    tag_name: String,
+    assets: Vec<GithubReleaseAsset>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct GithubReleaseAsset {
+    name: String,
+    browser_download_url: String,
+    size: u64,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct SelfUpdateProgress {
+    status: &'static str,
+    percent: u32,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1338,6 +1362,179 @@ async fn chat_completion(request: ChatRequest) -> Result<String, String> {
     .await
 }
 
+fn release_client() -> Result<reqwest::Client, String> {
+    reqwest::Client::builder()
+        .user_agent(format!("Open-Longevity/{}", env!("CARGO_PKG_VERSION")))
+        .timeout(Duration::from_secs(30))
+        .build()
+        .map_err(|error| format!("Unable to prepare the update request: {error}"))
+}
+
+async fn latest_release(client: &reqwest::Client) -> Result<GithubRelease, String> {
+    let response = client
+        .get(LATEST_RELEASE_API)
+        .send()
+        .await
+        .map_err(|error| format!("Unable to check for updates: {error}"))?;
+
+    if !response.status().is_success() {
+        return Err(format!(
+            "GitHub returned {} while checking for updates",
+            response.status()
+        ));
+    }
+
+    response
+        .json::<GithubRelease>()
+        .await
+        .map_err(|error| format!("Invalid update response: {error}"))
+}
+
+fn version_numbers(version: &str) -> Vec<u64> {
+    version
+        .trim()
+        .trim_start_matches(['v', 'V'])
+        .split(['.', '-', '+'])
+        .take(4)
+        .map(|part| {
+            part.chars()
+                .take_while(|character| character.is_ascii_digit())
+                .collect::<String>()
+                .parse::<u64>()
+                .unwrap_or(0)
+        })
+        .collect()
+}
+
+fn is_newer_version(remote: &str, local: &str) -> bool {
+    let mut remote_numbers = version_numbers(remote);
+    let mut local_numbers = version_numbers(local);
+    let width = remote_numbers.len().max(local_numbers.len()).max(3);
+    remote_numbers.resize(width, 0);
+    local_numbers.resize(width, 0);
+    remote_numbers > local_numbers
+}
+
+#[tauri::command]
+async fn check_for_update() -> Result<Option<String>, String> {
+    let client = release_client()?;
+    let release = latest_release(&client).await?;
+    if is_newer_version(&release.tag_name, env!("CARGO_PKG_VERSION")) {
+        Ok(Some(
+            release.tag_name.trim_start_matches(['v', 'V']).to_string(),
+        ))
+    } else {
+        Ok(None)
+    }
+}
+
+#[cfg(target_os = "windows")]
+async fn run_windows_update(app: tauri::AppHandle) -> Result<(), String> {
+    use std::io::Write;
+    use std::process::Command;
+
+    let emit = |status: &'static str, percent: u32| {
+        let _ = app.emit(
+            "self-update-progress",
+            SelfUpdateProgress { status, percent },
+        );
+    };
+
+    emit("checking", 0);
+    let result = async {
+        let client = release_client()?;
+        let release = latest_release(&client).await?;
+        let asset = release
+            .assets
+            .into_iter()
+            .find(|asset| {
+                asset
+                    .name
+                    .to_ascii_lowercase()
+                    .ends_with("_windows_x64-setup.exe")
+            })
+            .ok_or_else(|| "The latest release has no Windows installer".to_string())?;
+
+        if !asset
+            .browser_download_url
+            .starts_with(RELEASE_DOWNLOAD_PREFIX)
+        {
+            return Err("The update download URL is not trusted".to_string());
+        }
+
+        let mut response = client
+            .get(&asset.browser_download_url)
+            .send()
+            .await
+            .map_err(|error| format!("Unable to download the update: {error}"))?;
+        if !response.status().is_success() {
+            return Err(format!(
+                "GitHub returned {} while downloading the update",
+                response.status()
+            ));
+        }
+
+        let expected_size = asset.size.max(response.content_length().unwrap_or(0));
+        let installer_path = std::env::temp_dir().join("Open-Longevity-update-setup.exe");
+        let mut installer = fs::File::create(&installer_path)
+            .map_err(|error| format!("Unable to create the update installer: {error}"))?;
+        let mut downloaded = 0_u64;
+        emit("downloading", 0);
+
+        while let Some(chunk) = response
+            .chunk()
+            .await
+            .map_err(|error| format!("The update download was interrupted: {error}"))?
+        {
+            installer
+                .write_all(&chunk)
+                .map_err(|error| format!("Unable to save the update installer: {error}"))?;
+            downloaded += chunk.len() as u64;
+            let percent = if expected_size > 0 {
+                ((downloaded.saturating_mul(100) / expected_size).min(100)) as u32
+            } else {
+                0
+            };
+            emit("downloading", percent);
+        }
+        installer
+            .flush()
+            .map_err(|error| format!("Unable to finish saving the update: {error}"))?;
+
+        if downloaded == 0 || (asset.size > 0 && downloaded != asset.size) {
+            return Err("The downloaded installer is incomplete".to_string());
+        }
+
+        emit("launching", 100);
+        Command::new(&installer_path)
+            .spawn()
+            .map_err(|error| format!("Unable to launch the update installer: {error}"))?;
+        std::thread::sleep(Duration::from_millis(800));
+        app.exit(0);
+        Ok(())
+    }
+    .await;
+
+    if result.is_err() {
+        emit("error", 0);
+    }
+    result
+}
+
+#[tauri::command]
+async fn download_and_install_update(app: tauri::AppHandle) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        run_windows_update(app).await
+    }
+
+    #[cfg(not(target_os = "windows"))]
+    {
+        let _ = app;
+        Err("Automatic installation is currently available on Windows only".to_string())
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -1348,7 +1545,9 @@ pub fn run() {
             read_note,
             prepare_capture,
             save_capture,
-            chat_completion
+            chat_completion,
+            check_for_update,
+            download_and_install_update
         ])
         .run(tauri::generate_context!())
         .expect("error while running Open Longevity");
@@ -1362,6 +1561,14 @@ mod tests {
     fn csv_parser_preserves_quoted_commas() {
         let fields = split_csv_line(r#"one,"two, still two",three"#);
         assert_eq!(fields, vec!["one", "two, still two", "three"]);
+    }
+
+    #[test]
+    fn update_versions_are_compared_numerically() {
+        assert!(is_newer_version("v0.0.10", "0.0.9"));
+        assert!(is_newer_version("1.0.0", "0.9.12"));
+        assert!(!is_newer_version("v0.0.1", "0.0.1"));
+        assert!(!is_newer_version("0.0.9", "0.0.10"));
     }
 
     #[test]

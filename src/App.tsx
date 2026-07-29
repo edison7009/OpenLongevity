@@ -19,6 +19,7 @@ import {
   Monitor,
   Moon,
   Pill,
+  RefreshCw,
   Send,
   Settings,
   ShieldCheck,
@@ -38,9 +39,12 @@ import remarkGfm from 'remark-gfm';
 import packageMetadata from '../package.json';
 import {
   chatCompletion,
+  checkForUpdate,
   chooseKnowledgeFolder,
+  downloadAndInstallUpdate,
   isTauri,
   loadLibrary,
+  onSelfUpdateProgress,
   openExternalUrl,
   prepareCapture,
   readNote,
@@ -61,6 +65,7 @@ import type {
 } from './types';
 
 const APP_VERSION = packageMetadata.version;
+const PRODUCT_WEBSITE = 'https://edison7009.github.io/OpenLongevity/';
 
 function createAmbientAssignments(count: number) {
   const assignments: Array<{
@@ -1271,6 +1276,59 @@ function Sidebar({
   const [strategiesExpanded, setStrategiesExpanded] = useState(true);
   const [peopleExpanded, setPeopleExpanded] = useState(true);
   const [storiesExpanded, setStoriesExpanded] = useState(true);
+  const [availableVersion, setAvailableVersion] = useState<string | null>(null);
+  const [installingUpdate, setInstallingUpdate] = useState(false);
+  const [updateProgress, setUpdateProgress] = useState(0);
+  const [updatePhase, setUpdatePhase] = useState<
+    'checking' | 'downloading' | 'launching' | 'error' | null
+  >(null);
+
+  useEffect(() => {
+    let alive = true;
+    if (isTauri) {
+      checkForUpdate()
+        .then((version) => {
+          if (alive) setAvailableVersion(version);
+        })
+        .catch(() => {
+          // Update checks stay silent so an offline launch is never interrupted.
+        });
+    }
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const handleUpdate = async () => {
+    if (installingUpdate) return;
+    const isWindows = navigator.userAgent.toLowerCase().includes('windows');
+    if (!isTauri || !isWindows) {
+      await openExternalUrl(PRODUCT_WEBSITE);
+      return;
+    }
+
+    setInstallingUpdate(true);
+    setUpdateProgress(0);
+    setUpdatePhase('checking');
+    let stopListening: (() => void) | undefined;
+    try {
+      stopListening = await onSelfUpdateProgress((progress) => {
+        setUpdatePhase(progress.status);
+        setUpdateProgress(progress.percent);
+      });
+      await downloadAndInstallUpdate();
+    } catch {
+      setUpdatePhase('error');
+      try {
+        await openExternalUrl(PRODUCT_WEBSITE);
+      } finally {
+        setInstallingUpdate(false);
+        setUpdateProgress(0);
+      }
+    } finally {
+      stopListening?.();
+    }
+  };
 
   useEffect(() => {
     if (selectedSupplement) setStrategiesExpanded(true);
@@ -1287,13 +1345,45 @@ function Sidebar({
   return (
     <aside className="sidebar">
       <div className="sidebar-scroll">
-        <button className="brand" onClick={() => onNavigate('home')}>
-          <img src="/brand/logo.png" alt="" />
-          <span>
-            <strong>{t('appName')}</strong>
-            <small>{t('appTagline')}</small>
-          </span>
-        </button>
+        <div className="brand">
+          <button className="brand-main" onClick={() => onNavigate('home')}>
+            <img src="/brand/logo.png" alt="" />
+            <span>
+              <strong>{t('appName')}</strong>
+              <small>{t('appTagline')}</small>
+            </span>
+          </button>
+          {availableVersion && (
+            <button
+              className={`brand-update ${installingUpdate ? 'installing' : ''}`}
+              onClick={() => void handleUpdate()}
+              aria-label={
+                locale === 'zh'
+                  ? `更新至 Open Longevity ${availableVersion}`
+                  : `Update Open Longevity to ${availableVersion}`
+              }
+              disabled={updatePhase === 'launching'}
+            >
+              {installingUpdate ? (
+                <svg className="update-ring" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle className="update-ring-track" cx="12" cy="12" r="9" />
+                  <circle
+                    className={`update-ring-progress ${
+                      updatePhase === 'checking' ? 'indeterminate' : ''
+                    }`}
+                    cx="12"
+                    cy="12"
+                    r="9"
+                    pathLength="100"
+                    style={{ strokeDashoffset: 100 - updateProgress }}
+                  />
+                </svg>
+              ) : (
+                <RefreshCw size={15} strokeWidth={2} />
+              )}
+            </button>
+          )}
+        </div>
 
         <nav className="primary-nav" aria-label="Primary">
           <SidebarButton
