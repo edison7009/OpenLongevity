@@ -1114,6 +1114,10 @@ p {
   font-size: clamp(48px, 6vw, 98px);
 }
 
+.closing-section h2 span {
+  display: block;
+}
+
 .closing-section a {
   padding-bottom: 7px;
   border-bottom: 1px solid rgba(161, 230, 180, 0.5);

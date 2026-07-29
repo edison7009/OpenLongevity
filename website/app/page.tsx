@@ -14,6 +14,7 @@ const assetPath = (path: string) =>
 
 const copy = {
   zh: {
+    brand: "OpenLongevity（开源长寿）",
     metaTitle: "Open Longevity · 让 AI 与科学照亮你的生命之树",
     metaDescription:
       "本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。",
@@ -83,10 +84,11 @@ const copy = {
     releaseValue: "0.0.1",
     releaseNote: "Windows、macOS 与 Linux 安装包现已发布",
     platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
-    closing: "AI 和科学，改变人类命运。",
+    closing: ["AI 和科学，", "改变人类命运。"],
     footerNote: "科学长寿知识与 AI 桌面应用",
   },
   en: {
+    brand: "Open Longevity",
     metaTitle: "Open Longevity · Let AI and science illuminate your Tree of Life",
     metaDescription:
       "A local-first longevity knowledge and AI desktop app grounded in scientific evidence, with an independent bilingual library for Windows, macOS, and Linux.",
@@ -156,7 +158,7 @@ const copy = {
     releaseValue: "0.0.1",
     releaseNote: "Installers available for Windows, macOS, and Linux",
     platforms: ["WINDOWS", "macOS", "LINUX", "LOCAL AI", "BILINGUAL"],
-    closing: "AI and science change humanity’s destiny.",
+    closing: ["AI and science", "change humanity’s destiny."],
     footerNote: "Scientific longevity knowledge and AI desktop app",
   },
 } as const;
@@ -216,7 +218,7 @@ export default function Home() {
     <main className="site-shell">
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Open Longevity home">
-          <span>Open Longevity</span>
+          <span>{t.brand}</span>
         </a>
         <nav aria-label={locale === "zh" ? "主要导航" : "Primary navigation"}>
           {t.nav.map((label, index) => (
@@ -433,7 +435,11 @@ export default function Home() {
           <span>╱┼╲</span>
         </div>
         <p>OPEN LONGEVITY · SCIENTIA VITAE</p>
-        <h2>{t.closing}</h2>
+        <h2>
+          {t.closing.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </h2>
         <a href="#top">
           {locale === "zh" ? "回到生命之树" : "Return to the Tree of Life"} ↑
         </a>
@@ -441,7 +447,7 @@ export default function Home() {
 
       <footer>
         <div className="brand footer-brand">
-          <span>Open Longevity</span>
+          <span>{t.brand}</span>
         </div>
         <p>{t.footerNote}</p>
         <p>© 2026 · OPEN SOURCE · v0.0.1</p>
