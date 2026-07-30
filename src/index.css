@@ -1469,6 +1469,238 @@ body.resizing-panels * {
   font-size: 11px;
 }
 
+.health-log {
+  margin-top: 14px;
+  padding: 18px;
+  background: linear-gradient(125deg, #edf6f3, #f8faf9);
+  border: 1px solid #d4e5e0;
+  border-radius: 16px;
+}
+
+.health-log-head > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.health-log-kicker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #2b998b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.health-log-head strong {
+  margin-top: 4px;
+  color: #1f3d3a;
+  font-size: 20px;
+}
+
+.health-log-head small {
+  margin-top: 3px;
+  color: #78908b;
+  font-size: 12px;
+}
+
+.health-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.health-week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-height: 52px;
+  padding: 7px 0;
+  color: #5f7672;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid #dce7e4;
+  border-radius: 11px;
+  cursor: pointer;
+}
+
+.health-week-day.active {
+  color: #1f3d3a;
+  background: #ffffff;
+  border-color: #91c3b9;
+  box-shadow: inset 0 -3px 0 #2b998b;
+}
+
+.health-week-wd {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.health-week-num {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.health-week-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.health-week-day.has .health-week-dot {
+  background: #2b998b;
+}
+
+.health-week-day.today .health-week-wd {
+  color: #2b998b;
+}
+
+.health-datebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.health-date-nav {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #4e706c;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid #dce7e4;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.health-date-nav:hover {
+  color: #087166;
+  border-color: #91c3b9;
+}
+
+.health-date-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 34px;
+  padding: 0 10px;
+  color: #294441;
+  font-family: inherit;
+  font-size: 13.5px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid #dce7e4;
+  border-radius: 10px;
+}
+
+.health-today {
+  height: 34px;
+  flex: 0 0 auto;
+  padding: 0 13px;
+  color: #4e706c;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid #dce7e4;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.health-today.active {
+  color: #087166;
+  background: #e2f2ed;
+  border-color: #91c3b9;
+}
+
+.health-fields {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.health-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.health-field-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #315e59;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.health-field-icon {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  color: #24776e;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+}
+
+.health-field textarea {
+  width: 100%;
+  min-height: 74px;
+  padding: 11px 12px;
+  resize: vertical;
+  color: #294441;
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #dce7e4;
+  border-radius: 12px;
+}
+
+.health-field textarea:focus {
+  outline: none;
+  border-color: #91c3b9;
+  box-shadow: 0 0 0 3px rgba(43, 153, 139, 0.12);
+}
+
+.health-log-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.health-saved {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #2b998b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.health-clear {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #9a6b66;
+  font-size: 12px;
+  font-weight: 600;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.health-clear:hover {
+  color: #b14a44;
+}
+
 .composer-wrap {
   position: absolute;
   right: 0;
@@ -2793,6 +3025,40 @@ body.resizing-panels * {
 [data-theme='dark'] .message-content p,
 [data-theme='dark'] .message-author {
   color: #cbd0cd;
+}
+
+[data-theme='dark'] .health-log {
+  background: linear-gradient(125deg, #252927, #222423);
+  border-color: #3b4642;
+}
+
+[data-theme='dark'] .health-log-head strong {
+  color: #f0f2f1;
+}
+
+[data-theme='dark'] .health-log-head small,
+[data-theme='dark'] .health-week-day {
+  color: #929794;
+}
+
+[data-theme='dark'] .health-week-day,
+[data-theme='dark'] .health-date-nav,
+[data-theme='dark'] .health-date-input,
+[data-theme='dark'] .health-today,
+[data-theme='dark'] .health-field textarea {
+  color: #d9dcda;
+  background: #242624;
+  border-color: #3a3d3b;
+}
+
+[data-theme='dark'] .health-week-day.active {
+  color: #f0f2f1;
+  background: #29332f;
+  border-color: #526a63;
+}
+
+[data-theme='dark'] .health-field-icon {
+  background: #2c302e;
 }
 
 [data-theme='dark'] .plan-section-grid button.active {

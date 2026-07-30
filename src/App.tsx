@@ -3,9 +3,11 @@ import {
   BookOpen,
   Bot,
   Check,
+  ChevronLeft,
   ChevronRight,
   CircleUserRound,
   FilePlus2,
+  Activity,
   Dumbbell,
   FolderOpen,
   Globe2,
@@ -18,6 +20,7 @@ import {
   Minus,
   Monitor,
   Moon,
+  NotebookPen,
   Pill,
   RefreshCw,
   Send,
@@ -27,6 +30,7 @@ import {
   Sparkles,
   Star,
   Sun,
+  Trash2,
   Utensils,
   UserRound,
   UsersRound,
@@ -197,7 +201,7 @@ function getLinks(markdown: string): Array<{ label: string; url: string }> {
 }
 
 type InternalNoteKind = 'supplement' | 'person' | 'story';
-type PlanSection = 'supplements' | 'exercise' | 'diet' | 'sleep';
+type PlanSection = 'supplements' | 'exercise' | 'diet' | 'sleep' | 'log';
 type ThemeMode = 'system' | 'light' | 'dark';
 type ResizeSide = 'left' | 'right';
 
@@ -237,6 +241,37 @@ const FAVORITES_SEED_FLAG = 'openlongevity:favorites-seeded:v1';
 const DEFAULT_FAVORITES: FavoriteReference[] = [
   { kind: 'person', id: 'bryan-johnson', addedAt: 0 },
 ];
+
+type HealthLogField = 'exercise' | 'diet' | 'body';
+
+interface HealthDayEntry {
+  exercise?: string;
+  diet?: string;
+  body?: string;
+}
+
+type HealthLog = Record<string, HealthDayEntry>;
+
+const HEALTH_LOG_KEY = 'openlongevity:health-log:v1';
+
+function pad2(value: number): string {
+  return String(value).padStart(2, '0');
+}
+
+function todayKey(): string {
+  const d = new Date();
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+
+function shiftKey(key: string, delta: number): string {
+  const parts = key.split('-').map(Number);
+  const dt = new Date(parts[0], parts[1] - 1, parts[2] + delta);
+  return dt.getFullYear() + '-' + pad2(dt.getMonth() + 1) + '-' + pad2(dt.getDate());
+}
+
+function entryHasContent(entry: HealthDayEntry | undefined): boolean {
+  return Boolean(entry && (entry.exercise || entry.diet || entry.body));
+}
 
 function getPlanSections(locale: Locale): Array<{
   id: PlanSection;
@@ -285,6 +320,16 @@ function getPlanSections(locale: Locale): Array<{
           : 'Schedule, sleep quality, and recovery',
       icon: <Moon size={17} />,
       accent: '#dce3f2',
+    },
+    {
+      id: 'log',
+      title: locale === 'zh' ? '健康记录' : 'Health log',
+      description:
+        locale === 'zh'
+          ? '按天记录运动、饮食与身体数据'
+          : 'Daily notes for movement, food, and body',
+      icon: <NotebookPen size={17} />,
+      accent: '#cfeae3',
     },
   ];
 }
@@ -2022,6 +2067,161 @@ function ConversationView({
   );
 }
 
+function HealthLogPanel({ locale }: { locale: Locale }) {
+  const [log, setLog] = useStoredState<HealthLog>(HEALTH_LOG_KEY, {});
+  const [date, setDate] = useState<string>(() => todayKey());
+  const entry = log[date] || {};
+  const isToday = date === todayKey();
+
+  const setField = (field: HealthLogField, value: string) => {
+    setLog({ ...log, [date]: { ...entry, [field]: value } });
+  };
+
+  const clearDay = () => {
+    const next = { ...log };
+    delete next[date];
+    setLog(next);
+  };
+
+  const recordedCount = Object.keys(log).filter((key) => entryHasContent(log[key])).length;
+  const weekKeys = Array.from({ length: 7 }, (_, index) => shiftKey(todayKey(), index - 6));
+  const weekdays =
+    locale === 'zh' ? ['日', '一', '二', '三', '四', '五', '六'] : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+  const fields: Array<{ id: HealthLogField; label: string; placeholder: string; icon: ReactNode }> = [
+    {
+      id: 'exercise',
+      label: locale === 'zh' ? '运动' : 'Movement',
+      placeholder:
+        locale === 'zh' ? '例如：快走 30 分钟、力量训练、拉伸' : 'e.g. 30 min walk, strength training, stretching',
+      icon: <Dumbbell size={16} />,
+    },
+    {
+      id: 'diet',
+      label: locale === 'zh' ? '饮食' : 'Food',
+      placeholder:
+        locale === 'zh' ? '例如：三餐内容、蛋白质、饮水、进食时间' : 'e.g. meals, protein, water, meal timing',
+      icon: <Utensils size={16} />,
+    },
+    {
+      id: 'body',
+      label: locale === 'zh' ? '身体数据' : 'Body',
+      placeholder:
+        locale === 'zh' ? '例如：体重、睡眠时长、血压、当日感受' : 'e.g. weight, sleep hours, blood pressure, how you feel',
+      icon: <Activity size={16} />,
+    },
+  ];
+
+  const recordedText =
+    locale === 'zh'
+      ? '已记录 ' + recordedCount + ' 天'
+      : recordedCount + ' day' + (recordedCount === 1 ? '' : 's') + ' logged';
+
+  return (
+    <div className="health-log">
+      <div className="health-log-head">
+        <div>
+          <span className="health-log-kicker">
+            <NotebookPen size={15} />
+            {locale === 'zh' ? '每日记录' : 'DAILY LOG'}
+          </span>
+          <strong>{locale === 'zh' ? '健康记录' : 'Health log'}</strong>
+          <small>{recordedText}</small>
+        </div>
+      </div>
+
+      <div className="health-week" role="group" aria-label={locale === 'zh' ? '最近七天' : 'Last seven days'}>
+        {weekKeys.map((key) => {
+          const d = new Date(key + 'T00:00:00');
+          const has = entryHasContent(log[key]);
+          const active = key === date;
+          const today = key === todayKey();
+          return (
+            <button
+              type="button"
+              key={key}
+              className={
+                'health-week-day' +
+                (active ? ' active' : '') +
+                (has ? ' has' : '') +
+                (today ? ' today' : '')
+              }
+              onClick={() => setDate(key)}
+            >
+              <span className="health-week-wd">{weekdays[d.getDay()]}</span>
+              <span className="health-week-num">{d.getDate()}</span>
+              <span className="health-week-dot" />
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="health-datebar">
+        <button
+          type="button"
+          className="health-date-nav"
+          onClick={() => setDate(shiftKey(date, -1))}
+          aria-label={locale === 'zh' ? '前一天' : 'Previous day'}
+        >
+          <ChevronLeft size={18} />
+        </button>
+        <input
+          type="date"
+          className="health-date-input"
+          value={date}
+          onChange={(event) => setDate(event.target.value || date)}
+          aria-label={locale === 'zh' ? '选择日期' : 'Pick a date'}
+        />
+        <button
+          type="button"
+          className="health-date-nav"
+          onClick={() => setDate(shiftKey(date, 1))}
+          aria-label={locale === 'zh' ? '后一天' : 'Next day'}
+        >
+          <ChevronRight size={18} />
+        </button>
+        <button
+          type="button"
+          className={'health-today' + (isToday ? ' active' : '')}
+          onClick={() => setDate(todayKey())}
+        >
+          {locale === 'zh' ? '今天' : 'Today'}
+        </button>
+      </div>
+
+      <div className="health-fields">
+        {fields.map((field) => (
+          <label className="health-field" key={field.id}>
+            <span className="health-field-label">
+              <span className="health-field-icon">{field.icon}</span>
+              {field.label}
+            </span>
+            <textarea
+              rows={3}
+              value={entry[field.id] || ''}
+              placeholder={field.placeholder}
+              onChange={(event) => setField(field.id, event.target.value)}
+            />
+          </label>
+        ))}
+      </div>
+
+      <div className="health-log-foot">
+        <span className="health-saved">
+          <Check size={15} />
+          {locale === 'zh' ? '自动保存到本机' : 'Saved locally as you type'}
+        </span>
+        {entryHasContent(entry) ? (
+          <button type="button" className="health-clear" onClick={clearDay}>
+            <Trash2 size={15} />
+            {locale === 'zh' ? '清空当天' : 'Clear day'}
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function PlanView({
   locale,
   activeSection,
@@ -2070,6 +2270,9 @@ function PlanView({
         ))}
       </div>
 
+      {activeSection === 'log' ? (
+        <HealthLogPanel locale={locale} />
+      ) : (
       <div className="plan-focus">
         <span className="plan-focus-icon" style={{ background: active.accent }}>
           {active.icon}
@@ -2085,6 +2288,7 @@ function PlanView({
           <span className="plan-file">plans/current-protocol.md</span>
         </div>
       </div>
+      )}
     </div>
   );
 }
