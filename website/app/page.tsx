@@ -45,7 +45,7 @@ const copy = {
       {
         no: "01",
         title: "最新科学进展",
-        en: "KNOWLEDGE",
+        en: "DISCOVER",
         body: "补剂、运动、饮食与人物案例，以普通人能读懂的方式组织；专业证据仍然随时可追溯。",
       },
       {
@@ -117,8 +117,8 @@ const copy = {
     products: [
       {
         no: "01",
-        title: "Knowledge",
-        en: "READ",
+        title: "Latest science",
+        en: "DISCOVER",
         body: "Supplements, movement, nutrition, and public cases are written for clarity, while the underlying evidence remains traceable.",
       },
       {
