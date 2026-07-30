@@ -22,7 +22,7 @@ import {
   Moon,
   NotebookPen,
   Pill,
-  RefreshCw,
+  Download,
   Send,
   Settings,
   ShieldCheck,
@@ -1537,7 +1537,7 @@ function Sidebar({
                   />
                 </svg>
               ) : (
-                <RefreshCw size={15} strokeWidth={2} />
+                <Download size={15} strokeWidth={2} />
               )}
             </button>
           )}
