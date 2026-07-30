@@ -2227,18 +2227,20 @@ body.resizing-panels * {
 
 .dialog-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  padding: 20px 22px 18px;
+  padding: 14px 22px 12px;
 }
 
 .dialog-header > div {
   display: flex;
-  gap: 11px;
+  align-items: center;
+  gap: 8px;
 }
 
 .dialog-header h2 {
   margin: 0;
+  color: var(--teal);
   font-family: var(--display-serif);
   font-size: 22px;
   font-weight: 500;
@@ -2265,14 +2267,10 @@ body.resizing-panels * {
 }
 
 .dialog-icon {
-  display: grid;
-  width: 36px;
-  height: 36px;
+  display: flex;
   flex: 0 0 auto;
-  place-items: center;
-  color: #18796f;
-  background: #e6f3ef;
-  border-radius: 11px;
+  align-items: center;
+  color: var(--teal);
 }
 
 .capture-icon {
@@ -2870,7 +2868,7 @@ body.resizing-panels * {
 [data-theme='dark'] .plan-shortcut-list strong,
 [data-theme='dark'] .related-list strong,
 [data-theme='dark'] .dialog-header h2 {
-  color: #f0f2f1;
+  color: #4ec4b4;
 }
 
 [data-theme='dark'] .action-card,
@@ -2918,8 +2916,7 @@ body.resizing-panels * {
 [data-theme='dark'] .message-avatar,
 [data-theme='dark'] .context-icon,
 [data-theme='dark'] .dialog-icon {
-  color: #91cfc2;
-  background: #29322f;
+  color: #4ec4b4;
 }
 
 [data-theme='dark'] .tier-map {

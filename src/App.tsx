@@ -2091,21 +2091,21 @@ function HealthLogPanel({ locale }: { locale: Locale }) {
   const fields: Array<{ id: HealthLogField; label: string; placeholder: string; icon: ReactNode }> = [
     {
       id: 'exercise',
-      label: locale === 'zh' ? '运动' : 'Movement',
+      label: locale === 'zh' ? '有氧&力量' : 'Cardio & Strength',
       placeholder:
         locale === 'zh' ? '例如：快走 30 分钟、力量训练、拉伸' : 'e.g. 30 min walk, strength training, stretching',
       icon: <Dumbbell size={16} />,
     },
     {
       id: 'diet',
-      label: locale === 'zh' ? '饮食' : 'Food',
+      label: locale === 'zh' ? '饮食&补剂' : 'Food & Supplements',
       placeholder:
-        locale === 'zh' ? '例如：三餐内容、蛋白质、饮水、进食时间' : 'e.g. meals, protein, water, meal timing',
+        locale === 'zh' ? '例如：三餐内容、蛋白质、补剂、进食时间' : 'e.g. meals, protein, supplements, meal timing',
       icon: <Utensils size={16} />,
     },
     {
       id: 'body',
-      label: locale === 'zh' ? '身体数据' : 'Body',
+      label: locale === 'zh' ? '数据&记录' : 'Data & Notes',
       placeholder:
         locale === 'zh' ? '例如：体重、睡眠时长、血压、当日感受' : 'e.g. weight, sleep hours, blood pressure, how you feel',
       icon: <Activity size={16} />,
@@ -2618,7 +2618,6 @@ function SettingsDialog({
             </span>
             <div>
               <h2>{t('modelSettings')}</h2>
-              <p>{t('modelSettingsSub')}</p>
             </div>
           </div>
           <button onClick={onClose} aria-label="Close">
