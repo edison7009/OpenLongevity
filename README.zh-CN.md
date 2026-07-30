@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/edison7009/OpenLongevity/releases/tag/v0.0.1"><strong>下载 v0.0.1</strong></a> · <a href="https://edison7009.github.io/OpenLongevity/">项目网站</a>
+  <a href="https://github.com/edison7009/OpenLongevity/releases/latest"><strong>下载最新版</strong></a> · <a href="https://edison7009.github.io/OpenLongevity/">项目网站</a>
 </p>
 
 > 富豪可以组建医疗团队、持续追踪指标、整理研究并迭代个人方案。<br>
@@ -185,8 +185,8 @@ cargo test --manifest-path src-tauri/Cargo.toml
 推送与应用版本一致的标签后，GitHub Actions 会创建对应 Release：
 
 ```bash
-git tag v0.0.1
-git push origin v0.0.1
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
 正式发布 macOS 版本前，仍需配置 Apple Developer ID 签名和公证。

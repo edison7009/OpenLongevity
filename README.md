@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  Windows · macOS · Linux · <a href="https://github.com/edison7009/OpenLongevity/releases/tag/v0.0.1"><strong>Download v0.0.1</strong></a> · <a href="https://edison7009.github.io/OpenLongevity/">Website</a>
+  Windows · macOS · Linux · <a href="https://github.com/edison7009/OpenLongevity/releases/latest"><strong>Download latest</strong></a> · <a href="https://edison7009.github.io/OpenLongevity/">Website</a>
 </p>
 
 > Wealth can buy private medical teams, continuous measurement, research support, and rapidly evolving personal protocols.<br>
@@ -182,8 +182,8 @@ cargo test --manifest-path src-tauri/Cargo.toml
 Pushing a version tag creates the corresponding GitHub Release:
 
 ```bash
-git tag v0.0.1
-git push origin v0.0.1
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
 Public macOS distribution still requires Apple Developer ID signing and notarization.
