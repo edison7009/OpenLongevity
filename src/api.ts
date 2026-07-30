@@ -110,3 +110,28 @@ export async function chatCompletion(request: ChatRequest): Promise<string> {
   }
   return invoke<string>('chat_completion', { request });
 }
+
+// ── Agent API ──
+
+import type { AgentEvent, AgentRequest } from './types';
+
+export async function sendAgentMessage(request: AgentRequest): Promise<string> {
+  if (!isTauri) {
+    await new Promise((resolve) => setTimeout(resolve, 650));
+    return 'ok';
+  }
+  return invoke<string>('agent_send_message', { request });
+}
+
+export async function listenAgentEvents(
+  handler: (event: AgentEvent) => void,
+): Promise<() => void> {
+  if (!isTauri) return () => {};
+  const { listen } = await import('@tauri-apps/api/event');
+  return listen<AgentEvent>('agent_event', (e) => handler(e.payload));
+}
+
+export async function resetAgent(): Promise<string> {
+  if (!isTauri) return 'ok';
+  return invoke<string>('agent_reset');
+}

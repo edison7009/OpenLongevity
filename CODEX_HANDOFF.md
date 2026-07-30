@@ -10,7 +10,7 @@ or temporary deployment credentials.
 
 - Product name: **Open Longevity** (always include the space in visible text).
 - Chinese product name: **科学长寿**.
-- Version: **0.0.3**.
+- Version: **0.0.4**.
 - Goal: a productized, local-first scientific-longevity desktop application for
   Windows, macOS, and Linux—not a personal wrapper around the developer's notes.
 - Product origin: inspired by the developer's `C:\Life extension` notes, but the

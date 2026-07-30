@@ -1,4 +1,8 @@
 use chrono::Local;
+
+mod llm_stream;
+mod agent_tools;
+mod agent_loop;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::cmp::Reverse;
@@ -2055,6 +2059,76 @@ async fn download_and_install_update(app: tauri::AppHandle) -> Result<(), String
     }
 }
 
+// -- Agent commands --
+
+#[tauri::command]
+async fn agent_reset() -> Result<String, String> {
+    agent_loop::clear_session_from_disk();
+    Ok("ok".to_string())
+}
+
+
+#[tauri::command]
+async fn agent_send_message(
+    app: tauri::AppHandle,
+    request: agent_loop::AgentRequest,
+) -> Result<String, String> {
+    if request.api_key.trim().is_empty() {
+        return Err("An API key is required".to_string());
+    }
+    if request.base_url.trim().is_empty() || request.model.trim().is_empty() {
+        return Err("API URL and model are required".to_string());
+    }
+    let research_context = if needs_live_research(&request.message) {
+        let fake_req = ChatRequest {
+            api_key: request.api_key.clone(),
+            base_url: request.base_url.clone(),
+            model: request.model.clone(),
+            question: request.message.clone(),
+            locale: request.locale.clone(),
+            knowledge_root: request.knowledge_root.clone(),
+            context_paths: request.context_paths.clone(),
+            history: Vec::new(),
+        };
+        match plan_research_query(&fake_req).await {
+            Some(query) => {
+                let snapshot = collect_research(query).await;
+                Some(research_context(&snapshot))
+            }
+            None => None,
+        }
+    } else {
+        None
+    };
+    let knowledge_root = PathBuf::from(&request.knowledge_root);
+    let local_ctx = retrieve_context(
+        &knowledge_root,
+        &request.message,
+        &request.context_paths,
+        &request.locale,
+    );
+    let mut full_research = research_context.unwrap_or_default();
+    if !local_ctx.is_empty() {
+        full_research.push_str(&format!(
+            "\n\nUse the following local context. Do not claim it is exhaustive:\n{local_ctx}"
+        ));
+    }
+    let rc = if full_research.is_empty() { None } else { Some(full_research) };
+    let mut session = agent_loop::AgentSession::new();
+    let app_clone = app.clone();
+    tokio::spawn(async move {
+        if let Err(e) = agent_loop::run_agent(app_clone, request, &mut session, rc).await {
+            log::error!("[AgentCommand] Agent error: {e}");
+            let _ = app.emit(
+                "agent_event",
+                agent_loop::AgentEvent::Error { message: e },
+            );
+            let _ = app.emit("agent_event", agent_loop::AgentEvent::Done);
+        }
+    });
+    Ok("ok".to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -2066,6 +2140,8 @@ pub fn run() {
             prepare_capture,
             save_capture,
             chat_completion,
+            agent_send_message,
+            agent_reset,
             check_for_update,
             download_and_install_update
         ])

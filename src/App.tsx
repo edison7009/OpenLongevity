@@ -34,6 +34,7 @@ import {
   Utensils,
   UserRound,
   UsersRound,
+  Wrench,
   X,
 } from 'lucide-react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
@@ -42,7 +43,6 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import packageMetadata from '../package.json';
 import {
-  chatCompletion,
   checkForUpdate,
   chooseKnowledgeFolder,
   downloadAndInstallUpdate,
@@ -53,10 +53,14 @@ import {
   prepareCapture,
   readNote,
   saveCapture,
+  sendAgentMessage,
+  listenAgentEvents,
+  resetAgent,
 } from './api';
 import { fallbackLibrary, fallbackMarkdown } from './data';
 import { translate, type TranslationKey } from './i18n';
 import type {
+  AgentEvent,
   ChatMessage,
   CaptureDraft,
   LibrarySnapshot,
@@ -859,6 +863,80 @@ function App() {
     });
   };
 
+  // ── Agent event listener ──
+  useEffect(() => {
+    let unlisten: (() => void) | null = null;
+    let cancelled = false;
+    listenAgentEvents((event: AgentEvent) => {
+      if (cancelled) return;
+      switch (event.type) {
+        case 'text_delta':
+          setChatMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last && last.role === 'assistant') {
+              return [...prev.slice(0, -1), { ...last, content: last.content + event.text }];
+            }
+            return [...prev, { id: crypto.randomUUID(), role: 'assistant' as const, content: event.text, createdAt: Date.now() }];
+          });
+          break;
+        case 'tool_call_start':
+          setChatMessages((prev) => [
+            ...prev,
+            {
+              id: event.id,
+              role: 'tool_call' as const,
+              content: '',
+              createdAt: Date.now(),
+              toolName: event.name,
+              toolArgs: '',
+              toolStatus: 'running' as const,
+            },
+          ]);
+          break;
+        case 'tool_call_args':
+          setChatMessages((prev) =>
+            prev.map((m) =>
+              m.role === 'tool_call' && m.id === event.id
+                ? { ...m, toolArgs: (m.toolArgs || '') + event.args }
+                : m,
+            ),
+          );
+          break;
+        case 'tool_result':
+          setChatMessages((prev) =>
+            prev.map((m) =>
+              m.role === 'tool_call' && m.id === event.id
+                ? { ...m, toolStatus: event.success ? 'done' as const : 'failed' as const, toolOutput: event.output }
+                : m,
+            ),
+          );
+          break;
+        case 'done':
+          setChatBusy(false);
+          break;
+        case 'error':
+          setChatMessages((prev) => [
+            ...prev,
+            {
+              id: crypto.randomUUID(),
+              role: 'assistant' as const,
+              content: locale === 'zh' ? `错误：${event.message}` : `Error: ${event.message}`,
+              createdAt: Date.now(),
+            },
+          ]);
+          setChatBusy(false);
+          break;
+      }
+    }).then((fn) => {
+      if (cancelled) fn();
+      else unlisten = fn;
+    });
+    return () => {
+      cancelled = true;
+      unlisten?.();
+    };
+  }, [locale]);
+
   const handleSend = async (question: string) => {
     const clean = question.trim();
     if (!clean || chatBusy) return;
@@ -887,11 +965,11 @@ function App() {
     }
 
     try {
-      const content = await chatCompletion({
+      await sendAgentMessage({
         apiKey: modelConfig.apiKey,
         baseUrl: modelConfig.baseUrl,
         model: modelConfig.model,
-        question: clean,
+        message: clean,
         locale,
         knowledgeRoot: library.root,
         contextPaths: [
@@ -899,15 +977,14 @@ function App() {
           selectedPerson?.filePath,
           selectedStory?.filePath,
         ].filter(Boolean) as string[],
-        history: priorMessages.slice(-8).map(({ role, content: messageContent }) => ({
-          role,
-          content: messageContent,
-        })),
+        history: priorMessages
+          .filter((m) => m.role === 'user' || m.role === 'assistant')
+          .slice(-8)
+          .map(({ role, content: messageContent }) => ({
+            role: role as 'user' | 'assistant',
+            content: messageContent,
+          })),
       });
-      setChatMessages((current) => [
-        ...current,
-        { id: crypto.randomUUID(), role: 'assistant', content, createdAt: Date.now() },
-      ]);
     } catch (error) {
       setChatMessages((current) => [
         ...current,
@@ -921,11 +998,19 @@ function App() {
           createdAt: Date.now(),
         },
       ]);
-    } finally {
       setChatBusy(false);
     }
   };
 
+  const handleNewChat = async () => {
+    setChatMessages([]);
+    setChatActive(false);
+    try {
+      await resetAgent();
+    } catch {
+      // ignore
+    }
+  };
   const changeKnowledgeRoot = async () => {
     const selected = await chooseKnowledgeFolder();
     if (selected) {
@@ -1015,6 +1100,7 @@ function App() {
               messages={chatMessages}
               busy={chatBusy}
               onBack={() => setChatActive(false)}
+              onNewChat={handleNewChat}
               onInternalNavigate={openInternalNote}
             />
           ) : (
@@ -1147,6 +1233,7 @@ function App() {
         activePlanSection={activePlanSection}
         onFavoriteNavigate={openInternalNote}
         onPlanSection={openPlanSection}
+        onResumeChat={() => setChatActive(true)}
         t={t}
       />
 
@@ -1997,12 +2084,14 @@ function ConversationView({
   messages,
   busy,
   onBack,
+  onNewChat,
   onInternalNavigate,
 }: {
   locale: Locale;
   messages: ChatMessage[];
   busy: boolean;
   onBack: () => void;
+  onNewChat: () => void;
   onInternalNavigate: (target: Omit<InternalNoteTarget, 'label'>) => void;
 }) {
   const endRef = useRef<HTMLDivElement>(null);
@@ -2027,28 +2116,80 @@ function ConversationView({
           <ChevronRight size={15} className="back-chevron" />
           {locale === 'zh' ? '返回资料' : 'Back to library'}
         </button>
-        <span>{locale === 'zh' ? '基于本地资料' : 'Grounded in local notes'}</span>
+        <div className="conversation-title-actions">
+          <button className="conversation-new-chat" onClick={onNewChat} title={locale === 'zh' ? '新对话' : 'New chat'}>
+            <FilePlus2 size={14} />
+            <span>{locale === 'zh' ? '新对话' : 'New chat'}</span>
+          </button>
+          <span>{locale === 'zh' ? '基于本地资料' : 'Grounded in local notes'}</span>
+        </div>
       </div>
       <div className="message-list">
-        {messages.map((message) => (
-          <div className={`message ${message.role}`} key={message.id}>
-            <div className="message-avatar">
-              {message.role === 'assistant' ? <Leaf size={17} /> : <CircleUserRound size={18} />}
+        {messages.map((message) => {
+          if (message.role === 'tool_call') {
+            const toolLabels: Record<string, string> = {
+              save_note: locale === 'zh' ? '保存笔记' : 'Save note',
+              search_library: locale === 'zh' ? '搜索知识库' : 'Search library',
+              read_note: locale === 'zh' ? '读取笔记' : 'Read note',
+            };
+            const label = toolLabels[message.toolName || ''] || message.toolName || 'tool';
+            const statusIcon =
+              message.toolStatus === 'running' ? (
+                <LoaderCircle size={12} className="spin" />
+              ) : message.toolStatus === 'failed' ? (
+                <X size={12} />
+              ) : (
+                <Check size={12} />
+              );
+            return (
+              <div className="tool-call-card" key={message.id}>
+                <button
+                  type="button"
+                  className="tool-call-header"
+                  onClick={(e) => {
+                    const card = (e.currentTarget as HTMLElement).closest('.tool-call-card');
+                    card?.classList.toggle('open');
+                  }}
+                >
+                  <Wrench size={13} />
+                  <span className="tool-call-label">{label}</span>
+                  <span className="tool-call-status">{statusIcon}</span>
+                </button>
+                <div className="tool-call-body">
+                  {message.toolArgs && (
+                    <pre className="tool-call-args">{message.toolArgs}</pre>
+                  )}
+                  {message.toolOutput && (
+                    <pre className={`tool-call-output ${message.toolStatus === 'failed' ? 'failed' : ''}`}>
+                      {message.toolOutput.length > 2000
+                        ? message.toolOutput.slice(0, 2000) + '\n…'
+                        : message.toolOutput}
+                    </pre>
+                  )}
+                </div>
+              </div>
+            );
+          }
+          return (
+            <div className={`message ${message.role}`} key={message.id}>
+              <div className="message-avatar">
+                {message.role === 'assistant' ? <Leaf size={17} /> : <CircleUserRound size={18} />}
+              </div>
+              <div className="message-content">
+                <span className="message-author">
+                  {message.role === 'assistant'
+                    ? 'Open Longevity'
+                    : locale === 'zh'
+                      ? '你'
+                      : 'You'}
+                </span>
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+                  {message.content}
+                </ReactMarkdown>
+              </div>
             </div>
-            <div className="message-content">
-              <span className="message-author">
-                {message.role === 'assistant'
-                  ? 'Open Longevity'
-                  : locale === 'zh'
-                    ? '你'
-                    : 'You'}
-              </span>
-              <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
-                {message.content}
-              </ReactMarkdown>
-            </div>
-          </div>
-        ))}
+          );
+        })}
         {busy && (
           <div className="message assistant">
             <div className="message-avatar">
@@ -2354,6 +2495,7 @@ function RightRail({
   activePlanSection,
   onFavoriteNavigate,
   onPlanSection,
+  onResumeChat,
   t,
 }: {
   locale: Locale;
@@ -2369,6 +2511,7 @@ function RightRail({
   activePlanSection: PlanSection;
   onFavoriteNavigate: (target: Omit<InternalNoteTarget, 'label'>) => void;
   onPlanSection: (section: PlanSection) => void;
+  onResumeChat: () => void;
   t: (key: TranslationKey) => string;
 }) {
   const planSections = getPlanSections(locale);
@@ -2445,6 +2588,12 @@ function RightRail({
                 t('favoritesAndPlan')}
           </h3>
         </div>
+        {!chatActive && messages.length > 0 && (
+          <button type="button" className="rail-resume-chat" onClick={onResumeChat}>
+            <MessageCircleMore size={14} />
+            {t('backToChat')}
+          </button>
+        )}
       </div>
 
       <div className="rail-scroll">

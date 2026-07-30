@@ -1832,6 +1832,27 @@ body.resizing-panels * {
   white-space: nowrap;
 }
 
+.rail-resume-chat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  margin-left: 12px;
+  padding: 6px 10px;
+  color: #0c6b60;
+  background: var(--soft-teal);
+  border: 0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.rail-resume-chat:hover {
+  background: #d7ece7;
+}
+
 .favorite-toggle {
   display: grid;
   width: 31px;
@@ -2894,6 +2915,15 @@ body.resizing-panels * {
   border-color: #52635e;
 }
 
+[data-theme='dark'] .rail-resume-chat {
+  color: #57c8b8;
+  background: rgba(78, 196, 180, 0.14);
+}
+
+[data-theme='dark'] .rail-resume-chat:hover {
+  background: rgba(78, 196, 180, 0.22);
+}
+
 [data-theme='dark'] .person-card::after,
 [data-theme='dark'] .story-card::after {
   opacity: 0.34;
@@ -3348,3 +3378,143 @@ body.resizing-panels * {
   }
 
 }
+
+/* ── Tool call cards ── */
+
+.tool-call-card {
+  margin: 6px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--canvas);
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.tool-call-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 7px 10px;
+  color: #4e706c;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.tool-call-header:hover {
+  background: var(--soft-teal);
+}
+
+.tool-call-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tool-call-status {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  color: #879995;
+}
+
+.tool-call-body {
+  display: none;
+  padding: 0 10px 8px;
+  border-top: 1px solid var(--line);
+}
+
+.tool-call-card.open .tool-call-body {
+  display: block;
+}
+
+.tool-call-args,
+.tool-call-output {
+  margin: 6px 0 0;
+  padding: 6px 8px;
+  background: var(--paper);
+  border-radius: 5px;
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #3a4f4d;
+}
+
+.tool-call-output.failed {
+  background: #fde8e8;
+  color: #9b2c2c;
+}
+
+[data-theme='dark'] .tool-call-card {
+  background: #1e2422;
+  border-color: #3a3d3b;
+}
+
+[data-theme='dark'] .tool-call-header {
+  color: #57c8b8;
+}
+
+[data-theme='dark'] .tool-call-header:hover {
+  background: rgba(78, 196, 180, 0.1);
+}
+
+[data-theme='dark'] .tool-call-args,
+[data-theme='dark'] .tool-call-output {
+  background: #161a18;
+  color: #b0b8b5;
+}
+
+[data-theme='dark'] .tool-call-output.failed {
+  background: rgba(155, 44, 44, 0.15);
+  color: #f0a0a0;
+}
+
+/* ── New chat button in conversation header ── */
+
+.conversation-title-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.conversation-new-chat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  color: #657b78;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.conversation-new-chat:hover {
+  color: #0c6b60;
+  background: var(--soft-teal);
+  border-color: transparent;
+}
+
+[data-theme='dark'] .conversation-new-chat {
+  color: #929794;
+  border-color: #3a3d3b;
+}
+
+[data-theme='dark'] .conversation-new-chat:hover {
+  color: #57c8b8;
+  background: rgba(78, 196, 180, 0.1);
+  border-color: transparent;
+}
+

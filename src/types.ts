@@ -48,9 +48,13 @@ export interface ModelConfig {
 
 export interface ChatMessage {
   id: string;
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'tool_call';
   content: string;
   createdAt: number;
+  toolName?: string;
+  toolArgs?: string;
+  toolStatus?: 'running' | 'done' | 'failed';
+  toolOutput?: string;
 }
 
 export interface ChatRequest {
@@ -84,4 +88,33 @@ export interface CaptureDraft {
   title: string;
   content: string;
   sourceUrl?: string;
+}
+
+// ── Agent events (from Rust backend via Tauri) ──
+
+export type AgentEvent =
+  | { type: 'text_delta'; text: string }
+  | { type: 'tool_call_start'; id: string; name: string }
+  | { type: 'tool_call_args'; id: string; args: string }
+  | { type: 'tool_result'; id: string; output: string; success: boolean }
+  | { type: 'done' }
+  | { type: 'error'; message: string };
+
+export interface ToolCallMessage {
+  id: string;
+  name: string;
+  args: string;
+  status: 'running' | 'done' | 'failed';
+  output?: string;
+}
+
+export interface AgentRequest {
+  apiKey: string;
+  baseUrl: string;
+  model: string;
+  message: string;
+  locale: Locale;
+  knowledgeRoot: string;
+  contextPaths: string[];
+  history: Array<{ role: 'user' | 'assistant'; content: string }>;
 }
