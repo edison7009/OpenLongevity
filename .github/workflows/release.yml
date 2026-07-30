@@ -85,18 +85,16 @@ jobs:
             ID=$(gh api --method POST "repos/${REPO}/releases" \
               -f tag_name="${TAG}" \
               -f name="Open Longevity ${TAG}" \
-              -f body="First public release of Open Longevity.
+              -f body="Open Longevity 0.0.2
 
-          Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace.
+          What is new since 0.0.1:
+          - Live evidence research: evidence-oriented questions now search PubMed, ClinicalTrials.gov, and bioRxiv (through Europe PMC), and answers separate peer-reviewed papers, trial registrations, and preprints
+          - In-app release updater: the app quietly checks the latest GitHub release and offers the new installer from the sidebar
+          - GitHub feedback link in settings
 
-          Highlights:
-          - Windows, macOS, and Linux desktop builds
-          - 84 Chinese longevity notes and 84 English companions
-          - Local-first Markdown knowledge library
-          - AI-assisted research capture and planning
-          - Replaceable OpenAI-compatible model providers
+          Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace, with Windows, macOS, and Linux builds.
 
-          These first-release binaries are not code-signed. Your operating system may display an unverified-developer warning." \
+          These binaries are not code-signed. Your operating system may display an unverified-developer warning." \
               -F draft=true \
               -F prerelease=false \
               --jq ".id")
