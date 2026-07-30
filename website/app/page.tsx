@@ -444,7 +444,7 @@ export default function Home() {
           <span>{t.brand}</span>
         </div>
         <p>{t.footerNote}</p>
-        <p>© 2026 · OPEN SOURCE · v0.0.1</p>
+        <p>© 2026 · OPEN SOURCE</p>
       </footer>
     </main>
   );
