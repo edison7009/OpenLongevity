@@ -5,7 +5,7 @@
 <h1 align="center">Open Longevity(开源长寿)</h1>
 
 <p align="center">
-  <strong>Longevity technology should not be reserved for the wealthy.</strong><br>
+  <strong>Longevity science should not be reserved for the wealthy.</strong><br>
   Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint.
 </p>
 
@@ -24,7 +24,7 @@ Open Longevity turns scattered papers, public protocols, and personal notes into
 
 ## Why Open Longevity
 
-Longevity technology has a serious access gap:
+Longevity science has a serious access gap:
 
 - New research, testing, and interventions often reach high-net-worth users first.
 - Useful information is scattered across papers, podcasts, news, social media, and public protocols.

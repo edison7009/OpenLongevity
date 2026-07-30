@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>科技长寿，不再是富豪专属。</strong><br>
+  <strong>科学长寿，不再是富豪专属。</strong><br>
   Open Longevity 以 Bryan Johnson 的延寿计划为蓝本。
 </p>
 
@@ -224,7 +224,7 @@ Open Longevity 是知识整理与研究辅助工具，不提供诊断、处方�
 
 ### English summary
 
-**Longevity technology should not be reserved for the wealthy.**
+**Longevity science should not be reserved for the wealthy.**
 
 Open Longevity is an open-source, local-first desktop workspace for reading scientific longevity knowledge, organizing public research with AI, and asking questions grounded in your own Markdown library. It supports Chinese and English, OpenAI-compatible providers, and Windows, macOS, and Linux.
 

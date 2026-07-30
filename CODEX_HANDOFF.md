@@ -131,7 +131,7 @@ to the product template.
 - The scrolling T1–T5 strip is bilingual; strategy names are the same enlarged
   size as the T1–T5 labels.
 - Open manifesto section:
-  - **科技长寿，不应该是富豪独有。**
+  - **科学长寿，不应该是富豪专属。**
   - Three principles: 开放知识 / 可验证证据 / 开源工具.
 - Product-section title:
   - Chinese: **AI + 科学的时代**

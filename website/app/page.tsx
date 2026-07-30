@@ -31,7 +31,7 @@ const copy = {
     specimen: "标本 OL—001",
     treeLabel: "生命之树 / 持续生长的知识",
     statementEyebrow: "OPEN LONGEVITY / 开放宣言",
-    statement: "科技长寿，不应该是富豪独有。",
+    statement: "科学长寿，不应该是富豪专属。",
     statementBody:
       "昂贵的私人团队、封闭的数据和难以验证的建议，不该成为通往更长生命的门槛。Open Longevity 希望把知识、证据与工具打开，让每个人都能理解、检查并建立自己的延寿计划。",
     openPrinciples: [
@@ -104,7 +104,7 @@ const copy = {
     specimen: "SPECIMEN OL—001",
     treeLabel: "TREE OF LIFE / KNOWLEDGE IN GROWTH",
     statementEyebrow: "OPEN LONGEVITY / AN OPEN MANIFESTO",
-    statement: "Longevity technology should not belong only to the wealthy.",
+    statement: "Longevity science should not belong only to the wealthy.",
     statementBody:
       "Expensive private teams, closed data, and advice that cannot be examined should not stand between people and a longer life. Open Longevity opens the knowledge, evidence, and tools so anyone can understand, inspect, and build a plan of their own.",
     openPrinciples: [
