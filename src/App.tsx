@@ -233,6 +233,11 @@ interface NavigationLocation {
   storyId?: string;
 }
 
+const FAVORITES_SEED_FLAG = 'openlongevity:favorites-seeded:v1';
+const DEFAULT_FAVORITES: FavoriteReference[] = [
+  { kind: 'person', id: 'bryan-johnson', addedAt: 0 },
+];
+
 function getPlanSections(locale: Locale): Array<{
   id: PlanSection;
   title: string;
@@ -507,6 +512,26 @@ function App() {
   const [resizingPane, setResizingPane] = useState<ResizeSide | null>(null);
   const chatComposerRef = useRef<HTMLTextAreaElement>(null);
   const navigationHistoryRef = useRef<NavigationLocation[]>([]);
+
+  useEffect(() => {
+    let seeded = false;
+    try {
+      seeded = window.localStorage.getItem(FAVORITES_SEED_FLAG) === '1';
+    } catch {
+      seeded = false;
+    }
+    if (!seeded) {
+      if (favorites.length === 0) {
+        setFavorites(DEFAULT_FAVORITES);
+      }
+      try {
+        window.localStorage.setItem(FAVORITES_SEED_FLAG, '1');
+      } catch {
+        // ignore unavailable storage
+      }
+    }
+    // Seed the default favorite once on first launch; never overwrite later edits.
+  }, []);
 
   const t = (key: TranslationKey) => translate(locale, key);
   const modelConfig: ModelConfig = { ...modelDiskConfig, apiKey };
@@ -2142,7 +2167,6 @@ function RightRail({
   onPlanSection: (section: PlanSection) => void;
   t: (key: TranslationKey) => string;
 }) {
-  const [favoritesOpen, setFavoritesOpen] = useState(false);
   const planSections = getPlanSections(locale);
   const hasOpenContent = Boolean(supplement || person || story);
   const favoriteItems = useMemo<FavoriteListItem[]>(() => {
@@ -2185,27 +2209,21 @@ function RightRail({
       <div className="rail-header">
         <div>
           <span className="rail-kicker">
-            {favoritesOpen ? (
-              <Star size={15} fill="currentColor" />
-            ) : chatActive ? (
+            {chatActive ? (
               <History size={15} />
             ) : hasOpenContent ? (
               <Library size={15} />
             ) : (
               <Sparkles size={15} />
             )}
-            {favoritesOpen
-              ? t('favorites')
-              : chatActive
+            {chatActive
               ? t('recentContexts')
               : hasOpenContent
-                ? t('sources')
-                : t('myPlan')}
+                ? t('reading')
+                : t('workspace')}
           </span>
           <h3>
-            {favoritesOpen
-              ? t('favoritesTitle')
-              : chatActive
+            {chatActive
               ? locale === 'zh'
                 ? '当前对话'
                 : 'Current conversation'
@@ -2220,59 +2238,13 @@ function RightRail({
                     : person.name
                   : null) ||
                 (story ? (locale === 'zh' ? story.title : story.titleEn || story.title) : null) ||
-                t('myPlan')}
+                t('favoritesAndPlan')}
           </h3>
         </div>
-        <button
-          className={`favorite-toggle ${favoritesOpen ? 'active' : ''}`}
-          onClick={() => setFavoritesOpen((open) => !open)}
-          aria-label={favoritesOpen ? t('hideFavorites') : t('showFavorites')}
-          aria-pressed={favoritesOpen}
-        >
-          <Star size={18} fill={favoritesOpen ? 'currentColor' : 'none'} />
-        </button>
       </div>
 
       <div className="rail-scroll">
-        {favoritesOpen ? (
-          favoriteItems.length ? (
-            <>
-              <div className="rail-section-title">
-                {t('favorites')} <span>{favoriteItems.length}</span>
-              </div>
-              <div className="favorite-list">
-                {favoriteItems.map((item) => (
-                  <button
-                    type="button"
-                    onClick={() => onFavoriteNavigate(item.target)}
-                    key={`${item.target.kind}:${item.target.id}`}
-                  >
-                    <span className="favorite-item-icon">
-                      {item.target.kind === 'supplement' ? (
-                        <Dumbbell size={17} />
-                      ) : item.target.kind === 'person' ? (
-                        <UserRound size={17} />
-                      ) : (
-                        <BookOpen size={17} />
-                      )}
-                    </span>
-                    <span>
-                      <strong>{item.title}</strong>
-                      <small>{item.detail}</small>
-                    </span>
-                    <ChevronRight size={15} />
-                  </button>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="favorite-empty">
-              <Star size={25} />
-              <strong>{t('favoriteEmpty')}</strong>
-              <span>{t('favoriteHint')}</span>
-            </div>
-          )
-        ) : chatActive ? (
+        {chatActive ? (
           <>
             <div className="context-summary">
               <span className="context-icon">
@@ -2307,21 +2279,36 @@ function RightRail({
           </>
         ) : (
           <>
-            {references.length > 0 && (
-              <>
-                <div className="rail-section-title">
-                  {t('sources')} <span>{references.length}</span>
-                </div>
-                <div className="source-list">
-                  {references.map((reference) => (
-                    <AppLink href={reference.url} key={reference.url}>
-                      <Globe2 size={15} />
-                      <span>{reference.label}</span>
-                      <ArrowRight size={14} />
-                    </AppLink>
-                  ))}
-                </div>
-              </>
+            <div className="rail-section-title">
+              {t('favorites')} {favoriteItems.length ? <span>{favoriteItems.length}</span> : null}
+            </div>
+            {favoriteItems.length ? (
+              <div className="favorite-list">
+                {favoriteItems.map((item) => (
+                  <button
+                    type="button"
+                    onClick={() => onFavoriteNavigate(item.target)}
+                    key={`${item.target.kind}:${item.target.id}`}
+                  >
+                    <span className="favorite-item-icon">
+                      {item.target.kind === 'supplement' ? (
+                        <Dumbbell size={17} />
+                      ) : item.target.kind === 'person' ? (
+                        <UserRound size={17} />
+                      ) : (
+                        <BookOpen size={17} />
+                      )}
+                    </span>
+                    <span>
+                      <strong>{item.title}</strong>
+                      <small>{item.detail}</small>
+                    </span>
+                    <ChevronRight size={15} />
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p className="favorite-inline-empty">{t('favoriteHint')}</p>
             )}
 
             <div className="rail-section-title">
@@ -2345,6 +2332,23 @@ function RightRail({
                 </button>
               ))}
             </div>
+
+            {references.length > 0 && (
+              <>
+                <div className="rail-section-title">
+                  {t('sources')} <span>{references.length}</span>
+                </div>
+                <div className="source-list">
+                  {references.map((reference) => (
+                    <AppLink href={reference.url} key={reference.url}>
+                      <Globe2 size={15} />
+                      <span>{reference.label}</span>
+                      <ArrowRight size={14} />
+                    </AppLink>
+                  ))}
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

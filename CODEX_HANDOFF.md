@@ -88,9 +88,12 @@ to the product template.
   reading area.
 - Tier-list items are plain large text sized to their content. Do not render
   them as bordered buttons, add arrows, or force equal widths.
-- The right pane is for **My Plan** shortcuts (supplements, exercise, diet,
-  etc.) and a switchable favorites list. Content such as Bryan Johnson can be
-  favorited.
+- The right pane stacks two persistent sections: **Favorites** on top and
+  **My Plan** shortcuts (supplements, exercise, diet, sleep) below; when a note
+  is open its sources appear as a third section. The old header star toggle is
+  gone (favorites are always visible). On first launch the favorites are seeded
+  once with Bryan Johnson (flag `openlongevity:favorites-seeded:v1`); a user's
+  later edits are never overwritten.
 - AI settings support OpenAI-compatible providers and custom endpoints. Current
   visible defaults discussed for the UI are `gpt-5.5`,
   `deepseek-v4-pro`, and `kimi-k3`; Chinese “Custom” is **自定义** and examples

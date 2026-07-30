@@ -1690,6 +1690,13 @@ body.resizing-panels * {
   gap: 7px;
 }
 
+.favorite-inline-empty {
+  margin: 0 2px;
+  color: #8a9c98;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .plan-shortcut-list {
   display: grid;
   gap: 7px;
@@ -2600,6 +2607,8 @@ body.resizing-panels * {
 [data-theme='dark'] .rail-kicker,
 [data-theme='dark'] .rail-section-title,
 [data-theme='dark'] .rail-section-title span,
+[data-theme='dark'] .favorite-inline-empty,
+[data-theme='dark'] .favorite-inline-empty,
 [data-theme='dark'] .favorite-list small,
 [data-theme='dark'] .plan-shortcut-list small,
 [data-theme='dark'] .related-list small,
