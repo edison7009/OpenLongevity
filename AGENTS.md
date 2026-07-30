@@ -19,3 +19,5 @@ Project rules:
   `dist/`, `src-tauri/target/`).
 - `website/` is deployed publicly from this repository with GitHub Pages.
   Preserve its static Vite build and the root Pages workflow when publishing it.
+- Commit as `codex` (lowercase, the https://github.com/codex identity) in this
+  repository; local `user.name` and `user.email` are already configured for it.
