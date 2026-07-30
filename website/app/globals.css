@@ -1137,9 +1137,9 @@ footer {
 
 footer p {
   margin: 0;
-  color: rgba(232, 225, 203, 0.38);
+  color: rgba(232, 225, 203, 0.62);
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   text-align: center;
 }
