@@ -85,12 +85,13 @@ jobs:
             ID=$(gh api --method POST "repos/${REPO}/releases" \
               -f tag_name="${TAG}" \
               -f name="Open Longevity ${TAG}" \
-              -f body="Open Longevity 0.0.2
+              -f body="Open Longevity 0.0.3
 
-          What is new since 0.0.1:
-          - Live evidence research: evidence-oriented questions now search PubMed, ClinicalTrials.gov, and bioRxiv (through Europe PMC), and answers separate peer-reviewed papers, trial registrations, and preprints
-          - In-app release updater: the app quietly checks the latest GitHub release and offers the new installer from the sidebar
-          - GitHub feedback link in settings
+          What is new since 0.0.2:
+          - Redesigned right rail: Favorites and My Plan now stack as persistent sections instead of a toggle, and the home screen ships with Bryan Johnson favorited by default
+          - Health log: a new per-day editor under My Plan for movement, food & supplements, and body data & notes, auto-saved to your machine
+          - Branded Windows installer and uninstaller: the OL icon now appears across the setup wizard, the uninstaller, and Add/Remove Programs
+          - Leaner Settings dialog with a teal-accented header, plus a dev fix so tauri dev no longer crashes while the Rust build is running
 
           Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace, with Windows, macOS, and Linux builds.
 
