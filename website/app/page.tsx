@@ -62,7 +62,7 @@ const copy = {
       },
     ],
     interfaceEyebrow: "一间属于你的研究室",
-    interfaceTitle: "复杂的证据，安静的界面。",
+    interfaceTitle: "人人都能看得懂的界面。",
     interfaceBody:
       "左侧是知识地图，中间是阅读与证据，右侧是计划与收藏。无需打开开发工具，也无需把私人资料上传到陌生平台。",
     evidenceEyebrow: "优先级，不是假装精确的分数",
@@ -135,7 +135,7 @@ const copy = {
       },
     ],
     interfaceEyebrow: "A research room of your own",
-    interfaceTitle: "Complex evidence. A quiet interface.",
+    interfaceTitle: "An interface anyone can read.",
     interfaceBody:
       "A knowledge map on the left, reading and evidence in the center, plans and favorites on the right. No developer tool and no need to surrender private notes to an unfamiliar platform.",
     evidenceEyebrow: "Priorities, not pretend precision",
