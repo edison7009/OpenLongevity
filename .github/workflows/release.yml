@@ -85,13 +85,10 @@ jobs:
             ID=$(gh api --method POST "repos/${REPO}/releases" \
               -f tag_name="${TAG}" \
               -f name="Open Longevity ${TAG}" \
-              -f body="Open Longevity 0.0.3
+              -f body="Open Longevity 0.0.5
 
-          What is new since 0.0.2:
-          - Redesigned right rail: Favorites and My Plan now stack as persistent sections instead of a toggle, and the home screen ships with Bryan Johnson favorited by default
-          - Health log: a new per-day editor under My Plan for movement, food & supplements, and body data & notes, auto-saved to your machine
-          - Branded Windows installer and uninstaller: the OL icon now appears across the setup wizard, the uninstaller, and Add/Remove Programs
-          - Leaner Settings dialog with a teal-accented header, plus a dev fix so tauri dev no longer crashes while the Rust build is running
+          What is new since 0.0.4:
+          - Improved in-app update flow: the app window now closes immediately after the download finishes, then the NSIS installer launches in update mode to automatically replace the old version
 
           Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace, with Windows, macOS, and Linux builds.
 
