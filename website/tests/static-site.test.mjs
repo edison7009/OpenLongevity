@@ -23,7 +23,8 @@ test("website is directly deployable without a build step", async () => {
   assert.match(stylesheet, /\.platform-note code\s*\{[^}]*display:\s*inline/s);
   assert.match(html, /data-i18n="heroDetail"/);
   assert.match(javascript, /富豪花费百万美元享受科技带来的长寿/);
-  assert.match(javascript, /heroDetail:/);
+  assert.match(javascript, /以 Bryan Johnson 公开的延寿计划为蓝本/);
+  assert.doesNotMatch(javascript, /数据以 Bryan Johnson|\(Built on data/);
   assert.match(javascript, /macOS 首次需在「终端」/);
   assert.match(html, /xattr -cr '\/Applications\/Open Longevity\.app'/);
   assert.match(javascript, /navigator\.userAgentData\?\.platform/);

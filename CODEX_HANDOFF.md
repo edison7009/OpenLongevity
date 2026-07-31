@@ -172,9 +172,9 @@ to the product template.
   - English: **Let AI and science illuminate your Tree of Life**
 - Website hero lead: **富豪花费百万美元享受科技带来的长寿，而 Open
   Longevity 希望把生命之光同样带给普通家庭**. A smaller supporting line
-  states that its data starts from Bryan Johnson's longevity plan and combines
-  AI with scientific evidence so ordinary people can access strategies once
-  reserved for the wealthy.
+  states that it uses Bryan Johnson's publicly documented longevity plan as a
+  blueprint and combines AI with scientific evidence so ordinary people can
+  access strategies once reserved for the wealthy.
 - The hero installer uses text-only platform tabs with no underline indicator.
   Its macOS fallback note is the compact inline command: `macOS 首次需在「终端」
   xattr -cr '/Applications/Open Longevity.app'`.
