@@ -547,7 +547,7 @@ p {
 
 .manifesto {
   display: grid;
-  grid-template-columns: 0.22fr 1.08fr 0.95fr;
+  grid-template-columns: 1.08fr 0.95fr;
   gap: clamp(34px, 5vw, 96px);
   padding: clamp(90px, 10vw, 165px) clamp(22px, 7vw, 118px);
   --film-light:
@@ -557,25 +557,6 @@ p {
   --film-light-opacity: 0.58;
   --film-grain-opacity: 0.1;
   --film-vignette: rgba(80, 44, 22, 0.17);
-}
-
-.manifesto-mark {
-  display: flex;
-  align-self: stretch;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 360px;
-  padding-right: 24px;
-  border-right: 1px solid var(--line-paper);
-}
-
-.manifesto-mark span {
-  color: rgba(7, 25, 29, 0.48);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
 }
 
 .manifesto h2,
@@ -1306,11 +1287,11 @@ footer p:last-child {
   }
 
   .manifesto {
-    grid-template-columns: 90px 1fr;
+    grid-template-columns: 1fr;
   }
 
   .open-principles {
-    grid-column: 2;
+    grid-column: 1;
   }
 
   .interface-section,
@@ -1380,19 +1361,6 @@ footer p:last-child {
   .manifesto {
     display: block;
     padding: 88px 20px;
-  }
-
-  .manifesto-mark {
-    align-items: flex-start;
-    min-height: 0;
-    margin-bottom: 58px;
-    padding: 0 0 24px;
-    border-right: 0;
-    border-bottom: 1px solid var(--line-paper);
-  }
-
-  .manifesto-mark span {
-    display: none;
   }
 
   .open-principles {
