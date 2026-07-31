@@ -25,7 +25,7 @@ const MAX_CAPTURE_INPUT_BYTES: usize = 180_000;
 const MAX_CAPTURE_DOWNLOAD_BYTES: usize = 600_000;
 const MAX_CAPTURE_SOURCE_BYTES: usize = 110_000;
 const MAX_RESEARCH_CONTEXT_BYTES: usize = 32_000;
-const STARTER_PACK_VERSION: &str = "11";
+const STARTER_PACK_VERSION: &str = "12";
 const LATEST_RELEASE_API: &str =
     "https://api.github.com/repos/edison7009/OpenLongevity/releases/latest";
 const WEBSITE_VERSION_API: &str = "https://openlongevity.life/version.json?platform=windows";

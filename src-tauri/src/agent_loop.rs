@@ -280,7 +280,13 @@ fn build_system_prompt(locale: &str, user_profile: &str, memory_context: &str) -
          When the user wants to record, save, or remember something, use the save_note tool — do NOT just \
          tell them to do it manually. Always call save_note with complete JSON arguments: a non-empty \
          'title' and a non-empty 'content'. If a tool call is rejected for missing, empty, or malformed \
-         arguments, fix the arguments and retry with a complete JSON object. Use suggest_memory only for durable user-confirmed goals, preferences, constraints, corrections, profile facts, or health context worth reusing in future conversations. \
+         arguments, fix the arguments and retry with a complete JSON object. The user's personal plan \
+         (「我的延寿计划」) has separate pages in the library: plans/exercise.md (运动计划), \
+         plans/supplements.md (补剂计划), plans/diet.md (饮食计划), and plans/daily-routine.md (作息计划), \
+         plus a daily health log. When the user asks you to organize or update one of these plans, call \
+         update_plan with the matching module and write the full page in its standard format (goals, \
+         current status, concrete arrangements, review notes). Prefer update_plan over save_note for plan \
+         content; save_note is for general notes. Use suggest_memory only for durable user-confirmed goals, preferences, constraints, corrections, profile facts, or health context worth reusing in future conversations. \
          suggest_memory only proposes a memory candidate; the user must confirm before it is saved. \
          When answering questions about the library, use search_library and read_note to ground your answers in actual notes. \
          The user's local notes are your primary memory. Cite the note path in parentheses when a \

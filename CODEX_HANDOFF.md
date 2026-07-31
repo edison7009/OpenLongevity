@@ -34,7 +34,7 @@ The application combines:
    navigation item.
 3. AI-assisted longevity planning grounded in the local knowledge library.
 
-The default starter library currently contains **84 Chinese documents plus 84
+The default starter library currently contains **88 Chinese documents plus 88
 English companion documents**. Run `npm run library:check` to verify the pairs.
 
 Primary knowledge categories:
@@ -137,7 +137,7 @@ to the product template.
   gone (favorites are always visible). On first launch the favorites are seeded
   once with Bryan Johnson (flag `openlongevity:favorites-seeded:v1`); a user's
   later edits are never overwritten.
-- The **Health log** plan section (`log`) is the first fully usable plan module: a per-day editor (last-7-days strip + date navigation + movement/food/body text fields) that auto-saves to `localStorage` key `openlongevity:health-log:v1`. The other four plan sections remain AI-prompt placeholders for now.
+- The **My Plan** rail has five sections: supplements (补剂计划), exercise (运动计划), diet (饮食计划), daily routine (作息计划), and health log (健康记录). The four plan sections each map to their own library page — `plans/supplements.md`, `plans/exercise.md`, `plans/diet.md`, `plans/daily-routine.md` — which the plan view renders and the AI maintains via the `update_plan` tool (standard format: goals, current status, concrete arrangements, review notes). The **Health log** section (`log`) is a per-day editor (last-7-days strip + date navigation + movement/food/body text fields) that auto-saves to `localStorage` key `openlongevity:health-log:v1`.
 - AI settings expose OpenAI and Anthropic wire protocols. Each protocol keeps
   its own API URL, model, and API key, and switching protocols must never
   overwrite the other protocol's values. New fields start empty; service URLs

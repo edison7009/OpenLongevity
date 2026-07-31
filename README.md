@@ -44,7 +44,7 @@ Our principles:
 
 ### Read an open bilingual longevity library
 
-- Ships with **84 Chinese documents and 84 maintained English companions**.
+- Ships with **88 Chinese documents and 88 maintained English companions**.
 - Covers strength training, aerobic exercise, healthy diet, creatine, Omega-3, vitamins, NAD+, and more.
 - Includes trackable public cases such as Bryan Johnson and cultural longevity observations.
 - Presents a T1–T5 map for navigating priority and evidence maturity.

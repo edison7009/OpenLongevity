@@ -250,6 +250,13 @@ function getLinks(markdown: string): Array<{ label: string; url: string }> {
 
 type InternalNoteKind = 'supplement' | 'person' | 'story' | 'file';
 type PlanSection = 'supplements' | 'exercise' | 'diet' | 'sleep' | 'log';
+
+const PLAN_SECTION_FILES: Record<Exclude<PlanSection, 'log'>, string> = {
+  supplements: 'plans/supplements.md',
+  exercise: 'plans/exercise.md',
+  diet: 'plans/diet.md',
+  sleep: 'plans/daily-routine.md',
+};
 type ThemeMode = 'system' | 'light' | 'dark';
 type ResizeSide = 'left' | 'right';
 
@@ -1562,6 +1569,7 @@ function App() {
                   onSection={setActivePlanSection}
                   onBack={goBack}
                   t={t}
+                  libraryRoot={library.root || knowledgeRoot}
                 />
               )}
             </>
@@ -2857,15 +2865,46 @@ function PlanView({
   onSection,
   onBack,
   t,
+  libraryRoot,
 }: {
   locale: Locale;
   activeSection: PlanSection;
   onSection: (section: PlanSection) => void;
   onBack: () => void;
   t: (key: TranslationKey) => string;
+  libraryRoot: string;
 }) {
   const sections = getPlanSections(locale);
   const active = sections.find((section) => section.id === activeSection) || sections[0];
+  const planFile =
+    activeSection === 'log'
+      ? ''
+      : PLAN_SECTION_FILES[activeSection as Exclude<PlanSection, 'log'>];
+  const [planMarkdown, setPlanMarkdown] = useState('');
+  const [planLoading, setPlanLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (activeSection === 'log') {
+      setPlanMarkdown('');
+      setPlanLoading(false);
+      return;
+    }
+    setPlanLoading(true);
+    readNote(libraryRoot, planFile)
+      .then((markdown) => {
+        if (!cancelled) setPlanMarkdown(markdown);
+      })
+      .catch(() => {
+        if (!cancelled) setPlanMarkdown('');
+      })
+      .finally(() => {
+        if (!cancelled) setPlanLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeSection, libraryRoot, planFile]);
 
   return (
     <div className="page plan-view">
@@ -2909,12 +2948,23 @@ function PlanView({
         <div>
           <small>{locale === 'zh' ? '当前计划' : 'Current plan'}</small>
           <strong>{active.title}</strong>
+        </div>
+        {planLoading ? (
+          <div className="loading-state compact">
+            <LoaderCircle className="spin" size={18} />
+          </div>
+        ) : (
+          <div className="markdown-body plan-note-body">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{planMarkdown}</ReactMarkdown>
+          </div>
+        )}
+        <div>
           <p>
             {locale === 'zh'
-              ? '在下方对话中告诉 AI 你的目标、现状和限制，它会优先结合本地个人方案帮你整理。'
-              : 'Tell AI your goals, current status, and constraints below. It will prioritize your local personal protocol.'}
+              ? '在下方对话中告诉 AI 你的目标、现状和限制，它会用 update_plan 更新这个页面。'
+              : 'Tell AI your goals, status, and constraints below; it updates this page with update_plan.'}
           </p>
-          <span className="plan-file">plans/current-protocol.md</span>
+          <span className="plan-file">{planFile}</span>
         </div>
       </div>
       )}

@@ -51,6 +51,34 @@ pub fn get_tool_definitions() -> Vec<ToolDef> {
             }),
         },
         ToolDef {
+            name: "update_plan".into(),
+            description: "Update one of the user's personal plan pages in the knowledge library. \
+                Use this whenever the user asks to organize, update, or write their exercise, \
+                supplement, diet, or daily-routine plan. Each module maps to its own page: \
+                'exercise' -> plans/exercise.md, 'supplements' -> plans/supplements.md, \
+                'diet' -> plans/diet.md, 'daily_routine' -> plans/daily-routine.md. \
+                You MUST provide a non-empty 'module' and the full Markdown 'content' for the page. \
+                Follow the page's standard format: goals, current status, concrete arrangements \
+                (sets/reps or dose/frequency), and review notes. Write the complete page, \
+                not just a diff."
+                .into(),
+            parameters: json!({
+                "type": "object",
+                "properties": {
+                    "module": {
+                        "type": "string",
+                        "enum": ["exercise", "supplements", "diet", "daily_routine"],
+                        "description": "Which plan page to update"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "The full Markdown content for the plan page"
+                    }
+                },
+                "required": ["module", "content"]
+            }),
+        },
+        ToolDef {
             name: "search_library".into(),
             description: "Search the user's local knowledge library by keyword. \
                 Returns a list of matching note paths with title and a short snippet. \
@@ -127,6 +155,7 @@ pub async fn execute_tool(
 ) -> ToolResult {
     match name {
         "save_note" => exec_save_note(args, knowledge_root, locale),
+        "update_plan" => exec_update_plan(args, knowledge_root, locale),
         "search_library" => exec_search_library(args, knowledge_root, locale),
         "read_note" => exec_read_note(args, knowledge_root),
         "suggest_memory" => ToolResult {
@@ -234,6 +263,78 @@ fn exec_save_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
                 ),
             }
         }
+        Err(e) => ToolResult {
+            success: false,
+            output: format!("Failed to write {}: {e}", file_path.display()),
+        },
+    }
+}
+
+// ── update_plan ──
+
+fn exec_update_plan(args: &Value, root: &Path, _locale: &str) -> ToolResult {
+    if !args.is_object() {
+        return ToolResult {
+            success: false,
+            output: "Invalid update_plan arguments: expected a JSON object with a non-empty \
+                'module' and a non-empty 'content' string. Retry with complete arguments."
+                .into(),
+        };
+    }
+    let module = match args.pointer("/module").and_then(Value::as_str) {
+        Some(m) if !m.trim().is_empty() => m.trim(),
+        _ => {
+            return ToolResult {
+                success: false,
+                output: "Missing or empty 'module' — update_plan requires 'module' to be one of: \
+                    exercise, supplements, diet, daily_routine. Retry with complete arguments."
+                    .into(),
+            }
+        }
+    };
+    let content = match args.pointer("/content").and_then(Value::as_str) {
+        Some(c) if !c.trim().is_empty() => c.trim(),
+        _ => {
+            return ToolResult {
+                success: false,
+                output: "Missing or empty 'content' — update_plan requires the full Markdown \
+                    content for the plan page. Retry with complete arguments."
+                    .into(),
+            }
+        }
+    };
+    let filename = match module {
+        "exercise" => "exercise.md",
+        "supplements" => "supplements.md",
+        "diet" => "diet.md",
+        "daily_routine" => "daily-routine.md",
+        _ => {
+            return ToolResult {
+                success: false,
+                output: format!(
+                    "Invalid module '{module}' — must be one of: exercise, supplements, diet, \
+                     daily_routine."
+                ),
+            }
+        }
+    };
+
+    let dir = root.join("plans");
+    if let Err(e) = fs::create_dir_all(&dir) {
+        return ToolResult {
+            success: false,
+            output: format!("Cannot create directory {}: {e}", dir.display()),
+        };
+    }
+    let file_path = dir.join(filename);
+    match fs::write(&file_path, format!("{content}\n")) {
+        Ok(_) => ToolResult {
+            success: true,
+            output: format!(
+                "Updated plans/{filename} ({chars} chars)",
+                chars = content.chars().count()
+            ),
+        },
         Err(e) => ToolResult {
             success: false,
             output: format!("Failed to write {}: {e}", file_path.display()),
@@ -420,5 +521,34 @@ mod tests {
         assert!(!result.success);
         assert!(result.output.contains("Missing or empty 'query'"));
         assert!(result.output.contains("Retry"));
+    }
+
+    #[test]
+    fn update_plan_writes_module_page() {
+        let dir = std::env::temp_dir().join(format!("ol-update-plan-test-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let result = exec_update_plan(
+            &json!({"module": "exercise", "content": "# 运动计划\n\n每天深蹲 100 个"}),
+            &dir,
+            "zh",
+        );
+        assert!(result.success, "{}", result.output);
+        let body = fs::read_to_string(dir.join("plans").join("exercise.md")).unwrap();
+        assert!(body.contains("每天深蹲 100 个"));
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn update_plan_rejects_invalid_module_and_empty_content() {
+        let dir =
+            std::env::temp_dir().join(format!("ol-update-plan-test-{}-b", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let bad = exec_update_plan(&json!({"module": "unknown", "content": "x"}), &dir, "zh");
+        assert!(!bad.success);
+        assert!(bad.output.contains("Invalid module"));
+        let empty = exec_update_plan(&json!({"module": "exercise", "content": ""}), &dir, "zh");
+        assert!(!empty.success);
+        assert!(empty.output.contains("Missing or empty 'content'"));
+        let _ = fs::remove_dir_all(&dir);
     }
 }
