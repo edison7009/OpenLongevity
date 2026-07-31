@@ -290,6 +290,7 @@ interface NavigationLocation {
   supplementId?: string;
   personId?: string;
   storyId?: string;
+  filePath?: string;
 }
 
 const FAVORITES_SEED_FLAG = 'openlongevity:favorites-seeded:v1';
@@ -683,6 +684,22 @@ function App() {
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [activePlanSection, setActivePlanSection] = useState<PlanSection>('supplements');
+  const [fileNotePath, setFileNotePath] = useState<string | null>(null);
+  const libraryRootRef = useRef(library.root || knowledgeRoot || '');
+  libraryRootRef.current = library.root || knowledgeRoot || '';
+  const fileNotePathRef = useRef(fileNotePath);
+  fileNotePathRef.current = fileNotePath;
+
+  const fileNoteTitle = useMemo(() => {
+    if (!fileNotePath) return '';
+    const sectionId = (Object.keys(PLAN_SECTION_FILES) as Array<Exclude<PlanSection, 'log'>>).find(
+      (id) => PLAN_SECTION_FILES[id] === fileNotePath,
+    );
+    if (sectionId) {
+      return getPlanSections(locale).find((section) => section.id === sectionId)?.title || '';
+    }
+    return fileNotePath.split('/').pop()?.replace(/\.md$/, '') || fileNotePath;
+  }, [fileNotePath, locale]);
   const [noteMarkdown, setNoteMarkdown] = useState('');
   const [noteLoading, setNoteLoading] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -915,7 +932,8 @@ function App() {
     if (nextView !== 'supplement') setSelectedSupplement(null);
     if (nextView !== 'person') setSelectedPerson(null);
     if (nextView !== 'story') setSelectedStory(null);
-    if (!['supplement', 'person', 'story'].includes(nextView)) setNoteMarkdown('');
+    if (nextView !== 'file') setFileNotePath(null);
+    if (!['supplement', 'person', 'story', 'file'].includes(nextView)) setNoteMarkdown('');
   };
 
   const restoreLocation = (location: NavigationLocation) => {
@@ -940,6 +958,10 @@ function App() {
         return;
       }
     }
+    if (location.view === 'file' && location.filePath) {
+      openFileNote(location.filePath, false);
+      return;
+    }
     navigate(location.view, false);
   };
 
@@ -948,9 +970,33 @@ function App() {
     restoreLocation(previous || { view: 'home' });
   };
 
+  const openFileNote = (filePath: string, remember = true) => {
+    if (remember) rememberCurrentLocation({ view: 'file', filePath });
+    setView('file');
+    setFileNotePath(filePath);
+    setSelectedSupplement(null);
+    setSelectedPerson(null);
+    setSelectedStory(null);
+    setNoteLoading(true);
+    readNote(library.root, filePath)
+      .then((raw) => setNoteMarkdown(raw))
+      .catch(() =>
+        setNoteMarkdown(
+          locale === 'zh'
+            ? `# 无法打开\n\n找不到文件 \`${filePath}\`。`
+            : `# Cannot open\n\nFile \`${filePath}\` not found.`,
+        ),
+      )
+      .finally(() => setNoteLoading(false));
+  };
+
   const openPlanSection = (section: PlanSection) => {
     setActivePlanSection(section);
-    navigate('plan');
+    if (section === 'log') {
+      navigate('log');
+      return;
+    }
+    openFileNote(PLAN_SECTION_FILES[section]);
   };
 
   const openInternalNote = (target: Omit<InternalNoteTarget, 'label'>) => {
@@ -1211,6 +1257,23 @@ function App() {
   useEffect(() => {
     let unlisten: (() => void) | null = null;
     let cancelled = false;
+    const refreshLibraryAfterAgent = async () => {
+      const root = libraryRootRef.current;
+      try {
+        const snapshot = await loadLibrary(root || undefined, locale);
+        setLibrary(snapshot);
+      } catch {
+        // Best-effort refresh after AI tools modify the library.
+      }
+      const openPath = fileNotePathRef.current;
+      if (openPath && root) {
+        try {
+          setNoteMarkdown(await readNote(root, openPath));
+        } catch {
+          // Keep the current content if the file cannot be read again.
+        }
+      }
+    };
     listenAgentEvents((event: AgentEvent) => {
       if (cancelled) return;
       if (event.conversationId && activeConversationId && event.conversationId !== activeConversationId) {
@@ -1275,6 +1338,7 @@ function App() {
           break;
         case 'done':
           setChatBusy(false);
+          void refreshLibraryAfterAgent();
           break;
         case 'error':
           setChatMessages((prev) => [
@@ -1287,6 +1351,7 @@ function App() {
             },
           ]);
           setChatBusy(false);
+          void refreshLibraryAfterAgent();
           break;
       }
     }).then((fn) => {
@@ -1566,11 +1631,33 @@ function App() {
                 <PlanView
                   locale={locale}
                   activeSection={activePlanSection}
-                  onSection={setActivePlanSection}
+                  onSection={openPlanSection}
                   onBack={goBack}
                   t={t}
-                  libraryRoot={library.root || knowledgeRoot}
                 />
+              )}
+              {view === 'file' && fileNotePath && (
+                <NoteView
+                  eyebrow={locale === 'zh' ? '本地笔记' : 'Local note'}
+                  title={fileNoteTitle}
+                  markdown={noteMarkdown}
+                  loading={noteLoading}
+                  locale={locale}
+                  currentTarget={{ kind: 'file', id: fileNotePath }}
+                  internalTargets={internalNoteTargets}
+                  onInternalNavigate={openInternalNote}
+                  favorite={isFavorite({ kind: 'file', id: fileNotePath })}
+                  onToggleFavorite={() => toggleFavorite({ kind: 'file', id: fileNotePath })}
+                  onBack={goBack}
+                />
+              )}
+              {view === 'log' && (
+                <div className="page plan-view">
+                  <div className="page-kicker-row">
+                    <PageBackButton locale={locale} onBack={goBack} />
+                  </div>
+                  <HealthLogPanel locale={locale} />
+                </div>
               )}
             </>
           )}
@@ -2865,46 +2952,14 @@ function PlanView({
   onSection,
   onBack,
   t,
-  libraryRoot,
 }: {
   locale: Locale;
   activeSection: PlanSection;
   onSection: (section: PlanSection) => void;
   onBack: () => void;
   t: (key: TranslationKey) => string;
-  libraryRoot: string;
 }) {
   const sections = getPlanSections(locale);
-  const active = sections.find((section) => section.id === activeSection) || sections[0];
-  const planFile =
-    activeSection === 'log'
-      ? ''
-      : PLAN_SECTION_FILES[activeSection as Exclude<PlanSection, 'log'>];
-  const [planMarkdown, setPlanMarkdown] = useState('');
-  const [planLoading, setPlanLoading] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    if (activeSection === 'log') {
-      setPlanMarkdown('');
-      setPlanLoading(false);
-      return;
-    }
-    setPlanLoading(true);
-    readNote(libraryRoot, planFile)
-      .then((markdown) => {
-        if (!cancelled) setPlanMarkdown(markdown);
-      })
-      .catch(() => {
-        if (!cancelled) setPlanMarkdown('');
-      })
-      .finally(() => {
-        if (!cancelled) setPlanLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [activeSection, libraryRoot, planFile]);
 
   return (
     <div className="page plan-view">
@@ -2937,37 +2992,6 @@ function PlanView({
           </button>
         ))}
       </div>
-
-      {activeSection === 'log' ? (
-        <HealthLogPanel locale={locale} />
-      ) : (
-      <div className="plan-focus">
-        <span className="plan-focus-icon" style={{ background: active.accent }}>
-          {active.icon}
-        </span>
-        <div>
-          <small>{locale === 'zh' ? '当前计划' : 'Current plan'}</small>
-          <strong>{active.title}</strong>
-        </div>
-        {planLoading ? (
-          <div className="loading-state compact">
-            <LoaderCircle className="spin" size={18} />
-          </div>
-        ) : (
-          <div className="markdown-body plan-note-body">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{planMarkdown}</ReactMarkdown>
-          </div>
-        )}
-        <div>
-          <p>
-            {locale === 'zh'
-              ? '在下方对话中告诉 AI 你的目标、现状和限制，它会用 update_plan 更新这个页面。'
-              : 'Tell AI your goals, status, and constraints below; it updates this page with update_plan.'}
-          </p>
-          <span className="plan-file">{planFile}</span>
-        </div>
-      </div>
-      )}
     </div>
   );
 }

@@ -286,7 +286,10 @@ fn build_system_prompt(locale: &str, user_profile: &str, memory_context: &str) -
          plus a daily health log. When the user asks you to organize or update one of these plans, call \
          update_plan with the matching module and write the full page in its standard format (goals, \
          current status, concrete arrangements, review notes). Prefer update_plan over save_note for plan \
-         content; save_note is for general notes. Use suggest_memory only for durable user-confirmed goals, preferences, constraints, corrections, profile facts, or health context worth reusing in future conversations. \
+         content; save_note is for general notes. The home strategy map (T1–T5) is driven by \
+         catalog/strategies.csv; use update_tier to reassign an item's tier ('pending' hides it). To \
+         edit any existing note, including its frontmatter and sources, use update_note with the \
+         relative path and the full new content. Use suggest_memory only for durable user-confirmed goals, preferences, constraints, corrections, profile facts, or health context worth reusing in future conversations. \
          suggest_memory only proposes a memory candidate; the user must confirm before it is saved. \
          When answering questions about the library, use search_library and read_note to ground your answers in actual notes. \
          The user's local notes are your primary memory. Cite the note path in parentheses when a \

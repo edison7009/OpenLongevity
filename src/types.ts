@@ -1,5 +1,15 @@
 export type Locale = 'zh' | 'en';
-export type View = 'home' | 'ai' | 'supplement' | 'people' | 'person' | 'stories' | 'story' | 'plan';
+export type View =
+  | 'home'
+  | 'ai'
+  | 'supplement'
+  | 'people'
+  | 'person'
+  | 'stories'
+  | 'story'
+  | 'plan'
+  | 'file'
+  | 'log';
 
 export interface Supplement {
   id: string;
