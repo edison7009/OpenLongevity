@@ -4,10 +4,10 @@
 
 目录约定：
 
-- `catalog/`：长寿策略与内容索引；
+- `catalog/`：延寿策略与内容索引；
 - `dossiers/`：运动、饮食、补充剂等策略档案；
 - `cases/`：公开人物与方案案例；
-- `stories/`：地区、文化与历史中的长寿轶事；新增 Markdown 会被自动发现；
+- `stories/`：地区、文化与历史中的延寿轶事；新增 Markdown 会被自动发现；
 - `papers/`：论文记录；
 - `sources/`：来源登记；
 - `products/`：产品与品牌质量记录；
@@ -28,6 +28,6 @@
 
 - `[力量训练](#/supplement/strength-training)`
 - `[Bryan Johnson](#/person/bryan-johnson)`
-- `[日本冲绳的长寿文化](#/story/okinawa-longevity)`
+- `[日本冲绳的延寿文化](#/story/okinawa-longevity)`
 
 链接末尾使用相应文章 frontmatter 中的 `id`。站内链接只在 Open Longevity 内切换文章；外部参考网站仍由系统默认浏览器打开。

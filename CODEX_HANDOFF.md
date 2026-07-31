@@ -9,7 +9,9 @@ or temporary deployment credentials.
 ## Product identity
 
 - Product name: **Open Longevity** (always include the space in visible text).
-- Chinese product name: **科学长寿**.
+- Chinese product name: **科学延寿**. Use **延寿** consistently in Chinese
+  product, website, documentation, and starter-library copy; keep the previous
+  product-domain term out of new copy.
 - Version: **0.0.8**.
 - Goal: a productized, local-first scientific-longevity desktop application for
   Windows, macOS, and Linux—not a personal wrapper around the developer's notes.
@@ -68,7 +70,7 @@ to the product template.
 ## Desktop experience decisions
 
 - Visible desktop slogan remains:
-  **由 AI 和科学来驱动，你的长寿计划**
+  **由 AI 和科学来驱动，你的延寿计划**
 - Left navigation label is **首页 / Home**.
 - Left navigation is one fixed hierarchical tree: top-level categories expand
   to second-level notes. People and longevity anecdotes are expandable too.
@@ -175,7 +177,7 @@ to the product template.
 - Website hero:
   - Chinese: **让 AI 与科学，照亮你的生命之树**
   - English: **Let AI and science illuminate your Tree of Life**
-- Website hero lead: **富豪花费百万美元享受科技带来的长寿，而 Open
+- Website hero lead: **富豪花费百万美元借助科技延寿，而 Open
   Longevity 希望把生命之光同样带给普通家庭**. A smaller supporting line
   states that it uses Bryan Johnson's publicly documented longevity plan as a
   blueprint and combines AI with scientific evidence so ordinary people can
@@ -192,7 +194,7 @@ to the product template.
 - The scrolling T1–T5 strip is bilingual; strategy names are the same enlarged
   size as the T1–T5 labels.
 - Open manifesto section:
-  - **科学长寿，不应该是富豪专属。**
+  - **科学延寿，不应该是富豪专属。**
   - Three principles: 开放知识 / 可验证证据 / 开源工具.
 - Product-section title:
   - Chinese: **AI + 科学的时代**

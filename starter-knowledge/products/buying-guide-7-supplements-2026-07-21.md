@@ -44,7 +44,7 @@ scope: 肌酸、可溶性膳食纤维、维生素 D3、镁、NMN/NR、麦角硫�
 | 人物 | 身份 | 使用记录 | 来源类型 |
 |---|---|---|---|
 | Bryan Johnson | 企业家 / Blueprint | 当前协议额外补充 5 g 肌酸（Blueprint 产品）；早期使用 Thorne Creatine | 当前：本人协议；早期：公开报道，`needs-source-check` |
-| Peter Attia | 长寿医学医生 / 《Outlive》作者 | 公开推荐每日 5 g 肌酸一水合物，强调配合力量训练；使用 Thorne | 本人播客和书籍，`needs-source-check` |
+| Peter Attia | 延寿医学医生 / 《Outlive》作者 | 公开推荐每日 5 g 肌酸一水合物，强调配合力量训练；使用 Thorne | 本人播客和书籍，`needs-source-check` |
 | Andrew Huberman | 斯坦福神经科学家 | 在播客中推荐每日 5 g 肌酸一水合物；合作品牌 Momentous 和 Thorne | 本人播客；有品牌合作关系，`sponsored` 需标注 |
 | Joe Rogan | 播客主持人 | 在节目中多次提到使用肌酸 | 媒体转述，`needs-source-check` |
 
@@ -191,7 +191,7 @@ scope: 肌酸、可溶性膳食纤维、维生素 D3、镁、NMN/NR、麦角硫�
 | 产品 | 每份 | 认证/质量信号 | 参考价 | 备注 |
 |---|---|---|---|---|
 | **ProHealth Longevity NMN Pro**（粉剂/胶囊） | 500 mg / 份 | Uthever 原料；提供批次 COA | ~40 USD / 30 份 | NMN 中透明度较高 |
-| **DoNotAge NMN**（粉剂） | 500 mg / 份 | 第三方检测报告 | ~35 USD / 30 份 | 英国品牌；长寿专注 |
+| **DoNotAge NMN**（粉剂） | 500 mg / 份 | 第三方检测报告 | ~35 USD / 30 份 | 英国品牌；专注延寿 |
 | **Alive by Science NMN** | 500 mg / 粒 | 有产品标签 | ~30 USD | 中间选择 |
 
 **关键原则**：
@@ -254,7 +254,7 @@ Sinclair 是 NMN 研究的代表性人物，但他同时与多家 NMN 公司存�
 | Bruce Ames | 加州大学伯克利教授；提出"麦角硫因应被视为一种维生素（longevity vitamin）"的假说 | 学术论文和采访，`needs-source-check` |
 
 ::: warning 注意
-麦角硫因的"长寿维生素"叙事主要来自 Bruce Ames 的假说性论文，**不是已建立的临床共识**。人体证据仍非常早期。
+麦角硫因的"延寿维生素"叙事主要来自 Bruce Ames 的假说性论文，**不是已建立的临床共识**。人体证据仍非常早期。
 :::
 
 ---
@@ -265,7 +265,7 @@ Sinclair 是 NMN 研究的代表性人物，但他同时与多家 NMN 公司存�
 
 | 产品 | 每份 | 认证/质量信号 | 参考价 | 备注 |
 |---|---|---|---|---|
-| **DoNotAge Ca-AKG**（粉剂/胶囊） | 500–1000 mg / 份 | 第三方检测；长寿专注 | ~30 USD | 成分单一；透明度较好 |
+| **DoNotAge Ca-AKG**（粉剂/胶囊） | 500–1000 mg / 份 | 第三方检测；专注延寿 | ~30 USD | 成分单一；透明度较好 |
 | **ProHealth Longevity Ca-AKG** | 500 mg / 粒 | 有批次信息 | ~25 USD | 中间选择 |
 | **Rejuvant**（Ca-AKG + 维生素复方） | 复方 | 人体观察性报告使用的产品 | ~60 USD | 复方（Ca-AKG + 维生素）；有商业关系 |
 | **Double Wood Ca-AKG** | 500 mg / 粒 | 有产品标签 | ~15 USD | 预算选项；透明度一般 |
@@ -318,7 +318,7 @@ Sinclair 是 NMN 研究的代表性人物，但他同时与多家 NMN 公司存�
 | 人物 | 身份 | 与这 7 种补剂的公开关系 | 商业关系 |
 |---|---|---|---|
 | **Bryan Johnson** | 企业家 / Blueprint 创始人 | 当前方案包含肌酸、D3、镁、NMN/NR、益生元纤维等（全部 Blueprint 产品）；早期使用 Thorne、Nordic Naturals 等第三方品牌 | Blueprint 是自有品牌，所有当前使用记录都有商业利益 |
-| **Peter Attia** | 长寿医学医生 / 《Outlive》作者 | 公开推荐肌酸 5 g、镁（甘氨酸镁/苏糖酸镁）、D3（先测后补）、Omega-3；对 NMN/NR 持谨慎态度；强调食物纤维优先 | 与 Thorne 有合作关系 |
+| **Peter Attia** | 延寿医学医生 / 《Outlive》作者 | 公开推荐肌酸 5 g、镁（甘氨酸镁/苏糖酸镁）、D3（先测后补）、Omega-3；对 NMN/NR 持谨慎态度；强调食物纤维优先 | 与 Thorne 有合作关系 |
 | **Andrew Huberman** | 斯坦福神经科学家 / Huberman Lab | 推荐肌酸 5 g、苏糖酸镁 145 mg（睡前）、D3（先测后补）；讨论过 NMN/NR 但态度谨慎 | 与 Momentous 和 Thorne 有品牌合作关系 |
 | **David Sinclair** | 哈佛衰老研究者 / 《Lifespan》作者 | 公开表示每日 NMN 1 g；提到过 AKG；维生素 D | 与多家 NMN/NAD 公司存在商业关系（联合创始人、顾问或股东） |
 | **Joe Rogan** | 播客主持人 / UFC 解说 | 在节目中提到使用肌酸、镁、D3 | Onnit（Alpha Brain）创始人；节目中经常有品牌赞助 |
@@ -334,13 +334,13 @@ Sinclair 是 NMN 研究的代表性人物，但他同时与多家 NMN 公司存�
 | **Thorne** | 高端 / 功能医学 | NSF 认证产品线广；粉剂方便；运动员可用 | 价格较高；不是所有产品都有 NSF |
 | **Momentous** | 高端 / 运动 | NSF Certified for Sport；Huberman 合作 | 价格高；产品线较窄 |
 | **NOW Foods** | 性价比之王 | GMP；产品线极广；价格低 | 没有产品级独立认证（主要靠 GMP） |
-| **Life Extension** | 中高端 / 长寿圈 | 透明度较高；部分产品有 IFOS 等认证 | 不是所有产品都有独立认证 |
+| **Life Extension** | 中高端 / 延寿圈 | 透明度较高；部分产品有 IFOS 等认证 | 不是所有产品都有独立认证 |
 | **Nordic Naturals** | 鱼油专家 | 鱼油/藻油领域知名度高；有 COA 查询 | 非鱼油产品不是强项 |
 | **Doctor's Best** | 性价比 | 使用专利原料（如 Albion 螯合镁）；价格低 | 独立认证较少 |
 | **Pure Encapsulations** | 低敏 / 专业 | 无常见过敏原；医疗渠道 | 价格较高 |
 | **Jarrow Formulas** | 中端 / 专业 | 特定成分（GOS、益生菌）有优势 | 不是所有产品都有独立认证 |
-| **ProHealth Longevity** | 长寿专注 | NAD 前体和长寿补剂专注；有 COA | 产品线窄；价格中高 |
-| **DoNotAge** | 长寿专注 / 英国 | 第三方检测；长寿补剂专注 | 跨境运输时间和温度需考虑 |
+| **ProHealth Longevity** | 专注延寿 | NAD 前体和专注延寿补剂；有 COA | 产品线窄；价格中高 |
+| **DoNotAge** | 专注延寿 / 英国 | 第三方检测；专注延寿补剂 | 跨境运输时间和温度需考虑 |
 | **Tru Niagen (ChromaDex)** | NR 专一 | NR 人体试验几乎全部使用此原料 | 只卖 NR；价格不低 |
 | **BulkSupplements** | 极致性价比 | 大包装；第三方检测 | 包装简陋；无产品级认证 |
 

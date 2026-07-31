@@ -14,7 +14,7 @@ audit_date: 2026-07-20
 # Ca-AKG
 
 ::: tip 30 秒结论
-AKG 是人体能量代谢中的天然中间体，Ca-AKG 是它的钙盐补剂形式。2020 年发表在 Cell Metabolism 的研究确认：Ca-AKG 延长小鼠寿命并压缩疾病期；人体研究中 DNA 甲基化生物年龄平均下降约 8 年，4,260 人队列观察到使用者生物年龄更低。Bryan Johnson 方案采纳。**这是机制与动物长寿证据明确、人体验证正在推进的 T4 候选。**
+AKG 是人体能量代谢中的天然中间体，Ca-AKG 是它的钙盐补剂形式。2020 年发表在 Cell Metabolism 的研究确认：Ca-AKG 延长小鼠寿命并压缩疾病期；人体研究中 DNA 甲基化生物年龄平均下降约 8 年，4,260 人队列观察到使用者生物年龄更低。Bryan Johnson 方案采纳。**这是机制与动物延寿证据明确、人体验证正在推进的 T4 候选。**
 :::
 
 | 快速判断 | 当前答案 |
@@ -79,7 +79,7 @@ DNA 甲基化时钟是当前衰老研究最重要的替代终点之一，相关�
 - 疾病或死亡风险变化；
 - 多个时钟与多个实验室的交叉验证。
 
-Open Longevity 把甲基化时钟归为替代终点，并与功能结局结合判断 Ca-AKG 的长寿价值。
+Open Longevity 把甲基化时钟归为替代终点，并与功能结局结合判断 Ca-AKG 的延寿价值。
 
 ## 食物、AKG 与 Ca-AKG
 
@@ -113,7 +113,7 @@ Ca-AKG 会增加钙暴露，需考虑总钙摄入、肾结石和钙代谢异常�
 ## Tier 判断
 
 - 当前 Tier：**T4**；
-- 支持理由：Cell Metabolism 确认动物长寿与疾病期压缩；人体生物年龄改善信号明确；ABLE 等随机试验正在进行；Bryan Johnson 方案采纳；
+- 支持理由：Cell Metabolism 确认动物延寿与疾病期压缩；人体生物年龄改善信号明确；ABLE 等随机试验正在进行；Bryan Johnson 方案采纳；
 - 适用边界：当前人体数据以生物年龄替代终点为主，随机试验疗效结果值得期待；
 - 会改变判断的证据：预注册随机试验在多个时钟与功能结局上的结果发布，以及长期随访数据。
 
@@ -131,7 +131,7 @@ Ca-AKG 会增加钙暴露，需考虑总钙摄入、肾结石和钙代谢异常�
 - [ClinicalTrials.gov NCT05706389](https://clinicaltrials.gov/study/NCT05706389).
 - [ClinicalTrials.gov NCT07114536](https://clinicaltrials.gov/study/NCT07114536).
 
-检索式、本地快照和筛选边界见 [前沿长寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
+检索式、本地快照和筛选边界见 [前沿延寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
 
 ## 研究审计
 

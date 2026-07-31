@@ -14,7 +14,7 @@ audit_date: 2026-07-20
 # NAD+
 
 ::: tip 30 秒结论
-NMN 和 NR 是两种不同的 NAD⁺ 前体。NAD⁺ 代谢研究多次发表在 Science、Nature、Cell 等顶级期刊，是长寿研究最核心的通路之一；人体随机试验确认它们能显著提升血液 NAD⁺ 水平，部分研究观察到步速、睡眠与代谢指标的积极信号。**Bryan Johnson 方案采纳（NR 450 mg 或 NMN 500 mg）。**
+NMN 和 NR 是两种不同的 NAD⁺ 前体。NAD⁺ 代谢研究多次发表在 Science、Nature、Cell 等顶级期刊，是延寿研究最核心的通路之一；人体随机试验确认它们能显著提升血液 NAD⁺ 水平，部分研究观察到步速、睡眠与代谢指标的积极信号。**Bryan Johnson 方案采纳（NR 450 mg 或 NMN 500 mg）。**
 :::
 
 | 快速判断 | 当前答案 |
@@ -64,7 +64,7 @@ NMN 与 NR 都能进入 NAD⁺ 合成路线，但不是同一个分子。服用�
 
 | 证据层级 | 观察到什么 | 能说明什么 |
 |---|---|---|
-| 机制与动物 | NAD⁺ 通路、代谢和修复相关信号 | 发表在 Science、Nature、Cell，构成长寿研究核心 |
+| 机制与动物 | NAD⁺ 通路、代谢和修复相关信号 | 发表在 Science、Nature、Cell，构成延寿研究核心 |
 | 生化指标 | 血液 NAD⁺ 或代谢物上升 | 通路被触达 |
 | 小型人体试验 | 步速、睡眠、代谢等终点出现积极信号 | Bryan Johnson 方案已采纳 |
 | 功能荟萃 | 短周期试验汇总影响未达显著 | 更长周期试验推进中 |
@@ -121,9 +121,9 @@ NMN 与 NR 都能进入 NAD⁺ 合成路线，但不是同一个分子。服用�
 | 诊所 | 位置 | 项目 | 备注 |
 |---|---|---|---|
 | Bianca Clinic | 银座、表参道 | NAD+ IV 点滴 & 注射 | 2025-05 新上线；引用"哈佛 + 庆应大学"做营销 |
-| Artisan Clinic | 日比谷 | NAD+ IV 疗法 | 主打能量、专注、长寿 |
+| Artisan Clinic | 日比谷 | NAD+ IV 疗法 | 主打能量、专注、延寿 |
 | Cell Grand Clinic | 东京 | NMN IV 点滴 | 强调"大学测试配方" |
-| Rakan Clinic | 东京 | NMN + NAD+ IV | 定位"长寿科学" |
+| Rakan Clinic | 东京 | NMN + NAD+ IV | 定位"延寿科学" |
 | Smart Clinic | 银座 | NMN 点滴 + 外泌体 + 高浓度维生素 | 综合抗衰套餐 |
 
 ### 为什么日本特别多
@@ -159,7 +159,7 @@ NMN 与 NR 都能进入 NAD⁺ 合成路线，但不是同一个分子。服用�
 - Martens CR, et al. [NR 在健康中老年人的交叉试验](https://pubmed.ncbi.nlm.nih.gov/29599478/), 2018.
 - [ClinicalTrials.gov NCT04691986](https://clinicaltrials.gov/study/NCT04691986).
 
-检索式、本地快照和筛选边界见 [前沿长寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
+检索式、本地快照和筛选边界见 [前沿延寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
 
 ## 研究审计
 

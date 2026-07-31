@@ -169,7 +169,7 @@ export const fallbackPeople: Person[] = [
     id: 'peter-attia',
     name: 'Peter Attia',
     nameZh: '彼得·阿提亚',
-    summary: '以运动、代谢健康和风险管理为核心的长寿医学方案。',
+    summary: '以运动、代谢健康和风险管理为核心的延寿医学方案。',
     filePath: 'cases/peter-attia-protocol.md',
     accent: '#e1eee8',
   },
@@ -210,7 +210,7 @@ export const fallbackPeople: Person[] = [
 export const fallbackStories: Story[] = [
   {
     id: 'okinawa-longevity',
-    title: '日本冲绳的长寿文化',
+    title: '日本冲绳的延寿文化',
     titleEn: 'Longevity culture in Okinawa, Japan',
     summary: '从传统饮食、日常活动、社会联结与长期百岁老人研究理解冲绳案例。',
     summaryEn: 'A field note on traditional diet, daily movement, social ties, and long-running centenarian research.',
@@ -317,9 +317,9 @@ export const fallbackMarkdown: Record<string, string> = {
 ## 当前等级
 
 T5：前沿探索。`,
-  'stories/okinawa-longevity.md': `# 日本冲绳的长寿文化
+  'stories/okinawa-longevity.md': `# 日本冲绳的延寿文化
 
-> 冲绳案例真正值得记录的，不是某一种“长寿秘诀”，而是饮食、活动、社会关系、文化与遗传背景长期共同作用的观察窗口。
+> 冲绳案例真正值得记录的，不是某一种“延寿秘诀”，而是饮食、活动、社会关系、文化与遗传背景长期共同作用的观察窗口。
 
 ## 为什么冲绳受到关注
 
@@ -330,11 +330,11 @@ T5：前沿探索。`,
 - 传统饮食以营养密度较高的植物性食物为主，同时包含豆制品、海产品等本地食物；
 - 日常生活包含自然活动，而不只依赖集中式锻炼；
 - 家庭、邻里与稳定社交网络可能提供长期支持；
-- 极端长寿同时受到遗传、时代和生活环境影响。
+- 极高寿命同时受到遗传、时代和生活环境影响。
 
 ## 不应如何解读
 
-这是一组人口与文化观察，不能证明照搬冲绳食谱或某个习惯就能延长寿命。可迁移的是整体模式与长期执行，不是被商业包装后的单一“秘诀”。`,
+这是一组人口与文化观察，不能证明照搬冲绳食谱或某个习惯就能延寿。可迁移的是整体模式与长期执行，不是被商业包装后的单一“秘诀”。`,
   'cases/bryan-johnson-daily.md': `# Bryan Johnson 的一天与一周
 
 Bryan Johnson 的公开方案适合用作一个持续更新的观察窗口：它把睡眠、饮食、训练、检测和医疗干预放在同一个迭代系统中。

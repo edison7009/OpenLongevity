@@ -810,7 +810,7 @@ fn load_stories(root: &Path, locale: &str) -> Vec<Story> {
                 title,
                 title_en: extract_frontmatter_value(&markdown, "title_en"),
                 summary: if summary.is_empty() {
-                    "一则来自本地资料库的长寿观察。".to_string()
+                    "一则来自本地资料库的延寿观察。".to_string()
                 } else {
                     summary
                 },
@@ -2442,7 +2442,7 @@ mod tests {
 
     #[test]
     fn utf8_truncation_stays_on_character_boundaries() {
-        assert_eq!(truncate_utf8("科学长寿", 7), "科学…");
+        assert_eq!(truncate_utf8("科学延寿", 7), "科学…");
     }
 
     #[test]
@@ -2607,7 +2607,7 @@ mod tests {
         }
         let stories = load_stories(&root, "zh");
         assert_eq!(stories.len(), 1);
-        assert_eq!(stories[0].title, "日本冲绳的长寿文化");
+        assert_eq!(stories[0].title, "日本冲绳的延寿文化");
         let supplements = load_supplements(&root, "zh");
         let nad = supplements
             .iter()
@@ -2694,7 +2694,7 @@ mod tests {
 
         fs::write(
             root.join("stories/my-observation.md"),
-            "---\ntitle: 我的观察\n---\n\n# 我的观察\n\n这是一篇用户自行添加的长寿轶事文章。",
+            "---\ntitle: 我的观察\n---\n\n# 我的观察\n\n这是一篇用户自行添加的延寿轶事文章。",
         )
         .expect("custom story should be writable");
         let stories = load_stories(&root, "zh");

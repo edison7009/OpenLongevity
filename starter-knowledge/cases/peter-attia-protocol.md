@@ -8,7 +8,7 @@ commercial_note: 与 Thorne 存在合作/代言关系，相关品牌记录为 sp
 
 # Peter Attia 的方案
 
-Peter Attia，长寿医学医生、前外科医生，《Outlive: The Science and Art of Longevity》作者、The Drive 播客主理人。他的定位是**把医学从"治病"转向"防病 + 延长健康寿命"**，方案以运动为第一杠杆、以可测量指标驱动，补剂态度相对克制。
+Peter Attia，延寿医学医生、前外科医生，《Outlive: The Science and Art of Longevity》作者、The Drive 播客主理人。他的定位是**把医学从"治病"转向"防病 + 延长健康寿命"**，方案以运动为第一杠杆、以可测量指标驱动，补剂态度相对克制。
 
 ::: tip 阅读方式
 本页记录 Attia 的公开框架与做法，用于发现值得进一步研究的策略，不等于 Open Longevity 对剂量、处方或品牌的推荐。尚未逐条归档一手来源的内容标为 `needs-source-check`；与 Thorne 的合作关系单独披露。
@@ -33,7 +33,7 @@ Peter Attia，长寿医学医生、前外科医生，《Outlive: The Science and
 | B12 / 甲基化相关 | 按需，结合检测 | |
 
 ::: warning 与 Bryan 的分歧（如实记录，不替用户裁决）
-Attia 对 **NMN / NR、白藜芦醇、亚精胺**等“长寿分子”公开持较保留态度，而 Bryan Johnson 使用 NR/NMN。人物之间的分歧本身是信息，但最终判断应回到对应策略档案、来源和个人适用条件。
+Attia 对 **NMN / NR、白藜芦醇、亚精胺**等“延寿分子”公开持较保留态度，而 Bryan Johnson 使用 NR/NMN。人物之间的分歧本身是信息，但最终判断应回到对应策略档案、来源和个人适用条件。
 :::
 
 ## 训练（他认为的第一杠杆，"没有之一"）

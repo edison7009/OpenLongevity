@@ -3058,7 +3058,7 @@ function RightRail({
               <div>
                 <strong>
                   {library.noteCount}{' '}
-                  {locale === 'zh' ? '篇科学长寿资料' : 'scientific longevity resources'}
+                  {locale === 'zh' ? '篇科学延寿资料' : 'scientific longevity resources'}
                 </strong>
                 <small>
                   {locale === 'zh'

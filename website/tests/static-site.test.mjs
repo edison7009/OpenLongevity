@@ -28,7 +28,7 @@ test("website is directly deployable without a build step", async () => {
   assert.equal((html.match(/film-section/g) ?? []).length, 6);
   assert.match(stylesheet, /textures\/analog-film-grain\.webp/);
   assert.match(html, /data-i18n="heroDetail"/);
-  assert.match(javascript, /富豪花费百万美元享受科技带来的长寿/);
+  assert.match(javascript, /富豪花费百万美元借助科技延寿/);
   assert.match(javascript, /以 Bryan Johnson 公开的延寿计划为蓝本/);
   assert.match(javascript, /install:\s*"安装 Open Longevity"/);
   assert.match(javascript, /star:\s*"在 GitHub 上点星"/);

@@ -12,7 +12,7 @@
 | 人物 | 案例价值 | 当前结论 | 档案 |
 |---|---|---|---|
 | Bryan Johnson | 高强度检测、补剂与医疗干预的公开方案 | 适合发现候选，但商业产品、个人处方和疗效证据必须分开 | [当前公开方案](../sources/bryan-johnson-current-protocol.md) |
-| Peter Attia | 长寿医学医生、《Outlive》作者；运动为第一杠杆、补剂克制 | 权威方案，直接采纳；与 Thorne 合作关系单独披露 | [Attia 方案](peter-attia-protocol.md) |
+| Peter Attia | 延寿医学医生、《Outlive》作者；运动为第一杠杆、补剂克制 | 权威方案，直接采纳；与 Thorne 合作关系单独披露 | [Attia 方案](peter-attia-protocol.md) |
 | Andrew Huberman | 斯坦福神经科学家；零成本工具优先、补剂分栈 | 权威方案，直接采纳；与 Momentous/Thorne 深度合作单独披露 | [Huberman 方案](andrew-huberman-protocol.md) |
 | 陈传多（Chuando Tan） | 数十年力量训练、简单饮食与公众可见的体态管理 | 更接近长期生活方式案例；补剂、空腹时长等热门说法多项未证实 | [案例核查](chuando-tan.md) |
 | Edson Brandão | 40 岁后生活方式转变、年轻外貌传播与抗衰个人品牌 | 运动和少加工饮食方向可参考；外貌年龄、无医美、冻黄瓜与封嘴等说法不能作为逆龄证据 | [案例核查](edson-brandao.md) |
