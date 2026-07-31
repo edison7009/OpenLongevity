@@ -420,7 +420,11 @@ fn exec_update_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
         }
     };
     let clean = path.replace('\\', "/");
-    if clean.starts_with('/') || clean.contains("..") || !clean.ends_with(".md") {
+    if clean.starts_with('/')
+        || clean.contains(':')
+        || clean.contains("..")
+        || !clean.ends_with(".md")
+    {
         return ToolResult {
             success: false,
             output: "Invalid 'path' — must be a relative Markdown path inside the library \
@@ -454,6 +458,16 @@ fn exec_update_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
     }
 
     let file_path = root.join(&clean);
+    // Belt and braces: Path::join replaces the root when given an absolute
+    // path, so confirm the resolved path still lives under the library.
+    if !file_path.starts_with(root) {
+        return ToolResult {
+            success: false,
+            output: "Invalid 'path' — resolved outside the knowledge library. Retry with a \
+                relative path."
+                .into(),
+        };
+    }
     if let Some(parent) = file_path.parent() {
         if let Err(e) = fs::create_dir_all(parent) {
             return ToolResult {
@@ -843,6 +857,10 @@ mod tests {
         let result = exec_update_note(&json!({"path": "../escape.md", "content": "x"}), &dir, "zh");
         assert!(!result.success);
         assert!(result.output.contains("Invalid 'path'"));
+        let absolute =
+            exec_update_note(&json!({"path": "C:/escape.md", "content": "x"}), &dir, "zh");
+        assert!(!absolute.success);
+        assert!(absolute.output.contains("Invalid 'path'"));
         let _ = fs::remove_dir_all(&dir);
     }
 
