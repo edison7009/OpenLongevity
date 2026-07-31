@@ -25,6 +25,8 @@ pub fn get_tool_definitions() -> Vec<ToolDef> {
                 Use this whenever the user wants to record, save, or remember information — \
                 a summary, a finding, a plan, a comparison, a protocol, or any note. \
                 The note is saved as a .md file in the library. \
+                IMPORTANT: you MUST include both a non-empty 'title' and a non-empty 'content' \
+                string in the arguments; calls with missing or empty arguments are rejected. \
                 Choose category: 'inbox' for general notes, 'dossiers' for strategy/compound notes, \
                 'cases' for person/protocol notes, 'stories' for anecdote/observation notes."
                 .into(),
@@ -141,12 +143,22 @@ pub async fn execute_tool(
 // ── save_note ──
 
 fn exec_save_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
+    if !args.is_object() {
+        return ToolResult {
+            success: false,
+            output: "Invalid save_note arguments: expected a JSON object with a non-empty 'title' \
+                and a non-empty 'content' string. Retry with complete arguments."
+                .into(),
+        };
+    }
     let title = match args.pointer("/title").and_then(Value::as_str) {
         Some(t) if !t.trim().is_empty() => t.trim(),
         _ => {
             return ToolResult {
                 success: false,
-                output: "Missing or empty 'title'".into(),
+                output: "Missing or empty 'title' — save_note requires a non-empty 'title' and a \
+                    non-empty 'content' string (category is optional). Retry with complete arguments."
+                    .into(),
             }
         }
     };
@@ -155,7 +167,10 @@ fn exec_save_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
         _ => {
             return ToolResult {
                 success: false,
-                output: "Missing or empty 'content'".into(),
+                output:
+                    "Missing or empty 'content' — save_note requires a non-empty 'title' and a \
+                    non-empty 'content' string. Retry with complete arguments."
+                        .into(),
             }
         }
     };
@@ -229,12 +244,22 @@ fn exec_save_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
 // ── search_library ──
 
 fn exec_search_library(args: &Value, root: &Path, locale: &str) -> ToolResult {
+    if !args.is_object() {
+        return ToolResult {
+            success: false,
+            output: "Invalid search_library arguments: expected a JSON object with a non-empty \
+                'query' string. Retry with complete arguments."
+                .into(),
+        };
+    }
     let query = match args.pointer("/query").and_then(Value::as_str) {
         Some(q) if !q.trim().is_empty() => q.trim(),
         _ => {
             return ToolResult {
                 success: false,
-                output: "Missing or empty 'query'".into(),
+                output: "Missing or empty 'query' — search_library requires a non-empty 'query' \
+                    string. Retry with complete arguments."
+                    .into(),
             }
         }
     };
@@ -265,12 +290,22 @@ fn exec_search_library(args: &Value, root: &Path, locale: &str) -> ToolResult {
 // ── read_note ──
 
 fn exec_read_note(args: &Value, root: &Path) -> ToolResult {
+    if !args.is_object() {
+        return ToolResult {
+            success: false,
+            output: "Invalid read_note arguments: expected a JSON object with a non-empty 'path' \
+                string (e.g. 'dossiers/nmn.md'). Retry with complete arguments."
+                .into(),
+        };
+    }
     let path = match args.pointer("/path").and_then(Value::as_str) {
         Some(p) if !p.trim().is_empty() => p.trim(),
         _ => {
             return ToolResult {
                 success: false,
-                output: "Missing or empty 'path'".into(),
+                output: "Missing or empty 'path' — read_note requires a non-empty 'path' string \
+                    (e.g. 'dossiers/nmn.md'). Retry with complete arguments."
+                    .into(),
             }
         }
     };
@@ -333,4 +368,57 @@ fn sanitize_filename(title: &str) -> String {
         name = name.chars().take(80).collect();
     }
     name
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn save_note_rejects_empty_arguments_with_guidance() {
+        let result = exec_save_note(&json!({}), Path::new("unused"), "zh");
+        assert!(!result.success);
+        assert!(result.output.contains("Missing or empty 'title'"));
+        assert!(result.output.contains("Retry"));
+    }
+
+    #[test]
+    fn save_note_rejects_non_object_arguments() {
+        let result = exec_save_note(&json!([]), Path::new("unused"), "zh");
+        assert!(!result.success);
+        assert!(result.output.contains("expected a JSON object"));
+    }
+
+    #[test]
+    fn save_note_reports_missing_content_after_title() {
+        let result = exec_save_note(&json!({"title": "健身计划"}), Path::new("unused"), "zh");
+        assert!(!result.success);
+        assert!(result.output.contains("Missing or empty 'content'"));
+    }
+
+    #[test]
+    fn save_note_writes_note_successfully() {
+        let dir = std::env::temp_dir().join(format!("ol-save-note-test-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let result = exec_save_note(
+            &json!({
+                "title": "健身计划",
+                "content": "# 健身计划\n\n内容",
+                "category": "inbox"
+            }),
+            &dir,
+            "zh",
+        );
+        assert!(result.success, "{}", result.output);
+        assert!(dir.join("inbox").join("健身计划.md").exists());
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn search_library_rejects_missing_query_with_guidance() {
+        let result = exec_search_library(&json!({}), Path::new("unused"), "zh");
+        assert!(!result.success);
+        assert!(result.output.contains("Missing or empty 'query'"));
+        assert!(result.output.contains("Retry"));
+    }
 }

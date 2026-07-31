@@ -278,7 +278,9 @@ fn build_system_prompt(locale: &str, user_profile: &str, memory_context: &str) -
         "You are Open Longevity, a local-first scientific longevity assistant with tool-calling ability. \
          You can save notes to the user's knowledge library, search existing notes, read note content, and suggest long-term memory candidates. \
          When the user wants to record, save, or remember something, use the save_note tool — do NOT just \
-         tell them to do it manually. Use suggest_memory only for durable user-confirmed goals, preferences, constraints, corrections, profile facts, or health context worth reusing in future conversations. \
+         tell them to do it manually. Always call save_note with complete JSON arguments: a non-empty \
+         'title' and a non-empty 'content'. If a tool call is rejected for missing, empty, or malformed \
+         arguments, fix the arguments and retry with a complete JSON object. Use suggest_memory only for durable user-confirmed goals, preferences, constraints, corrections, profile facts, or health context worth reusing in future conversations. \
          suggest_memory only proposes a memory candidate; the user must confirm before it is saved. \
          When answering questions about the library, use search_library and read_note to ground your answers in actual notes. \
          The user's local notes are your primary memory. Cite the note path in parentheses when a \
@@ -966,25 +968,72 @@ pub async fn run_agent(
             }
         }
 
-        // Execute tool calls (duplicates already handled above).
+        // Screen calls before execution. Two guards apply:
+        //  1. Loop guard: if the exact same call has already run
+        //     LOOP_REPEAT_THRESHOLD times across iterations, skip it and feed
+        //     the warning back to the model so it changes approach instead of
+        //     retrying a broken call forever.
+        //  2. Argument guard: if the arguments are not valid JSON, surface a
+        //     clear parse error instead of silently treating them as `{}`.
         emit_state(&app, &conversation_id, "executing");
         let unique_calls: Vec<&llm_stream::ToolCall> =
             deduped.iter().filter_map(|(_, opt)| opt.as_ref()).collect();
-        let all_shared = unique_calls.iter().all(|tc| is_shared_tool(&tc.name));
-        if all_shared && unique_calls.len() > 1 {
-            let mut handles = Vec::with_capacity(unique_calls.len());
-            for tc in &unique_calls {
+        let mut guarded_hashes: HashMap<u64, String> = HashMap::new();
+        {
+            let mut map = session_map.lock().await;
+            if let Some(sess) = map.get_mut(&conversation_id) {
+                for tc in &unique_calls {
+                    let h = loop_args_hash(&tc.name, &tc.arguments);
+                    if let Some(reason) = sess.record_call_and_detect_loop(h) {
+                        log::warn!("[AgentLoop] Loop guard tripped on hash {h}: {reason}");
+                        guarded_hashes.insert(h, reason);
+                    }
+                }
+            }
+        }
+
+        let mut to_execute: Vec<&llm_stream::ToolCall> = Vec::with_capacity(unique_calls.len());
+        for tc in &unique_calls {
+            let h = loop_args_hash(&tc.name, &tc.arguments);
+            if let Some(reason) = guarded_hashes.get(&h) {
+                let preview = truncate_output(reason);
+                emit_tool_result(&app, &conversation_id, tc.id.clone(), preview, false);
+                push_tool_result(&session_map, &conversation_id, &tc.id, reason).await;
+                continue;
+            }
+            if serde_json::from_str::<Value>(&tc.arguments).is_err() {
+                let detail = truncate_output(&tc.arguments);
+                let msg = format!(
+                    "Tool call arguments could not be parsed as JSON ({detail}). \
+                     Retry with a complete JSON object containing all required fields for this tool."
+                );
+                let preview = truncate_output(&msg);
+                emit_tool_result(&app, &conversation_id, tc.id.clone(), preview, false);
+                push_tool_result(&session_map, &conversation_id, &tc.id, &msg).await;
+                continue;
+            }
+            to_execute.push(tc);
+        }
+
+        // Execute the remaining tool calls (duplicates, loop repeats, and
+        // unparseable arguments already handled above).
+        let all_shared = to_execute.iter().all(|tc| is_shared_tool(&tc.name));
+        if all_shared && to_execute.len() > 1 {
+            let mut handles = Vec::with_capacity(to_execute.len());
+            for tc in &to_execute {
                 let name = tc.name.clone();
                 let args = tc.arguments.clone();
                 let kr = knowledge_root.clone();
                 let loc = request.locale.clone();
                 handles.push(tokio::spawn(async move {
+                    // Arguments were validated above; `{}` is only an
+                    // unreachable safety net.
                     let parsed: Value = serde_json::from_str(&args).unwrap_or(json!({}));
                     agent_tools::execute_tool(&name, &parsed, &kr, &loc).await
                 }));
             }
             let results = futures_util::future::join_all(handles).await;
-            for (tc, result) in unique_calls.iter().zip(results) {
+            for (tc, result) in to_execute.iter().zip(results) {
                 let result = result.unwrap_or_else(|e| agent_tools::ToolResult {
                     success: false,
                     output: format!("Tool task panicked: {e}"),
@@ -1007,10 +1056,12 @@ pub async fn run_agent(
                 push_tool_result(&session_map, &conversation_id, &tc.id, &result.output).await;
             }
         } else {
-            for tc in &unique_calls {
+            for tc in &to_execute {
                 if cancel_token.is_cancelled() {
                     break;
                 }
+                // Arguments were validated above; `{}` is only an unreachable
+                // safety net.
                 let parsed: Value = serde_json::from_str(&tc.arguments).unwrap_or(json!({}));
                 let result =
                     agent_tools::execute_tool(&tc.name, &parsed, &knowledge_root, &request.locale)
@@ -1031,18 +1082,6 @@ pub async fn run_agent(
                     result.success,
                 );
                 push_tool_result(&session_map, &conversation_id, &tc.id, &result.output).await;
-            }
-        }
-
-        // Loop detection: only track unique calls (across iterations).
-        {
-            let mut map = session_map.lock().await;
-            if let Some(sess) = map.get_mut(&conversation_id) {
-                for h in seen_hashes.keys() {
-                    if let Some(reason) = sess.record_call_and_detect_loop(*h) {
-                        log::warn!("[AgentLoop] Loop guard tripped on hash {h}: {reason}");
-                    }
-                }
             }
         }
 
@@ -1115,5 +1154,43 @@ mod tests {
             )
         }));
         assert!(window.iter().map(serialized_message_size).sum::<usize>() <= RECENT_CONTEXT_BYTES);
+    }
+
+    #[test]
+    fn loop_guard_trips_after_three_repeats_of_same_call() {
+        let mut sess = AgentSession::new();
+        let hash = loop_args_hash("save_note", r#"{"title":"x","content":"y"}"#);
+        assert!(sess.record_call_and_detect_loop(hash).is_none());
+        assert!(sess.record_call_and_detect_loop(hash).is_none());
+        let reason = sess
+            .record_call_and_detect_loop(hash)
+            .expect("third repeat trips the guard");
+        assert!(reason.contains("Loop detected"));
+        // Once tripped, later repeats keep tripping.
+        assert!(sess
+            .record_call_and_detect_loop(hash)
+            .unwrap()
+            .contains("Loop detected"));
+    }
+
+    #[test]
+    fn loop_guard_ignores_different_calls_between_repeats() {
+        let mut sess = AgentSession::new();
+        let save = loop_args_hash("save_note", r#"{"title":"a","content":"x"}"#);
+        let search = loop_args_hash("search_library", r#"{"query":"creatine"}"#);
+        assert!(sess.record_call_and_detect_loop(save).is_none());
+        assert!(sess.record_call_and_detect_loop(search).is_none());
+        assert!(sess.record_call_and_detect_loop(save).is_none());
+        assert!(sess
+            .record_call_and_detect_loop(save)
+            .expect("third repeat trips the guard")
+            .contains("Loop detected"));
+    }
+
+    #[test]
+    fn loop_args_hash_canonicalizes_equivalent_json() {
+        let a = loop_args_hash("save_note", r#"{"title":"x","content":"y"}"#);
+        let b = loop_args_hash("save_note", r#"{ "title": "x", "content": "y" }"#);
+        assert_eq!(a, b);
     }
 }
