@@ -193,13 +193,70 @@ struct CaptureDraft {
     source_url: Option<String>,
 }
 
+#[derive(Debug, Clone, Default, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ProviderModelConfig {
+    base_url: String,
+    model: String,
+    api_key: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, PartialEq, Eq, Serialize)]
+struct ProviderModelConfigs {
+    openai: ProviderModelConfig,
+    anthropic: ProviderModelConfig,
+}
+
 #[derive(Debug, Clone, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
-struct ModelConfig {
+struct ModelSettings {
+    active_provider: String,
+    providers: ProviderModelConfigs,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct LegacyModelConfig {
     provider: String,
     base_url: String,
     model: String,
     api_key: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum StoredModelConfig {
+    Legacy(LegacyModelConfig),
+    Current(ModelSettings),
+}
+
+fn normalize_model_provider(provider: &str) -> &'static str {
+    if provider.eq_ignore_ascii_case("anthropic") {
+        "anthropic"
+    } else {
+        "openai"
+    }
+}
+
+impl From<LegacyModelConfig> for ModelSettings {
+    fn from(legacy: LegacyModelConfig) -> Self {
+        let active_provider = normalize_model_provider(&legacy.provider).to_string();
+        let active_config = ProviderModelConfig {
+            base_url: legacy.base_url,
+            model: legacy.model,
+            api_key: legacy.api_key,
+        };
+        let mut providers = ProviderModelConfigs::default();
+        if active_provider == "anthropic" {
+            providers.anthropic = active_config;
+        } else {
+            providers.openai = active_config;
+        }
+        Self {
+            active_provider,
+            providers,
+        }
+    }
 }
 
 fn default_knowledge_root() -> PathBuf {
@@ -216,19 +273,24 @@ fn model_config_path() -> PathBuf {
         .join("config.json")
 }
 
-fn load_model_config_from(path: &Path) -> Result<Option<ModelConfig>, String> {
+fn load_model_config_from(path: &Path) -> Result<Option<ModelSettings>, String> {
     if !path.is_file() {
         return Ok(None);
     }
 
     let contents = fs::read_to_string(path)
         .map_err(|error| format!("Could not read model config: {error}"))?;
-    serde_json::from_str(&contents)
-        .map(Some)
-        .map_err(|error| format!("Could not parse model config: {error}"))
+    let stored: StoredModelConfig = serde_json::from_str(&contents)
+        .map_err(|error| format!("Could not parse model config: {error}"))?;
+    let mut settings = match stored {
+        StoredModelConfig::Legacy(config) => config.into(),
+        StoredModelConfig::Current(config) => config,
+    };
+    settings.active_provider = normalize_model_provider(&settings.active_provider).to_string();
+    Ok(Some(settings))
 }
 
-fn save_model_config_to(path: &Path, config: &ModelConfig) -> Result<(), String> {
+fn save_model_config_to(path: &Path, config: &ModelSettings) -> Result<(), String> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent)
             .map_err(|error| format!("Could not create config directory: {error}"))?;
@@ -240,12 +302,12 @@ fn save_model_config_to(path: &Path, config: &ModelConfig) -> Result<(), String>
 }
 
 #[tauri::command]
-fn load_model_config() -> Result<Option<ModelConfig>, String> {
+fn load_model_config() -> Result<Option<ModelSettings>, String> {
     load_model_config_from(&model_config_path())
 }
 
 #[tauri::command]
-fn save_model_config(config: ModelConfig) -> Result<(), String> {
+fn save_model_config(config: ModelSettings) -> Result<(), String> {
     save_model_config_to(&model_config_path(), &config)
 }
 
@@ -2199,7 +2261,7 @@ mod tests {
     }
 
     #[test]
-    fn model_config_round_trips_as_plain_json() {
+    fn model_settings_round_trip_two_providers_as_plain_json() {
         let unique = format!(
             "openlongevity-config-{}-{}",
             std::process::id(),
@@ -2207,20 +2269,65 @@ mod tests {
         );
         let root = std::env::temp_dir().join(unique);
         let path = root.join("config.json");
-        let config = ModelConfig {
-            provider: "openai".to_string(),
-            base_url: "https://api.example.com/v1".to_string(),
-            model: "example-model".to_string(),
-            api_key: "plain-test-key".to_string(),
+        let config = ModelSettings {
+            active_provider: "anthropic".to_string(),
+            providers: ProviderModelConfigs {
+                openai: ProviderModelConfig {
+                    base_url: "https://openai.example.com/v1".to_string(),
+                    model: "openai-model".to_string(),
+                    api_key: "plain-openai-key".to_string(),
+                },
+                anthropic: ProviderModelConfig {
+                    base_url: "https://anthropic.example.com".to_string(),
+                    model: "anthropic-model".to_string(),
+                    api_key: "plain-anthropic-key".to_string(),
+                },
+            },
         };
 
         save_model_config_to(&path, &config).expect("config should save");
         let contents = fs::read_to_string(&path).expect("config should be readable");
-        assert!(contents.contains(r#""apiKey": "plain-test-key""#));
+        assert!(contents.contains(r#""apiKey": "plain-openai-key""#));
+        assert!(contents.contains(r#""apiKey": "plain-anthropic-key""#));
         assert_eq!(
             load_model_config_from(&path).expect("config should load"),
             Some(config)
         );
+        fs::remove_dir_all(root).expect("config fixture should be removed");
+    }
+
+    #[test]
+    fn legacy_model_config_migrates_without_losing_values() {
+        let unique = format!(
+            "openlongevity-legacy-config-{}-{}",
+            std::process::id(),
+            Local::now().timestamp_nanos_opt().unwrap_or_default()
+        );
+        let root = std::env::temp_dir().join(unique);
+        let path = root.join("config.json");
+        fs::create_dir_all(&root).expect("config fixture directory should exist");
+        fs::write(
+            &path,
+            r#"{
+  "provider": "anthropic",
+  "baseUrl": "https://legacy.example.com",
+  "model": "legacy-model",
+  "apiKey": "legacy-key"
+}"#,
+        )
+        .expect("legacy config should be writable");
+
+        let migrated = load_model_config_from(&path)
+            .expect("legacy config should load")
+            .expect("legacy config should exist");
+        assert_eq!(migrated.active_provider, "anthropic");
+        assert_eq!(
+            migrated.providers.anthropic.base_url,
+            "https://legacy.example.com"
+        );
+        assert_eq!(migrated.providers.anthropic.model, "legacy-model");
+        assert_eq!(migrated.providers.anthropic.api_key, "legacy-key");
+        assert_eq!(migrated.providers.openai, ProviderModelConfig::default());
         fs::remove_dir_all(root).expect("config fixture should be removed");
     }
 

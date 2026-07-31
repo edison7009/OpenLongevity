@@ -11,9 +11,10 @@ import type {
   LibrarySnapshot,
   MemoryItem,
   MemorySuggestion,
-  ModelConfig,
+  ModelSettings,
   PrepareCaptureRequest,
 } from './types';
+import { normalizeModelSettings } from './modelSettings';
 
 export const isTauri = '__TAURI_INTERNALS__' in window;
 
@@ -55,19 +56,20 @@ export async function onSelfUpdateProgress(
   return listen<SelfUpdateProgress>('self-update-progress', (event) => callback(event.payload));
 }
 
-export async function loadModelConfig(): Promise<ModelConfig | null> {
+export async function loadModelConfig(): Promise<ModelSettings | null> {
   if (!isTauri) {
     try {
       const stored = localStorage.getItem('openlongevity:model-config');
-      return stored ? (JSON.parse(stored) as ModelConfig) : null;
+      return stored ? normalizeModelSettings(JSON.parse(stored)) : null;
     } catch {
       return null;
     }
   }
-  return invoke<ModelConfig | null>('load_model_config');
+  const stored = await invoke<unknown | null>('load_model_config');
+  return stored ? normalizeModelSettings(stored) : null;
 }
 
-export async function persistModelConfig(config: ModelConfig): Promise<void> {
+export async function persistModelConfig(config: ModelSettings): Promise<void> {
   if (!isTauri) {
     localStorage.setItem('openlongevity:model-config', JSON.stringify(config));
     return;

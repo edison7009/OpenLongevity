@@ -122,10 +122,10 @@ to the product template.
   once with Bryan Johnson (flag `openlongevity:favorites-seeded:v1`); a user's
   later edits are never overwritten.
 - The **Health log** plan section (`log`) is the first fully usable plan module: a per-day editor (last-7-days strip + date navigation + movement/food/body text fields) that auto-saves to `localStorage` key `openlongevity:health-log:v1`. The other four plan sections remain AI-prompt placeholders for now.
-- AI settings support OpenAI-compatible providers and custom endpoints. Current
-  visible defaults discussed for the UI are `gpt-5.5`,
-  `deepseek-v4-pro`, and `kimi-k3`; Chinese “Custom” is **自定义** and examples
-  should be visibly marked `e.g.`.
+- AI settings expose OpenAI and Anthropic wire protocols. Each protocol keeps
+  its own API URL, model, and API key, and switching protocols must never
+  overwrite the other protocol's values. New fields start empty; service URLs
+  and model names appear only as visibly marked `e.g.` placeholders.
 - AI provider settings, including API keys, persist as plaintext JSON in the
   current user's app-data directory (`OpenLongevity/config.json`). They must
   never be written into the repository or knowledge library.

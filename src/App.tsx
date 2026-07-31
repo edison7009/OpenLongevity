@@ -91,11 +91,19 @@ import type {
   Locale,
   MemorySuggestion,
   ModelConfig,
+  ModelProvider,
+  ModelSettings,
   Person,
+  ProviderConfig,
   Story,
   Supplement,
   View,
 } from './types';
+import {
+  createEmptyModelSettings,
+  getActiveModelConfig,
+  normalizeModelSettings,
+} from './modelSettings';
 
 const APP_VERSION = packageMetadata.version;
 const PRODUCT_WEBSITE = 'https://edison7009.github.io/OpenLongevity/';
@@ -126,33 +134,27 @@ function createAmbientAssignments(count: number) {
   return assignments;
 }
 
-const providerPresets: Record<
-  ModelConfig['provider'],
-  { baseUrl: string; model: string; label: Record<Locale, string> }
+const providerOptions: Record<
+  ModelProvider,
+  {
+    label: Record<Locale, string>;
+    baseUrlPlaceholder: string;
+    modelPlaceholder: string;
+    apiKeyPlaceholder: string;
+  }
 > = {
   openai: {
-    baseUrl: 'https://api.openai.com/v1',
-    model: 'gpt-5',
     label: { zh: 'OpenAI 协议', en: 'OpenAI Protocol' },
+    baseUrlPlaceholder: 'e.g. https://api.openai.com/v1',
+    modelPlaceholder: 'e.g. gpt-5',
+    apiKeyPlaceholder: 'e.g. sk-…',
   },
   anthropic: {
-    baseUrl: 'https://api.anthropic.com',
-    model: 'claude-sonnet-5',
     label: { zh: 'Anthropic 协议', en: 'Anthropic Protocol' },
+    baseUrlPlaceholder: 'e.g. https://api.anthropic.com',
+    modelPlaceholder: 'e.g. claude-sonnet-5',
+    apiKeyPlaceholder: 'e.g. sk-ant-…',
   },
-};
-
-/// Map localStorage values from the old 4-provider scheme back to
-/// 'openai' (the OpenAI-compatible umbrella) so stale configs don't panic.
-function migrateOldProvider(raw: string): 'openai' | 'anthropic' {
-  if (raw === 'deepseek' || raw === 'openrouter' || raw === 'custom') return 'openai';
-  if (raw === 'openai' || raw === 'anthropic') return raw;
-  return 'openai';
-}
-
-const previousDefaultModels: Record<ModelConfig['provider'], string> = {
-  openai: 'gpt-5-mini',
-  anthropic: 'claude-sonnet-5',
 };
 
 const isMacOSPlatform =
@@ -597,33 +599,8 @@ function App() {
     'openlongevity:knowledge-root:v2',
     '',
   );
-  const [modelDiskConfig, setModelDiskConfig] = useStoredState<Omit<ModelConfig, 'apiKey'>>(
-    'openlongevity:model',
-    {
-      provider: 'openai',
-      baseUrl: providerPresets.openai.baseUrl,
-      model: providerPresets.openai.model,
-    },
-  );
-  const [apiKey, setApiKey] = useState('');
+  const [modelSettings, setModelSettings] = useState<ModelSettings>(createEmptyModelSettings);
   const modelConfigSaveQueueRef = useRef<Promise<void>>(Promise.resolve());
-
-  // Migrate old 4-provider scheme on first load.
-  useEffect(() => {
-    const raw = localStorage.getItem('openlongevity:model');
-    if (!raw) return;
-    try {
-      const parsed = JSON.parse(raw) as { provider?: string };
-      const oldProvider = parsed.provider ?? '';
-      const newProvider = migrateOldProvider(oldProvider);
-      if (newProvider !== oldProvider) {
-        const patched = { ...parsed, provider: newProvider } as Omit<ModelConfig, 'apiKey'>;
-        setModelDiskConfig(patched);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -631,22 +608,15 @@ function App() {
       .then((storedConfig) => {
         if (!alive) return;
         if (storedConfig) {
-          const provider = migrateOldProvider(storedConfig.provider);
-          setModelDiskConfig({
-            provider,
-            baseUrl: storedConfig.baseUrl || providerPresets[provider].baseUrl,
-            model: storedConfig.model || providerPresets[provider].model,
-          });
-          setApiKey(storedConfig.apiKey || '');
+          setModelSettings(storedConfig);
           return;
         }
 
-        const initialConfig: ModelConfig = {
-          ...modelDiskConfig,
-          provider: migrateOldProvider(modelDiskConfig.provider),
-          apiKey: '',
-        };
-        void persistModelConfig(initialConfig);
+        const legacyConfig = window.localStorage.getItem('openlongevity:model');
+        if (!legacyConfig) return;
+        const migrated = normalizeModelSettings(JSON.parse(legacyConfig));
+        setModelSettings(migrated);
+        void persistModelConfig(migrated);
       })
       .catch((error) => {
         console.error('Could not load the saved model config.', error);
@@ -701,7 +671,7 @@ function App() {
   }, []);
 
   const t = (key: TranslationKey) => translate(locale, key);
-  const modelConfig: ModelConfig = { ...modelDiskConfig, apiKey };
+  const modelConfig = getActiveModelConfig(modelSettings);
 
   useEffect(() => {
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -746,14 +716,6 @@ function App() {
       navigationHistoryRef.current.push(currentLocation);
     }
   };
-
-  useEffect(() => {
-    const previousDefault = previousDefaultModels[modelDiskConfig.provider];
-    const nextDefault = providerPresets[modelDiskConfig.provider].model;
-    if (modelDiskConfig.model === previousDefault && nextDefault !== previousDefault) {
-      setModelDiskConfig({ ...modelDiskConfig, model: nextDefault });
-    }
-  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -1351,13 +1313,8 @@ function App() {
     }
   };
 
-  const saveModelConfig = (config: ModelConfig) => {
-    setModelDiskConfig({
-      provider: config.provider,
-      baseUrl: config.baseUrl,
-      model: config.model,
-    });
-    setApiKey(config.apiKey);
+  const saveModelConfig = (config: ModelSettings) => {
+    setModelSettings(config);
     modelConfigSaveQueueRef.current = modelConfigSaveQueueRef.current
       .catch(() => undefined)
       .then(() => persistModelConfig(config))
@@ -1595,7 +1552,7 @@ function App() {
       {settingsOpen && (
         <SettingsDialog
           locale={locale}
-          config={modelConfig}
+          config={modelSettings}
           knowledgeRoot={library.root || knowledgeRoot}
           onChange={saveModelConfig}
           onLocale={setLocale}
@@ -3248,10 +3205,10 @@ function SettingsDialog({
   t,
 }: {
   locale: Locale;
-  config: ModelConfig;
+  config: ModelSettings;
   knowledgeRoot: string;
   themeMode: ThemeMode;
-  onChange: (config: ModelConfig) => void;
+  onChange: (config: ModelSettings) => void;
   onLocale: (locale: Locale) => void;
   onThemeMode: (themeMode: ThemeMode) => void;
   onChooseFolder: () => void;
@@ -3260,23 +3217,30 @@ function SettingsDialog({
 }) {
   const [draft, setDraft] = useState(config);
 
-  const updateProvider = (provider: ModelConfig['provider']) => {
-    const preset = providerPresets[provider];
+  const updateProvider = (provider: ModelProvider) => {
     const next = {
       ...draft,
-      provider,
-      baseUrl: preset.baseUrl,
-      model: preset.model,
+      activeProvider: provider,
     };
     setDraft(next);
     onChange(next);
   };
 
-  const updateDraft = (patch: Partial<ModelConfig>) => {
-    const next = { ...draft, ...patch };
+  const updateDraft = (patch: Partial<ProviderConfig>) => {
+    const provider = draft.activeProvider;
+    const next = {
+      ...draft,
+      providers: {
+        ...draft.providers,
+        [provider]: { ...draft.providers[provider], ...patch },
+      },
+    };
     setDraft(next);
     onChange(next);
   };
+
+  const activeConfig = draft.providers[draft.activeProvider];
+  const activeOption = providerOptions[draft.activeProvider];
 
   return (
     <div className="modal-backdrop" onMouseDown={onClose}>
@@ -3299,14 +3263,14 @@ function SettingsDialog({
           <div className="settings-section">
             <label>{t('provider')}</label>
             <div className="provider-grid">
-              {(Object.keys(providerPresets) as ModelConfig['provider'][]).map((provider) => (
+              {(Object.keys(providerOptions) as ModelProvider[]).map((provider) => (
                 <button
-                  className={draft.provider === provider ? 'active' : ''}
+                  className={draft.activeProvider === provider ? 'active' : ''}
                   onClick={() => updateProvider(provider)}
                   key={provider}
                 >
-                  {providerPresets[provider].label[locale]}
-                  {draft.provider === provider && <Check size={14} />}
+                  {providerOptions[provider].label[locale]}
+                  {draft.activeProvider === provider && <Check size={14} />}
                 </button>
               ))}
             </div>
@@ -3314,17 +3278,17 @@ function SettingsDialog({
               <label>
                 <span>{t('baseUrl')}</span>
                 <input
-                  value={draft.baseUrl}
+                  value={activeConfig.baseUrl}
                   onChange={(event) => updateDraft({ baseUrl: event.target.value })}
-                  placeholder="e.g. https://api.example.com/v1"
+                  placeholder={activeOption.baseUrlPlaceholder}
                 />
               </label>
               <label>
                 <span>{t('model')}</span>
                 <input
-                  value={draft.model}
+                  value={activeConfig.model}
                   onChange={(event) => updateDraft({ model: event.target.value })}
-                  placeholder="e.g. model-id"
+                  placeholder={activeOption.modelPlaceholder}
                 />
               </label>
             </div>
@@ -3332,9 +3296,9 @@ function SettingsDialog({
               <span>{t('apiKey')}</span>
               <input
                 type="password"
-                value={draft.apiKey}
+                value={activeConfig.apiKey}
                 onChange={(event) => updateDraft({ apiKey: event.target.value })}
-                placeholder="e.g. sk-…"
+                placeholder={activeOption.apiKeyPlaceholder}
                 autoComplete="off"
               />
             </label>

@@ -39,11 +39,21 @@ export interface LibrarySnapshot {
   noteCount: number;
 }
 
-export interface ModelConfig {
-  provider: 'openai' | 'anthropic';
+export type ModelProvider = 'openai' | 'anthropic';
+
+export interface ProviderConfig {
   baseUrl: string;
   model: string;
   apiKey: string;
+}
+
+export interface ModelConfig extends ProviderConfig {
+  provider: ModelProvider;
+}
+
+export interface ModelSettings {
+  activeProvider: ModelProvider;
+  providers: Record<ModelProvider, ProviderConfig>;
 }
 
 export interface MemorySuggestion {
