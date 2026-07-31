@@ -1,6 +1,6 @@
 # Open Longevity — portable Codex project memory
 
-Updated: 2026-07-31
+Updated: 2026-08-01
 
 This file preserves the decisions and working context needed to continue the
 project on another machine. It contains no API keys, private user parameters,
@@ -12,7 +12,7 @@ or temporary deployment credentials.
 - Chinese product name: **科学延寿**. Use **延寿** consistently in Chinese
   product, website, documentation, and starter-library copy; keep the previous
   product-domain term out of new copy.
-- Version: **0.0.8**.
+- Version: **0.0.9**.
 - Goal: a productized, local-first scientific-longevity desktop application for
   Windows, macOS, and Linux—not a personal wrapper around the developer's notes.
 - Product origin: inspired by the developer's `C:\Life extension` notes, but the
@@ -91,6 +91,13 @@ to the product template.
 - Keep the chat composer in a persistent bottom layout row. The content above
   it scrolls independently so the final message is never covered and the
   composer never disappears while scrolling.
+- Keep the composer compact. Below it, show only the single-line knowledge and
+  medical disclaimer; do not place consent controls there or in the right rail.
+- On startup, show a non-dismissible global open-source/non-commercial use-boundary
+  dialog until the user accepts it on seven consecutive distinct local calendar
+  days. Same-day relaunches do not advance progress; missing a day or declining
+  resets it, and declining closes the app. After day seven the dialog no longer
+  appears. Persist progress locally under `openlongevity:disclaimer-progress:v2`.
 - Chat uses a minimal two-sided conversation layout: user messages are compact
   bubbles aligned to the right, while Open Longevity answers remain readable,
   unframed content aligned to the left. Do not show participant names or avatars;
@@ -133,6 +140,10 @@ to the product template.
 - AI provider settings, including API keys, persist as plaintext JSON in the
   current user's app-data directory (`OpenLongevity/config.json`). They must
   never be written into the repository or knowledge library.
+- Modal headers share one standard component: a fixed 44 x 44 icon tile aligned
+  to the vertical center of an `OPEN LONGEVITY` eyebrow plus main title block.
+  Settings and capture dialogs use the same header and add a close action on the
+  right; do not maintain separate modal-title alignment rules.
 - Local knowledge retrieval uses an in-process Rust knowledge map: cached
   language-aware Markdown parsing, weighted title/path/heading/body matching,
   one-hop Markdown-link graph expansion, and relevant excerpt selection.
@@ -249,6 +260,6 @@ and machine-specific. The website itself has no generated build directory.
    calls.
 4. Review the bilingual starter library for scientific sourcing and product
    neutrality.
-5. Test the published `v0.0.8` installers on real Windows, macOS, and Linux
+5. Test the published `v0.0.9` installers on real Windows, macOS, and Linux
    machines. Future production releases should add Windows and Apple code
    signing when certificates are available.

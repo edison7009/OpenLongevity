@@ -108,6 +108,8 @@ import {
 const APP_VERSION = packageMetadata.version;
 const PRODUCT_WEBSITE = 'https://edison7009.github.io/OpenLongevity/';
 const FEEDBACK_URL = 'https://github.com/edison7009/OpenLongevity/issues';
+const DISCLAIMER_PROGRESS_KEY = 'openlongevity:disclaimer-progress:v2';
+const DISCLAIMER_REQUIRED_DAYS = 7;
 
 function createAmbientAssignments(count: number) {
   const assignments: Array<{
@@ -581,6 +583,42 @@ type ToastState = {
   kind: 'status' | 'favorite-added' | 'favorite-removed';
 };
 
+type DisclaimerProgress = {
+  acceptedDays: number;
+  lastAcceptedDate: string;
+  completed: boolean;
+};
+
+const emptyDisclaimerProgress: DisclaimerProgress = {
+  acceptedDays: 0,
+  lastAcceptedDate: '',
+  completed: false,
+};
+
+function localDateKey(date = new Date()): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function previousLocalDateKey(date = new Date()): string {
+  const previous = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1, 12);
+  return localDateKey(previous);
+}
+
+function currentDisclaimerDays(progress: DisclaimerProgress, now = new Date()): number {
+  if (progress.completed) return DISCLAIMER_REQUIRED_DAYS;
+  const today = localDateKey(now);
+  if (
+    progress.lastAcceptedDate !== today &&
+    progress.lastAcceptedDate !== previousLocalDateKey(now)
+  ) {
+    return 0;
+  }
+  return Math.min(DISCLAIMER_REQUIRED_DAYS, Math.max(0, progress.acceptedDays));
+}
+
 function App() {
   const [locale, setLocale] = useStoredState<Locale>('openlongevity:locale', 'zh');
   const [themeMode, setThemeMode] = useStoredState<ThemeMode>(
@@ -599,6 +637,11 @@ function App() {
     'openlongevity:knowledge-root:v2',
     '',
   );
+  const [disclaimerProgress, setDisclaimerProgress] = useStoredState<DisclaimerProgress>(
+    DISCLAIMER_PROGRESS_KEY,
+    emptyDisclaimerProgress,
+  );
+  const [disclaimerOpen, setDisclaimerOpen] = useState(!disclaimerProgress.completed);
   const [modelSettings, setModelSettings] = useState<ModelSettings>(createEmptyModelSettings);
   const modelConfigSaveQueueRef = useRef<Promise<void>>(Promise.resolve());
 
@@ -672,6 +715,33 @@ function App() {
 
   const t = (key: TranslationKey) => translate(locale, key);
   const modelConfig = getActiveModelConfig(modelSettings);
+  const acceptedDisclaimerDays = currentDisclaimerDays(disclaimerProgress);
+
+  const acceptDisclaimer = () => {
+    const today = localDateKey();
+    const yesterday = previousLocalDateKey();
+    const nextDays =
+      disclaimerProgress.lastAcceptedDate === today
+        ? Math.max(1, acceptedDisclaimerDays)
+        : disclaimerProgress.lastAcceptedDate === yesterday
+          ? Math.min(DISCLAIMER_REQUIRED_DAYS, acceptedDisclaimerDays + 1)
+          : 1;
+    setDisclaimerProgress({
+      acceptedDays: nextDays,
+      lastAcceptedDate: today,
+      completed: nextDays >= DISCLAIMER_REQUIRED_DAYS,
+    });
+    setDisclaimerOpen(false);
+  };
+
+  const declineDisclaimer = async () => {
+    setDisclaimerProgress(emptyDisclaimerProgress);
+    if (isTauri) {
+      await getCurrentWindow().close();
+      return;
+    }
+    window.close();
+  };
 
   useEffect(() => {
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -1514,6 +1584,7 @@ function App() {
           )}`}
           contextDescription={t('contextUsageDescription')}
           contextCompactedLabel={t('contextCompacted')}
+          disclosure={t('disclosure')}
         />
       </main>
 
@@ -1571,6 +1642,16 @@ function App() {
           knowledgeRoot={library.root || knowledgeRoot}
           onClose={() => setCaptureGuideOpen(false)}
           onSaved={finishCapture}
+          t={t}
+        />
+      )}
+
+      {disclaimerOpen && (
+        <DisclaimerDialog
+          locale={locale}
+          acceptedDays={acceptedDisclaimerDays}
+          onAccept={acceptDisclaimer}
+          onDecline={() => void declineDisclaimer()}
           t={t}
         />
       )}
@@ -2854,6 +2935,7 @@ function ChatComposer({
   contextLabel,
   contextDescription,
   contextCompactedLabel,
+  disclosure,
 }: {
   busy: boolean;
   onSend: (message: string) => void;
@@ -2867,6 +2949,7 @@ function ChatComposer({
   contextLabel: string;
   contextDescription: string;
   contextCompactedLabel: string;
+  disclosure: string;
 }) {
   const [value, setValue] = useState('');
 
@@ -2912,6 +2995,125 @@ function ChatComposer({
           </button>
         </div>
       </form>
+      <p className="composer-disclosure">{disclosure}</p>
+    </div>
+  );
+}
+
+function DialogHeader({
+  icon,
+  title,
+  titleId,
+  subtitle,
+  onClose,
+  closeLabel = 'Close',
+  tone = 'teal',
+}: {
+  icon: ReactNode;
+  title: string;
+  titleId?: string;
+  subtitle?: string;
+  onClose?: () => void;
+  closeLabel?: string;
+  tone?: 'teal' | 'blue';
+}) {
+  return (
+    <header className={`dialog-titlebar dialog-titlebar-${tone}`}>
+      <div className="dialog-titlebar-main">
+        <span className="dialog-titlebar-icon">{icon}</span>
+        <div className="dialog-titlebar-copy">
+          <span className="dialog-titlebar-eyebrow">OPEN LONGEVITY</span>
+          <h2 id={titleId}>{title}</h2>
+          {subtitle && <p>{subtitle}</p>}
+        </div>
+      </div>
+      {onClose && (
+        <button type="button" className="dialog-titlebar-close" onClick={onClose} aria-label={closeLabel}>
+          <X size={19} />
+        </button>
+      )}
+    </header>
+  );
+}
+
+function DisclaimerDialog({
+  locale,
+  acceptedDays,
+  onAccept,
+  onDecline,
+  t,
+}: {
+  locale: Locale;
+  acceptedDays: number;
+  onAccept: () => void;
+  onDecline: () => void;
+  t: (key: TranslationKey) => string;
+}) {
+  return (
+    <div className="modal-backdrop disclaimer-backdrop">
+      <section
+        className="disclaimer-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="disclaimer-title"
+      >
+        <DialogHeader
+          icon={<ShieldCheck size={24} />}
+          title={t('disclaimerTitle')}
+          titleId="disclaimer-title"
+        />
+
+        <div className="disclaimer-content">
+          <p className="disclaimer-intro">{t('disclaimerIntro')}</p>
+          <div className="disclaimer-points">
+            <section>
+              <strong>{t('disclaimerBoundaryTitle')}</strong>
+              <p>{t('disclaimerBoundaryBody')}</p>
+            </section>
+            <section>
+              <strong>{t('disclaimerAiTitle')}</strong>
+              <p>{t('disclaimerAiBody')}</p>
+            </section>
+            <section>
+              <strong>{t('disclaimerSafetyTitle')}</strong>
+              <p>{t('disclaimerSafetyBody')}</p>
+            </section>
+            <section>
+              <strong>{t('disclaimerLiabilityTitle')}</strong>
+              <p>{t('disclaimerLiabilityBody')}</p>
+            </section>
+          </div>
+
+          <div className="disclaimer-progress-block">
+            <p>{t('disclaimerProgress')}</p>
+            <div className="disclaimer-days" aria-label={t('disclaimerProgress')}>
+              {Array.from({ length: DISCLAIMER_REQUIRED_DAYS }, (_, index) => {
+                const accepted = index < acceptedDays;
+                return (
+                  <span className={accepted ? 'accepted' : ''} key={index}>
+                    {accepted ? <Check size={15} strokeWidth={2.4} /> : index + 1}
+                  </span>
+                );
+              })}
+            </div>
+            <small>
+              {locale === 'zh'
+                ? `已完成 ${acceptedDays} / ${DISCLAIMER_REQUIRED_DAYS} 天`
+                : `${acceptedDays} of ${DISCLAIMER_REQUIRED_DAYS} days completed`}
+            </small>
+          </div>
+        </div>
+
+        <footer className="disclaimer-actions">
+          <button type="button" className="disclaimer-decline" onClick={onDecline}>
+            {t('disclaimerDecline')}
+          </button>
+          <button type="button" className="primary-button disclaimer-accept" onClick={onAccept}>
+            <Check size={16} />
+            {t('disclaimerAccept')}
+          </button>
+        </footer>
+      </section>
     </div>
   );
 }
@@ -3184,10 +3386,6 @@ function RightRail({
         )}
       </div>
 
-      <div className="rail-disclosure">
-        <ShieldCheck size={15} />
-        <span>{t('disclosure')}</span>
-      </div>
     </aside>
   );
 }
@@ -3244,20 +3442,20 @@ function SettingsDialog({
 
   return (
     <div className="modal-backdrop" onMouseDown={onClose}>
-      <section className="settings-dialog" onMouseDown={(event) => event.stopPropagation()}>
-        <header className="dialog-header">
-          <div>
-            <span className="dialog-icon">
-              <Settings size={19} />
-            </span>
-            <div>
-              <h2>{t('modelSettings')}</h2>
-            </div>
-          </div>
-          <button onClick={onClose} aria-label="Close">
-            <X size={19} />
-          </button>
-        </header>
+      <section
+        className="settings-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settings-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <DialogHeader
+          icon={<Settings size={21} />}
+          title={t('modelSettings')}
+          titleId="settings-title"
+          onClose={onClose}
+          closeLabel={locale === 'zh' ? '关闭' : 'Close'}
+        />
 
         <div className="settings-content">
           <div className="settings-section">
@@ -3455,21 +3653,22 @@ function CaptureGuideDialog({
 
   return (
     <div className="modal-backdrop capture-backdrop" onMouseDown={onClose}>
-      <section className="capture-dialog" onMouseDown={(event) => event.stopPropagation()}>
-        <header className="dialog-header">
-          <div>
-            <span className="dialog-icon capture-icon">
-              <Bot size={19} />
-            </span>
-            <div>
-              <h2>{t('captureTitle')}</h2>
-              <p>{t('captureSub')}</p>
-            </div>
-          </div>
-          <button onClick={onClose} aria-label="Close">
-            <X size={19} />
-          </button>
-        </header>
+      <section
+        className="capture-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="capture-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <DialogHeader
+          icon={<Bot size={21} />}
+          title={t('captureTitle')}
+          titleId="capture-title"
+          subtitle={t('captureSub')}
+          onClose={onClose}
+          closeLabel={locale === 'zh' ? '关闭' : 'Close'}
+          tone="blue"
+        />
 
         <div className="capture-guide">
           {!draft ? (

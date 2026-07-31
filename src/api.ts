@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
+import { listen } from '@tauri-apps/api/event';
 import { open } from '@tauri-apps/plugin-dialog';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { fallbackLibrary, fallbackMarkdown } from './data';
@@ -52,7 +53,6 @@ export async function downloadAndInstallUpdate(): Promise<void> {
 export async function onSelfUpdateProgress(
   callback: (progress: SelfUpdateProgress) => void,
 ): Promise<() => void> {
-  const { listen } = await import('@tauri-apps/api/event');
   return listen<SelfUpdateProgress>('self-update-progress', (event) => callback(event.payload));
 }
 
@@ -154,7 +154,6 @@ export async function listenAgentEvents(
   handler: (event: AgentEvent) => void,
 ): Promise<() => void> {
   if (!isTauri) return () => {};
-  const { listen } = await import('@tauri-apps/api/event');
   return listen<AgentEvent>('agent_event', (e) => handler(e.payload));
 }
 

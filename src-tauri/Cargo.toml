@@ -1,6 +1,6 @@
 [package]
 name = "openlongevity"
-version = "0.0.8"
+version = "0.0.9"
 description = "Local-first scientific longevity knowledge and AI desktop app"
 authors = ["Open Longevity"]
 license = "MIT"
