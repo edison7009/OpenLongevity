@@ -85,15 +85,15 @@ jobs:
             ID=$(gh api --method POST "repos/${REPO}/releases" \
               -f tag_name="${TAG}" \
               -f name="Open Longevity ${TAG}" \
-              -f body="Open Longevity 0.0.6
+              -f body="Open Longevity 0.0.7
 
-          What is new since 0.0.5:
-          - Persistent local conversation history, confirmed long-term memory, and plaintext per-user AI provider configuration
-          - A local Rust knowledge map that ranks relevant Markdown excerpts and follows note links without embedding or indexing-token costs
-          - A 1 MB rolling conversation budget with automatic local compaction and percentage-based context usage
-          - Faster chat reopening at the newest message, a fixed composer, and additional New chat actions
-          - Refined AI chat and settings layouts, typography, dark theme styling, and clearer knowledge-context messaging
-          - App-managed scientific search grounding across PubMed, ClinicalTrials.gov, and bioRxiv/Europe PMC
+          What is new since 0.0.6:
+          - Fixed provider reasoning/thinking fragments appearing in AI replies; affected saved conversations are cleaned when displayed
+          - Conversation history no longer reorders when it is only opened, and every item now shows its last-updated time
+          - Conversation saves are serialized and flushed before switching or creating a chat, preventing recent output from being lost
+          - A quieter two-sided chat layout places user messages on the right without redundant participant names or avatars
+          - Renamed Sleep plan to Daily routine with a broader daily schedule description
+          - Only the divider being dragged is highlighted, with additional cleanup to the history list
 
           Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace, with Windows, macOS, and Linux builds.
 
