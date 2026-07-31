@@ -104,22 +104,22 @@ const messages = {
     planSub: '把个人方案、指标和复盘放在同一条时间线上。',
     comingSoon: '这个模块会在下一阶段接入个人背景、当前方案、化验结果与周期复盘。',
     disclosure:
-      '科学延寿资料和计划仅用于知识整理。AI 回复不替代医生诊断与个体化医疗建议。',
-    disclaimerTitle: '免责声明与使用边界',
+      '内容来自公开资料、本地知识与所选 AI 模型，请在使用前自行核验。',
+    disclaimerTitle: '开源软件说明与使用边界',
     disclaimerIntro:
-      'Open Longevity 是全球开源、非商业的知识整理软件。继续使用前，请完整理解以下边界。',
-    disclaimerBoundaryTitle: '不是医疗服务',
+      'Open Longevity 是依据 MIT 许可证提供的全球开源软件，用于整理公开资料、本地知识与 AI 生成内容。',
+    disclaimerBoundaryTitle: '这是软件工具',
     disclaimerBoundaryBody:
-      '本软件、知识库、延寿计划和社区内容不构成医疗器械、诊断、治疗、处方、监护或急救服务，也不建立医患关系。',
-    disclaimerAiTitle: 'AI 与资料可能出错',
+      'Open Longevity 提供代码、界面和信息整理能力，不提供诊断、处方、治疗或紧急服务，也不与用户建立任何专业服务关系。',
+    disclaimerAiTitle: '内容需要自行核验',
     disclaimerAiBody:
-      'AI 可能产生错误、遗漏、过时内容或虚构信息；公开研究也可能存在局限、冲突或后续修正。任何输出都必须由你独立核查。',
-    disclaimerSafetyTitle: '健康决定必须交给专业人员',
+      '公开资料、本地知识和 AI 输出可能不完整、过时或错误。AI 内容由用户选择的第三方模型生成，不代表项目贡献者的意见或承诺。',
+    disclaimerSafetyTitle: '用户自主决定用途',
     disclaimerSafetyBody:
-      '不得仅依据本软件开始、停止或改变药物、补剂、剂量、饮食、运动或治疗。请咨询有执照的医疗专业人员；紧急情况请立即联系当地急救服务。',
-    disclaimerLiabilityTitle: '风险与责任',
+      '用户自行选择模型、资料来源和使用方式，负责核验输出并决定是否在软件之外采取行动。开发者不参与、控制或代替用户作出这些决定。',
+    disclaimerLiabilityTitle: '按现状提供',
     disclaimerLiabilityBody:
-      '你自行决定如何使用信息并承担相应风险。在适用法律允许的最大范围内，Open Longevity 的贡献者、维护者及模型服务商不对因使用或依赖本软件产生的伤害、死亡、数据损失或其他损失承担责任；依法不能排除的责任不受本条影响。',
+      '本软件依照 MIT 许可证按现状提供，不对准确性、完整性、时效性、适用性、持续可用性或任何特定结果作出保证。',
     disclaimerProgress:
       '为确认你持续理解这些边界，需要在连续 7 个不同自然日启动软件并选择同意。漏一天或选择不同意，进度将重新开始。',
     disclaimerDecline: '不同意并退出',
@@ -228,22 +228,22 @@ const messages = {
     planSub: 'Bring your protocol, markers, and reviews into one timeline.',
     comingSoon: 'Next, this module will connect profile, current protocol, lab results, and periodic reviews.',
     disclosure:
-      'Scientific life-extension materials and plans are for knowledge organization only. AI responses do not replace medical diagnosis or individualized care.',
-    disclaimerTitle: 'Disclaimer and use boundaries',
+      'Content comes from public sources, local knowledge, and your selected AI model. Verify it before use.',
+    disclaimerTitle: 'Open-source software notice and use boundaries',
     disclaimerIntro:
-      'Open Longevity is global, open-source, non-commercial knowledge-organizing software. Please understand these boundaries before continuing.',
-    disclaimerBoundaryTitle: 'Not a medical service',
+      'Open Longevity is global open-source software provided under the MIT License for organizing public sources, local knowledge, and AI-generated content.',
+    disclaimerBoundaryTitle: 'A software tool',
     disclaimerBoundaryBody:
-      'The software, library, life-extension plans, and community content are not a medical device, diagnosis, treatment, prescription, monitoring, or emergency service and do not create a clinician-patient relationship.',
-    disclaimerAiTitle: 'AI and source material can be wrong',
+      'Open Longevity provides code, an interface, and information-organizing capabilities. It does not provide diagnosis, prescriptions, treatment, or emergency services, and it creates no professional service relationship.',
+    disclaimerAiTitle: 'Verify the content yourself',
     disclaimerAiBody:
-      'AI may produce errors, omissions, outdated content, or fabricated information. Published research may also be limited, conflicting, or later corrected. Independently verify every output.',
-    disclaimerSafetyTitle: 'Health decisions require professionals',
+      'Public sources, local knowledge, and AI output may be incomplete, outdated, or wrong. AI content comes from the third-party model selected by the user and does not represent a view or promise from project contributors.',
+    disclaimerSafetyTitle: 'You decide how to use it',
     disclaimerSafetyBody:
-      'Do not start, stop, or change medication, supplements, doses, diet, exercise, or treatment based only on this software. Consult a licensed healthcare professional. In an emergency, contact local emergency services immediately.',
-    disclaimerLiabilityTitle: 'Risk and responsibility',
+      'You choose the model, sources, and use of the software. You verify its output and decide whether to act outside the software. Developers do not participate in, control, or make those decisions for you.',
+    disclaimerLiabilityTitle: 'Provided as is',
     disclaimerLiabilityBody:
-      'You decide how to use the information and accept the related risks. To the fullest extent permitted by applicable law, Open Longevity contributors, maintainers, and model providers are not liable for injury, death, data loss, or other loss arising from use of or reliance on this software. Liability that cannot lawfully be excluded remains unaffected.',
+      'The software is provided as is under the MIT License, without promises of accuracy, completeness, timeliness, fitness, continuous availability, or any particular result.',
     disclaimerProgress:
       'To confirm continued understanding, open the software and agree on 7 consecutive, distinct calendar days. Missing a day or declining restarts the progress.',
     disclaimerDecline: 'Decline and exit',

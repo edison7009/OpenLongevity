@@ -91,13 +91,18 @@ to the product template.
 - Keep the chat composer in a persistent bottom layout row. The content above
   it scrolls independently so the final message is never covered and the
   composer never disappears while scrolling.
-- Keep the composer compact. Below it, show only the single-line knowledge and
-  medical disclaimer; do not place consent controls there or in the right rail.
-- On startup, show a non-dismissible global open-source/non-commercial use-boundary
+- Keep the composer compact. Below it, show only a single-line reminder that
+  public, local, and AI-generated content must be independently verified; do
+  not place consent controls there or in the right rail.
+- On startup, show a non-dismissible global open-source software use-boundary
   dialog until the user accepts it on seven consecutive distinct local calendar
   days. Same-day relaunches do not advance progress; missing a day or declining
   resets it, and declining closes the app. After day seven the dialog no longer
   appears. Persist progress locally under `openlongevity:disclaimer-progress:v2`.
+  Frame this dialog around the MIT-licensed software boundary: code and
+  information organization are provided as is, users select their models and
+  sources, verify outputs, and decide how to use them. Do not characterize the
+  project as a medical-liability actor or use injury/death language.
 - Chat uses a minimal two-sided conversation layout: user messages are compact
   bubbles aligned to the right, while Open Longevity answers remain readable,
   unframed content aligned to the left. Do not show participant names or avatars;
