@@ -15,7 +15,7 @@
       heroLead: "让 AI 与科学，", heroAccent: "滋养你的生命之树",
       heroBody: "富豪花费百万美元享受科技带来的长寿，而 Open Longevity 希望把生命之光同样带给普通家庭",
       heroDetail: "以 Bryan Johnson 公开的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略",
-      install: "Install Open Longevity", star: "Star on GitHub", copy: "复制", copied: "已复制", copyCommand: "复制安装命令",
+      install: "安装 Open Longevity", star: "在 GitHub 上点星", copy: "复制", copied: "已复制", copyCommand: "复制安装命令",
       macosNote: "macOS 首次需在「终端」",
       statementEyebrow: "OPEN LONGEVITY / 开放宣言", statement: "科学长寿，不应该是富豪专属。",
       statementBody: "昂贵的私人团队、封闭的数据和难以验证的建议，不该成为通往更长生命的门槛。Open Longevity 希望把知识、证据与工具打开，让每个人都能理解、检查并建立自己的延寿计划。",

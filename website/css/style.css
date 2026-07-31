@@ -291,8 +291,14 @@ p {
     border 180ms ease;
 }
 
+.button-label-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 16px;
+  line-height: 1;
+}
+
 .release-version {
-  margin-left: 16px;
   font-family: var(--mono);
   font-size: 17px;
   font-weight: 600;

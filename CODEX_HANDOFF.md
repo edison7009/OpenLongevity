@@ -181,6 +181,9 @@ to the product template.
   blueprint and combines AI with scientific evidence so ordinary people can
   access strategies once reserved for the wealthy.
 - The hero installer uses text-only platform tabs with no underline indicator.
+  Its Chinese primary actions are **安装 Open Longevity** and **在 GitHub 上点星**;
+  English keeps **Install Open Longevity** and **Star on GitHub**. Align the
+  install label and release version by their text baselines.
   Its macOS fallback note is the compact inline command: `macOS 首次需在「终端」
   xattr -cr '/Applications/Open Longevity.app'`. Keep this installation area
   comfortably readable: 12px platform tabs, 13px desktop command text, and a

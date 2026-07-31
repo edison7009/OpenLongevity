@@ -18,6 +18,7 @@ test("website is directly deployable without a build step", async () => {
   assert.doesNotMatch(stylesheet, /@import\s+["']tailwindcss/);
   assert.match(stylesheet, /grid-template-columns:\s*minmax\(0, 1\.18fr\)\s+minmax\(0, 0\.82fr\)/);
   assert.match(stylesheet, /\.release-version\s*\{[^}]*font-size:\s*17px/s);
+  assert.match(stylesheet, /\.button-label-group\s*\{[^}]*align-items:\s*baseline/s);
   assert.doesNotMatch(html, /[↗☆]/);
   assert.doesNotMatch(stylesheet, /\.platform-switch button::after/);
   assert.match(stylesheet, /\.platform-switch button\s*\{[^}]*font-size:\s*12px/s);
@@ -29,6 +30,8 @@ test("website is directly deployable without a build step", async () => {
   assert.match(html, /data-i18n="heroDetail"/);
   assert.match(javascript, /富豪花费百万美元享受科技带来的长寿/);
   assert.match(javascript, /以 Bryan Johnson 公开的延寿计划为蓝本/);
+  assert.match(javascript, /install:\s*"安装 Open Longevity"/);
+  assert.match(javascript, /star:\s*"在 GitHub 上点星"/);
   assert.doesNotMatch(javascript, /数据以 Bryan Johnson|\(Built on data/);
   assert.match(javascript, /macOS 首次需在「终端」/);
   assert.match(html, /xattr -cr '\/Applications\/Open Longevity\.app'/);
