@@ -59,8 +59,10 @@ pub fn get_tool_definitions() -> Vec<ToolDef> {
                 'diet' -> plans/diet.md, 'daily_routine' -> plans/daily-routine.md. \
                 You MUST provide a non-empty 'module' and the full Markdown 'content' for the page. \
                 Follow the page's standard format: goals, current status, concrete arrangements \
-                (sets/reps or dose/frequency), and review notes. Write the complete page, \
-                not just a diff."
+                (sets/reps or dose/frequency), and review notes. For the 'supplements' module, \
+                include a '品牌' section with per-supplement top pick and alternatives (quality \
+                tiers P1–P3 from the library's products/ brand-tier notes; tiers reflect quality \
+                and transparency, not efficacy). Write the complete page, not just a diff."
                 .into(),
             parameters: json!({
                 "type": "object",
