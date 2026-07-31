@@ -193,11 +193,10 @@ to the product template.
 - Website hero:
   - Chinese: **让 AI 与科学，照亮你的生命之树**
   - English: **Let AI and science illuminate your Tree of Life**
-- Website hero lead: **富豪花费百万美元借助科技延寿，而 Open
-  Longevity 希望把生命之光同样带给普通家庭**. A smaller supporting line
-  states that it uses Bryan Johnson's publicly documented longevity plan as a
-  blueprint and combines AI with scientific evidence so ordinary people can
-  access strategies once reserved for the wealthy.
+- Website hero lead is one unified subtitle paragraph at one visual level:
+  **富豪花费百万美元借助科技延寿，而 Open Longevity 希望把生命之光同样带给普通家庭；以
+  Bryan Johnson 公开的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。**
+  Do not render the Bryan Johnson sentence as a smaller note.
 - The hero installer uses text-only platform tabs with no underline indicator.
   Its Chinese primary actions are **安装 Open Longevity** and **在 GitHub 上点星**;
   English keeps **Install Open Longevity** and **Star on GitHub**. Align the
