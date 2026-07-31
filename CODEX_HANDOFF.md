@@ -12,7 +12,7 @@ or temporary deployment credentials.
 - Chinese product name: **科学延寿**. Use **延寿** consistently in Chinese
   product, website, documentation, and starter-library copy; keep the previous
   product-domain term out of new copy.
-- Version: **0.0.9**.
+- Version: **0.0.10**.
 - Goal: a productized, local-first scientific-longevity desktop application for
   Windows, macOS, and Linux—not a personal wrapper around the developer's notes.
 - Product origin: inspired by the developer's `C:\Life extension` notes, but the
@@ -264,6 +264,6 @@ and machine-specific. The website itself has no generated build directory.
    calls.
 4. Review the bilingual starter library for scientific sourcing and product
    neutrality.
-5. Test the published `v0.0.9` installers on real Windows, macOS, and Linux
+5. Test the published `v0.0.10` installers on real Windows, macOS, and Linux
    machines. Future production releases should add Windows and Apple code
    signing when certificates are available.
