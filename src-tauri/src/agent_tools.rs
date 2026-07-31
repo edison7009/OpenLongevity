@@ -5,6 +5,7 @@ use serde_json::{json, Value};
 use std::fs;
 use std::path::Path;
 
+use crate::knowledge_map;
 use crate::llm_stream::ToolDef;
 
 // ── Tool result ──
@@ -229,7 +230,7 @@ fn exec_save_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
 
 fn exec_search_library(args: &Value, root: &Path, locale: &str) -> ToolResult {
     let query = match args.pointer("/query").and_then(Value::as_str) {
-        Some(q) if !q.trim().is_empty() => q.trim().to_lowercase(),
+        Some(q) if !q.trim().is_empty() => q.trim(),
         _ => {
             return ToolResult {
                 success: false,
@@ -238,42 +239,7 @@ fn exec_search_library(args: &Value, root: &Path, locale: &str) -> ToolResult {
         }
     };
 
-    let terms: Vec<&str> = query.split_whitespace().collect();
-    if terms.is_empty() {
-        return ToolResult {
-            success: false,
-            output: "Empty search query".into(),
-        };
-    }
-
-    let mut results: Vec<(usize, String, String)> = Vec::new();
-
-    // Walk all .md files in the library
-    let entries = match walk_markdown(root, locale) {
-        Ok(e) => e,
-        Err(e) => {
-            return ToolResult {
-                success: false,
-                output: format!("Cannot scan library: {e}"),
-            }
-        }
-    };
-
-    for (relative, content) in &entries {
-        let haystack = format!("{}\n{}", relative.to_lowercase(), content.to_lowercase());
-        let score: usize = terms
-            .iter()
-            .map(|term| haystack.matches(*term).count().min(8))
-            .sum();
-        if score > 0 {
-            // Extract a snippet around the first match
-            let snippet = extract_snippet(content, &terms[0], 120);
-            results.push((score, relative.clone(), snippet));
-        }
-    }
-
-    results.sort_by(|a, b| b.0.cmp(&a.0));
-    results.truncate(10);
+    let results = knowledge_map::search_library(root, query, locale, 10);
 
     if results.is_empty() {
         return ToolResult {
@@ -283,8 +249,12 @@ fn exec_search_library(args: &Value, root: &Path, locale: &str) -> ToolResult {
     }
 
     let mut output = String::new();
-    for (score, path, snippet) in &results {
-        output.push_str(&format!("- [{path}] (score {score})\n  {snippet}\n"));
+    for hit in &results {
+        let relation = if hit.via_graph { " · linked note" } else { "" };
+        output.push_str(&format!(
+            "- [{}] {} (score {}{relation})\n  {}\n",
+            hit.path, hit.title, hit.score, hit.snippet
+        ));
     }
     ToolResult {
         success: true,
@@ -363,105 +333,4 @@ fn sanitize_filename(title: &str) -> String {
         name = name.chars().take(80).collect();
     }
     name
-}
-
-fn walk_markdown(root: &Path, locale: &str) -> Result<Vec<(String, String)>, String> {
-    let mut results = Vec::new();
-    let _suffix = if locale == "en" { ".en.md" } else { ".md" };
-
-    for category in &[
-        "dossiers", "cases", "stories", "inbox", "papers", "sources", "plans", "profile",
-        "records", "catalog",
-    ] {
-        let dir = root.join(category);
-        if !dir.is_dir() {
-            continue;
-        }
-        let entries = match fs::read_dir(&dir) {
-            Ok(e) => e,
-            Err(_) => continue,
-        };
-        for entry in entries.flatten() {
-            let path = entry.path();
-            if !path.is_file() {
-                continue;
-            }
-            let name = path
-                .file_name()
-                .unwrap_or_default()
-                .to_string_lossy()
-                .to_string();
-            // For zh locale, skip .en.md files; for en locale, only include .en.md files
-            if locale == "en" {
-                if !name.ends_with(".en.md") {
-                    continue;
-                }
-            } else {
-                if name.ends_with(".en.md") {
-                    continue;
-                }
-                if !name.ends_with(".md") {
-                    continue;
-                }
-            }
-            let relative = format!("{}/{}", category, name);
-            if let Ok(content) = fs::read_to_string(&path) {
-                results.push((relative, content));
-            }
-        }
-    }
-    Ok(results)
-}
-
-fn extract_snippet(content: &str, term: &str, radius: usize) -> String {
-    let lower = content.to_lowercase();
-    if let Some(pos) = lower.find(term) {
-        let start = pos.saturating_sub(radius);
-        let end = (pos + term.len() + radius).min(content.len());
-        // Adjust to char boundaries
-        let start = content.floor_char_boundary(start);
-        let end = content.ceil_char_boundary(end);
-        let snippet = content[start..end].replace('\n', " ");
-        format!("…{snippet}…")
-    } else {
-        // Return first line as fallback
-        content
-            .lines()
-            .find(|l| !l.trim().is_empty() && !l.starts_with('#') && !l.starts_with("---"))
-            .unwrap_or("")
-            .chars()
-            .take(200)
-            .collect()
-    }
-}
-
-// Polyfill for Rust < 1.91
-#[allow(dead_code)]
-trait CharBoundaryExt {
-    fn floor_char_boundary(&self, index: usize) -> usize;
-    fn ceil_char_boundary(&self, index: usize) -> usize;
-}
-
-impl CharBoundaryExt for str {
-    fn floor_char_boundary(&self, index: usize) -> usize {
-        if index >= self.len() {
-            return self.len();
-        }
-        let mut i = index;
-        while i > 0 && !self.is_char_boundary(i) {
-            i -= 1;
-        }
-        i
-    }
-
-    fn ceil_char_boundary(&self, index: usize) -> usize {
-        if index >= self.len() {
-            return self.len();
-        }
-        let mut i = index;
-        while i < self.len() && !self.is_char_boundary(i) {
-            i += 1;
-        }
-        i
-    }
 }

@@ -85,10 +85,15 @@ jobs:
             ID=$(gh api --method POST "repos/${REPO}/releases" \
               -f tag_name="${TAG}" \
               -f name="Open Longevity ${TAG}" \
-              -f body="Open Longevity 0.0.5
+              -f body="Open Longevity 0.0.6
 
-          What is new since 0.0.4:
-          - Improved in-app update flow: the app window now closes immediately after the download finishes, then the NSIS installer launches in update mode to automatically replace the old version
+          What is new since 0.0.5:
+          - Persistent local conversation history, confirmed long-term memory, and plaintext per-user AI provider configuration
+          - A local Rust knowledge map that ranks relevant Markdown excerpts and follows note links without embedding or indexing-token costs
+          - A 1 MB rolling conversation budget with automatic local compaction and percentage-based context usage
+          - Faster chat reopening at the newest message, a fixed composer, and additional New chat actions
+          - Refined AI chat and settings layouts, typography, dark theme styling, and clearer knowledge-context messaging
+          - App-managed scientific search grounding across PubMed, ClinicalTrials.gov, and bioRxiv/Europe PMC
 
           Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace, with Windows, macOS, and Linux builds.
 

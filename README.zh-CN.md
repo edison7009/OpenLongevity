@@ -41,7 +41,7 @@ Open Longevity 希望把散落在论文、公开人物方案和个人记录中�
 1. **开放知识**：用 Markdown 和 CSV 保存资料，不制造封闭数据孤岛；
 2. **可验证证据**：保留来源、研究限制和待核查事项，不把故事包装成因果；
 3. **开源工具**：让功能、安全边界和演进方向都能被检查和共同改进；
-4. **本地优先**：知识库默认保存在自己的电脑，API Key 不写入磁盘；
+4. **本地优先**：知识库和 AI 服务商配置默认保存在自己的电脑；
 5. **AI 为人服务**：AI 帮助整理、检索和理解，而不是替代医生或替用户做医疗决定。
 
 ## 现在可以做什么
@@ -97,7 +97,8 @@ AI 回答会优先参考：
 
 - 默认知识库完全独立，不依赖任何开发者私人目录；
 - 资料使用普通 Markdown/CSV，可迁移、可备份、可用其他工具打开；
-- API Key 只存在于当前运行内存，关闭应用后不会保留；
+- 完整的 AI 服务商配置（包括 API Key）以明文 JSON 保存在当前用户的
+  本地应用数据目录 `OpenLongevity/config.json`，关闭应用后仍会保留；
 - 只有用户主动发起 AI 请求时，相关内容才会发送给所配置的模型服务商；
 - 触发科研检索时，发送给公共科学数据库的只有精简后的医学检索式；
 - 不向模型开放 Shell，也不允许任意文件系统写入。
@@ -228,4 +229,4 @@ Open Longevity 是知识整理与研究辅助工具，不提供诊断、处方�
 
 Open Longevity is an open-source, local-first desktop workspace for reading scientific longevity knowledge, organizing public research with AI, and asking questions grounded in your own Markdown library. It supports Chinese and English, OpenAI-compatible providers, and Windows, macOS, and Linux.
 
-Your library stays on your computer by default, and your API key is kept only in memory for the current run. Open Longevity is a knowledge and research tool—not medical advice.
+Your library and AI provider configuration stay on your computer by default. The API key is saved in plaintext in the current user's local app-data directory. Open Longevity is a knowledge and research tool—not medical advice.

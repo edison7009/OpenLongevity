@@ -5,12 +5,12 @@ mod agent_loop;
 mod agent_tools;
 mod conversations;
 mod json_repair;
+mod knowledge_map;
 mod llm_stream;
 mod memory;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use std::cmp::Reverse;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
@@ -194,11 +194,60 @@ struct CaptureDraft {
     source_url: Option<String>,
 }
 
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ModelConfig {
+    provider: String,
+    base_url: String,
+    model: String,
+    api_key: String,
+}
+
 fn default_knowledge_root() -> PathBuf {
     dirs::data_local_dir()
         .unwrap_or_else(|| PathBuf::from("."))
         .join("OpenLongevity")
         .join("library")
+}
+
+fn model_config_path() -> PathBuf {
+    dirs::data_local_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("OpenLongevity")
+        .join("config.json")
+}
+
+fn load_model_config_from(path: &Path) -> Result<Option<ModelConfig>, String> {
+    if !path.is_file() {
+        return Ok(None);
+    }
+
+    let contents = fs::read_to_string(path)
+        .map_err(|error| format!("Could not read model config: {error}"))?;
+    serde_json::from_str(&contents)
+        .map(Some)
+        .map_err(|error| format!("Could not parse model config: {error}"))
+}
+
+fn save_model_config_to(path: &Path, config: &ModelConfig) -> Result<(), String> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)
+            .map_err(|error| format!("Could not create config directory: {error}"))?;
+    }
+    let contents = serde_json::to_string_pretty(config)
+        .map_err(|error| format!("Could not serialize model config: {error}"))?;
+    fs::write(path, format!("{contents}\n"))
+        .map_err(|error| format!("Could not write model config: {error}"))
+}
+
+#[tauri::command]
+fn load_model_config() -> Result<Option<ModelConfig>, String> {
+    load_model_config_from(&model_config_path())
+}
+
+#[tauri::command]
+fn save_model_config(config: ModelConfig) -> Result<(), String> {
+    save_model_config_to(&model_config_path(), &config)
 }
 
 fn ensure_starter_library(root: &Path) -> Result<(), String> {
@@ -863,6 +912,7 @@ fn save_capture(request: CaptureRequest) -> Result<String, String> {
     Ok(path_string(&path))
 }
 
+#[cfg(test)]
 fn collect_markdown_paths(root: &Path, locale: &str) -> Vec<PathBuf> {
     fn visit(path: &Path, paths: &mut Vec<PathBuf>) {
         if paths.len() >= 1_200 {
@@ -891,104 +941,13 @@ fn collect_markdown_paths(root: &Path, locale: &str) -> Vec<PathBuf> {
         .collect()
 }
 
-fn query_terms(question: &str) -> Vec<String> {
-    let normalized = question.to_lowercase();
-    let mut terms = HashSet::new();
-
-    for token in normalized.split(|character: char| !character.is_alphanumeric()) {
-        let token = token.trim();
-        if token.chars().count() >= 2 {
-            terms.insert(token.to_string());
-            let characters: Vec<char> = token.chars().collect();
-            if characters.iter().any(|character| !character.is_ascii()) {
-                for pair in characters.windows(2) {
-                    terms.insert(pair.iter().collect());
-                }
-            }
-        }
-    }
-    terms.into_iter().collect()
-}
-
 fn retrieve_context(
     root: &Path,
     question: &str,
     selected_paths: &[String],
     locale: &str,
 ) -> String {
-    let canonical_root = match root.canonicalize() {
-        Ok(path) => path,
-        Err(_) => return String::new(),
-    };
-    let mut selected = HashSet::new();
-    let mut sections: Vec<(String, String)> = Vec::new();
-
-    let personal_paths = [
-        "profile/about-me.md",
-        "plans/current-protocol.md",
-        "records/lab-results.md",
-        "records/diet-log.md",
-        "records/training-log.md",
-    ];
-    for relative in personal_paths
-        .iter()
-        .map(|value| value.to_string())
-        .chain(selected_paths.iter().cloned())
-    {
-        let base_path = canonical_root.join(&relative);
-        let localized_path = localized_note_path(&base_path, locale);
-        let localized_relative = relative_note_path(&canonical_root, &localized_path);
-        if selected.contains(&localized_relative) {
-            continue;
-        }
-        if let Ok(path) = safe_existing_path(&canonical_root, &localized_relative) {
-            if let Ok(content) = fs::read_to_string(path) {
-                selected.insert(localized_relative.clone());
-                sections.push((localized_relative, truncate_utf8(&content, 9_000)));
-            }
-        }
-    }
-
-    let terms = query_terms(question);
-    let mut scored: Vec<(usize, String, String)> = Vec::new();
-    for path in collect_markdown_paths(&canonical_root, locale) {
-        let relative = path
-            .strip_prefix(&canonical_root)
-            .unwrap_or(&path)
-            .to_string_lossy()
-            .replace('\\', "/");
-        if selected.contains(&relative) {
-            continue;
-        }
-        let Ok(content) = fs::read_to_string(&path) else {
-            continue;
-        };
-        let haystack = format!("{}\n{}", relative.to_lowercase(), content.to_lowercase());
-        let score = terms
-            .iter()
-            .map(|term| haystack.matches(term).count().min(8))
-            .sum::<usize>();
-        if score > 0 {
-            scored.push((score, relative, truncate_utf8(&content, 8_500)));
-        }
-    }
-    scored.sort_by_key(|(score, _, _)| Reverse(*score));
-    sections.extend(
-        scored
-            .into_iter()
-            .take(5)
-            .map(|(_, relative, content)| (relative, content)),
-    );
-
-    let mut context = String::new();
-    for (relative, content) in sections {
-        let section = format!("\n\n--- LOCAL NOTE: {relative} ---\n{content}");
-        if context.len() + section.len() > MAX_CONTEXT_BYTES {
-            break;
-        }
-        context.push_str(&section);
-    }
-    context
+    knowledge_map::retrieve_context(root, question, selected_paths, locale, MAX_CONTEXT_BYTES)
 }
 
 fn chat_endpoint(base_url: &str) -> String {
@@ -2203,6 +2162,8 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .manage(agent_loop::create_session_map())
         .invoke_handler(tauri::generate_handler![
+            load_model_config,
+            save_model_config,
             load_library,
             read_note,
             prepare_capture,
@@ -2240,6 +2201,32 @@ mod tests {
         assert!(is_newer_version("1.0.0", "0.9.12"));
         assert!(!is_newer_version("v0.0.1", "0.0.1"));
         assert!(!is_newer_version("0.0.9", "0.0.10"));
+    }
+
+    #[test]
+    fn model_config_round_trips_as_plain_json() {
+        let unique = format!(
+            "openlongevity-config-{}-{}",
+            std::process::id(),
+            Local::now().timestamp_nanos_opt().unwrap_or_default()
+        );
+        let root = std::env::temp_dir().join(unique);
+        let path = root.join("config.json");
+        let config = ModelConfig {
+            provider: "openai".to_string(),
+            base_url: "https://api.example.com/v1".to_string(),
+            model: "example-model".to_string(),
+            api_key: "plain-test-key".to_string(),
+        };
+
+        save_model_config_to(&path, &config).expect("config should save");
+        let contents = fs::read_to_string(&path).expect("config should be readable");
+        assert!(contents.contains(r#""apiKey": "plain-test-key""#));
+        assert_eq!(
+            load_model_config_from(&path).expect("config should load"),
+            Some(config)
+        );
+        fs::remove_dir_all(root).expect("config fixture should be removed");
     }
 
     #[test]

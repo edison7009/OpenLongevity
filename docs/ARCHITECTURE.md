@@ -79,13 +79,32 @@ OpenScience 提供大量科学技能、专业 Agent、数据库工具，以及�
 3. 与问题关键词命中的长寿策略、人物、论文和来源笔记；
 4. 模型通用知识。
 
-首版使用零依赖的关键词检索，避免为几十到几百篇 Markdown 过早引入向量数据库。知识库规模和召回需求增长后，可在本地增加 SQLite FTS5，再评估嵌入检索。
+当前使用内置的零外部依赖“本地知识地图”检索：
+
+- 按当前界面语言扫描并缓存 Markdown，文件大小或修改时间变化时自动重建；
+- 综合标题、路径、章节标题和正文词频排序；
+- 解析 Markdown 内链，并从高相关笔记扩展一层出边与入边邻居；
+- 只截取命中问题的少量段落进入模型上下文，个人资料、个人方案和当前页面保持最高优先级；
+- 自动上下文注入与 Agent 的 `search_library` 工具复用同一检索器。
+
+这一设计借鉴 Microsoft GraphRAG 的“知识图 + 原始文本片段”查询方式，以及本地 CodeGraph
+工具的“预解析关系图、按需返回少量相关内容”方式，但没有复制或嵌入其运行时。完整 GraphRAG
+索引需要额外的 LLM 抽取成本，现阶段不适合只有几十到几百篇 Markdown 的本地桌面应用。
+当前方案不调用嵌入 API，不需要 Python、向量数据库或额外 Token。知识库规模进一步增长后，
+再评估 SQLite FTS5、可选本地嵌入与重排序。
+
+参考：
+
+- [Microsoft GraphRAG](https://github.com/microsoft/graphrag)
+- [LightRAG](https://github.com/HKUDS/LightRAG)
+- [CodeGraph](https://github.com/colbymchenry/codegraph)
 
 ## 安全与隐私
 
 - 所有读操作限制在用户选择的知识目录；
 - 路径 canonicalize 后检查，阻止 `../` 越界；
 - AI 收录只写入 `knowledge/inbox/`，且不会覆盖同名文件；
-- API Key 只在 React 当前运行状态与一次模型请求中存在；
+- AI 服务商配置（包括 API Key）以明文 JSON 保存在当前用户的应用数据
+  目录 `OpenLongevity/config.json`，不写入仓库或知识库；
 - 个人资料只在用户发起模型请求时发送给其配置的模型服务商；
 - 医疗相关输出保留交互作用、过敏、妊娠和器官功能等基本安全边界。

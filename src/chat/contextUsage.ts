@@ -1,6 +1,6 @@
 import type { ChatMessage } from '../types';
 
-export const AGENT_CONTEXT_MAX_BYTES = 300_000;
+export const AGENT_CONTEXT_MAX_BYTES = 1_000_000;
 
 const encoder = new TextEncoder();
 

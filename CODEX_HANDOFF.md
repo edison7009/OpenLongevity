@@ -1,6 +1,6 @@
 # Open Longevity — portable Codex project memory
 
-Updated: 2026-07-30
+Updated: 2026-07-31
 
 This file preserves the decisions and working context needed to continue the
 project on another machine. It contains no API keys, private user parameters,
@@ -10,7 +10,7 @@ or temporary deployment credentials.
 
 - Product name: **Open Longevity** (always include the space in visible text).
 - Chinese product name: **科学长寿**.
-- Version: **0.0.5**.
+- Version: **0.0.6**.
 - Goal: a productized, local-first scientific-longevity desktop application for
   Windows, macOS, and Linux—not a personal wrapper around the developer's notes.
 - Product origin: inspired by the developer's `C:\Life extension` notes, but the
@@ -83,6 +83,21 @@ to the product template.
 - Remove redundant headers, helper labels, dark duplicate divider lines,
   “30 秒结论”, model IDs in the chat box, local-context labels, and knowledge
   context cards.
+- Keep the chat composer in a persistent bottom layout row. The content above
+  it scrolls independently so the final message is never covered and the
+  composer never disappears while scrolling.
+- Opening AI chat or switching conversations must position the message area at
+  the bottom before paint, with no visible scroll animation. New output follows
+  only while the user remains near the bottom; reading older messages must not
+  pull the user back down.
+- The chat composer shows context usage as a percentage with a themed
+  hover/focus explanation. Near the 1,000,000-byte app context budget, older
+  conversation is compacted locally while about 800 KB of recent messages
+  remains verbatim, up to 150 KB of compacted history is retained, and the
+  complete conversation stays on disk. The actual provider limit may be lower.
+  AI chat exposes New chat actions in three places: the conversation header,
+  beside AI chat in the fixed left navigation, and in the fixed right-rail
+  header. On non-AI pages, the right-rail action returns to AI chat instead.
 - Avoid hover tooltips and decorative hover motion throughout the app.
 - Use generous, older-adult-friendly typography, especially in the center
   reading area.
@@ -99,7 +114,14 @@ to the product template.
   visible defaults discussed for the UI are `gpt-5.5`,
   `deepseek-v4-pro`, and `kimi-k3`; Chinese “Custom” is **自定义** and examples
   should be visibly marked `e.g.`.
-- API keys stay in memory and are not written to disk.
+- AI provider settings, including API keys, persist as plaintext JSON in the
+  current user's app-data directory (`OpenLongevity/config.json`). They must
+  never be written into the repository or knowledge library.
+- Local knowledge retrieval uses an in-process Rust knowledge map: cached
+  language-aware Markdown parsing, weighted title/path/heading/body matching,
+  one-hop Markdown-link graph expansion, and relevant excerpt selection.
+  Automatic grounding and the `search_library` tool share this retriever. It
+  uses no embedding API, external service, vector database, or indexing tokens.
 - Evidence-oriented questions automatically use an app-managed live research
   layer: the configured model produces a concise English biomedical query that
   is instructed to exclude personal identifiers and measurements,
@@ -194,6 +216,6 @@ machine-specific.
    calls.
 4. Review the bilingual starter library for scientific sourcing and product
    neutrality.
-5. Test the published `v0.0.1` installers on real Windows, macOS, and Linux
+5. Test the published `v0.0.6` installers on real Windows, macOS, and Linux
    machines. Future production releases should add Windows and Apple code
    signing when certificates are available.

@@ -22,6 +22,7 @@ import {
   Moon,
   NotebookPen,
   Pill,
+  Plus,
   Download,
   Send,
   Settings,
@@ -38,7 +39,15 @@ import {
   X,
 } from 'lucide-react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  FormEvent,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import packageMetadata from '../package.json';
@@ -47,10 +56,12 @@ import {
   chooseKnowledgeFolder,
   downloadAndInstallUpdate,
   isTauri,
+  loadModelConfig,
   loadLibrary,
   onSelfUpdateProgress,
   openExternalUrl,
   prepareCapture,
+  persistModelConfig,
   readNote,
   saveCapture,
   sendAgentMessage,
@@ -65,7 +76,11 @@ import {
   confirmMemorySuggestion,
 } from './api';
 import { ContextRing } from './chat/ContextRing';
-import { AGENT_CONTEXT_MAX_BYTES, estimateContextBytes } from './chat/contextUsage';
+import {
+  AGENT_CONTEXT_MAX_BYTES,
+  estimateContextBytes,
+  formatContextUsage,
+} from './chat/contextUsage';
 import { fallbackLibrary, fallbackMarkdown } from './data';
 import { translate, type TranslationKey } from './i18n';
 import type {
@@ -565,6 +580,7 @@ function App() {
     },
   );
   const [apiKey, setApiKey] = useState('');
+  const modelConfigSaveQueueRef = useRef<Promise<void>>(Promise.resolve());
 
   // Migrate old 4-provider scheme on first load.
   useEffect(() => {
@@ -581,6 +597,37 @@ function App() {
     } catch {
       // ignore
     }
+  }, []);
+
+  useEffect(() => {
+    let alive = true;
+    loadModelConfig()
+      .then((storedConfig) => {
+        if (!alive) return;
+        if (storedConfig) {
+          const provider = migrateOldProvider(storedConfig.provider);
+          setModelDiskConfig({
+            provider,
+            baseUrl: storedConfig.baseUrl || providerPresets[provider].baseUrl,
+            model: storedConfig.model || providerPresets[provider].model,
+          });
+          setApiKey(storedConfig.apiKey || '');
+          return;
+        }
+
+        const initialConfig: ModelConfig = {
+          ...modelDiskConfig,
+          provider: migrateOldProvider(modelDiskConfig.provider),
+          apiKey: '',
+        };
+        void persistModelConfig(initialConfig);
+      })
+      .catch((error) => {
+        console.error('Could not load the saved model config.', error);
+      });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   const [library, setLibrary] = useState<LibrarySnapshot>(fallbackLibrary);
@@ -1251,6 +1298,12 @@ function App() {
       model: config.model,
     });
     setApiKey(config.apiKey);
+    modelConfigSaveQueueRef.current = modelConfigSaveQueueRef.current
+      .catch(() => undefined)
+      .then(() => persistModelConfig(config))
+      .catch((error) => {
+        console.error('Could not save the model config.', error);
+      });
   };
 
   const references = useMemo(() => getLinks(noteMarkdown), [noteMarkdown]);
@@ -1294,6 +1347,8 @@ function App() {
         selectedPerson={selectedPerson}
         selectedStory={selectedStory}
         onNavigate={navigate}
+        onNewChat={handleNewChat}
+        chatBusy={chatBusy}
         onSupplement={openSupplement}
         onPerson={openPerson}
         onStory={openStory}
@@ -1319,6 +1374,7 @@ function App() {
             <>
               {view === 'ai' && (
                 <ConversationView
+                  conversationId={activeConversationId}
                   locale={locale}
                   messages={chatMessages}
                   busy={chatBusy}
@@ -1433,11 +1489,12 @@ function App() {
           inputRef={chatComposerRef}
           contextBytes={contextBytes}
           contextMaxBytes={AGENT_CONTEXT_MAX_BYTES}
-          contextLabel={
-            locale === 'zh'
-              ? `上下文用量 ${Math.round((contextBytes / AGENT_CONTEXT_MAX_BYTES) * 100)}%`
-              : `Context usage ${Math.round((contextBytes / AGENT_CONTEXT_MAX_BYTES) * 100)}%`
-          }
+          contextLabel={`${t('contextUsage')} ${formatContextUsage(
+            contextBytes,
+            AGENT_CONTEXT_MAX_BYTES,
+          )}`}
+          contextDescription={t('contextUsageDescription')}
+          contextCompactedLabel={t('contextCompacted')}
         />
       </main>
 
@@ -1469,6 +1526,7 @@ function App() {
         onFavoriteNavigate={openInternalNote}
         onPlanSection={openPlanSection}
         onResumeChat={() => navigate('ai')}
+        onNewChat={handleNewChat}
         t={t}
       />
 
@@ -1646,6 +1704,8 @@ interface SidebarProps {
   selectedPerson: Person | null;
   selectedStory: Story | null;
   onNavigate: (view: View) => void;
+  onNewChat: () => void;
+  chatBusy: boolean;
   onSupplement: (supplement: Supplement) => void;
   onPerson: (person: Person) => void;
   onStory: (story: Story) => void;
@@ -1660,6 +1720,8 @@ function Sidebar({
   selectedPerson,
   selectedStory,
   onNavigate,
+  onNewChat,
+  chatBusy,
   onSupplement,
   onPerson,
   onStory,
@@ -1785,12 +1847,24 @@ function Sidebar({
             active={view === 'home'}
             onClick={() => onNavigate('home')}
           />
-          <SidebarButton
-            icon={<MessageCircleMore size={17} />}
-            label={t('aiChat')}
-            active={view === 'ai'}
-            onClick={() => onNavigate('ai')}
-          />
+          <div className={`nav-chat-row ${view === 'ai' ? 'active' : ''}`}>
+            <SidebarButton
+              icon={<MessageCircleMore size={17} />}
+              label={t('aiChat')}
+              active={view === 'ai'}
+              onClick={() => onNavigate('ai')}
+            />
+            <button
+              type="button"
+              className="nav-new-chat"
+              onClick={onNewChat}
+              disabled={chatBusy}
+              aria-label={t('newChat')}
+            >
+              <Plus size={15} />
+              <span>{t('newChat')}</span>
+            </button>
+          </div>
           <SidebarButton
             icon={<Sparkles size={17} />}
             label={t('myPlan')}
@@ -2321,6 +2395,7 @@ function NoteView({
 }
 
 function ConversationView({
+  conversationId,
   locale,
   messages,
   busy,
@@ -2330,6 +2405,7 @@ function ConversationView({
   onConfirmMemory,
   onDismissMemory,
 }: {
+  conversationId: string;
   locale: Locale;
   messages: ChatMessage[];
   busy: boolean;
@@ -2340,6 +2416,8 @@ function ConversationView({
   onDismissMemory: (messageId: string) => void;
 }) {
   const endRef = useRef<HTMLDivElement>(null);
+  const renderedConversationRef = useRef('');
+  const previousScrollHeightRef = useRef(0);
   const components = useMemo(
     () => ({
       a: (
@@ -2350,27 +2428,48 @@ function ConversationView({
     }),
     [onInternalNavigate],
   );
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, busy]);
+  useLayoutEffect(() => {
+    const scrollContainer = endRef.current?.closest<HTMLElement>('.content-scroll');
+    if (!scrollContainer) return;
+
+    const switchedConversation = renderedConversationRef.current !== conversationId;
+    const previousScrollHeight = previousScrollHeightRef.current;
+    const distanceFromPreviousBottom =
+      previousScrollHeight - scrollContainer.clientHeight - scrollContainer.scrollTop;
+    const wasNearBottom = distanceFromPreviousBottom <= 56;
+
+    if (switchedConversation || previousScrollHeight === 0 || wasNearBottom) {
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    }
+
+    renderedConversationRef.current = conversationId;
+    previousScrollHeightRef.current = scrollContainer.scrollHeight;
+  }, [conversationId, messages, busy]);
 
   return (
     <div className="page conversation-view">
-      {onBack && (
-        <div className="conversation-title">
+      <div className="conversation-title">
+        {onBack ? (
           <button onClick={onBack}>
             <ChevronRight size={15} className="back-chevron" />
             {locale === 'zh' ? '返回资料' : 'Back to library'}
           </button>
-          <div className="conversation-title-actions">
-            <button className="conversation-new-chat" onClick={onNewChat}>
-              <FilePlus2 size={14} />
-              <span>{locale === 'zh' ? '新对话' : 'New chat'}</span>
-            </button>
-            <span>{locale === 'zh' ? '基于本地资料' : 'Grounded in local notes'}</span>
-          </div>
+        ) : (
+          <span className="conversation-heading">
+            <MessageCircleMore size={16} />
+            {locale === 'zh' ? 'AI 对话' : 'AI conversation'}
+          </span>
+        )}
+        <div className="conversation-title-actions">
+          <button className="conversation-new-chat" onClick={onNewChat} disabled={busy}>
+            <Plus size={15} />
+            <span>{locale === 'zh' ? '新对话' : 'New chat'}</span>
+          </button>
+          <span className="conversation-context-label">
+            {locale === 'zh' ? '基于本地资料' : 'Grounded in local notes'}
+          </span>
         </div>
-      )}
+      </div>
       <div className="message-list">
         {messages.map((message) => {
           if (message.role === 'tool_call') {
@@ -2734,6 +2833,8 @@ function ChatComposer({
   contextBytes,
   contextMaxBytes,
   contextLabel,
+  contextDescription,
+  contextCompactedLabel,
 }: {
   busy: boolean;
   onSend: (message: string) => void;
@@ -2743,6 +2844,8 @@ function ChatComposer({
   contextBytes: number;
   contextMaxBytes: number;
   contextLabel: string;
+  contextDescription: string;
+  contextCompactedLabel: string;
 }) {
   const [value, setValue] = useState('');
 
@@ -2771,7 +2874,13 @@ function ChatComposer({
           aria-label={placeholder}
         />
         <div className="composer-tools">
-          <ContextRing bytes={contextBytes} maxBytes={contextMaxBytes} label={contextLabel} />
+          <ContextRing
+            bytes={contextBytes}
+            maxBytes={contextMaxBytes}
+            label={contextLabel}
+            description={contextDescription}
+            compactedLabel={contextCompactedLabel}
+          />
           {busy && onAbort && (
             <button
               type="button"
@@ -2808,6 +2917,7 @@ function RightRail({
   onFavoriteNavigate,
   onPlanSection,
   onResumeChat,
+  onNewChat,
   onSelectConversation,
   onDeleteConversation,
   t,
@@ -2828,6 +2938,7 @@ function RightRail({
   onFavoriteNavigate: (target: Omit<InternalNoteTarget, 'label'>) => void;
   onPlanSection: (section: PlanSection) => void;
   onResumeChat: () => void;
+  onNewChat: () => void;
   onSelectConversation: (id: string) => void;
   onDeleteConversation: (id: string) => void;
   t: (key: TranslationKey) => string;
@@ -2906,29 +3017,37 @@ function RightRail({
                 t('favoritesAndPlan')}
           </h3>
         </div>
-        {!aiActive && conversations.length > 0 && (
+        {aiActive ? (
+          <button
+            type="button"
+            className="rail-resume-chat"
+            onClick={onNewChat}
+            disabled={chatBusy}
+          >
+            <Plus size={15} />
+            {t('newChat')}
+          </button>
+        ) : conversations.length > 0 ? (
           <button type="button" className="rail-resume-chat" onClick={onResumeChat}>
             <MessageCircleMore size={14} />
             {t('backToChat')}
           </button>
-        )}
+        ) : null}
       </div>
 
       <div className="rail-scroll">
         {aiActive ? (
           <>
             <div className="context-summary">
-              <span className="context-icon">
-                <BookOpen size={18} />
-              </span>
               <div>
                 <strong>
-                  {library.noteCount} {locale === 'zh' ? '篇本地笔记' : 'local notes'}
+                  {library.noteCount}{' '}
+                  {locale === 'zh' ? '篇科学长寿资料' : 'scientific longevity resources'}
                 </strong>
                 <small>
                   {locale === 'zh'
-                    ? '个人方案与当前页面会优先进入上下文'
-                    : 'Personal protocol and the open note are prioritized'}
+                    ? '个人方案与资料笔记会进入记忆上下文，每次对话内容都是你的个人量身定制'
+                    : 'Personal plans and knowledge notes enter memory context, so every conversation is tailored to you'}
                 </small>
               </div>
             </div>

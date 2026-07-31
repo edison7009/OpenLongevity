@@ -23,7 +23,10 @@ use crate::memory;
 // ── Constants ──
 
 const MAX_TOOL_LOOPS: usize = 150;
-const MAX_CONTEXT_BYTES: usize = 300_000;
+const MAX_CONTEXT_BYTES: usize = 1_000_000;
+const RECENT_CONTEXT_BYTES: usize = 800_000;
+const COMPACTED_HISTORY_MAX_BYTES: usize = 150_000;
+const COMPACTED_LINE_MAX_CHARS: usize = 720;
 const MAX_SSE_RETRIES: u32 = 3;
 const FIRST_TOKEN_TIMEOUT_SECS: u64 = 60;
 const INTER_TOKEN_TIMEOUT_SECS: u64 = 120;
@@ -425,6 +428,99 @@ fn ensure_tool_results_paired(messages: &mut Vec<Message>) {
     }
 }
 
+fn serialized_message_size(message: &Message) -> usize {
+    serde_json::to_string(message)
+        .map(|value| value.len())
+        .unwrap_or(256)
+}
+
+fn compactable_message_text(message: &Message) -> Option<String> {
+    let text = match &message.content {
+        MessageContent::Text(text) => text.clone(),
+        MessageContent::Blocks(blocks) => blocks
+            .iter()
+            .filter_map(|block| match block {
+                ContentBlock::Text { text } => Some(text.clone()),
+                ContentBlock::ToolUse { name, .. } => Some(format!("[used tool: {name}]")),
+                ContentBlock::ToolResult { content, .. } => {
+                    let preview = content.chars().take(240).collect::<String>();
+                    Some(format!("[tool result: {preview}]"))
+                }
+                ContentBlock::Thinking { .. } => None,
+            })
+            .collect::<Vec<_>>()
+            .join(" "),
+    };
+    let normalized = text.split_whitespace().collect::<Vec<_>>().join(" ");
+    if normalized.is_empty() {
+        return None;
+    }
+    let mut snippet = normalized
+        .chars()
+        .take(COMPACTED_LINE_MAX_CHARS)
+        .collect::<String>();
+    if normalized.chars().count() > COMPACTED_LINE_MAX_CHARS {
+        snippet.push('…');
+    }
+    let role = match message.role.as_str() {
+        "user" => "User",
+        "assistant" => "Assistant",
+        "tool" => "Tool",
+        other => other,
+    };
+    Some(format!("- {role}: {snippet}"))
+}
+
+fn compact_history(messages: &[Message]) -> Option<String> {
+    const HEADER: &str = "Earlier conversation was compacted locally to stay within the context limit. Treat it as approximate background and prefer recent messages plus saved memory.";
+    let mut remaining = COMPACTED_HISTORY_MAX_BYTES.saturating_sub(HEADER.len() + 2);
+    let mut lines = Vec::new();
+    for message in messages.iter().rev() {
+        let Some(line) = compactable_message_text(message) else {
+            continue;
+        };
+        let size = line.len() + 1;
+        if size > remaining {
+            break;
+        }
+        remaining -= size;
+        lines.push(line);
+    }
+    if lines.is_empty() {
+        return None;
+    }
+    lines.reverse();
+    Some(format!("{HEADER}\n{}", lines.join("\n")))
+}
+
+fn context_window(messages: &[Message]) -> (Vec<Message>, Option<String>) {
+    let total = messages.iter().map(serialized_message_size).sum::<usize>();
+    if total <= MAX_CONTEXT_BYTES {
+        let mut owned = messages.to_vec();
+        ensure_tool_results_paired(&mut owned);
+        return (owned, None);
+    }
+
+    let mut start = messages.len();
+    let mut remaining = RECENT_CONTEXT_BYTES;
+    for (index, message) in messages.iter().enumerate().rev() {
+        let size = serialized_message_size(message);
+        if size > remaining {
+            if start == messages.len() && size <= MAX_CONTEXT_BYTES {
+                start = index;
+            }
+            break;
+        }
+        remaining -= size;
+        start = index;
+    }
+
+    let compacted = compact_history(&messages[..start]);
+    let mut recent = messages[start..].to_vec();
+    ensure_tool_results_paired(&mut recent);
+    (recent, compacted)
+}
+
 // ── Event emitters ──
 
 fn emit_event(app: &AppHandle, event: AgentEvent) {
@@ -649,30 +745,23 @@ pub async fn run_agent(
             break;
         }
 
-        // Snapshot messages with byte-budget truncation + orphan cleanup.
-        let messages: Vec<Message> = {
+        // Keep recent messages verbatim and locally compact older conversation.
+        let (messages, compacted_history) = {
             let map = session_map.lock().await;
             let all: Vec<Message> = map
                 .get(&conversation_id)
                 .map(|s| s.messages.clone())
                 .unwrap_or_default();
-            let mut budget = MAX_CONTEXT_BYTES;
-            let mut kept: Vec<&Message> = Vec::new();
-            for m in all.iter().rev() {
-                let sz = serde_json::to_string(m).map(|s| s.len()).unwrap_or(256);
-                if sz > budget {
-                    break;
-                }
-                budget -= sz;
-                kept.push(m);
-            }
-            kept.reverse();
-            let mut owned: Vec<Message> = kept.into_iter().cloned().collect();
-            ensure_tool_results_paired(&mut owned);
-            owned
+            context_window(&all)
         };
+        let request_system_prompt = compacted_history
+            .map(|history| format!("{system_prompt}\n\n{history}"))
+            .unwrap_or_else(|| system_prompt.clone());
 
-        let mut rx = match client.chat_stream(&messages, &tools, &system_prompt).await {
+        let mut rx = match client
+            .chat_stream(&messages, &tools, &request_system_prompt)
+            .await
+        {
             Ok(rx) => rx,
             Err(ref e) if is_llm_server_down(e) => {
                 emit_error(&app, &conversation_id, format_server_down_error(e));
@@ -993,4 +1082,55 @@ pub async fn run_agent(
     emit_state(&app, &conversation_id, "idle");
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn text_message(role: &str, content: String) -> Message {
+        Message {
+            role: role.to_string(),
+            content: MessageContent::Text(content),
+        }
+    }
+
+    #[test]
+    fn context_window_keeps_small_conversations_unchanged() {
+        let messages = vec![
+            text_message("user", "hello".to_string()),
+            text_message("assistant", "hi".to_string()),
+        ];
+        let (window, compacted) = context_window(&messages);
+        assert_eq!(window.len(), messages.len());
+        assert!(compacted.is_none());
+    }
+
+    #[test]
+    fn context_window_compacts_old_messages_and_keeps_recent_content() {
+        let mut messages = (0..16)
+            .map(|index| {
+                text_message(
+                    if index % 2 == 0 { "user" } else { "assistant" },
+                    format!("old-marker-{index} {}", "x".repeat(70_000)),
+                )
+            })
+            .collect::<Vec<_>>();
+        messages.push(text_message(
+            "user",
+            "latest-message-must-remain".to_string(),
+        ));
+
+        let (window, compacted) = context_window(&messages);
+        assert!(compacted
+            .as_deref()
+            .is_some_and(|summary| summary.contains("Earlier conversation was compacted")));
+        assert!(window.iter().any(|message| {
+            matches!(
+                &message.content,
+                MessageContent::Text(text) if text.contains("latest-message-must-remain")
+            )
+        }));
+        assert!(window.iter().map(serialized_message_size).sum::<usize>() <= RECENT_CONTEXT_BYTES);
+    }
 }

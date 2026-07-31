@@ -11,7 +11,9 @@ Project rules:
   `C:\Life extension` or any developer-specific directory.
 - Preserve the bilingual starter library and run `npm run library:check` after
   changing it.
-- Keep user data local by default. Do not persist API keys.
+- Keep user data local by default. Persist the AI provider configuration,
+  including API keys, as plaintext JSON only in the current user's app-data
+  directory; never write it into the repository or knowledge library.
 - Preserve the restrained teal/green visual language, large readable type, and
   low-chrome desktop UI. Avoid hover tooltips, unnecessary borders, redundant
   labels, and web-like decoration inside the desktop app.

@@ -37,7 +37,7 @@ Our principles:
 1. **Open knowledge** — Markdown and CSV instead of a closed data silo.
 2. **Traceable evidence** — Keep sources, limitations, and unresolved questions visible.
 3. **Open-source tools** — Let people inspect and improve the product and its safety boundaries.
-4. **Local first** — Keep the library on the user's computer and never persist API keys.
+4. **Local first** — Keep the library and AI provider configuration on the user's computer.
 5. **AI in service of people** — Help users organize and understand; never replace clinical judgment.
 
 ## What it can do today
@@ -95,7 +95,9 @@ and non-peer-reviewed preprints.
 
 - The default library is independent and never binds to a developer's private notes.
 - Markdown and CSV remain portable, readable, and easy to back up.
-- The API key exists only in memory for the current run.
+- The complete AI provider configuration, including the API key, is stored as
+  plaintext JSON in the current user's local app-data directory at
+  `OpenLongevity/config.json`.
 - Content is sent to the configured model provider only after the user initiates an AI request.
 - For an evidence-oriented request, only that reduced biomedical query is sent
   to the public scientific databases.

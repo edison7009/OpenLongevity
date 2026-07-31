@@ -11,6 +11,7 @@ import type {
   LibrarySnapshot,
   MemoryItem,
   MemorySuggestion,
+  ModelConfig,
   PrepareCaptureRequest,
 } from './types';
 
@@ -52,6 +53,26 @@ export async function onSelfUpdateProgress(
 ): Promise<() => void> {
   const { listen } = await import('@tauri-apps/api/event');
   return listen<SelfUpdateProgress>('self-update-progress', (event) => callback(event.payload));
+}
+
+export async function loadModelConfig(): Promise<ModelConfig | null> {
+  if (!isTauri) {
+    try {
+      const stored = localStorage.getItem('openlongevity:model-config');
+      return stored ? (JSON.parse(stored) as ModelConfig) : null;
+    } catch {
+      return null;
+    }
+  }
+  return invoke<ModelConfig | null>('load_model_config');
+}
+
+export async function persistModelConfig(config: ModelConfig): Promise<void> {
+  if (!isTauri) {
+    localStorage.setItem('openlongevity:model-config', JSON.stringify(config));
+    return;
+  }
+  await invoke('save_model_config', { config });
 }
 
 export async function loadLibrary(root: string | undefined, locale: 'zh' | 'en'): Promise<LibrarySnapshot> {
