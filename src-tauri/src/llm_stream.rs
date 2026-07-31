@@ -139,6 +139,57 @@ impl LlmClient {
 
     // ── OpenAI ──
 
+    /// Process one `delta.tool_calls` array from an OpenAI-style stream and
+    /// return the events the agent loop needs, in emission order. Tool calls are
+    /// keyed by their stream index; `arguments` arrive as fragments across
+    /// chunks and must be forwarded via `ToolCallDelta` so the caller can
+    /// reassemble the full JSON. (The EchoBird port originally accumulated them
+    /// locally and dropped them, leaving every OpenAI-protocol tool call with
+    /// empty arguments.)
+    fn process_openai_tool_calls(
+        tool_calls: &[Value],
+        tool_acc: &mut std::collections::HashMap<i64, (String, String, String)>,
+    ) -> Vec<LlmEvent> {
+        let mut events = Vec::new();
+        for tc in tool_calls {
+            let idx = tc.get("index").and_then(Value::as_i64).unwrap_or(0);
+            let is_new = !tool_acc.contains_key(&idx);
+            let entry =
+                tool_acc
+                    .entry(idx)
+                    .or_insert((String::new(), String::new(), String::new()));
+            if let Some(id) = tc.get("id").and_then(Value::as_str) {
+                if entry.0.is_empty() {
+                    entry.0 = id.to_string();
+                }
+            }
+            if let Some(func) = tc.get("function") {
+                if let Some(name) = func.get("name").and_then(Value::as_str) {
+                    if entry.1.is_empty() {
+                        entry.1 = name.to_string();
+                    }
+                }
+            }
+            if is_new && !entry.0.is_empty() && !entry.1.is_empty() {
+                events.push(LlmEvent::ToolCallStart {
+                    id: entry.0.clone(),
+                    name: entry.1.clone(),
+                });
+            }
+            if let Some(func) = tc.get("function") {
+                if let Some(args) = func.get("arguments").and_then(Value::as_str) {
+                    if !args.is_empty() && !entry.0.is_empty() {
+                        events.push(LlmEvent::ToolCallDelta {
+                            id: entry.0.clone(),
+                            args_chunk: args.to_string(),
+                        });
+                    }
+                }
+            }
+        }
+        events
+    }
+
     async fn chat_stream_openai(
         &self,
         messages: &[Message],
@@ -269,39 +320,9 @@ impl LlmClient {
                         }
                         if let Some(tool_calls) = delta.get("tool_calls").and_then(Value::as_array)
                         {
-                            for tc in tool_calls {
-                                let idx = tc.get("index").and_then(Value::as_i64).unwrap_or(0);
-                                let is_new = !tool_acc.contains_key(&idx);
-                                let entry = tool_acc.entry(idx).or_insert((
-                                    String::new(),
-                                    String::new(),
-                                    String::new(),
-                                ));
-                                if let Some(id) = tc.get("id").and_then(Value::as_str) {
-                                    if entry.0.is_empty() {
-                                        entry.0 = id.to_string();
-                                    }
-                                }
-                                if let Some(func) = tc.get("function") {
-                                    if let Some(name) = func.get("name").and_then(Value::as_str) {
-                                        if entry.1.is_empty() {
-                                            entry.1 = name.to_string();
-                                        }
-                                    }
-                                    if let Some(args) =
-                                        func.get("arguments").and_then(Value::as_str)
-                                    {
-                                        entry.2.push_str(args);
-                                    }
-                                }
-                                if is_new && !entry.0.is_empty() && !entry.1.is_empty() {
-                                    let _ = tx
-                                        .send(LlmEvent::ToolCallStart {
-                                            id: entry.0.clone(),
-                                            name: entry.1.clone(),
-                                        })
-                                        .await;
-                                }
+                            for event in Self::process_openai_tool_calls(tool_calls, &mut tool_acc)
+                            {
+                                let _ = tx.send(event).await;
                             }
                         }
                         if let Some(reason) = chunk
@@ -923,6 +944,49 @@ mod tests {
             anthropic_endpoint("https://api.anthropic.com/v1/messages"),
             "https://api.anthropic.com/v1/messages"
         );
+    }
+
+    #[test]
+    fn openai_tool_call_arguments_are_forwarded_as_deltas() {
+        // Regression test: the OpenAI stream handler must forward every
+        // `arguments` fragment as a ToolCallDelta, or the agent loop ends up
+        // executing tool calls with empty arguments (the DeepSeek failure
+        // mode where save_note always returned "Missing or empty 'title'").
+        let mut acc: std::collections::HashMap<i64, (String, String, String)> =
+            std::collections::HashMap::new();
+        let chunks = vec![
+            json!({"index": 0, "id": "call_1", "type": "function", "function": {"name": "save_note", "arguments": ""}}),
+            json!({"index": 0, "function": {"arguments": "{\"title\":"}}),
+            json!({"index": 0, "function": {"arguments": " \"健身计划\","}}),
+            json!({"index": 0, "function": {"arguments": " \"content\":\"内容\"}"}}),
+        ];
+
+        let mut events = Vec::new();
+        for chunk in &chunks {
+            events.extend(LlmClient::process_openai_tool_calls(
+                std::slice::from_ref(chunk),
+                &mut acc,
+            ));
+        }
+
+        // Reassemble arguments the way agent_loop does, from forwarded deltas.
+        let mut args = String::new();
+        let mut start: Option<(String, String)> = None;
+        for event in &events {
+            match event {
+                LlmEvent::ToolCallStart { id, name } => start = Some((id.clone(), name.clone())),
+                LlmEvent::ToolCallDelta { id, args_chunk } => {
+                    assert_eq!(start.as_ref().map(|(i, _)| i.as_str()), Some(id.as_str()));
+                    args.push_str(args_chunk);
+                }
+                _ => {}
+            }
+        }
+
+        assert_eq!(start.as_ref().map(|(_, n)| n.as_str()), Some("save_note"));
+        let parsed: Value = serde_json::from_str(&args).expect("arguments reassemble into JSON");
+        assert_eq!(parsed["title"], "健身计划");
+        assert_eq!(parsed["content"], "内容");
     }
 
     #[test]
