@@ -23,7 +23,7 @@ import {
   Pill,
   Plus,
   Download,
-  Send,
+  ArrowUp,
   Settings,
   ShieldCheck,
   Square,
@@ -1546,6 +1546,8 @@ function App() {
           onSend={handleSend}
           onAbort={() => abortAgent(activeConversationId)}
           placeholder={t('askPlaceholder')}
+          sendLabel={t('send')}
+          stopLabel={t('stopGenerating')}
           inputRef={chatComposerRef}
           contextBytes={contextBytes}
           contextMaxBytes={AGENT_CONTEXT_MAX_BYTES}
@@ -1877,20 +1879,31 @@ function Sidebar({
                   ? `更新至 Open Longevity ${availableVersion}`
                   : `Update Open Longevity to ${availableVersion}`
               }
-              disabled={updatePhase === 'launching'}
+              disabled={installingUpdate}
             >
               {installingUpdate ? (
-                <svg className="update-ring" viewBox="0 0 24 24" aria-hidden="true">
+                <svg
+                  className={`update-ring ${updatePhase === 'checking' ? 'spin' : ''}`}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
                   <circle className="update-ring-track" cx="12" cy="12" r="9" />
                   <circle
-                    className={`update-ring-progress ${
-                      updatePhase === 'checking' ? 'indeterminate' : ''
-                    }`}
+                    className="update-ring-progress"
                     cx="12"
                     cy="12"
                     r="9"
-                    pathLength="100"
-                    style={{ strokeDashoffset: 100 - updateProgress }}
+                    transform="rotate(-90 12 12)"
+                    strokeDasharray={
+                      updatePhase === 'checking'
+                        ? `${2 * Math.PI * 9 * 0.25} ${2 * Math.PI * 9}`
+                        : 2 * Math.PI * 9
+                    }
+                    strokeDashoffset={
+                      updatePhase === 'checking'
+                        ? 0
+                        : 2 * Math.PI * 9 * (1 - updateProgress / 100)
+                    }
                   />
                 </svg>
               ) : (
@@ -2876,6 +2889,8 @@ function ChatComposer({
   onSend,
   onAbort,
   placeholder,
+  sendLabel,
+  stopLabel,
   inputRef,
   contextBytes,
   contextMaxBytes,
@@ -2887,6 +2902,8 @@ function ChatComposer({
   onSend: (message: string) => void;
   onAbort?: () => void;
   placeholder: string;
+  sendLabel: string;
+  stopLabel: string;
   inputRef: React.RefObject<HTMLTextAreaElement>;
   contextBytes: number;
   contextMaxBytes: number;
@@ -2898,7 +2915,7 @@ function ChatComposer({
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    if (!value.trim()) return;
+    if (busy || !value.trim()) return;
     onSend(value);
     setValue('');
   };
@@ -2928,18 +2945,13 @@ function ChatComposer({
             description={contextDescription}
             compactedLabel={contextCompactedLabel}
           />
-          {busy && onAbort && (
-            <button
-              type="button"
-              className="abort-btn"
-              onClick={() => onAbort()}
-              aria-label="Stop generating"
-            >
-              <Square size={17} />
-            </button>
-          )}
-          <button type="submit" disabled={busy || !value.trim()}>
-            {busy ? <LoaderCircle className="spin" size={17} /> : <Send size={17} />}
+          <button
+            type={busy ? 'button' : 'submit'}
+            onClick={busy ? onAbort : undefined}
+            disabled={busy ? !onAbort : !value.trim()}
+            aria-label={busy ? stopLabel : sendLabel}
+          >
+            {busy ? <Square size={15} fill="currentColor" /> : <ArrowUp size={19} />}
           </button>
         </div>
       </form>

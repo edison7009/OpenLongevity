@@ -15,7 +15,6 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 use tauri::Emitter;
-use tauri::Manager;
 
 use agent_loop::SharedSessionMap;
 
@@ -1995,20 +1994,16 @@ async fn run_windows_update(app: tauri::AppHandle) -> Result<(), String> {
             return Err("The downloaded installer is incomplete".to_string());
         }
 
+        drop(installer);
+        emit("downloading", 100);
         emit("launching", 100);
 
-        // Kill the app window so the user sees the app close immediately.
-        if let Some(window) = app.get_webview_window("main") {
-            let _ = window.destroy();
-        }
-        std::thread::sleep(Duration::from_millis(300));
-
-        // Launch the NSIS installer in update mode: it uninstalls the old
-        // version and installs the new one, then auto-closes.
+        // Start the installer before closing the app. Destroying the last
+        // window first can end the process before this spawn call runs.
         Command::new(&installer_path)
-            .arg("/UPDATE")
             .spawn()
             .map_err(|error| format!("Unable to launch the update installer: {error}"))?;
+        std::thread::sleep(Duration::from_millis(800));
         app.exit(0);
         Ok(())
     }

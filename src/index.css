@@ -230,9 +230,11 @@ body.resizing-panels * {
 
 .brand-main {
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   gap: 10px;
   min-width: 0;
+  overflow: hidden;
   padding: 0;
   background: none;
   border: 0;
@@ -260,6 +262,7 @@ body.resizing-panels * {
   font-weight: 700;
   letter-spacing: -0.02em;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .brand small {
@@ -279,25 +282,25 @@ body.resizing-panels * {
   margin-top: 1px;
   padding: 0;
   border: 0;
-  border-radius: 999px;
-  background: rgba(7, 90, 88, 0.08);
+  background: none;
   color: #075a58;
   cursor: pointer;
 }
 
 .brand-update:hover {
-  background: rgba(7, 90, 88, 0.14);
+  background: none;
+  color: #087c76;
 }
 
 .brand-update:disabled {
   cursor: default;
-  opacity: 0.72;
+  opacity: 1;
 }
 
 .update-ring {
+  display: block;
   width: 18px;
   height: 18px;
-  transform: rotate(-90deg);
 }
 
 .update-ring circle {
@@ -312,12 +315,11 @@ body.resizing-panels * {
 .update-ring-progress {
   stroke: #075a58;
   stroke-linecap: round;
-  stroke-dasharray: 100;
   transition: stroke-dashoffset 180ms linear;
 }
 
-.update-ring-progress.indeterminate {
-  stroke-dasharray: 24 76;
+.update-ring.spin {
+  transform-origin: center;
   animation: update-ring-spin 0.8s linear infinite;
 }
 
@@ -2935,12 +2937,13 @@ body.resizing-panels * {
 }
 
 [data-theme='dark'] .brand-update {
-  background: rgba(120, 200, 181, 0.1);
+  background: none;
   color: #78c8b5;
 }
 
 [data-theme='dark'] .brand-update:hover {
-  background: rgba(120, 200, 181, 0.16);
+  background: none;
+  color: #9bd8c9;
 }
 
 [data-theme='dark'] .update-ring-track {
