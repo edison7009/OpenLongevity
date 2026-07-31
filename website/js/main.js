@@ -104,9 +104,9 @@
     languageButton.setAttribute("aria-label", locale === "zh" ? "Switch to English" : "切换至中文");
     document.querySelector(".site-header nav").setAttribute("aria-label", locale === "zh" ? "主要导航" : "Primary navigation");
     installButton.setAttribute("aria-label", text.copyCommand);
-    homePreview.src = `./product-ui/home-${locale}.png`;
+    homePreview.src = `./product-ui/home-${locale}.webp`;
     homePreview.alt = text.homeAlt;
-    settingsPreview.src = `./product-ui/settings-${locale}.png`;
+    settingsPreview.src = `./product-ui/settings-${locale}.webp`;
     settingsPreview.alt = text.modelAlt;
     copyState.textContent = text.copy;
     renderTicker();

@@ -68,11 +68,11 @@ The capture flow limits download size and duration and blocks access to localhos
 
 ### Home and the longevity strategy map
 
-![Open Longevity home screen](docs/assets/product-ui/home-en.png)
+![Open Longevity home screen](docs/assets/product-ui/home-en.webp)
 
 ### Model and local knowledge library
 
-![Open Longevity model settings](docs/assets/product-ui/settings-en.png)
+![Open Longevity model settings](docs/assets/product-ui/settings-en.webp)
 
 ### Ask AI against your own local notes
 

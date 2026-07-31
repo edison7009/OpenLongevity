@@ -49,8 +49,8 @@ test("website is directly deployable without a build step", async () => {
     "open-longevity-logo.png",
     "tree-of-life-engraving.png",
     "textures/analog-film-grain.webp",
-    "product-ui/home-en.png",
-    "product-ui/settings-zh.png",
+    "product-ui/home-en.webp",
+    "product-ui/settings-zh.webp",
     "fonts/Newsreader-Variable-Latin.woff2",
   ]) {
     await access(new URL(path, website));

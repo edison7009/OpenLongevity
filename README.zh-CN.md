@@ -72,11 +72,11 @@ T1–T5 是用于阅读和讨论的起始框架，不是适用于所有人的医
 
 ### 首页与延寿策略地图
 
-![Open Longevity 中文首页](docs/assets/product-ui/home-zh.png)
+![Open Longevity 中文首页](docs/assets/product-ui/home-zh.webp)
 
 ### 模型与本地知识库
 
-![Open Longevity 中文模型设置](docs/assets/product-ui/settings-zh.png)
+![Open Longevity 中文模型设置](docs/assets/product-ui/settings-zh.webp)
 
 ### 基于自己的本地资料与 AI 对话
 
