@@ -16,6 +16,10 @@ test("website is directly deployable without a build step", async () => {
   assert.doesNotMatch(html, /\/src\/main\.tsx|%BASE_URL%/);
   assert.doesNotMatch(javascript, /\bReact\b|createRoot|import\.meta/);
   assert.doesNotMatch(stylesheet, /@import\s+["']tailwindcss/);
+  assert.match(stylesheet, /grid-template-columns:\s*minmax\(0, 1\.18fr\)\s+minmax\(0, 0\.82fr\)/);
+  assert.match(html, /xattr -cr '\/Applications\/Open Longevity\.app'/);
+  assert.match(javascript, /navigator\.userAgentData\?\.platform/);
+  assert.match(javascript, /note\.hidden = note\.dataset\.platformNote !== platform/);
   assert.match(version.version, /^\d+\.\d+\.\d+$/);
   assert.equal((html.match(/<main\b/g) ?? []).length, 1);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);

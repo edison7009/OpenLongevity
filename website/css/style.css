@@ -267,9 +267,9 @@ p {
 }
 
 .hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  width: min(100%, 452px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+  width: min(100%, 620px);
   gap: 14px;
 }
 
@@ -277,7 +277,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 1 1 0;
+  min-width: 0;
   min-height: 48px;
   padding: 0 20px;
   border: 1px solid rgba(161, 230, 180, 0.45);
@@ -292,7 +292,7 @@ p {
 }
 
 .button .button-icon {
-  margin-left: 18px;
+  margin-left: 14px;
   font-family: var(--sans);
   font-size: 17px;
   line-height: 1;
@@ -312,7 +312,6 @@ p {
 }
 
 .button-primary {
-  flex-grow: 1.2;
   color: var(--ink-deep);
   background: var(--teal-bright);
 }
@@ -329,7 +328,7 @@ p {
 }
 
 .install-tools {
-  width: min(100%, 452px);
+  width: min(100%, 620px);
   margin-top: 14px;
 }
 
@@ -374,7 +373,7 @@ p {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  width: min(100%, 452px);
+  width: 100%;
   min-height: 46px;
   margin-top: 8px;
   padding: 0 13px 0 16px;
@@ -387,6 +386,23 @@ p {
   transition:
     border-color 180ms ease,
     background 180ms ease;
+}
+
+.platform-note {
+  margin: 12px 0 0;
+  color: rgba(232, 225, 203, 0.58);
+  font-family: var(--serif);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.platform-note code {
+  display: block;
+  margin-top: 4px;
+  color: rgba(161, 230, 180, 0.82);
+  font-family: var(--mono);
+  font-size: 10px;
+  overflow-wrap: anywhere;
 }
 
 .install-command:hover,
@@ -1435,7 +1451,7 @@ footer p:last-child {
   }
 
   .hero-actions {
-    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .button {

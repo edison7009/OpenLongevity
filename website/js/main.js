@@ -15,6 +15,7 @@
       heroLead: "让 AI 与科学，", heroAccent: "滋养你的生命之树",
       heroBody: "Open Longevity 以 Bryan Johnson 的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。",
       install: "Install Open Longevity", star: "Star on GitHub", copy: "复制", copied: "已复制", copyCommand: "复制安装命令",
+      macosNote: "macOS：首次打开若无反应或提示「已损坏」，在「终端」运行",
       statementEyebrow: "OPEN LONGEVITY / 开放宣言", statement: "科学长寿，不应该是富豪专属。",
       statementBody: "昂贵的私人团队、封闭的数据和难以验证的建议，不该成为通往更长生命的门槛。Open Longevity 希望把知识、证据与工具打开，让每个人都能理解、检查并建立自己的延寿计划。",
       principle1Title: "开放知识", principle1Body: "中英文出厂资料公开组织，让专业信息变得可读、可检索、可继续生长。",
@@ -42,6 +43,7 @@
       heroLead: "Let AI and science", heroAccent: "nurture your Tree of Life",
       heroBody: "Open Longevity takes Bryan Johnson's longevity plan as a starting blueprint, then adds AI and scientific evidence so ordinary people can access a level of strategy once reserved for the wealthy.",
       install: "Install Open Longevity", star: "Star on GitHub", copy: "Copy", copied: "Copied", copyCommand: "Copy the install command",
+      macosNote: "macOS: If the app does not open or is reported as damaged, run this in Terminal:",
       statementEyebrow: "OPEN LONGEVITY / AN OPEN MANIFESTO", statement: "Longevity science should not belong only to the wealthy.",
       statementBody: "Expensive private teams, closed data, and advice that cannot be examined should not stand between people and a longer life. Open Longevity opens the knowledge, evidence, and tools so anyone can understand, inspect, and build a plan of their own.",
       principle1Title: "Open knowledge", principle1Body: "Bilingual starter material makes specialist information readable, searchable, and ready to grow.",
@@ -66,14 +68,15 @@
 
   const tierLabels = ["FOUNDATION", "HIGH VALUE", "CONTEXTUAL", "EMERGING", "FRONTIER"];
   let locale = "zh";
-  const detectedPlatform = navigator.platform.toLowerCase();
-  let platform = detectedPlatform.includes("mac") ? "macos" : detectedPlatform.includes("win") ? "windows" : "linux";
+  const platformHint = [navigator.userAgentData?.platform, navigator.platform, navigator.userAgent].filter(Boolean).join(" ").toLowerCase();
+  let platform = /mac|iphone|ipad|ipod/.test(platformHint) ? "macos" : /win/.test(platformHint) ? "windows" : "linux";
   let copyResetTimer;
   const languageButton = document.querySelector(".language-switch");
   const installButton = document.querySelector(".install-command");
   const commandCode = installButton.querySelector("code");
   const terminalPrompt = installButton.querySelector(".terminal-prompt");
   const copyState = installButton.querySelector(".copy-state");
+  const platformNotes = document.querySelectorAll("[data-platform-note]");
   const homePreview = document.querySelector("#home-preview");
   const settingsPreview = document.querySelector("#settings-preview");
 
@@ -115,6 +118,7 @@
     terminalPrompt.textContent = installCommands[platform].prompt;
     commandCode.textContent = installCommands[platform].command;
     copyState.textContent = copy[locale].copy;
+    platformNotes.forEach((note) => { note.hidden = note.dataset.platformNote !== platform; });
   }
 
   async function copyInstallCommand() {
