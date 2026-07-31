@@ -106,7 +106,7 @@ import {
 } from './modelSettings';
 
 const APP_VERSION = packageMetadata.version;
-const PRODUCT_WEBSITE = 'https://edison7009.github.io/OpenLongevity/';
+const PRODUCT_WEBSITE = 'https://openlongevity.life/';
 const FEEDBACK_URL = 'https://github.com/edison7009/OpenLongevity/issues';
 const DISCLAIMER_PROGRESS_KEY = 'openlongevity:disclaimer-progress:v2';
 const DISCLAIMER_REQUIRED_DAYS = 7;

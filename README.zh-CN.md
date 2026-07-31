@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/edison7009/OpenLongevity/releases/latest"><strong>下载最新版</strong></a> · <a href="https://edison7009.github.io/OpenLongevity/">项目网站</a>
+  <a href="https://github.com/edison7009/OpenLongevity/releases/latest"><strong>下载最新版</strong></a> · <a href="https://openlongevity.life/">项目网站</a>
 </p>
 
 > 富豪可以组建医疗团队、持续追踪指标、整理研究并迭代个人方案。<br>

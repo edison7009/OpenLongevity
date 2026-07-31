@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  Windows · macOS · Linux · <a href="https://github.com/edison7009/OpenLongevity/releases/latest"><strong>Download latest</strong></a> · <a href="https://edison7009.github.io/OpenLongevity/">Website</a>
+  Windows · macOS · Linux · <a href="https://github.com/edison7009/OpenLongevity/releases/latest"><strong>Download latest</strong></a> · <a href="https://openlongevity.life/">Website</a>
 </p>
 
 > Wealth can buy private medical teams, continuous measurement, research support, and rapidly evolving personal protocols.<br>
