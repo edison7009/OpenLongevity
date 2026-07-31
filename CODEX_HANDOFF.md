@@ -153,12 +153,14 @@ to the product template.
 
 - Website source: `website/`
 - Primary hosted URL: `https://openlongevity.life/` (Cloudflare Pages).
-- The website is a static Vite/React site. For Cloudflare Pages, use `website`
-  as the root directory, `npm run build` as the build command, and `dist` as the
-  build output directory. `website/wrangler.toml` records the Pages project and
-  output-directory configuration. GitHub Pages remains available from the main
-  repository workflow as a mirror at
+- The website is build-free HTML/CSS/JavaScript. For Cloudflare Pages, leave
+  the framework preset, build command, and root directory empty; set only the
+  build output directory to `website`. GitHub Pages publishes that same folder
+  from the main repository workflow as a mirror at
   `https://edison7009.github.io/OpenLongevity/`.
+- `website/version.json` participates in `npm run release:check` and must match
+  all desktop version fields. `website/_worker.js` exposes release-aware
+  version and download routes, and the install scripts fall back to GitHub.
 - The desktop app and website are separate products in the same repository.
   The former `OpenLongevity-website` repository remains as a migration backup.
 - Visual direction: dark teal, Renaissance scientific engraving, warm paper,
@@ -189,8 +191,7 @@ to the product template.
 - Architecture notes: `docs/ARCHITECTURE.md`.
 - Bilingual-library rules: `docs/BILINGUAL_LIBRARY.md`.
 - Cross-platform release workflow: `.github/workflows/release.yml`.
-- Website: static Vite/React in `website/app/`; public assets in
-  `website/public/`.
+- Website: build-free static HTML/CSS/JavaScript under `website/`.
 
 ## Restore development dependencies on a new machine
 
@@ -199,7 +200,6 @@ Prerequisites:
 - Node.js and npm
 - Rust toolchain
 - Tauri platform prerequisites for the operating system
-- Website requires Node.js 22.13 or newer
 
 Desktop:
 
@@ -215,14 +215,12 @@ Website:
 
 ```powershell
 cd C:\OpenLongevity\website
-npm install
-npm run build
-npm run dev
+npx serve .
 ```
 
-Recreating `node_modules/`, `dist/`, or `src-tauri/target/` is expected. These
-are deliberately excluded from portable copies because they are generated and
-machine-specific.
+Recreating desktop `node_modules/`, `dist/`, or `src-tauri/target/` is expected.
+These are deliberately excluded from portable copies because they are generated
+and machine-specific. The website itself has no generated build directory.
 
 ## Recommended continuation
 

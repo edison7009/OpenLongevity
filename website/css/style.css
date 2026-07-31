@@ -1,11 +1,9 @@
-@import "tailwindcss";
-
 @font-face {
   font-family: "Newsreader";
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url("/fonts/Newsreader-Variable-Latin.woff2") format("woff2");
+  src: url("../fonts/Newsreader-Variable-Latin.woff2") format("woff2");
 }
 
 @font-face {
@@ -13,7 +11,7 @@
   font-style: italic;
   font-weight: 200 800;
   font-display: swap;
-  src: url("/fonts/Newsreader-Italic-Variable-Latin.woff2") format("woff2");
+  src: url("../fonts/Newsreader-Italic-Variable-Latin.woff2") format("woff2");
 }
 
 :root {
@@ -181,7 +179,7 @@ button {
     linear-gradient(0deg, rgba(3, 18, 12, 0.58) 0%, transparent 34%),
     linear-gradient(rgba(116, 191, 171, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(116, 191, 171, 0.035) 1px, transparent 1px),
-    url("/tree-of-life-engraving.png"),
+    url("../tree-of-life-engraving.png"),
     var(--ink-deep);
   background-position: center, center, center, center, center;
   background-size: cover, cover, 44px 44px, 44px 44px, cover;
@@ -300,6 +298,15 @@ p {
   line-height: 1;
 }
 
+.release-version {
+  margin-left: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0;
+  opacity: 0.62;
+}
+
 .button .star-icon {
   font-size: 20px;
 }
@@ -321,13 +328,55 @@ p {
   color: var(--brass-light);
 }
 
+.install-tools {
+  width: min(100%, 452px);
+  margin-top: 14px;
+}
+
+.platform-switch {
+  display: flex;
+  gap: 18px;
+  min-height: 30px;
+  border-bottom: 1px solid rgba(232, 225, 203, 0.14);
+}
+
+.platform-switch button {
+  position: relative;
+  padding: 0 0 8px;
+  color: rgba(232, 225, 203, 0.46);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.platform-switch button::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: var(--teal-bright);
+  content: "";
+  transform: scaleX(0);
+}
+
+.platform-switch button.active {
+  color: var(--teal-bright);
+}
+
+.platform-switch button.active::after {
+  transform: scaleX(1);
+}
+
 .install-command {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   width: min(100%, 452px);
   min-height: 46px;
-  margin-top: 14px;
+  margin-top: 8px;
   padding: 0 13px 0 16px;
   border: 1px solid rgba(232, 225, 203, 0.18);
   color: rgba(242, 236, 217, 0.72);

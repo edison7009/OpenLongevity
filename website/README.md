@@ -1,50 +1,50 @@
 # Open Longevity website
 
-Public website for [Open Longevity](https://github.com/edison7009/OpenLongevity),
-an open-source, local-first longevity knowledge application powered by AI and
-scientific evidence.
+The public website for [Open Longevity](https://github.com/edison7009/OpenLongevity).
+It is plain HTML, CSS, and JavaScript and does not require a build step.
 
 ## Development
 
-Requires Node.js 22 or newer.
+Serve this directory with any static HTTP server, for example:
 
 ```bash
-npm install
-npm run dev
+npx serve .
 ```
+
+Opening `index.html` directly also renders the page. An HTTP server is useful
+for testing `version.json` and clipboard behavior.
 
 ## Verification
 
+From the repository root:
+
 ```bash
-npm test
+node --test website/tests/static-site.test.mjs
+node --check website/js/main.js
+node --check website/_worker.js
 ```
 
-The production build is a static Vite site in `dist/`.
+## Cloudflare Pages
 
-## Deployment
-
-Changes under `website/` on the main repository's `main` branch are deployed
-automatically by the root `.github/workflows/website-pages.yml` workflow.
-
-The primary site is deployed by Cloudflare Pages. Use these Git integration
-settings:
+Only one project setting is required:
 
 | Setting | Value |
 | --- | --- |
-| Production branch | `main` |
-| Root directory | `website` |
-| Build command | `npm run build` |
-| Build output directory | `dist` |
+| Build output directory | `website` |
 
-The checked-in `wrangler.toml` also declares `./dist` as the Pages output
-directory so the deployment target stays versioned with the website.
+Leave the framework preset, build command, and root directory empty. The
+checked-in `_worker.js` serves static files and provides release-aware
+`/version.json` and `/download/<platform>` routes.
 
-`website/` is the Vite project root and contains TypeScript source. It must not
-be selected as the build output directory; only `website/dist/` contains the
-browser-ready static site.
+Primary URL: [openlongevity.life](https://openlongevity.life/)
 
-Primary URL:
-[openlongevity.life](https://openlongevity.life/)
+The root `.github/workflows/website-pages.yml` workflow publishes the same
+directory to the [GitHub Pages mirror](https://edison7009.github.io/OpenLongevity/).
 
-GitHub Pages mirror:
-[edison7009.github.io/OpenLongevity](https://edison7009.github.io/OpenLongevity/)
+## Versioning
+
+`website/version.json` must match the desktop version in `package.json`,
+`src-tauri/tauri.conf.json`, and `src-tauri/Cargo.toml`. The repository's
+`npm run release:check` command enforces this before a release is published.
+The release is visible to the website and installers only after the matching
+GitHub Release and platform assets have actually been published.

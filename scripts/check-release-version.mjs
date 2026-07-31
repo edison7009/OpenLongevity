@@ -11,11 +11,15 @@ const cargoManifest = readFileSync(
 const cargoVersion = cargoManifest.match(
   /^\s*version\s*=\s*"([^"]+)"\s*$/m,
 )?.[1];
+const websiteVersion = JSON.parse(
+  readFileSync(new URL('../website/version.json', import.meta.url), 'utf8'),
+).version;
 
 const versions = {
   'package.json': packageJson.version,
   'src-tauri/tauri.conf.json': tauriConfig.version,
   'src-tauri/Cargo.toml': cargoVersion,
+  'website/version.json': websiteVersion,
 };
 const uniqueVersions = new Set(Object.values(versions));
 

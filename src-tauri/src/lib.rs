@@ -28,6 +28,8 @@ const MAX_RESEARCH_CONTEXT_BYTES: usize = 32_000;
 const STARTER_PACK_VERSION: &str = "11";
 const LATEST_RELEASE_API: &str =
     "https://api.github.com/repos/edison7009/OpenLongevity/releases/latest";
+const WEBSITE_VERSION_API: &str = "https://openlongevity.life/version.json?platform=windows";
+const WEBSITE_WINDOWS_DOWNLOAD: &str = "https://openlongevity.life/download/windows";
 const RELEASE_DOWNLOAD_PREFIX: &str =
     "https://github.com/edison7009/OpenLongevity/releases/download/";
 const REMOVED_STARTER_FILES: &[&str] = &[
@@ -149,6 +151,11 @@ struct GithubReleaseAsset {
     name: String,
     browser_download_url: String,
     size: u64,
+}
+
+#[derive(Debug, Deserialize)]
+struct WebsiteVersion {
+    version: String,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -1942,6 +1949,36 @@ async fn latest_release(client: &reqwest::Client) -> Result<GithubRelease, Strin
         .map_err(|error| format!("Invalid update response: {error}"))
 }
 
+async fn website_version(client: &reqwest::Client) -> Result<String, String> {
+    let response = client
+        .get(WEBSITE_VERSION_API)
+        .send()
+        .await
+        .map_err(|error| format!("Unable to check the website version: {error}"))?;
+    if !response.status().is_success() {
+        return Err(format!(
+            "The website returned {} while checking for updates",
+            response.status()
+        ));
+    }
+    let version = response
+        .json::<WebsiteVersion>()
+        .await
+        .map_err(|error| format!("Invalid website version response: {error}"))?
+        .version;
+    if version.trim().is_empty() {
+        return Err("The Windows installer is not published yet".to_string());
+    }
+    Ok(version)
+}
+
+async fn latest_version(client: &reqwest::Client) -> Result<String, String> {
+    if let Ok(version) = website_version(client).await {
+        return Ok(version);
+    }
+    latest_release(client).await.map(|release| release.tag_name)
+}
+
 fn version_numbers(version: &str) -> Vec<u64> {
     version
         .trim()
@@ -1970,11 +2007,9 @@ fn is_newer_version(remote: &str, local: &str) -> bool {
 #[tauri::command]
 async fn check_for_update() -> Result<Option<String>, String> {
     let client = release_client()?;
-    let release = latest_release(&client).await?;
-    if is_newer_version(&release.tag_name, env!("CARGO_PKG_VERSION")) {
-        Ok(Some(
-            release.tag_name.trim_start_matches(['v', 'V']).to_string(),
-        ))
+    let version = latest_version(&client).await?;
+    if is_newer_version(&version, env!("CARGO_PKG_VERSION")) {
+        Ok(Some(version.trim_start_matches(['v', 'V']).to_string()))
     } else {
         Ok(None)
     }
@@ -1995,38 +2030,43 @@ async fn run_windows_update(app: tauri::AppHandle) -> Result<(), String> {
     emit("checking", 0);
     let result = async {
         let client = release_client()?;
-        let release = latest_release(&client).await?;
-        let asset = release
-            .assets
-            .into_iter()
-            .find(|asset| {
-                asset
-                    .name
-                    .to_ascii_lowercase()
-                    .ends_with("_windows_x64-setup.exe")
-            })
-            .ok_or_else(|| "The latest release has no Windows installer".to_string())?;
-
-        if !asset
-            .browser_download_url
-            .starts_with(RELEASE_DOWNLOAD_PREFIX)
-        {
-            return Err("The update download URL is not trusted".to_string());
-        }
-
-        let mut response = client
-            .get(&asset.browser_download_url)
-            .send()
-            .await
-            .map_err(|error| format!("Unable to download the update: {error}"))?;
+        let website_download = client.get(WEBSITE_WINDOWS_DOWNLOAD).send().await;
+        let (mut response, expected_asset_size) = match website_download {
+            Ok(response) if response.status().is_success() => (response, 0),
+            _ => {
+                let release = latest_release(&client).await?;
+                let asset = release
+                    .assets
+                    .into_iter()
+                    .find(|asset| {
+                        asset
+                            .name
+                            .to_ascii_lowercase()
+                            .ends_with("_windows_x64-setup.exe")
+                    })
+                    .ok_or_else(|| "The latest release has no Windows installer".to_string())?;
+                if !asset
+                    .browser_download_url
+                    .starts_with(RELEASE_DOWNLOAD_PREFIX)
+                {
+                    return Err("The update download URL is not trusted".to_string());
+                }
+                let response = client
+                    .get(&asset.browser_download_url)
+                    .send()
+                    .await
+                    .map_err(|error| format!("Unable to download the update: {error}"))?;
+                (response, asset.size)
+            }
+        };
         if !response.status().is_success() {
             return Err(format!(
-                "GitHub returned {} while downloading the update",
+                "The download server returned {} while downloading the update",
                 response.status()
             ));
         }
 
-        let expected_size = asset.size.max(response.content_length().unwrap_or(0));
+        let expected_size = expected_asset_size.max(response.content_length().unwrap_or(0));
         let installer_path = std::env::temp_dir().join("Open-Longevity-update-setup.exe");
         let mut installer = fs::File::create(&installer_path)
             .map_err(|error| format!("Unable to create the update installer: {error}"))?;
@@ -2053,7 +2093,7 @@ async fn run_windows_update(app: tauri::AppHandle) -> Result<(), String> {
             .flush()
             .map_err(|error| format!("Unable to finish saving the update: {error}"))?;
 
-        if downloaded == 0 || (asset.size > 0 && downloaded != asset.size) {
+        if downloaded == 0 || (expected_size > 0 && downloaded != expected_size) {
             return Err("The downloaded installer is incomplete".to_string());
         }
 

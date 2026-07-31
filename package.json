@@ -10,6 +10,7 @@
     "library:check": "node scripts/check-bilingual-library.mjs",
     "preview": "vite preview",
     "release:check": "node scripts/check-release-version.mjs",
+    "website:check": "node --test website/tests/static-site.test.mjs && node --check website/js/main.js && node --check website/_worker.js",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",

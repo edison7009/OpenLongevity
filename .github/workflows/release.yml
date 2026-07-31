@@ -43,6 +43,9 @@ jobs:
       - name: Check release version
         run: npm run release:check
 
+      - name: Check static website
+        run: npm run website:check
+
       - name: Install Linux build dependencies
         run: |
           sudo apt-get update
@@ -85,14 +88,9 @@ jobs:
             ID=$(gh api --method POST "repos/${REPO}/releases" \
               -f tag_name="${TAG}" \
               -f name="Open Longevity ${TAG}" \
-              -f body="Open Longevity 0.0.8
+              -f body="Open Longevity ${TAG#v}
 
-          What is new since 0.0.7:
-          - OpenAI and Anthropic now keep independent API URLs, models, and API keys, with automatic migration of existing settings
-          - New provider fields stay empty and show protocol-specific examples as placeholders instead of writing defaults
-          - The chat composer now uses one action button: an up arrow for send that becomes a stop control during generation
-          - The update action is now a background-free download icon with one consistently aligned progress ring
-          - Fixed the Windows update launch order so the installer opens before Open Longevity exits
+          This release includes the changes recorded in the repository history since the previous version.
 
           Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace, with Windows, macOS, and Linux builds.
 

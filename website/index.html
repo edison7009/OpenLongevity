@@ -3,29 +3,118 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。"
-    />
-    <meta property="og:title" content="Open Longevity" />
-    <meta
-      property="og:description"
-      content="让 AI 与科学，滋养你的生命之树。"
-    />
+    <meta name="description" content="本地优先、由科学依据支持的长寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。" />
+    <meta property="og:title" content="Open Longevity · 让 AI 与科学滋养你的生命之树" />
+    <meta property="og:description" content="Open Longevity 以 Bryan Johnson 的延寿计划为蓝本，融入 AI 与科学依据。" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="https://openlongevity.life/"
-    />
-    <meta
-      property="og:image"
-      content="https://openlongevity.life/tree-of-life-engraving.png"
-    />
-    <link rel="icon" href="%BASE_URL%open-longevity-logo.png" />
+    <meta property="og:url" content="https://openlongevity.life/" />
+    <meta property="og:image" content="https://openlongevity.life/tree-of-life-engraving.png" />
+    <link rel="icon" href="./open-longevity-logo.png" />
+    <link rel="stylesheet" href="./css/style.css" />
     <title>Open Longevity · 让 AI 与科学滋养你的生命之树</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <main class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Open Longevity home">
+          <span data-i18n="brand">Open Longevity（开源长寿）</span>
+        </a>
+        <nav aria-label="主要导航">
+          <a href="#principles" data-i18n="navPrinciples">理念</a>
+          <a href="#product" data-i18n="navProduct">产品</a>
+          <a href="#evidence" data-i18n="navEvidence">证据</a>
+          <a href="#open-source" data-i18n="navModels">AI 模型</a>
+        </nav>
+        <button class="language-switch" type="button" aria-label="Switch to English">
+          <span class="active">中</span><i></i><span>EN</span>
+        </button>
+      </header>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <h1><span data-i18n="heroLead">让 AI 与科学，</span><em data-i18n="heroAccent">滋养你的生命之树</em></h1>
+          <p class="hero-body" data-i18n="heroBody">Open Longevity 以 Bryan Johnson 的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="https://github.com/edison7009/OpenLongevity/releases/latest" target="_blank" rel="noreferrer">
+              <span data-i18n="install">Install Open Longevity</span>
+              <small class="release-version" aria-label="Latest version">latest</small>
+              <span class="button-icon" aria-hidden="true">↗</span>
+            </a>
+            <a class="button button-ghost" href="https://github.com/edison7009/OpenLongevity" target="_blank" rel="noreferrer">
+              <span data-i18n="star">Star on GitHub</span><span class="button-icon star-icon" aria-hidden="true">☆</span>
+            </a>
+          </div>
+          <div class="install-tools">
+            <div class="platform-switch" role="group" aria-label="Install platform">
+              <button type="button" class="active" data-platform="windows">Windows</button>
+              <button type="button" data-platform="macos">macOS</button>
+              <button type="button" data-platform="linux">Linux</button>
+            </div>
+            <button class="install-command" type="button" aria-label="复制安装命令">
+              <span class="terminal-prompt" aria-hidden="true">PS&gt;</span>
+              <code>irm https://openlongevity.life/install.ps1 | iex</code>
+              <span class="copy-state" aria-live="polite" data-i18n="copy">复制</span>
+            </button>
+          </div>
+        </div>
+        <div class="hero-visual" role="img" aria-label="生命之树 / 持续生长的知识"></div>
+        <div class="hero-index">01 / THE LIVING INDEX</div>
+      </section>
+
+      <div class="signal-strip" aria-hidden="true">
+        <div class="signal-track"></div>
+      </div>
+
+      <section class="manifesto paper-section" id="principles">
+        <div class="manifesto-mark" aria-hidden="true"><strong>01</strong><span>OPEN / FOR ALL</span></div>
+        <div class="manifesto-copy">
+          <p class="section-eyebrow" data-i18n="statementEyebrow">OPEN LONGEVITY / 开放宣言</p>
+          <h2 data-i18n="statement">科学长寿，不应该是富豪专属。</h2>
+          <p data-i18n="statementBody">昂贵的私人团队、封闭的数据和难以验证的建议，不该成为通往更长生命的门槛。Open Longevity 希望把知识、证据与工具打开，让每个人都能理解、检查并建立自己的延寿计划。</p>
+        </div>
+        <div class="open-principles">
+          <article class="open-principle"><div class="open-principle-heading"><span>01</span><small>OPEN KNOWLEDGE</small></div><h3 data-i18n="principle1Title">开放知识</h3><p data-i18n="principle1Body">中英文出厂资料公开组织，让专业信息变得可读、可检索、可继续生长。</p></article>
+          <article class="open-principle"><div class="open-principle-heading"><span>02</span><small>TRACEABLE EVIDENCE</small></div><h3 data-i18n="principle2Title">可验证证据</h3><p data-i18n="principle2Body">结论始终保留来源、证据边界与适用条件，欢迎追问，而不是要求盲信。</p></article>
+          <article class="open-principle"><div class="open-principle-heading"><span>03</span><small>OPEN SOURCE</small></div><h3 data-i18n="principle3Title">开源工具</h3><p data-i18n="principle3Body">代码与数据结构可以被检查、改进和扩展；模型可替换，个人资料默认属于你。</p></article>
+        </div>
+      </section>
+
+      <section class="product-section" id="product">
+        <div class="section-heading"><p class="section-eyebrow" data-i18n="productEyebrow">三条生长路径</p><h2 data-i18n="productTitle">AI + 科学的时代</h2></div>
+        <div class="product-grid">
+          <article class="product-card"><div class="card-topline"><span>01</span><span>DISCOVER</span></div><div class="process-mark mark-01"><i></i><i></i><i></i></div><h3 data-i18n="product1Title">最新科学进展</h3><p data-i18n="product1Body">补剂、运动、饮食与人物案例，以普通人能读懂的方式组织；专业证据仍然随时可追溯。</p></article>
+          <article class="product-card"><div class="card-topline"><span>02</span><span>CAPTURE</span></div><div class="process-mark mark-02"><i></i><i></i><i></i></div><h3 data-i18n="product2Title">AI 快速收录</h3><p data-i18n="product2Body">把论文链接、摘要或临时想法直接交给 AI，提炼研究对象、结果、局限与来源，再由你决定是否保存。</p></article>
+          <article class="product-card"><div class="card-topline"><span>03</span><span>UNDERSTAND</span></div><div class="process-mark mark-03"><i></i><i></i><i></i></div><h3 data-i18n="product3Title">AI 长寿助力</h3><p data-i18n="product3Body">围绕你的资料持续对话。它记得当前上下文，也清楚地区分个人方案、一般信息与尚未证实的推测。</p></article>
+        </div>
+      </section>
+
+      <section class="interface-section">
+        <div class="interface-copy">
+          <p class="section-eyebrow" data-i18n="interfaceEyebrow">一间属于你的研究室</p><h2 data-i18n="interfaceTitle">人人都能看得懂的界面。</h2><p data-i18n="interfaceBody">左侧是知识地图，中间是阅读与证据，右侧是计划与收藏。无需打开开发工具，也无需把私人资料上传到陌生平台。</p>
+          <div class="material-list" aria-label="Key product qualities"><span>KNOWLEDGE MAP</span><span>TRACEABLE EVIDENCE</span><span>PLANS & FAVORITES</span></div>
+        </div>
+        <div class="interface-gallery"><figure class="product-shot product-shot-home"><img id="home-preview" src="./product-ui/home-zh.png" alt="Open Longevity 中文首页与策略地图" /><figcaption data-i18n="homeCaption">首页 · 长寿策略地图</figcaption></figure></div>
+      </section>
+
+      <section class="evidence-section" id="evidence">
+        <div class="evidence-intro"><p class="section-eyebrow" data-i18n="evidenceEyebrow">优先级，不是假装精确的分数</p><h2 data-i18n="evidenceTitle">先做确定性更高的事。</h2><p data-i18n="evidenceBody">Open Longevity 默认参考公开方案与证据成熟度给出起始排序，但保留适用条件与不确定性。你可以按自己的理解调整，也可以让 AI 协助重排。</p></div>
+        <div class="tier-table">
+          <div class="tier-row"><strong style="--tier:0">T1</strong><span data-tier="0">力量训练 · 有氧运动 · 健康饮食</span><small>FOUNDATION</small></div>
+          <div class="tier-row"><strong style="--tier:1">T2</strong><span data-tier="1">肌酸 · 可溶性膳食纤维 · Omega-3</span><small>HIGH VALUE</small></div>
+          <div class="tier-row"><strong style="--tier:2">T3</strong><span data-tier="2">维生素 D3 · 镁 · 维生素 C</span><small>CONTEXTUAL</small></div>
+          <div class="tier-row"><strong style="--tier:3">T4</strong><span data-tier="3">辅酶 Q10 · NAD+ · 亚精胺</span><small>EMERGING</small></div>
+          <div class="tier-row"><strong style="--tier:4">T5</strong><span data-tier="4">麦角硫因 · PQQ · Ca-AKG</span><small>FRONTIER</small></div>
+        </div>
+      </section>
+
+      <section class="open-section model-section" id="open-source">
+        <div class="open-copy"><p class="section-eyebrow" data-i18n="openEyebrow">选择你的 AI</p><h2><span data-i18n="openTitle1">模型由你选择，</span><span data-i18n="openTitle2">AI 真正为你运行。</span></h2><p data-i18n="openBody">OpenAI、Anthropic，或任何兼容接口都可以接入。选择模型、API 地址与本地知识库后，AI 即可参与资料收录、证据理解和持续对话；密钥只保存在当前用户的本地配置中。</p><div class="model-features"><span>OPENAI</span><span>ANTHROPIC</span><span>CUSTOM API</span><span>LOCAL LIBRARY</span></div></div>
+        <figure class="model-stage"><img id="settings-preview" src="./product-ui/settings-zh.png" alt="Open Longevity 模型与知识库配置界面" /><figcaption data-i18n="modelCaption">模型与知识库 · 配置保存在本地</figcaption></figure>
+      </section>
+
+      <section class="closing-section"><div class="closing-tree" aria-hidden="true"><span>│</span><span>╱╲</span><span>╱┼╲</span></div><p>OPEN LONGEVITY · SCIENTIA VITAE</p><h2><span data-i18n="closing1">AI 和科学，</span><span data-i18n="closing2">改变人类命运。</span></h2><a href="#top"><span data-i18n="returnTop">回到生命之树</span> ↑</a></section>
+      <footer><div class="brand footer-brand"><span data-i18n="brand">Open Longevity（开源长寿）</span></div><p data-i18n="footerNote">科学长寿知识与 AI 桌面应用</p><p>© 2026 · OPEN SOURCE · <span class="release-version">latest</span></p></footer>
+    </main>
+    <script src="./js/main.js" defer></script>
   </body>
 </html>
