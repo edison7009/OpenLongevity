@@ -1,5 +1,5 @@
 export type Locale = 'zh' | 'en';
-export type View = 'home' | 'supplement' | 'people' | 'person' | 'stories' | 'story' | 'plan';
+export type View = 'home' | 'ai' | 'supplement' | 'people' | 'person' | 'stories' | 'story' | 'plan';
 
 export interface Supplement {
   id: string;
@@ -40,21 +40,53 @@ export interface LibrarySnapshot {
 }
 
 export interface ModelConfig {
-  provider: 'openai' | 'deepseek' | 'openrouter' | 'custom';
+  provider: 'openai' | 'anthropic';
   baseUrl: string;
   model: string;
   apiKey: string;
 }
 
+export interface MemorySuggestion {
+  id: string;
+  kind: 'goal' | 'preference' | 'constraint' | 'profile' | 'correction' | 'health_context';
+  content: string;
+  sourceConversationId: string;
+}
+
+export interface MemoryItem extends MemorySuggestion {
+  createdAt: number;
+  updatedAt: number;
+}
+
 export interface ChatMessage {
   id: string;
-  role: 'user' | 'assistant' | 'tool_call';
+  role: 'user' | 'assistant' | 'tool_call' | 'memory_suggestion';
   content: string;
   createdAt: number;
   toolName?: string;
   toolArgs?: string;
   toolStatus?: 'running' | 'done' | 'failed';
   toolOutput?: string;
+  memorySuggestion?: MemorySuggestion;
+  memoryStatus?: 'pending' | 'saved' | 'dismissed';
+}
+
+export interface ConversationSummary {
+  id: string;
+  title: string;
+  createdAt: number;
+  updatedAt: number;
+  messageCount: number;
+  estimatedContextBytes: number;
+}
+
+export interface ConversationRecord {
+  id: string;
+  title: string;
+  createdAt: number;
+  updatedAt: number;
+  uiMessages: ChatMessage[];
+  llmMessages: unknown[];
 }
 
 export interface ChatRequest {
@@ -93,12 +125,15 @@ export interface CaptureDraft {
 // ── Agent events (from Rust backend via Tauri) ──
 
 export type AgentEvent =
-  | { type: 'text_delta'; text: string }
-  | { type: 'tool_call_start'; id: string; name: string }
-  | { type: 'tool_call_args'; id: string; args: string }
-  | { type: 'tool_result'; id: string; output: string; success: boolean }
-  | { type: 'done' }
-  | { type: 'error'; message: string };
+  | { type: 'text_delta'; conversationId?: string; text: string }
+  | { type: 'thinking'; conversationId?: string; text: string }
+  | { type: 'tool_call_start'; conversationId?: string; id: string; name: string }
+  | { type: 'tool_call_args'; conversationId?: string; id: string; args: string }
+  | { type: 'tool_result'; conversationId?: string; id: string; output: string; success: boolean }
+  | { type: 'memory_suggestion'; conversationId?: string; suggestion: MemorySuggestion }
+  | { type: 'done'; conversationId?: string }
+  | { type: 'error'; conversationId?: string; message: string }
+  | { type: 'state'; conversationId?: string; state: string };
 
 export interface ToolCallMessage {
   id: string;
@@ -109,9 +144,11 @@ export interface ToolCallMessage {
 }
 
 export interface AgentRequest {
+  conversationId: string;
   apiKey: string;
   baseUrl: string;
   model: string;
+  provider?: string;
   message: string;
   locale: Locale;
   knowledgeRoot: string;

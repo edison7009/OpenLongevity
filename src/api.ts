@@ -6,7 +6,11 @@ import type {
   CaptureDraft,
   CaptureRequest,
   ChatRequest,
+  ConversationRecord,
+  ConversationSummary,
   LibrarySnapshot,
+  MemoryItem,
+  MemorySuggestion,
   PrepareCaptureRequest,
 } from './types';
 
@@ -131,7 +135,87 @@ export async function listenAgentEvents(
   return listen<AgentEvent>('agent_event', (e) => handler(e.payload));
 }
 
-export async function resetAgent(): Promise<string> {
+export async function resetAgent(conversationId?: string): Promise<string> {
   if (!isTauri) return 'ok';
-  return invoke<string>('agent_reset');
+  return invoke<string>('agent_reset', { conversationId });
+}
+
+export async function abortAgent(conversationId?: string): Promise<boolean> {
+  if (!isTauri) return false;
+  return invoke<boolean>('agent_abort', { conversationId });
+}
+
+export async function listConversations(): Promise<ConversationSummary[]> {
+  if (!isTauri) return [];
+  return invoke<ConversationSummary[]>('list_conversations');
+}
+
+export async function createConversation(title?: string): Promise<ConversationSummary> {
+  if (!isTauri) {
+    const timestamp = Date.now();
+    return {
+      id: crypto.randomUUID(),
+      title: title || 'New conversation',
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      messageCount: 0,
+      estimatedContextBytes: 0,
+    };
+  }
+  return invoke<ConversationSummary>('create_conversation', { title });
+}
+
+export async function loadConversation(id: string): Promise<ConversationRecord> {
+  if (!isTauri) {
+    const timestamp = Date.now();
+    return {
+      id,
+      title: 'New conversation',
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      uiMessages: [],
+      llmMessages: [],
+    };
+  }
+  return invoke<ConversationRecord>('load_conversation', { id });
+}
+
+export async function saveConversationUi(
+  id: string,
+  uiMessages: ConversationRecord['uiMessages'],
+  title: string | undefined,
+  estimatedContextBytes: number,
+): Promise<ConversationSummary> {
+  if (!isTauri) {
+    const timestamp = Date.now();
+    return {
+      id,
+      title: title || 'New conversation',
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      messageCount: uiMessages.length,
+      estimatedContextBytes,
+    };
+  }
+  return invoke<ConversationSummary>('save_conversation_ui', {
+    id,
+    uiMessages,
+    title,
+    estimatedContextBytes,
+  });
+}
+
+export async function deleteConversation(id: string): Promise<ConversationSummary[]> {
+  if (!isTauri) return [];
+  return invoke<ConversationSummary[]>('delete_conversation', { id });
+}
+
+export async function confirmMemorySuggestion(
+  suggestion: MemorySuggestion,
+): Promise<MemoryItem> {
+  if (!isTauri) {
+    const timestamp = Date.now();
+    return { ...suggestion, createdAt: timestamp, updatedAt: timestamp };
+  }
+  return invoke<MemoryItem>('confirm_memory_suggestion', { suggestion });
 }

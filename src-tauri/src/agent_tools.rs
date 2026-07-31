@@ -81,6 +81,36 @@ pub fn get_tool_definitions() -> Vec<ToolDef> {
                 "required": ["path"]
             }),
         },
+        ToolDef {
+            name: "suggest_memory".into(),
+            description: "Suggest one to three long-term memory candidates for the user to confirm. \
+                Use only for durable user-stated goals, preferences, constraints, corrections, profile facts, or health context that should help future conversations. \
+                This tool does not save memory; it only asks the frontend to show confirmation cards.".into(),
+            parameters: json!({
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "maxItems": 3,
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "kind": {
+                                    "type": "string",
+                                    "enum": ["goal", "preference", "constraint", "profile", "correction", "health_context"]
+                                },
+                                "content": {
+                                    "type": "string",
+                                    "description": "A concise user-confirmable fact, 240 characters or fewer."
+                                }
+                            },
+                            "required": ["kind", "content"]
+                        }
+                    }
+                },
+                "required": ["items"]
+            }),
+        },
     ]
 }
 
@@ -96,6 +126,10 @@ pub async fn execute_tool(
         "save_note" => exec_save_note(args, knowledge_root, locale),
         "search_library" => exec_search_library(args, knowledge_root, locale),
         "read_note" => exec_read_note(args, knowledge_root),
+        "suggest_memory" => ToolResult {
+            success: true,
+            output: "Memory suggestion sent for user confirmation.".into(),
+        },
         _ => ToolResult {
             success: false,
             output: format!("Unknown tool: {name}"),
@@ -178,7 +212,10 @@ fn exec_save_note(args: &Value, root: &Path, _locale: &str) -> ToolResult {
                 .replace('\\', "/");
             ToolResult {
                 success: true,
-                output: format!("Saved note to {relative} ({note_len} chars)", note_len = note.chars().count()),
+                output: format!(
+                    "Saved note to {relative} ({note_len} chars)",
+                    note_len = note.chars().count()
+                ),
             }
         }
         Err(e) => ToolResult {
@@ -332,7 +369,10 @@ fn walk_markdown(root: &Path, locale: &str) -> Result<Vec<(String, String)>, Str
     let mut results = Vec::new();
     let _suffix = if locale == "en" { ".en.md" } else { ".md" };
 
-    for category in &["dossiers", "cases", "stories", "inbox", "papers", "sources", "plans", "profile", "records", "catalog"] {
+    for category in &[
+        "dossiers", "cases", "stories", "inbox", "papers", "sources", "plans", "profile",
+        "records", "catalog",
+    ] {
         let dir = root.join(category);
         if !dir.is_dir() {
             continue;
@@ -346,7 +386,11 @@ fn walk_markdown(root: &Path, locale: &str) -> Result<Vec<(String, String)>, Str
             if !path.is_file() {
                 continue;
             }
-            let name = path.file_name().unwrap_or_default().to_string_lossy().to_string();
+            let name = path
+                .file_name()
+                .unwrap_or_default()
+                .to_string_lossy()
+                .to_string();
             // For zh locale, skip .en.md files; for en locale, only include .en.md files
             if locale == "en" {
                 if !name.ends_with(".en.md") {
@@ -392,7 +436,8 @@ fn extract_snippet(content: &str, term: &str, radius: usize) -> String {
 }
 
 // Polyfill for Rust < 1.91
-#[allow(dead_code)] trait CharBoundaryExt {
+#[allow(dead_code)]
+trait CharBoundaryExt {
     fn floor_char_boundary(&self, index: usize) -> usize;
     fn ceil_char_boundary(&self, index: usize) -> usize;
 }

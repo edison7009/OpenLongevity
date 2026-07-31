@@ -3518,3 +3518,230 @@ body.resizing-panels * {
   border-color: transparent;
 }
 
+/* ── Context meter ── */
+
+.context-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: #2c8a7f;
+}
+
+.context-ring-svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.context-ring-track {
+  stroke: rgba(20, 107, 96, 0.14);
+}
+
+.context-ring-progress {
+  stroke: currentColor;
+  transition: stroke-dashoffset 0.25s ease, color 0.25s ease;
+}
+
+.context-ring.warn {
+  color: #b7791f;
+}
+
+.context-ring.full {
+  color: #b83232;
+}
+
+.context-ring-label {
+  position: relative;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+[data-theme='dark'] .context-ring-track {
+  stroke: rgba(100, 224, 205, 0.16);
+}
+
+/* ── Memory suggestions ── */
+
+.memory-suggestion-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 8px 0;
+  padding: 12px;
+  border: 1px solid rgba(20, 107, 96, 0.18);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(235, 249, 246, 0.95), rgba(255, 255, 255, 0.92));
+  box-shadow: var(--shadow-soft);
+}
+
+.memory-suggestion-card.dismissed {
+  opacity: 0.62;
+}
+
+.memory-suggestion-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.memory-suggestion-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #2c8a7f;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.memory-suggestion-copy strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.memory-suggestion-copy small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.memory-suggestion-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.memory-suggestion-actions button {
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--canvas);
+  color: #46615d;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.memory-suggestion-actions button:first-child {
+  border-color: transparent;
+  background: #0c6b60;
+  color: #fff;
+}
+
+.memory-suggestion-actions span {
+  color: #2c8a7f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+[data-theme='dark'] .memory-suggestion-card {
+  border-color: rgba(100, 224, 205, 0.18);
+  background: linear-gradient(135deg, rgba(20, 45, 43, 0.95), rgba(24, 26, 25, 0.92));
+}
+
+[data-theme='dark'] .memory-suggestion-actions button {
+  background: #202321;
+  color: #d4d8d5;
+  border-color: #343937;
+}
+
+[data-theme='dark'] .memory-suggestion-actions button:first-child {
+  background: #46b6a8;
+  color: #051210;
+}
+
+/* ── Conversation history ── */
+
+.conversation-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.conversation-history-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.conversation-history-item > button {
+  min-width: 0;
+}
+
+.conversation-history-item > button:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--canvas);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.conversation-history-item.active > button:first-child,
+.conversation-history-item > button:first-child:hover:not(:disabled) {
+  border-color: transparent;
+  background: var(--soft-teal);
+}
+
+.conversation-history-item button:disabled {
+  cursor: default;
+}
+
+.conversation-history-item span {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.conversation-history-item strong,
+.conversation-history-item small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conversation-history-item strong {
+  font-size: 12px;
+}
+
+.conversation-history-item small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.conversation-history-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--canvas);
+  color: #9b5555;
+  cursor: pointer;
+}
+
+.conversation-history-delete:hover:not(:disabled) {
+  background: rgba(155, 44, 44, 0.08);
+  border-color: transparent;
+}
+
+.rail-empty-state {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+

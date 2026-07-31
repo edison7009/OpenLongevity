@@ -1,8 +1,12 @@
 use chrono::Local;
+use tauri::State;
 
-mod llm_stream;
-mod agent_tools;
 mod agent_loop;
+mod agent_tools;
+mod conversations;
+mod json_repair;
+mod llm_stream;
+mod memory;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::cmp::Reverse;
@@ -12,6 +16,8 @@ use std::path::{Path, PathBuf};
 use std::time::Duration;
 use tauri::Emitter;
 use tauri::Manager;
+
+use agent_loop::SharedSessionMap;
 
 const MAX_NOTE_BYTES: usize = 120_000;
 const MAX_CONTEXT_BYTES: usize = 52_000;
@@ -2072,15 +2078,53 @@ async fn download_and_install_update(app: tauri::AppHandle) -> Result<(), String
 // -- Agent commands --
 
 #[tauri::command]
-async fn agent_reset() -> Result<String, String> {
-    agent_loop::clear_session_from_disk();
-    Ok("ok".to_string())
+async fn agent_abort(
+    session_map: State<'_, SharedSessionMap>,
+    conversation_id: Option<String>,
+) -> Result<bool, String> {
+    let mut map = session_map.lock().await;
+    if let Some(id) = conversation_id {
+        if let Some(sess) = map.get_mut(&id) {
+            if sess.running {
+                sess.cancel();
+                log::info!("[AgentCommand] Agent aborted: {id}");
+                return Ok(true);
+            }
+        }
+        return Ok(false);
+    }
+
+    for sess in map.values_mut() {
+        if sess.running {
+            sess.cancel();
+            log::info!("[AgentCommand] Agent aborted");
+            return Ok(true);
+        }
+    }
+    Ok(false)
 }
 
+#[tauri::command]
+async fn agent_reset(
+    session_map: State<'_, SharedSessionMap>,
+    conversation_id: Option<String>,
+) -> Result<String, String> {
+    let mut map = session_map.lock().await;
+    if let Some(id) = conversation_id {
+        map.insert(id.clone(), agent_loop::AgentSession::new());
+        log::info!("[AgentCommand] Session reset: {id}");
+    } else {
+        map.clear();
+        agent_loop::clear_session_from_disk();
+        log::info!("[AgentCommand] All sessions reset");
+    }
+    Ok("ok".to_string())
+}
 
 #[tauri::command]
 async fn agent_send_message(
     app: tauri::AppHandle,
+    session_map: State<'_, SharedSessionMap>,
     request: agent_loop::AgentRequest,
 ) -> Result<String, String> {
     if request.api_key.trim().is_empty() {
@@ -2123,17 +2167,30 @@ async fn agent_send_message(
             "\n\nUse the following local context. Do not claim it is exhaustive:\n{local_ctx}"
         ));
     }
-    let rc = if full_research.is_empty() { None } else { Some(full_research) };
-    let mut session = agent_loop::AgentSession::new();
+    let rc = if full_research.is_empty() {
+        None
+    } else {
+        Some(full_research)
+    };
+    let map = (*session_map).clone();
     let app_clone = app.clone();
+    let error_conversation_id = request.conversation_id.clone();
     tokio::spawn(async move {
-        if let Err(e) = agent_loop::run_agent(app_clone, request, &mut session, rc).await {
+        if let Err(e) = agent_loop::run_agent(app_clone, request, map, rc).await {
             log::error!("[AgentCommand] Agent error: {e}");
             let _ = app.emit(
                 "agent_event",
-                agent_loop::AgentEvent::Error { message: e },
+                agent_loop::AgentEvent::Error {
+                    conversation_id: error_conversation_id.clone(),
+                    message: e,
+                },
             );
-            let _ = app.emit("agent_event", agent_loop::AgentEvent::Done);
+            let _ = app.emit(
+                "agent_event",
+                agent_loop::AgentEvent::Done {
+                    conversation_id: error_conversation_id,
+                },
+            );
         }
     });
     Ok("ok".to_string())
@@ -2144,6 +2201,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
+        .manage(agent_loop::create_session_map())
         .invoke_handler(tauri::generate_handler![
             load_library,
             read_note,
@@ -2151,7 +2209,14 @@ pub fn run() {
             save_capture,
             chat_completion,
             agent_send_message,
+            agent_abort,
             agent_reset,
+            conversations::list_conversations,
+            conversations::load_conversation,
+            conversations::save_conversation_ui,
+            conversations::create_conversation,
+            conversations::delete_conversation,
+            memory::confirm_memory_suggestion,
             check_for_update,
             download_and_install_update
         ])

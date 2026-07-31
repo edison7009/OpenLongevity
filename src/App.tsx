@@ -56,15 +56,26 @@ import {
   sendAgentMessage,
   listenAgentEvents,
   resetAgent,
+  abortAgent,
+  listConversations,
+  loadConversation,
+  saveConversationUi,
+  createConversation,
+  deleteConversation,
+  confirmMemorySuggestion,
 } from './api';
+import { ContextRing } from './chat/ContextRing';
+import { AGENT_CONTEXT_MAX_BYTES, estimateContextBytes } from './chat/contextUsage';
 import { fallbackLibrary, fallbackMarkdown } from './data';
 import { translate, type TranslationKey } from './i18n';
 import type {
   AgentEvent,
   ChatMessage,
   CaptureDraft,
+  ConversationSummary,
   LibrarySnapshot,
   Locale,
+  MemorySuggestion,
   ModelConfig,
   Person,
   Story,
@@ -107,27 +118,27 @@ const providerPresets: Record<
 > = {
   openai: {
     baseUrl: 'https://api.openai.com/v1',
-    model: 'gpt-5.5',
-    label: { zh: 'OpenAI', en: 'OpenAI' },
+    model: 'gpt-5',
+    label: { zh: 'OpenAI 协议', en: 'OpenAI Protocol' },
   },
-  deepseek: {
-    baseUrl: 'https://api.deepseek.com/v1',
-    model: 'deepseek-v4-pro',
-    label: { zh: 'DeepSeek', en: 'DeepSeek' },
+  anthropic: {
+    baseUrl: 'https://api.anthropic.com',
+    model: 'claude-sonnet-5',
+    label: { zh: 'Anthropic 协议', en: 'Anthropic Protocol' },
   },
-  openrouter: {
-    baseUrl: 'https://openrouter.ai/api/v1',
-    model: 'kimi-k3',
-    label: { zh: 'OpenRouter', en: 'OpenRouter' },
-  },
-  custom: { baseUrl: '', model: '', label: { zh: '自定义', en: 'Custom' } },
 };
+
+/// Map localStorage values from the old 4-provider scheme back to
+/// 'openai' (the OpenAI-compatible umbrella) so stale configs don't panic.
+function migrateOldProvider(raw: string): 'openai' | 'anthropic' {
+  if (raw === 'deepseek' || raw === 'openrouter' || raw === 'custom') return 'openai';
+  if (raw === 'openai' || raw === 'anthropic') return raw;
+  return 'openai';
+}
 
 const previousDefaultModels: Record<ModelConfig['provider'], string> = {
   openai: 'gpt-5-mini',
-  deepseek: 'deepseek-chat',
-  openrouter: 'openai/gpt-5-mini',
-  custom: '',
+  anthropic: 'claude-sonnet-5',
 };
 
 const isMacOSPlatform =
@@ -204,7 +215,7 @@ function getLinks(markdown: string): Array<{ label: string; url: string }> {
   return links.slice(0, 8);
 }
 
-type InternalNoteKind = 'supplement' | 'person' | 'story';
+type InternalNoteKind = 'supplement' | 'person' | 'story' | 'file';
 type PlanSection = 'supplements' | 'exercise' | 'diet' | 'sleep' | 'log';
 type ThemeMode = 'system' | 'light' | 'dark';
 type ResizeSide = 'left' | 'right';
@@ -340,12 +351,23 @@ function getPlanSections(locale: Locale): Array<{
 
 function parseInternalNoteLink(href?: string): Omit<InternalNoteTarget, 'label'> | null {
   if (!href) return null;
-  const match = href.match(/^#\/(supplement|person|story)\/([^/?#]+)$/);
-  if (!match) return null;
-  return {
-    kind: match[1] as InternalNoteKind,
-    id: decodeURIComponent(match[2]),
-  };
+  // Existing #/kind/id navigation links.
+  const nav = href.match(/^#\/(supplement|person|story)\/([^/?#]+)$/);
+  if (nav) {
+    return {
+      kind: nav[1] as InternalNoteKind,
+      id: decodeURIComponent(nav[2]),
+    };
+  }
+  // Relative library file paths: plans/current-protocol.md etc.
+  const fileMatch = href.match(/^([a-z][a-z-]*)\/([^?#]+\.md)$/);
+  if (fileMatch) {
+    return {
+      kind: 'file' as InternalNoteKind,
+      id: decodeURIComponent(fileMatch[1] + '/' + fileMatch[2]),
+    };
+  }
+  return null;
 }
 
 function AppLink({
@@ -543,6 +565,24 @@ function App() {
     },
   );
   const [apiKey, setApiKey] = useState('');
+
+  // Migrate old 4-provider scheme on first load.
+  useEffect(() => {
+    const raw = localStorage.getItem('openlongevity:model');
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw) as { provider?: string };
+      const oldProvider = parsed.provider ?? '';
+      const newProvider = migrateOldProvider(oldProvider);
+      if (newProvider !== oldProvider) {
+        const patched = { ...parsed, provider: newProvider } as Omit<ModelConfig, 'apiKey'>;
+        setModelDiskConfig(patched);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   const [library, setLibrary] = useState<LibrarySnapshot>(fallbackLibrary);
   const [loadingLibrary, setLoadingLibrary] = useState(true);
   const [view, setView] = useState<View>('home');
@@ -555,7 +595,10 @@ function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [captureGuideOpen, setCaptureGuideOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [chatActive, setChatActive] = useState(false);
+  const [conversationSummaries, setConversationSummaries] = useState<ConversationSummary[]>([]);
+  const [activeConversationId, setActiveConversationId] = useState('');
+  const [loadingConversations, setLoadingConversations] = useState(true);
+  const [contextBytes, setContextBytes] = useState(0);
   const [chatBusy, setChatBusy] = useState(false);
   const [toast, setToast] = useState<ToastState | null>(null);
   const [resizingPane, setResizingPane] = useState<ResizeSide | null>(null);
@@ -671,7 +714,6 @@ function App() {
     setSelectedPerson(null);
     setSelectedStory(null);
     setView('supplement');
-    setChatActive(false);
     setNoteLoading(true);
     try {
       const markdown = supplement.filePath
@@ -696,7 +738,6 @@ function App() {
     setSelectedSupplement(null);
     setSelectedStory(null);
     setView('person');
-    setChatActive(false);
     setNoteLoading(true);
     try {
       const markdown = person.filePath
@@ -720,7 +761,6 @@ function App() {
     setSelectedSupplement(null);
     setSelectedPerson(null);
     setView('story');
-    setChatActive(false);
     setNoteLoading(true);
     try {
       const markdown = story.filePath
@@ -758,7 +798,6 @@ function App() {
   const navigate = (nextView: View, remember = true) => {
     if (remember) rememberCurrentLocation({ view: nextView });
     setView(nextView);
-    setChatActive(false);
     if (nextView !== 'supplement') setSelectedSupplement(null);
     if (nextView !== 'person') setSelectedPerson(null);
     if (nextView !== 'story') setSelectedStory(null);
@@ -822,6 +861,25 @@ function App() {
         return;
       }
     }
+    if (target.kind === 'file') {
+      const filePath = target.id;
+      setView('supplement');
+      setSelectedSupplement(null);
+      setSelectedPerson(null);
+      setSelectedStory(null);
+      setNoteLoading(true);
+      readNote(library.root, filePath)
+        .then((raw) => setNoteMarkdown(raw))
+        .catch(() =>
+          setNoteMarkdown(
+            locale === 'zh'
+              ? `# 无法打开\n\n找不到文件 \`${filePath}\`。`
+              : `# Cannot open\n\nFile \`${filePath}\` not found.`,
+          ),
+        )
+        .finally(() => setNoteLoading(false));
+      return;
+    }
     setToast({
       message: locale === 'zh' ? '没有找到对应的本地文章' : 'The linked local note was not found',
       kind: 'status',
@@ -863,12 +921,144 @@ function App() {
     });
   };
 
+  const ensureConversation = async () => {
+    if (activeConversationId) return activeConversationId;
+    const summary = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
+    setConversationSummaries((current) => [summary, ...current.filter((item) => item.id !== summary.id)]);
+    setActiveConversationId(summary.id);
+    return summary.id;
+  };
+
+  const refreshConversationSummaries = async () => {
+    try {
+      setConversationSummaries(await listConversations());
+    } catch {
+      // Conversation history can recover on the next successful save/load.
+    }
+  };
+
+  const titleFromMessages = (messages: readonly ChatMessage[]) => {
+    const firstUser = messages.find((message) => message.role === 'user')?.content.trim();
+    if (!firstUser) return locale === 'zh' ? '新对话' : 'New conversation';
+    const firstLine = firstUser.split('\n')[0] || firstUser;
+    return firstLine.length > 32 ? `${firstLine.slice(0, 31)}…` : firstLine;
+  };
+
+  useEffect(() => {
+    let alive = true;
+    setLoadingConversations(true);
+    listConversations()
+      .then(async (summaries) => {
+        if (!alive) return;
+        if (summaries.length === 0) {
+          const created = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
+          if (!alive) return;
+          setConversationSummaries([created]);
+          setActiveConversationId(created.id);
+          setChatMessages([]);
+          return;
+        }
+        setConversationSummaries(summaries);
+        const latest = summaries[0];
+        setActiveConversationId(latest.id);
+        const record = await loadConversation(latest.id);
+        if (!alive) return;
+        setChatMessages(record.uiMessages || []);
+      })
+      .catch(() => {
+        if (!alive) return;
+        setConversationSummaries([]);
+        setChatMessages([]);
+      })
+      .finally(() => {
+        if (alive) setLoadingConversations(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [locale]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setContextBytes(estimateContextBytes(chatMessages));
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [chatMessages]);
+
+  useEffect(() => {
+    if (!activeConversationId || loadingConversations) return;
+    const timer = window.setTimeout(() => {
+      const estimated = estimateContextBytes(chatMessages);
+      saveConversationUi(
+        activeConversationId,
+        chatMessages,
+        titleFromMessages(chatMessages),
+        estimated,
+      )
+        .then((summary) => {
+          setConversationSummaries((current) =>
+            [summary, ...current.filter((item) => item.id !== summary.id)].sort(
+              (a, b) => b.updatedAt - a.updatedAt,
+            ),
+          );
+        })
+        .catch(() => {
+          // A later save can recover; avoid interrupting the chat stream.
+        });
+    }, 800);
+    return () => window.clearTimeout(timer);
+  }, [activeConversationId, chatMessages, loadingConversations]);
+
+  const handleSelectConversation = async (id: string) => {
+    if (chatBusy || id === activeConversationId) return;
+    const record = await loadConversation(id);
+    setActiveConversationId(id);
+    setChatMessages(record.uiMessages || []);
+  };
+
+  const handleDeleteConversation = async (id: string) => {
+    if (chatBusy) return;
+    const summaries = await deleteConversation(id);
+    setConversationSummaries(summaries);
+    if (id !== activeConversationId) return;
+    if (summaries.length > 0) {
+      const record = await loadConversation(summaries[0].id);
+      setActiveConversationId(summaries[0].id);
+      setChatMessages(record.uiMessages || []);
+      return;
+    }
+    const created = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
+    setConversationSummaries([created]);
+    setActiveConversationId(created.id);
+    setChatMessages([]);
+  };
+
+  const handleConfirmMemory = async (messageId: string, suggestion: MemorySuggestion) => {
+    await confirmMemorySuggestion(suggestion);
+    setChatMessages((current) =>
+      current.map((message) =>
+        message.id === messageId ? { ...message, memoryStatus: 'saved' } : message,
+      ),
+    );
+  };
+
+  const handleDismissMemory = (messageId: string) => {
+    setChatMessages((current) =>
+      current.map((message) =>
+        message.id === messageId ? { ...message, memoryStatus: 'dismissed' } : message,
+      ),
+    );
+  };
+
   // ── Agent event listener ──
   useEffect(() => {
     let unlisten: (() => void) | null = null;
     let cancelled = false;
     listenAgentEvents((event: AgentEvent) => {
       if (cancelled) return;
+      if (event.conversationId && activeConversationId && event.conversationId !== activeConversationId) {
+        return;
+      }
       switch (event.type) {
         case 'text_delta':
           setChatMessages((prev) => {
@@ -878,6 +1068,23 @@ function App() {
             }
             return [...prev, { id: crypto.randomUUID(), role: 'assistant' as const, content: event.text, createdAt: Date.now() }];
           });
+          break;
+        case 'thinking':
+          setChatMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last && last.role === 'assistant' && last.toolStatus !== 'running') {
+              return [
+                ...prev.slice(0, -1),
+                { ...last, content: last.content + `\n\n<details><summary>reasoning</summary>\n\n${event.text}\n\n</details>\n` },
+              ];
+            }
+            return [
+              ...prev,
+              { id: crypto.randomUUID(), role: 'assistant' as const, content: `<details><summary>reasoning</summary>\n\n${event.text}\n\n</details>\n`, createdAt: Date.now() },
+            ];
+          });
+          break;
+        case 'state':
           break;
         case 'tool_call_start':
           setChatMessages((prev) => [
@@ -911,6 +1118,19 @@ function App() {
             ),
           );
           break;
+        case 'memory_suggestion':
+          setChatMessages((prev) => [
+            ...prev,
+            {
+              id: crypto.randomUUID(),
+              role: 'memory_suggestion' as const,
+              content: event.suggestion.content,
+              createdAt: Date.now(),
+              memorySuggestion: event.suggestion,
+              memoryStatus: 'pending' as const,
+            },
+          ]);
+          break;
         case 'done':
           setChatBusy(false);
           break;
@@ -935,12 +1155,13 @@ function App() {
       cancelled = true;
       unlisten?.();
     };
-  }, [locale]);
+  }, [activeConversationId, locale]);
 
   const handleSend = async (question: string) => {
     const clean = question.trim();
     if (!clean || chatBusy) return;
 
+    const conversationId = await ensureConversation();
     const userMessage: ChatMessage = {
       id: crypto.randomUUID(),
       role: 'user',
@@ -949,7 +1170,7 @@ function App() {
     };
     const priorMessages = chatMessages;
     setChatMessages((current) => [...current, userMessage]);
-    setChatActive(true);
+    if (view !== 'ai') setView('ai');
     setChatBusy(true);
 
     if (isTauri && !modelConfig.apiKey) {
@@ -966,9 +1187,11 @@ function App() {
 
     try {
       await sendAgentMessage({
+        conversationId,
         apiKey: modelConfig.apiKey,
         baseUrl: modelConfig.baseUrl,
         model: modelConfig.model,
+        provider: modelConfig.provider,
         message: clean,
         locale,
         knowledgeRoot: library.root,
@@ -1003,13 +1226,11 @@ function App() {
   };
 
   const handleNewChat = async () => {
+    if (chatBusy) return;
+    const summary = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
+    setConversationSummaries((current) => [summary, ...current.filter((item) => item.id !== summary.id)]);
+    setActiveConversationId(summary.id);
     setChatMessages([]);
-    setChatActive(false);
-    try {
-      await resetAgent();
-    } catch {
-      // ignore
-    }
   };
   const changeKnowledgeRoot = async () => {
     const selected = await chooseKnowledgeFolder();
@@ -1094,17 +1315,19 @@ function App() {
               <LoaderCircle className="spin" size={24} />
               <span>{t('loading')}</span>
             </div>
-          ) : chatActive ? (
-            <ConversationView
-              locale={locale}
-              messages={chatMessages}
-              busy={chatBusy}
-              onBack={() => setChatActive(false)}
-              onNewChat={handleNewChat}
-              onInternalNavigate={openInternalNote}
-            />
           ) : (
             <>
+              {view === 'ai' && (
+                <ConversationView
+                  locale={locale}
+                  messages={chatMessages}
+                  busy={chatBusy}
+                  onNewChat={handleNewChat}
+                  onInternalNavigate={openInternalNote}
+                  onConfirmMemory={handleConfirmMemory}
+                  onDismissMemory={handleDismissMemory}
+                />
+              )}
               {view === 'home' && (
                 <HomeView
                   locale={locale}
@@ -1205,8 +1428,16 @@ function App() {
         <ChatComposer
           busy={chatBusy}
           onSend={handleSend}
+          onAbort={() => abortAgent(activeConversationId)}
           placeholder={t('askPlaceholder')}
           inputRef={chatComposerRef}
+          contextBytes={contextBytes}
+          contextMaxBytes={AGENT_CONTEXT_MAX_BYTES}
+          contextLabel={
+            locale === 'zh'
+              ? `上下文用量 ${Math.round((contextBytes / AGENT_CONTEXT_MAX_BYTES) * 100)}%`
+              : `Context usage ${Math.round((contextBytes / AGENT_CONTEXT_MAX_BYTES) * 100)}%`
+          }
         />
       </main>
 
@@ -1222,8 +1453,12 @@ function App() {
       <RightRail
         locale={locale}
         view={view}
-        chatActive={chatActive}
-        messages={chatMessages}
+        aiActive={view === 'ai'}
+        conversations={conversationSummaries}
+        activeConversationId={activeConversationId}
+        chatBusy={chatBusy}
+        onSelectConversation={handleSelectConversation}
+        onDeleteConversation={handleDeleteConversation}
         supplement={selectedSupplement}
         person={selectedPerson}
         story={selectedStory}
@@ -1233,7 +1468,7 @@ function App() {
         activePlanSection={activePlanSection}
         onFavoriteNavigate={openInternalNote}
         onPlanSection={openPlanSection}
-        onResumeChat={() => setChatActive(true)}
+        onResumeChat={() => navigate('ai')}
         t={t}
       />
 
@@ -1549,6 +1784,12 @@ function Sidebar({
             label={t('home')}
             active={view === 'home'}
             onClick={() => onNavigate('home')}
+          />
+          <SidebarButton
+            icon={<MessageCircleMore size={17} />}
+            label={t('aiChat')}
+            active={view === 'ai'}
+            onClick={() => onNavigate('ai')}
           />
           <SidebarButton
             icon={<Sparkles size={17} />}
@@ -2086,13 +2327,17 @@ function ConversationView({
   onBack,
   onNewChat,
   onInternalNavigate,
+  onConfirmMemory,
+  onDismissMemory,
 }: {
   locale: Locale;
   messages: ChatMessage[];
   busy: boolean;
-  onBack: () => void;
+  onBack?: () => void;
   onNewChat: () => void;
   onInternalNavigate: (target: Omit<InternalNoteTarget, 'label'>) => void;
+  onConfirmMemory: (messageId: string, suggestion: MemorySuggestion) => void;
+  onDismissMemory: (messageId: string) => void;
 }) {
   const endRef = useRef<HTMLDivElement>(null);
   const components = useMemo(
@@ -2111,19 +2356,21 @@ function ConversationView({
 
   return (
     <div className="page conversation-view">
-      <div className="conversation-title">
-        <button onClick={onBack}>
-          <ChevronRight size={15} className="back-chevron" />
-          {locale === 'zh' ? '返回资料' : 'Back to library'}
-        </button>
-        <div className="conversation-title-actions">
-          <button className="conversation-new-chat" onClick={onNewChat} title={locale === 'zh' ? '新对话' : 'New chat'}>
-            <FilePlus2 size={14} />
-            <span>{locale === 'zh' ? '新对话' : 'New chat'}</span>
+      {onBack && (
+        <div className="conversation-title">
+          <button onClick={onBack}>
+            <ChevronRight size={15} className="back-chevron" />
+            {locale === 'zh' ? '返回资料' : 'Back to library'}
           </button>
-          <span>{locale === 'zh' ? '基于本地资料' : 'Grounded in local notes'}</span>
+          <div className="conversation-title-actions">
+            <button className="conversation-new-chat" onClick={onNewChat}>
+              <FilePlus2 size={14} />
+              <span>{locale === 'zh' ? '新对话' : 'New chat'}</span>
+            </button>
+            <span>{locale === 'zh' ? '基于本地资料' : 'Grounded in local notes'}</span>
+          </div>
         </div>
-      </div>
+      )}
       <div className="message-list">
         {messages.map((message) => {
           if (message.role === 'tool_call') {
@@ -2165,6 +2412,50 @@ function ConversationView({
                         ? message.toolOutput.slice(0, 2000) + '\n…'
                         : message.toolOutput}
                     </pre>
+                  )}
+                </div>
+              </div>
+            );
+          }
+          if (message.role === 'memory_suggestion' && message.memorySuggestion) {
+            const saved = message.memoryStatus === 'saved';
+            const dismissed = message.memoryStatus === 'dismissed';
+            return (
+              <div
+                className={`memory-suggestion-card ${saved ? 'saved' : ''} ${dismissed ? 'dismissed' : ''}`}
+                key={message.id}
+              >
+                <div className="memory-suggestion-copy">
+                  <span className="memory-suggestion-kicker">
+                    <Sparkles size={13} />
+                    {locale === 'zh' ? 'AI 建议记住' : 'AI suggests remembering'}
+                  </span>
+                  <strong>{message.memorySuggestion.content}</strong>
+                  <small>{message.memorySuggestion.kind.replace('_', ' ')}</small>
+                </div>
+                <div className="memory-suggestion-actions">
+                  {saved || dismissed ? (
+                    <span>
+                      {saved
+                        ? locale === 'zh'
+                          ? '已保存'
+                          : 'Saved'
+                        : locale === 'zh'
+                          ? '已忽略'
+                          : 'Dismissed'}
+                    </span>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => onConfirmMemory(message.id, message.memorySuggestion!)}
+                      >
+                        {locale === 'zh' ? '保存记忆' : 'Save memory'}
+                      </button>
+                      <button type="button" onClick={() => onDismissMemory(message.id)}>
+                        {locale === 'zh' ? '忽略' : 'Dismiss'}
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -2437,13 +2728,21 @@ function PlanView({
 function ChatComposer({
   busy,
   onSend,
+  onAbort,
   placeholder,
   inputRef,
+  contextBytes,
+  contextMaxBytes,
+  contextLabel,
 }: {
   busy: boolean;
   onSend: (message: string) => void;
+  onAbort?: () => void;
   placeholder: string;
   inputRef: React.RefObject<HTMLTextAreaElement>;
+  contextBytes: number;
+  contextMaxBytes: number;
+  contextLabel: string;
 }) {
   const [value, setValue] = useState('');
 
@@ -2472,6 +2771,17 @@ function ChatComposer({
           aria-label={placeholder}
         />
         <div className="composer-tools">
+          <ContextRing bytes={contextBytes} maxBytes={contextMaxBytes} label={contextLabel} />
+          {busy && onAbort && (
+            <button
+              type="button"
+              className="abort-btn"
+              onClick={() => onAbort()}
+              aria-label="Stop generating"
+            >
+              <Square size={17} />
+            </button>
+          )}
           <button type="submit" disabled={busy || !value.trim()}>
             {busy ? <LoaderCircle className="spin" size={17} /> : <Send size={17} />}
           </button>
@@ -2484,8 +2794,10 @@ function ChatComposer({
 function RightRail({
   locale,
   view,
-  chatActive,
-  messages,
+  aiActive,
+  conversations,
+  activeConversationId,
+  chatBusy,
   supplement,
   person,
   story,
@@ -2496,12 +2808,16 @@ function RightRail({
   onFavoriteNavigate,
   onPlanSection,
   onResumeChat,
+  onSelectConversation,
+  onDeleteConversation,
   t,
 }: {
   locale: Locale;
   view: View;
-  chatActive: boolean;
-  messages: ChatMessage[];
+  aiActive: boolean;
+  conversations: ConversationSummary[];
+  activeConversationId: string;
+  chatBusy: boolean;
   supplement: Supplement | null;
   person: Person | null;
   story: Story | null;
@@ -2512,6 +2828,8 @@ function RightRail({
   onFavoriteNavigate: (target: Omit<InternalNoteTarget, 'label'>) => void;
   onPlanSection: (section: PlanSection) => void;
   onResumeChat: () => void;
+  onSelectConversation: (id: string) => void;
+  onDeleteConversation: (id: string) => void;
   t: (key: TranslationKey) => string;
 }) {
   const planSections = getPlanSections(locale);
@@ -2556,21 +2874,21 @@ function RightRail({
       <div className="rail-header">
         <div>
           <span className="rail-kicker">
-            {chatActive ? (
+            {aiActive ? (
               <History size={15} />
             ) : hasOpenContent ? (
               <Library size={15} />
             ) : (
               <Sparkles size={15} />
             )}
-            {chatActive
+            {aiActive
               ? t('recentContexts')
               : hasOpenContent
                 ? t('reading')
                 : t('workspace')}
           </span>
           <h3>
-            {chatActive
+            {aiActive
               ? locale === 'zh'
                 ? '当前对话'
                 : 'Current conversation'
@@ -2588,7 +2906,7 @@ function RightRail({
                 t('favoritesAndPlan')}
           </h3>
         </div>
-        {!chatActive && messages.length > 0 && (
+        {!aiActive && conversations.length > 0 && (
           <button type="button" className="rail-resume-chat" onClick={onResumeChat}>
             <MessageCircleMore size={14} />
             {t('backToChat')}
@@ -2597,7 +2915,7 @@ function RightRail({
       </div>
 
       <div className="rail-scroll">
-        {chatActive ? (
+        {aiActive ? (
           <>
             <div className="context-summary">
               <span className="context-icon">
@@ -2615,19 +2933,42 @@ function RightRail({
               </div>
             </div>
             <div className="rail-section-title">
-              {locale === 'zh' ? '对话记录' : 'Messages'} <span>{messages.length}</span>
+              {locale === 'zh' ? '历史对话' : 'Conversations'} <span>{conversations.length}</span>
             </div>
-            <div className="rail-message-list">
-              {messages
-                .filter((message) => message.role === 'user')
-                .slice(-5)
-                .reverse()
-                .map((message) => (
-                  <div className="rail-message" key={message.id}>
-                    <MessageCircleMore size={15} />
-                    <span>{message.content}</span>
+            <div className="conversation-history-list">
+              {conversations.length ? (
+                conversations.map((conversation) => (
+                  <div
+                    className={`conversation-history-item ${conversation.id === activeConversationId ? 'active' : ''}`}
+                    key={conversation.id}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => onSelectConversation(conversation.id)}
+                      disabled={chatBusy || conversation.id === activeConversationId}
+                    >
+                      <MessageCircleMore size={15} />
+                      <span>
+                        <strong>{conversation.title || (locale === 'zh' ? '新对话' : 'New conversation')}</strong>
+                        <small>
+                          {conversation.messageCount}{locale === 'zh' ? ' 条消息' : ' messages'} · {Math.max(1, Math.round(conversation.estimatedContextBytes / 1024))} KB
+                        </small>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      className="conversation-history-delete"
+                      onClick={() => onDeleteConversation(conversation.id)}
+                      disabled={chatBusy}
+                      aria-label={locale === 'zh' ? '删除对话' : 'Delete conversation'}
+                    >
+                      <Trash2 size={13} />
+                    </button>
                   </div>
-                ))}
+                ))
+              ) : (
+                <p className="rail-empty-state">{locale === 'zh' ? '暂无历史对话' : 'No saved conversations yet'}</p>
+              )}
             </div>
           </>
         ) : (
