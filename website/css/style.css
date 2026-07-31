@@ -493,6 +493,50 @@ p {
   font-weight: 400;
 }
 
+.film-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --film-light: radial-gradient(
+    ellipse 72% 68% at 12% 8%,
+    rgba(216, 194, 139, 0.2),
+    transparent 68%
+  );
+  --film-light-blend: screen;
+  --film-light-opacity: 0.5;
+  --film-grain-opacity: 0.12;
+  --film-vignette: rgba(3, 18, 12, 0.32);
+}
+
+.film-section::before,
+.film-section::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.film-section::before {
+  background: var(--film-light);
+  mix-blend-mode: var(--film-light-blend);
+  opacity: var(--film-light-opacity);
+}
+
+.film-section::after {
+  background-image: url("../textures/analog-film-grain.webp");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  box-shadow: inset 0 0 clamp(80px, 14vw, 210px) var(--film-vignette);
+  mix-blend-mode: soft-light;
+  opacity: var(--film-grain-opacity);
+}
+
+.film-section > * {
+  position: relative;
+  z-index: 1;
+}
+
 .paper-section {
   color: var(--ink);
   background:
@@ -508,11 +552,17 @@ p {
 }
 
 .manifesto {
-  position: relative;
   display: grid;
   grid-template-columns: 0.22fr 1.08fr 0.95fr;
   gap: clamp(34px, 5vw, 96px);
   padding: clamp(90px, 10vw, 165px) clamp(22px, 7vw, 118px);
+  --film-light:
+    radial-gradient(ellipse 76% 62% at 2% 4%, rgba(255, 239, 185, 0.55), transparent 66%),
+    linear-gradient(118deg, transparent 48%, rgba(176, 96, 57, 0.16) 82%, transparent 100%);
+  --film-light-blend: soft-light;
+  --film-light-opacity: 0.58;
+  --film-grain-opacity: 0.1;
+  --film-vignette: rgba(80, 44, 22, 0.17);
 }
 
 .manifesto-mark {
@@ -626,6 +676,11 @@ p {
   background:
     linear-gradient(90deg, transparent 49.9%, rgba(216, 194, 139, 0.07) 50%, transparent 50.1%),
     var(--ink);
+  --film-light:
+    radial-gradient(ellipse 48% 72% at 100% 12%, rgba(219, 150, 92, 0.26), transparent 72%),
+    radial-gradient(ellipse 46% 58% at 0% 92%, rgba(64, 166, 143, 0.2), transparent 70%);
+  --film-light-opacity: 0.62;
+  --film-grain-opacity: 0.14;
 }
 
 .section-heading {
@@ -764,6 +819,13 @@ p {
   padding: clamp(100px, 11vw, 170px) clamp(22px, 7vw, 118px);
   color: var(--ink);
   background: #c9dcd2;
+  --film-light:
+    linear-gradient(104deg, transparent 20%, rgba(255, 246, 205, 0.5) 38%, transparent 54%),
+    radial-gradient(ellipse 52% 72% at 100% 92%, rgba(172, 98, 62, 0.2), transparent 70%);
+  --film-light-blend: soft-light;
+  --film-light-opacity: 0.48;
+  --film-grain-opacity: 0.11;
+  --film-vignette: rgba(41, 65, 56, 0.2);
 }
 
 .interface-copy {
@@ -980,6 +1042,11 @@ p {
   background:
     radial-gradient(circle at 80% 80%, rgba(26, 124, 107, 0.18), transparent 30%),
     var(--ink-deep);
+  --film-light:
+    radial-gradient(ellipse 42% 64% at 100% 70%, rgba(223, 112, 95, 0.24), transparent 72%),
+    radial-gradient(ellipse 38% 54% at 4% 10%, rgba(91, 178, 151, 0.16), transparent 70%);
+  --film-light-opacity: 0.58;
+  --film-grain-opacity: 0.14;
 }
 
 .evidence-intro {
@@ -1045,6 +1112,11 @@ p {
       transparent 34%
     ),
     linear-gradient(125deg, var(--ink-deep), var(--ink-soft));
+  --film-light:
+    radial-gradient(ellipse 54% 66% at 88% 30%, rgba(120, 220, 166, 0.22), transparent 70%),
+    linear-gradient(124deg, rgba(208, 154, 91, 0.12), transparent 38%);
+  --film-light-opacity: 0.62;
+  --film-grain-opacity: 0.13;
 }
 
 .open-copy h2 {
@@ -1136,6 +1208,11 @@ p {
   background:
     radial-gradient(circle at center, rgba(39, 153, 133, 0.17), transparent 32%),
     var(--ink-deep);
+  --film-light:
+    radial-gradient(ellipse 46% 36% at 50% 45%, rgba(230, 205, 143, 0.25), transparent 72%),
+    linear-gradient(90deg, rgba(2, 10, 7, 0.3), transparent 22%, transparent 78%, rgba(2, 10, 7, 0.34));
+  --film-light-opacity: 0.68;
+  --film-grain-opacity: 0.16;
 }
 
 .closing-tree {

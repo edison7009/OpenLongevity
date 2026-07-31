@@ -21,6 +21,8 @@ test("website is directly deployable without a build step", async () => {
   assert.doesNotMatch(html, /[↗☆]/);
   assert.doesNotMatch(stylesheet, /\.platform-switch button::after/);
   assert.match(stylesheet, /\.platform-note code\s*\{[^}]*display:\s*inline/s);
+  assert.equal((html.match(/film-section/g) ?? []).length, 6);
+  assert.match(stylesheet, /textures\/analog-film-grain\.webp/);
   assert.match(html, /data-i18n="heroDetail"/);
   assert.match(javascript, /富豪花费百万美元享受科技带来的长寿/);
   assert.match(javascript, /以 Bryan Johnson 公开的延寿计划为蓝本/);
@@ -39,6 +41,7 @@ test("website is directly deployable without a build step", async () => {
     "install.sh",
     "open-longevity-logo.png",
     "tree-of-life-engraving.png",
+    "textures/analog-film-grain.webp",
     "product-ui/home-en.png",
     "product-ui/settings-zh.png",
     "fonts/Newsreader-Variable-Latin.woff2",

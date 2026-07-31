@@ -167,6 +167,11 @@ to the product template.
   copper/brass lines, and a full-bleed Tree of Life hero image. It should feel
   optimistic, healthy, literary, and scientific—not dense or
   trypophobia-inducing.
+- Keep the hero image clean. The six content sections below it use a restrained
+  static analog-film treatment: one shared lightweight WebP grain texture,
+  section-specific exposure direction, muted teal/copper light leaks, and soft
+  edge fading. The overlays sit behind content, never animate, and must preserve
+  text contrast on desktop and mobile.
 - Website hero:
   - Chinese: **让 AI 与科学，照亮你的生命之树**
   - English: **Let AI and science illuminate your Tree of Life**
