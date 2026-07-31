@@ -85,15 +85,14 @@ jobs:
             ID=$(gh api --method POST "repos/${REPO}/releases" \
               -f tag_name="${TAG}" \
               -f name="Open Longevity ${TAG}" \
-              -f body="Open Longevity 0.0.7
+              -f body="Open Longevity 0.0.8
 
-          What is new since 0.0.6:
-          - Fixed provider reasoning/thinking fragments appearing in AI replies; affected saved conversations are cleaned when displayed
-          - Conversation history no longer reorders when it is only opened, and every item now shows its last-updated time
-          - Conversation saves are serialized and flushed before switching or creating a chat, preventing recent output from being lost
-          - A quieter two-sided chat layout places user messages on the right without redundant participant names or avatars
-          - Renamed Sleep plan to Daily routine with a broader daily schedule description
-          - Only the divider being dragged is highlighted, with additional cleanup to the history list
+          What is new since 0.0.7:
+          - OpenAI and Anthropic now keep independent API URLs, models, and API keys, with automatic migration of existing settings
+          - New provider fields stay empty and show protocol-specific examples as placeholders instead of writing defaults
+          - The chat composer now uses one action button: an up arrow for send that becomes a stop control during generation
+          - The update action is now a background-free download icon with one consistently aligned progress ring
+          - Fixed the Windows update launch order so the installer opens before Open Longevity exits
 
           Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint, then adds AI and scientific evidence in a local-first desktop workspace, with Windows, macOS, and Linux builds.
 
