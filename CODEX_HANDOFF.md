@@ -79,6 +79,8 @@ to the product template.
   the logo, product name, or slogan.
 - Windows/Linux use custom window controls; macOS uses native traffic-light
   controls on the left.
+- The desktop app is single-instance. Launching it again must restore and focus
+  the existing main window instead of opening another process/window.
 - Settings is a gear button near the window controls, not a permanent sidebar
   item.
 - Remove redundant headers, helper labels, dark duplicate divider lines,
@@ -150,10 +152,13 @@ to the product template.
 ## Website
 
 - Website source: `website/`
-- Current hosted URL:
-  `https://edison7009.github.io/OpenLongevity/`
-- The website is a static Vite/React site deployed publicly through GitHub
-  Pages from the main repository workflow.
+- Primary hosted URL: `https://openlongevity.life/` (Cloudflare Pages).
+- The website is a static Vite/React site. For Cloudflare Pages, use `website`
+  as the root directory, `npm run build` as the build command, and `dist` as the
+  build output directory. `website/wrangler.toml` records the Pages project and
+  output-directory configuration. GitHub Pages remains available from the main
+  repository workflow as a mirror at
+  `https://edison7009.github.io/OpenLongevity/`.
 - The desktop app and website are separate products in the same repository.
   The former `OpenLongevity-website` repository remains as a migration backup.
 - Visual direction: dark teal, Renaissance scientific engraving, warm paper,

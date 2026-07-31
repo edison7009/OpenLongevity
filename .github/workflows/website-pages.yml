@@ -37,6 +37,8 @@ jobs:
 
       - name: Build static site
         working-directory: website
+        env:
+          VITE_BASE_PATH: /OpenLongevity/
         run: npm run build
 
       - name: Configure GitHub Pages
