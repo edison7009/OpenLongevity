@@ -182,7 +182,10 @@ to the product template.
   access strategies once reserved for the wealthy.
 - The hero installer uses text-only platform tabs with no underline indicator.
   Its macOS fallback note is the compact inline command: `macOS 首次需在「终端」
-  xattr -cr '/Applications/Open Longevity.app'`.
+  xattr -cr '/Applications/Open Longevity.app'`. Keep this installation area
+  comfortably readable: 12px platform tabs, 13px desktop command text, and a
+  14px macOS note; mobile may ellipsize the visible command while copying the
+  complete value.
 - The scrolling T1–T5 strip is bilingual; strategy names are the same enlarged
   size as the T1–T5 labels.
 - Open manifesto section:

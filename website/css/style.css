@@ -324,17 +324,17 @@ p {
 
 .platform-switch {
   display: flex;
-  gap: 18px;
-  min-height: 24px;
+  gap: 24px;
+  min-height: 30px;
 }
 
 .platform-switch button {
-  padding: 0 0 6px;
+  padding: 0 0 8px;
   color: rgba(232, 225, 203, 0.46);
   background: transparent;
   cursor: pointer;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 0.08em;
 }
 
@@ -347,9 +347,9 @@ p {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   width: 100%;
-  min-height: 46px;
+  min-height: 54px;
   margin-top: 8px;
-  padding: 0 13px 0 16px;
+  padding: 0 16px 0 18px;
   border: 1px solid rgba(232, 225, 203, 0.18);
   color: rgba(242, 236, 217, 0.72);
   background: rgba(3, 18, 12, 0.62);
@@ -362,11 +362,11 @@ p {
 }
 
 .platform-note {
-  margin: 12px 0 0;
+  margin: 13px 0 0;
   color: rgba(232, 225, 203, 0.58);
   font-family: var(--serif);
-  font-size: 12px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.65;
 }
 
 .hero-detail {
@@ -386,7 +386,7 @@ p {
   margin-left: 3px;
   color: rgba(161, 230, 180, 0.82);
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 13px;
   overflow-wrap: anywhere;
 }
 
@@ -400,14 +400,14 @@ p {
   margin-right: 13px;
   color: var(--teal-bright);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: -0.06em;
 }
 
 .install-command code {
   overflow: hidden;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: -0.025em;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -418,7 +418,7 @@ p {
   margin-left: 14px;
   color: rgba(232, 225, 203, 0.4);
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   text-align: right;
   transition: color 180ms ease;
@@ -1521,7 +1521,7 @@ footer p:last-child {
   }
 
   .install-command {
-    min-height: 48px;
+    min-height: 52px;
   }
 
   .open-copy h2 span {
@@ -1529,13 +1529,13 @@ footer p:last-child {
   }
 
   .install-command code {
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .copy-state {
     min-width: 36px;
     margin-left: 8px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .hero-visual {

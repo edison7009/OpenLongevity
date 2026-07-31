@@ -20,6 +20,9 @@ test("website is directly deployable without a build step", async () => {
   assert.match(stylesheet, /\.release-version\s*\{[^}]*font-size:\s*17px/s);
   assert.doesNotMatch(html, /[↗☆]/);
   assert.doesNotMatch(stylesheet, /\.platform-switch button::after/);
+  assert.match(stylesheet, /\.platform-switch button\s*\{[^}]*font-size:\s*12px/s);
+  assert.match(stylesheet, /\.install-command code\s*\{[^}]*font-size:\s*13px/s);
+  assert.match(stylesheet, /\.platform-note\s*\{[^}]*font-size:\s*14px/s);
   assert.match(stylesheet, /\.platform-note code\s*\{[^}]*display:\s*inline/s);
   assert.equal((html.match(/film-section/g) ?? []).length, 6);
   assert.match(stylesheet, /textures\/analog-film-grain\.webp/);
