@@ -259,7 +259,7 @@ p {
     calc(100vw - var(--page-gutter) - var(--page-gutter))
   );
   max-width: none;
-  margin-bottom: 38px;
+  margin-bottom: 8px;
   color: rgba(232, 225, 203, 0.72);
   font-family: var(--serif);
   font-size: clamp(18px, 1.32vw, 22px);
@@ -384,6 +384,18 @@ p {
   font-family: var(--serif);
   font-size: 12px;
   line-height: 1.7;
+}
+
+.hero-detail {
+  width: min(
+    720px,
+    calc(100vw - var(--page-gutter) - var(--page-gutter))
+  );
+  margin-bottom: 32px;
+  color: rgba(232, 225, 203, 0.46);
+  font-family: var(--serif);
+  font-size: 12px;
+  line-height: 1.65;
 }
 
 .platform-note code {

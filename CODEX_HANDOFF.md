@@ -170,9 +170,11 @@ to the product template.
 - Website hero:
   - Chinese: **让 AI 与科学，照亮你的生命之树**
   - English: **Let AI and science illuminate your Tree of Life**
-- Website body positions Open Longevity as using Bryan Johnson's longevity plan
-  as a starting blueprint, then adding AI and scientific evidence so ordinary
-  people can access strategies once reserved for the wealthy.
+- Website hero lead: **富豪花费百万美元享受科技带来的长寿，而 Open
+  Longevity 希望把生命之光同样带给普通家庭**. A smaller supporting line
+  states that its data starts from Bryan Johnson's longevity plan and combines
+  AI with scientific evidence so ordinary people can access strategies once
+  reserved for the wealthy.
 - The scrolling T1–T5 strip is bilingual; strategy names are the same enlarged
   size as the T1–T5 labels.
 - Open manifesto section:
