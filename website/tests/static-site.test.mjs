@@ -19,9 +19,12 @@ test("website is directly deployable without a build step", async () => {
   assert.match(stylesheet, /grid-template-columns:\s*minmax\(0, 1\.18fr\)\s+minmax\(0, 0\.82fr\)/);
   assert.match(stylesheet, /\.release-version\s*\{[^}]*font-size:\s*17px/s);
   assert.doesNotMatch(html, /[↗☆]/);
+  assert.doesNotMatch(stylesheet, /\.platform-switch button::after/);
+  assert.match(stylesheet, /\.platform-note code\s*\{[^}]*display:\s*inline/s);
   assert.match(html, /data-i18n="heroDetail"/);
   assert.match(javascript, /富豪花费百万美元享受科技带来的长寿/);
   assert.match(javascript, /heroDetail:/);
+  assert.match(javascript, /macOS 首次需在「终端」/);
   assert.match(html, /xattr -cr '\/Applications\/Open Longevity\.app'/);
   assert.match(javascript, /navigator\.userAgentData\?\.platform/);
   assert.match(javascript, /note\.hidden = note\.dataset\.platformNote !== platform/);

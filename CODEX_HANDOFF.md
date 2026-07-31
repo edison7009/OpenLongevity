@@ -175,6 +175,9 @@ to the product template.
   states that its data starts from Bryan Johnson's longevity plan and combines
   AI with scientific evidence so ordinary people can access strategies once
   reserved for the wealthy.
+- The hero installer uses text-only platform tabs with no underline indicator.
+  Its macOS fallback note is the compact inline command: `macOS 首次需在「终端」
+  xattr -cr '/Applications/Open Longevity.app'`.
 - The scrolling T1–T5 strip is bilingual; strategy names are the same enlarged
   size as the T1–T5 labels.
 - Open manifesto section:
