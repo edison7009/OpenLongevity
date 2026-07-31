@@ -5,7 +5,6 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  CircleUserRound,
   FilePlus2,
   Activity,
   Dumbbell,
@@ -219,6 +218,21 @@ function normalizeMarkdown(markdown: string): string {
     );
 }
 
+const REASONING_DETAILS_PATTERN =
+  /<details>\s*<summary>\s*reasoning\s*<\/summary>[\s\S]*?<\/details>\s*/gi;
+
+function sanitizeConversationMessages(messages: readonly ChatMessage[]): ChatMessage[] {
+  return messages
+    .map((message) => {
+      if (message.role !== 'assistant') return message;
+      const withoutReasoning = message.content.replace(REASONING_DETAILS_PATTERN, '');
+      return withoutReasoning === message.content
+        ? message
+        : { ...message, content: withoutReasoning.trimStart() };
+    })
+    .filter((message) => message.role !== 'assistant' || message.content.trim().length > 0);
+}
+
 function getLinks(markdown: string): Array<{ label: string; url: string }> {
   const links: Array<{ label: string; url: string }> = [];
   const pattern = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
@@ -299,6 +313,18 @@ function shiftKey(key: string, delta: number): string {
   return dt.getFullYear() + '-' + pad2(dt.getMonth() + 1) + '-' + pad2(dt.getDate());
 }
 
+function formatConversationTime(timestamp: number, locale: Locale): string {
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat(locale === 'zh' ? 'zh-CN' : 'en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).format(date);
+}
+
 function entryHasContent(entry: HealthDayEntry | undefined): boolean {
   return Boolean(entry && (entry.exercise || entry.diet || entry.body));
 }
@@ -343,11 +369,11 @@ function getPlanSections(locale: Locale): Array<{
     },
     {
       id: 'sleep',
-      title: locale === 'zh' ? '睡眠计划' : 'Sleep plan',
+      title: locale === 'zh' ? '作息计划' : 'Daily routine',
       description:
         locale === 'zh'
-          ? '作息、睡眠质量与恢复趋势'
-          : 'Schedule, sleep quality, and recovery',
+          ? '起床、进食、运动与就寝时间表'
+          : 'Wake, meal, exercise, and bedtime schedule',
       icon: <Moon size={17} />,
       accent: '#dce3f2',
     },
@@ -642,6 +668,8 @@ function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [captureGuideOpen, setCaptureGuideOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const conversationSaveSnapshotRef = useRef<{ id: string; json: string } | null>(null);
+  const conversationSaveQueueRef = useRef<Promise<void>>(Promise.resolve());
   const [conversationSummaries, setConversationSummaries] = useState<ConversationSummary[]>([]);
   const [activeConversationId, setActiveConversationId] = useState('');
   const [loadingConversations, setLoadingConversations] = useState(true);
@@ -972,6 +1000,7 @@ function App() {
     if (activeConversationId) return activeConversationId;
     const summary = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
     setConversationSummaries((current) => [summary, ...current.filter((item) => item.id !== summary.id)]);
+    conversationSaveSnapshotRef.current = { id: summary.id, json: '[]' };
     setActiveConversationId(summary.id);
     return summary.id;
   };
@@ -991,6 +1020,47 @@ function App() {
     return firstLine.length > 32 ? `${firstLine.slice(0, 31)}…` : firstLine;
   };
 
+  const persistConversationMessages = async (id: string, messages: ChatMessage[]) => {
+    const snapshot = JSON.stringify(messages);
+    if (
+      conversationSaveSnapshotRef.current?.id === id &&
+      conversationSaveSnapshotRef.current.json === snapshot
+    ) {
+      return;
+    }
+
+    conversationSaveSnapshotRef.current = { id, json: snapshot };
+    const save = conversationSaveQueueRef.current.then(() =>
+      saveConversationUi(
+        id,
+        messages,
+        titleFromMessages(messages),
+        estimateContextBytes(messages),
+      ),
+    );
+    conversationSaveQueueRef.current = save.then(
+      () => undefined,
+      () => undefined,
+    );
+
+    try {
+      const summary = await save;
+      setConversationSummaries((current) =>
+        [summary, ...current.filter((item) => item.id !== summary.id)].sort(
+          (a, b) => b.updatedAt - a.updatedAt,
+        ),
+      );
+    } catch {
+      if (
+        conversationSaveSnapshotRef.current?.id === id &&
+        conversationSaveSnapshotRef.current.json === snapshot
+      ) {
+        conversationSaveSnapshotRef.current = null;
+      }
+      // A later content change can retry without interrupting the conversation.
+    }
+  };
+
   useEffect(() => {
     let alive = true;
     setLoadingConversations(true);
@@ -1001,6 +1071,7 @@ function App() {
           const created = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
           if (!alive) return;
           setConversationSummaries([created]);
+          conversationSaveSnapshotRef.current = { id: created.id, json: '[]' };
           setActiveConversationId(created.id);
           setChatMessages([]);
           return;
@@ -1010,7 +1081,12 @@ function App() {
         setActiveConversationId(latest.id);
         const record = await loadConversation(latest.id);
         if (!alive) return;
-        setChatMessages(record.uiMessages || []);
+        const messages = sanitizeConversationMessages(record.uiMessages || []);
+        conversationSaveSnapshotRef.current = {
+          id: latest.id,
+          json: JSON.stringify(messages),
+        };
+        setChatMessages(messages);
       })
       .catch(() => {
         if (!alive) return;
@@ -1035,32 +1111,21 @@ function App() {
   useEffect(() => {
     if (!activeConversationId || loadingConversations) return;
     const timer = window.setTimeout(() => {
-      const estimated = estimateContextBytes(chatMessages);
-      saveConversationUi(
-        activeConversationId,
-        chatMessages,
-        titleFromMessages(chatMessages),
-        estimated,
-      )
-        .then((summary) => {
-          setConversationSummaries((current) =>
-            [summary, ...current.filter((item) => item.id !== summary.id)].sort(
-              (a, b) => b.updatedAt - a.updatedAt,
-            ),
-          );
-        })
-        .catch(() => {
-          // A later save can recover; avoid interrupting the chat stream.
-        });
+      void persistConversationMessages(activeConversationId, chatMessages);
     }, 800);
     return () => window.clearTimeout(timer);
   }, [activeConversationId, chatMessages, loadingConversations]);
 
   const handleSelectConversation = async (id: string) => {
     if (chatBusy || id === activeConversationId) return;
+    if (activeConversationId) {
+      await persistConversationMessages(activeConversationId, chatMessages);
+    }
     const record = await loadConversation(id);
+    const messages = sanitizeConversationMessages(record.uiMessages || []);
+    conversationSaveSnapshotRef.current = { id, json: JSON.stringify(messages) };
     setActiveConversationId(id);
-    setChatMessages(record.uiMessages || []);
+    setChatMessages(messages);
   };
 
   const handleDeleteConversation = async (id: string) => {
@@ -1070,12 +1135,18 @@ function App() {
     if (id !== activeConversationId) return;
     if (summaries.length > 0) {
       const record = await loadConversation(summaries[0].id);
+      const messages = sanitizeConversationMessages(record.uiMessages || []);
+      conversationSaveSnapshotRef.current = {
+        id: summaries[0].id,
+        json: JSON.stringify(messages),
+      };
       setActiveConversationId(summaries[0].id);
-      setChatMessages(record.uiMessages || []);
+      setChatMessages(messages);
       return;
     }
     const created = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
     setConversationSummaries([created]);
+    conversationSaveSnapshotRef.current = { id: created.id, json: '[]' };
     setActiveConversationId(created.id);
     setChatMessages([]);
   };
@@ -1114,21 +1185,6 @@ function App() {
               return [...prev.slice(0, -1), { ...last, content: last.content + event.text }];
             }
             return [...prev, { id: crypto.randomUUID(), role: 'assistant' as const, content: event.text, createdAt: Date.now() }];
-          });
-          break;
-        case 'thinking':
-          setChatMessages((prev) => {
-            const last = prev[prev.length - 1];
-            if (last && last.role === 'assistant' && last.toolStatus !== 'running') {
-              return [
-                ...prev.slice(0, -1),
-                { ...last, content: last.content + `\n\n<details><summary>reasoning</summary>\n\n${event.text}\n\n</details>\n` },
-              ];
-            }
-            return [
-              ...prev,
-              { id: crypto.randomUUID(), role: 'assistant' as const, content: `<details><summary>reasoning</summary>\n\n${event.text}\n\n</details>\n`, createdAt: Date.now() },
-            ];
           });
           break;
         case 'state':
@@ -1274,8 +1330,12 @@ function App() {
 
   const handleNewChat = async () => {
     if (chatBusy) return;
+    if (activeConversationId) {
+      await persistConversationMessages(activeConversationId, chatMessages);
+    }
     const summary = await createConversation(locale === 'zh' ? '新对话' : 'New conversation');
     setConversationSummaries((current) => [summary, ...current.filter((item) => item.id !== summary.id)]);
+    conversationSaveSnapshotRef.current = { id: summary.id, json: '[]' };
     setActiveConversationId(summary.id);
     setChatMessages([]);
   };
@@ -1330,7 +1390,7 @@ function App() {
 
   return (
     <div
-      className={`app-shell ${resizingPane ? 'panel-resizing' : ''}`}
+      className={`app-shell ${resizingPane ? `panel-resizing panel-resizing-${resizingPane}` : ''}`}
       style={
         {
           '--sidebar-width': `${paneSizes.left}px`,
@@ -2562,17 +2622,7 @@ function ConversationView({
           }
           return (
             <div className={`message ${message.role}`} key={message.id}>
-              <div className="message-avatar">
-                {message.role === 'assistant' ? <Leaf size={17} /> : <CircleUserRound size={18} />}
-              </div>
               <div className="message-content">
-                <span className="message-author">
-                  {message.role === 'assistant'
-                    ? 'Open Longevity'
-                    : locale === 'zh'
-                      ? '你'
-                      : 'You'}
-                </span>
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
                   {message.content}
                 </ReactMarkdown>
@@ -2582,9 +2632,6 @@ function ConversationView({
         })}
         {busy && (
           <div className="message assistant">
-            <div className="message-avatar">
-              <Leaf size={17} />
-            </div>
             <div className="message-content thinking-line">
               <span />
               <span />
@@ -3066,11 +3113,13 @@ function RightRail({
                       onClick={() => onSelectConversation(conversation.id)}
                       disabled={chatBusy || conversation.id === activeConversationId}
                     >
-                      <MessageCircleMore size={15} />
                       <span>
                         <strong>{conversation.title || (locale === 'zh' ? '新对话' : 'New conversation')}</strong>
-                        <small>
-                          {conversation.messageCount}{locale === 'zh' ? ' 条消息' : ' messages'} · {Math.max(1, Math.round(conversation.estimatedContextBytes / 1024))} KB
+                        <small className="conversation-history-meta">
+                          <span>
+                            {conversation.messageCount}{locale === 'zh' ? ' 条消息' : ' messages'} · {Math.max(1, Math.round(conversation.estimatedContextBytes / 1024))} KB
+                          </span>
+                          <time>{formatConversationTime(conversation.updatedAt, locale)}</time>
                         </small>
                       </span>
                     </button>

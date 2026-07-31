@@ -126,7 +126,6 @@ export interface CaptureDraft {
 
 export type AgentEvent =
   | { type: 'text_delta'; conversationId?: string; text: string }
-  | { type: 'thinking'; conversationId?: string; text: string }
   | { type: 'tool_call_start'; conversationId?: string; id: string; name: string }
   | { type: 'tool_call_args'; conversationId?: string; id: string; args: string }
   | { type: 'tool_result'; conversationId?: string; id: string; output: string; success: boolean }

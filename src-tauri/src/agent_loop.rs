@@ -46,12 +46,6 @@ pub enum AgentEvent {
         conversation_id: String,
         text: String,
     },
-    #[serde(rename = "thinking")]
-    Thinking {
-        #[serde(rename = "conversationId")]
-        conversation_id: String,
-        text: String,
-    },
     #[serde(rename = "tool_call_start")]
     ToolCallStart {
         #[serde(rename = "conversationId")]
@@ -539,16 +533,6 @@ fn emit_text(app: &AppHandle, conversation_id: &str, text: String) {
     );
 }
 
-fn emit_thinking(app: &AppHandle, conversation_id: &str, text: String) {
-    emit_event(
-        app,
-        AgentEvent::Thinking {
-            conversation_id: conversation_id.to_string(),
-            text,
-        },
-    );
-}
-
 fn emit_tool_start(app: &AppHandle, conversation_id: &str, id: String, name: String) {
     emit_event(
         app,
@@ -857,7 +841,6 @@ pub async fn run_agent(
                     LlmEvent::Thinking(text) => {
                         received_any_token = true;
                         thinking_accum.push_str(&text);
-                        emit_thinking(&app, &conversation_id, text);
                     }
                     LlmEvent::ThinkingSignature(sig) => {
                         thinking_sig = sig;

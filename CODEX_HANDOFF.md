@@ -73,7 +73,8 @@ to the product template.
 - Left navigation is one fixed hierarchical tree: top-level categories expand
   to second-level notes. People and longevity anecdotes are expandable too.
 - Avoid a visible sidebar scrollbar, but keep mouse-wheel scrolling.
-- The left, center, and right panes are resizable.
+- The left, center, and right panes are resizable. While dragging, only the
+  divider being manipulated is highlighted; the opposite divider stays idle.
 - Top title/drag bar uses a restrained blue–green gradient. It should not repeat
   the logo, product name, or slogan.
 - Windows/Linux use custom window controls; macOS uses native traffic-light
@@ -86,10 +87,18 @@ to the product template.
 - Keep the chat composer in a persistent bottom layout row. The content above
   it scrolls independently so the final message is never covered and the
   composer never disappears while scrolling.
+- Chat uses a minimal two-sided conversation layout: user messages are compact
+  bubbles aligned to the right, while Open Longevity answers remain readable,
+  unframed content aligned to the left. Do not show participant names or avatars;
+  message position already communicates the speaker.
 - Opening AI chat or switching conversations must position the message area at
   the bottom before paint, with no visible scroll animation. New output follows
   only while the user remains near the bottom; reading older messages must not
   pull the user back down.
+- Provider reasoning/thinking content stays internal to the model session. Never
+  emit it into the chat UI or persist it in UI messages; only the final answer
+  is user-visible. When loading conversations, remove reasoning-detail markup
+  written by versions affected by the v0.0.6 streaming bug.
 - The chat composer shows context usage as a percentage with a themed
   hover/focus explanation. Near the 1,000,000-byte app context budget, older
   conversation is compacted locally while about 800 KB of recent messages
@@ -98,13 +107,16 @@ to the product template.
   AI chat exposes New chat actions in three places: the conversation header,
   beside AI chat in the fixed left navigation, and in the fixed right-rail
   header. On non-AI pages, the right-rail action returns to AI chat instead.
+  Selecting a saved conversation is read-only and must not move it to the top of
+  history; only new conversation content changes its recency. Each history item
+  ends with its actual last-updated date and time.
 - Avoid hover tooltips and decorative hover motion throughout the app.
 - Use generous, older-adult-friendly typography, especially in the center
   reading area.
 - Tier-list items are plain large text sized to their content. Do not render
   them as bordered buttons, add arrows, or force equal widths.
 - The right pane stacks two persistent sections: **Favorites** on top and
-  **My Plan** shortcuts (supplements, exercise, diet, sleep, health log) below; when a note
+  **My Plan** shortcuts (supplements, exercise, diet, daily routine, health log) below; when a note
   is open its sources appear as a third section. The old header star toggle is
   gone (favorites are always visible). On first launch the favorites are seeded
   once with Bryan Johnson (flag `openlongevity:favorites-seeded:v1`); a user's
