@@ -107,6 +107,9 @@ pub struct AgentRequest {
     pub knowledge_root: String,
     #[serde(default)]
     pub context_paths: Vec<String>,
+    /// Title of the library note the user is viewing when sending, if any.
+    #[serde(default)]
+    pub current_page: Option<String>,
     #[serde(default)]
     pub history: Vec<HistoryLine>,
     /// Which wire protocol the provider speaks: "openai" or "anthropic".
@@ -705,6 +708,21 @@ pub async fn run_agent(
         }
         sess.prepare_run();
         let mut user_content = request.message.clone();
+        if let Some(ref page_title) = request.current_page {
+            let page_hint = if request.locale == "en" {
+                format!(
+                    "\n\n[page context] When this message was sent, the user was viewing the note \
+                     \"{page_title}\" and asking about it. Answer within that page's context first; \
+                     use library search only if its content is not already in the supplied context."
+                )
+            } else {
+                format!(
+                    "\n\n[页面背景] 该消息发出时，用户正在查看笔记「{page_title}」并就其内容提问。\
+                     请优先围绕该页面回答；若其内容未包含在已提供的上下文中，再使用知识库检索。"
+                )
+            };
+            user_content.push_str(&page_hint);
+        }
         if let Some(ref rc) = research_context {
             user_content.push_str(rc);
         }

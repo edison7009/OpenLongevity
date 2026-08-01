@@ -9,6 +9,7 @@ import {
   Activity,
   Dumbbell,
   FolderOpen,
+  Github,
   Globe2,
   History,
   House,
@@ -41,6 +42,7 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import {
   FormEvent,
   ReactNode,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -700,6 +702,17 @@ function App() {
     }
     return fileNotePath.split('/').pop()?.replace(/\.md$/, '') || fileNotePath;
   }, [fileNotePath, locale]);
+  const currentPageTitle = useMemo(() => {
+    if (view === 'file') return fileNoteTitle || undefined;
+    if (view === 'supplement' && selectedSupplement) {
+      return locale === 'zh' ? selectedSupplement.nameZh : selectedSupplement.nameEn;
+    }
+    if (view === 'person' && selectedPerson) return selectedPerson.name;
+    if (view === 'story' && selectedStory) {
+      return locale === 'zh' ? selectedStory.title : selectedStory.titleEn || selectedStory.title;
+    }
+    return undefined;
+  }, [view, fileNoteTitle, selectedSupplement, selectedPerson, selectedStory, locale]);
   const [noteMarkdown, setNoteMarkdown] = useState('');
   const [noteLoading, setNoteLoading] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -1406,7 +1419,9 @@ function App() {
           selectedSupplement?.filePath,
           selectedPerson?.filePath,
           selectedStory?.filePath,
+          view === 'file' ? fileNotePath : undefined,
         ].filter(Boolean) as string[],
+        currentPage: currentPageTitle,
         history: priorMessages
           .filter((m) => m.role === 'user' || m.role === 'assistant')
           .slice(-8)
@@ -1671,6 +1686,7 @@ function App() {
           sendLabel={t('send')}
           stopLabel={t('stopGenerating')}
           inputRef={chatComposerRef}
+          currentPage={currentPageTitle}
           contextBytes={contextBytes}
           contextMaxBytes={AGENT_CONTEXT_MAX_BYTES}
           contextLabel={`${t('contextUsage')} ${formatContextUsage(
@@ -3004,6 +3020,7 @@ function ChatComposer({
   sendLabel,
   stopLabel,
   inputRef,
+  currentPage,
   contextBytes,
   contextMaxBytes,
   contextLabel,
@@ -3018,6 +3035,7 @@ function ChatComposer({
   sendLabel: string;
   stopLabel: string;
   inputRef: React.RefObject<HTMLTextAreaElement>;
+  currentPage?: string;
   contextBytes: number;
   contextMaxBytes: number;
   contextLabel: string;
@@ -3026,6 +3044,35 @@ function ChatComposer({
   disclosure: string;
 }) {
   const [value, setValue] = useState('');
+
+  // Must match the `.composer textarea` CSS max-height (6 lines at 1.45).
+  const autosize = useCallback(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    const next = Math.min(el.scrollHeight, 138);
+    el.style.height = `${next}px`;
+    el.style.overflowY = el.scrollHeight > 138 ? 'auto' : 'hidden';
+  }, [inputRef]);
+
+  useLayoutEffect(() => {
+    autosize();
+  }, [value, autosize]);
+
+  // Re-measure when the pane is resized and wrapping changes.
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    let lastWidth = el.clientWidth;
+    const observer = new ResizeObserver(() => {
+      if (el.clientWidth !== lastWidth) {
+        lastWidth = el.clientWidth;
+        autosize();
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [autosize, inputRef]);
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -3044,7 +3091,7 @@ function ChatComposer({
           placeholder={placeholder}
           onChange={(event) => setValue(event.target.value)}
           onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
+            if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
               event.preventDefault();
               event.currentTarget.form?.requestSubmit();
             }
@@ -3052,6 +3099,7 @@ function ChatComposer({
           aria-label={placeholder}
         />
         <div className="composer-tools">
+          {currentPage && <span className="composer-page-chip">{currentPage}</span>}
           <ContextRing
             bytes={contextBytes}
             maxBytes={contextMaxBytes}
@@ -3629,9 +3677,14 @@ function SettingsDialog({
 
         <footer className="dialog-footer">
           <div className="dialog-meta">
-            <span>Open Longevity · v{APP_VERSION}</span>
+            <button
+              className="version-link"
+              onClick={() => void openExternalUrl(PRODUCT_WEBSITE)}
+            >
+              Open Longevity · v{APP_VERSION}
+            </button>
             <button onClick={() => void openExternalUrl(FEEDBACK_URL)}>
-              <MessageCircleMore size={13} strokeWidth={1.8} />
+              <Github size={13} strokeWidth={1.8} />
               {t('feedback')}
             </button>
           </div>

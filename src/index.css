@@ -115,19 +115,8 @@ a:focus-visible {
 }
 
 .window-controls .titlebar-settings {
-  position: relative;
   width: 42px;
   margin-right: 3px;
-}
-
-.window-controls .titlebar-settings::after {
-  position: absolute;
-  top: 9px;
-  right: -2px;
-  bottom: 9px;
-  width: 1px;
-  background: rgba(218, 255, 246, 0.15);
-  content: '';
 }
 
 .app-titlebar.platform-macos .titlebar-drag-area {
@@ -136,10 +125,6 @@ a:focus-visible {
 
 .app-titlebar.platform-macos .window-controls .titlebar-settings {
   margin-right: 4px;
-}
-
-.app-titlebar.platform-macos .window-controls .titlebar-settings::after {
-  display: none;
 }
 
 .window-controls .window-close:hover {
@@ -587,7 +572,7 @@ body.resizing-panels * {
 .page {
   width: min(900px, calc(100% - 68px));
   margin: 0 auto;
-  padding: 42px 0 48px;
+  padding: 42px 0 24px;
 }
 
 .home-view {
@@ -1369,7 +1354,7 @@ body.resizing-panels * {
 .message-list {
   display: grid;
   gap: 3px;
-  padding: 18px 0 30px;
+  padding: 18px 0 18px;
 }
 
 .message {
@@ -1773,19 +1758,18 @@ body.resizing-panels * {
   z-index: 2;
   display: grid;
   grid-row: 2;
-  gap: 5px;
-  padding: 7px max(34px, calc((100% - 850px) / 2)) 8px;
+  gap: 4px;
+  padding: 6px max(34px, calc((100% - 850px) / 2)) 6px;
   background: var(--canvas);
   pointer-events: none;
 }
 
 .composer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  min-height: 50px;
-  padding: 6px 9px 6px 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 64px; /* one text line + one fixed tools line */
+  padding: 4px 9px 3px 16px;
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid #ccd9d6;
   border-radius: 17px;
@@ -1802,8 +1786,8 @@ body.resizing-panels * {
 
 .composer textarea {
   width: 100%;
-  max-height: 90px;
-  padding: 3px 0;
+  max-height: 138px; /* 6 lines at 15px / 1.45 line-height; keep in sync with ChatComposer */
+  padding: 2px 3px 2px 0;
   overflow-y: auto;
   resize: none;
   color: #2a4240;
@@ -1811,6 +1795,7 @@ body.resizing-panels * {
   border: 0;
   outline: 0;
   font-size: 15px;
+  line-height: 1.45;
   scrollbar-width: none;
 }
 
@@ -1825,7 +1810,9 @@ body.resizing-panels * {
 .composer-tools {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
+  min-height: 32px;
 }
 
 .composer-tools button {
@@ -1846,6 +1833,17 @@ body.resizing-panels * {
   background: #c8d2d0;
   box-shadow: none;
   cursor: default;
+}
+
+.composer-page-chip {
+  margin-right: auto;
+  max-width: 45%;
+  overflow: hidden;
+  color: #2c6e67;
+  font-size: 12.5px;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .right-rail {
@@ -3478,6 +3476,10 @@ body.resizing-panels * {
   color: #858a87;
 }
 
+[data-theme='dark'] .composer-page-chip {
+  color: #8fd8cc;
+}
+
 [data-theme='dark'] .favorite-toggle {
   color: #aab0ad;
   background: transparent;
@@ -3910,8 +3912,8 @@ body.resizing-panels * {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   color: #2c8a7f;
   border-radius: 50%;
   cursor: help;
