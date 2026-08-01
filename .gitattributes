@@ -1,0 +1,4 @@
+# GitHub language stats: count only the Rust desktop shell.
+# All other source files are excluded from the repo language bar.
+* linguist-detectable=false
+*.rs linguist-detectable=true
