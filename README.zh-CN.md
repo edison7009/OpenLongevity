@@ -4,6 +4,8 @@
 
 <h1 align="center">Open Longevity · 开源延寿</h1>
 
+![Open Longevity 中文首页](docs/assets/product-ui/home-zh.webp)
+
 <p align="center">
   <a href="README.md">English</a> · <strong>简体中文</strong>
 </p>
@@ -70,15 +72,9 @@ T1–T5 是用于阅读和讨论的起始框架，不是适用于所有人的医
 
 ## 界面预览
 
-### 首页与延寿策略地图
-
-![Open Longevity 中文首页](docs/assets/product-ui/home-zh.webp)
-
-### 模型与本地知识库
-
-![Open Longevity 中文模型设置](docs/assets/product-ui/settings-zh.webp)
-
 ### 基于自己的本地资料与 AI 对话
+
+![Open Longevity 中文 AI 对话](docs/assets/product-ui/chat-zh.webp)
 
 AI 回答会优先参考：
 
@@ -92,6 +88,22 @@ AI 回答会优先参考：
 对于论文、证据和临床试验类问题，Open Longevity 还会生成排除个人标识与个人测量值的英文医学检索式，
 实时查询 PubMed、ClinicalTrials.gov 与 bioRxiv。程序会附上确定的 PMID、NCT
 和预印本链接，并要求模型区分正式论文、试验登记/结果以及未经同行评审的预印本。
+
+### 阅读策略与公开人物方案
+
+| 力量训练 | DHA / EPA |
+| --- | --- |
+| ![力量训练文章](docs/assets/product-ui/strength-training-zh.webp) | ![DHA 与 EPA 文章](docs/assets/product-ui/dha-epa-zh.webp) |
+| **NAD+** | **Bryan Johnson** |
+| ![NAD+ 文章](docs/assets/product-ui/nad-plus-zh.webp) | ![Bryan Johnson 公开方案](docs/assets/product-ui/bryan-johnson-zh.webp) |
+
+### 配置模型与本地知识库
+
+![Open Longevity 中文模型设置](docs/assets/product-ui/settings-zh.webp)
+
+### 访问项目网站
+
+![Open Longevity 中文网站](docs/assets/product-ui/website-zh.webp)
 
 ### 保持数据可控
 

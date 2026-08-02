@@ -4,6 +4,8 @@
 
 <h1 align="center">Open Longevity(开源延寿)</h1>
 
+![Open Longevity home screen](docs/assets/product-ui/home-en.webp)
+
 <p align="center">
   <strong>Longevity science should not be reserved for the wealthy.</strong><br>
   Open Longevity takes Bryan Johnson’s longevity plan as a starting blueprint.
@@ -66,15 +68,9 @@ The capture flow limits download size and duration and blocks access to localhos
 
 ## Product preview
 
-### Home and the longevity strategy map
-
-![Open Longevity home screen](docs/assets/product-ui/home-en.webp)
-
-### Model and local knowledge library
-
-![Open Longevity model settings](docs/assets/product-ui/settings-en.webp)
-
 ### Ask AI against your own local notes
+
+![Open Longevity AI conversation](docs/assets/product-ui/chat-en.webp)
 
 AI context is prioritized in this order:
 
@@ -90,6 +86,22 @@ English biomedical query that excludes personal identifiers and retrieve a small
 ClinicalTrials.gov, and bioRxiv. The answer receives deterministic PMID, NCT,
 and preprint links and must distinguish papers, trial registrations/results,
 and non-peer-reviewed preprints.
+
+### Read strategies and public longevity protocols
+
+| Strength training | DHA / EPA |
+| --- | --- |
+| ![Strength training note](docs/assets/product-ui/strength-training-en.webp) | ![DHA and EPA note](docs/assets/product-ui/dha-epa-en.webp) |
+| **NAD+** | **Bryan Johnson** |
+| ![NAD+ note](docs/assets/product-ui/nad-plus-en.webp) | ![Bryan Johnson public protocol](docs/assets/product-ui/bryan-johnson-en.webp) |
+
+### Configure your model and local library
+
+![Open Longevity model settings](docs/assets/product-ui/settings-en.webp)
+
+### Visit the project website
+
+![Open Longevity website](docs/assets/product-ui/website-en.webp)
 
 ### Keep control of your data
 
