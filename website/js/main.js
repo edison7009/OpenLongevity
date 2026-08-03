@@ -18,9 +18,6 @@
       macosNote: "macOS 首次需在「终端」",
       statementEyebrow: "OPEN LONGEVITY / 开放宣言", statement: "科学延寿，不应该是富豪专属。",
       statementBody: "昂贵的私人团队、封闭的数据和难以验证的建议，不该成为通往更长生命的门槛。Open Longevity 希望把知识、证据与工具打开，让每个人都能理解、检查并建立自己的延寿计划。",
-      principle1Title: "开放知识", principle1Body: "中英文出厂资料公开组织，让专业信息变得可读、可检索、可继续生长。",
-      principle2Title: "可验证证据", principle2Body: "结论始终保留来源、证据边界与适用条件，欢迎追问，而不是要求盲信。",
-      principle3Title: "开源工具", principle3Body: "代码与数据结构可以被检查、改进和扩展；模型可替换，个人资料默认属于你。",
       productEyebrow: "三条生长路径", productTitle: "AI + 科学的时代",
       product1Title: "最新科学进展", product1Body: "补剂、运动、饮食与人物案例，以普通人能读懂的方式组织；专业证据仍然随时可追溯。",
       product2Title: "AI 快速收录", product2Body: "把论文链接、摘要或临时想法直接交给 AI，提炼研究对象、结果、局限与来源，再由你决定是否保存。",
@@ -28,6 +25,7 @@
       interfaceEyebrow: "一间属于你的研究室", interfaceTitle: "人人都能看得懂的界面。",
       interfaceBody: "左侧是知识地图，中间是阅读与证据，右侧是计划与收藏。无需打开开发工具，也无需把私人资料上传到陌生平台。",
       homeCaption: "首页 · 延寿策略地图", homeAlt: "Open Longevity 中文首页与策略地图",
+      nadCaption: "NAD+ · 证据与资料在同一页", nadAlt: "Open Longevity 中文 NAD+ 知识页面",
       evidenceEyebrow: "优先级，不是假装精确的分数", evidenceTitle: "先做确定性更高的事。",
       evidenceBody: "Open Longevity 默认参考公开方案与证据成熟度给出起始排序，但保留适用条件与不确定性。你可以按自己的理解调整，也可以让 AI 协助重排。",
       tiers: ["力量训练 · 有氧运动 · 健康饮食", "肌酸 · 可溶性膳食纤维 · Omega-3", "维生素 D3 · 镁 · 维生素 C", "辅酶 Q10 · NAD+ · 亚精胺", "麦角硫因 · PQQ · Ca-AKG"],
@@ -46,9 +44,6 @@
       macosNote: "On first launch, run in macOS Terminal:",
       statementEyebrow: "OPEN LONGEVITY / AN OPEN MANIFESTO", statement: "Longevity science should not belong only to the wealthy.",
       statementBody: "Expensive private teams, closed data, and advice that cannot be examined should not stand between people and a longer life. Open Longevity opens the knowledge, evidence, and tools so anyone can understand, inspect, and build a plan of their own.",
-      principle1Title: "Open knowledge", principle1Body: "Bilingual starter material makes specialist information readable, searchable, and ready to grow.",
-      principle2Title: "Traceable evidence", principle2Body: "Every conclusion keeps its sources, boundaries, and conditions, inviting questions instead of blind trust.",
-      principle3Title: "Open-source tools", principle3Body: "Code and data structures can be inspected, improved, and extended. Models are replaceable; your data stays yours.",
       productEyebrow: "Three paths of growth", productTitle: "The age of AI + science",
       product1Title: "Latest science", product1Body: "Supplements, movement, nutrition, and public cases are written for clarity, while the underlying evidence remains traceable.",
       product2Title: "AI capture", product2Body: "Give AI a paper, abstract, link, or rough thought. It extracts populations, outcomes, limits, and sources before you decide what to keep.",
@@ -56,6 +51,7 @@
       interfaceEyebrow: "A research room of your own", interfaceTitle: "An interface anyone can read.",
       interfaceBody: "A knowledge map on the left, reading and evidence in the center, plans and favorites on the right. No developer tool and no need to surrender private notes to an unfamiliar platform.",
       homeCaption: "HOME · LONGEVITY STRATEGY MAP", homeAlt: "Open Longevity home and strategy map",
+      nadCaption: "NAD+ · EVIDENCE AND SOURCES IN ONE VIEW", nadAlt: "Open Longevity NAD+ knowledge page",
       evidenceEyebrow: "Priorities, not pretend precision", evidenceTitle: "Start with what is more certain.",
       evidenceBody: "The default order reflects public protocols and evidence maturity while preserving conditions and uncertainty. Adjust it yourself or ask AI to help reorder it.",
       tiers: ["Strength · Aerobic exercise · Healthy diet", "Creatine · Soluble fiber · Omega-3", "Vitamin D3 · Magnesium · Vitamin C", "CoQ10 · NAD+ · Spermidine", "Ergothioneine · PQQ · Ca-AKG"],
@@ -77,7 +73,8 @@
   const terminalPrompt = installButton.querySelector(".terminal-prompt");
   const copyState = installButton.querySelector(".copy-state");
   const platformNotes = document.querySelectorAll("[data-platform-note]");
-  const homePreview = document.querySelector("#home-preview");
+  const manifestoHomePreview = document.querySelector("#manifesto-home-preview");
+  const nadPreview = document.querySelector("#nad-preview");
   const settingsPreview = document.querySelector("#settings-preview");
 
   function renderTicker() {
@@ -104,8 +101,10 @@
     languageButton.setAttribute("aria-label", locale === "zh" ? "Switch to English" : "切换至中文");
     document.querySelector(".site-header nav").setAttribute("aria-label", locale === "zh" ? "主要导航" : "Primary navigation");
     installButton.setAttribute("aria-label", text.copyCommand);
-    homePreview.src = `./product-ui/home-${locale}.webp`;
-    homePreview.alt = text.homeAlt;
+    manifestoHomePreview.src = `./product-ui/home-${locale}.webp`;
+    manifestoHomePreview.alt = text.homeAlt;
+    nadPreview.src = `./product-ui/nad-plus-${locale}.webp`;
+    nadPreview.alt = text.nadAlt;
     settingsPreview.src = `./product-ui/settings-${locale}.webp`;
     settingsPreview.alt = text.modelAlt;
     copyState.textContent = text.copy;

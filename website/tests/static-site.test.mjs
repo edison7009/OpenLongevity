@@ -34,6 +34,11 @@ test("website is directly deployable without a build step", async () => {
   assert.match(javascript, /install:\s*"安装 Open Longevity"/);
   assert.match(javascript, /star:\s*"在 GitHub 上点星"/);
   assert.doesNotMatch(javascript, /数据以 Bryan Johnson|\(Built on data/);
+  assert.doesNotMatch(html, /open-principles?|open-principle-heading/);
+  assert.doesNotMatch(javascript, /principle[123](?:Title|Body)|开放知识|可验证证据|开源工具/);
+  assert.match(html, /id="manifesto-home-preview"[^>]+product-ui\/home-zh\.webp/);
+  assert.match(html, /id="nad-preview"[^>]+product-ui\/nad-plus-zh\.webp/);
+  assert.match(javascript, /product-ui\/nad-plus-\$\{locale\}\.webp/);
   assert.match(javascript, /macOS 首次需在「终端」/);
   assert.match(html, /xattr -cr '\/Applications\/Open Longevity\.app'/);
   assert.match(javascript, /navigator\.userAgentData\?\.platform/);
@@ -50,6 +55,8 @@ test("website is directly deployable without a build step", async () => {
     "tree-of-life-engraving.png",
     "textures/analog-film-grain.webp",
     "product-ui/home-en.webp",
+    "product-ui/nad-plus-en.webp",
+    "product-ui/nad-plus-zh.webp",
     "product-ui/settings-zh.webp",
     "fonts/Newsreader-Variable-Latin.woff2",
   ]) {

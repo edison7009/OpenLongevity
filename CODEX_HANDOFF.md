@@ -211,9 +211,11 @@ to the product template.
   complete value.
 - The scrolling T1–T5 strip is bilingual; strategy names are the same enlarged
   size as the T1–T5 labels.
-- Open manifesto section:
-  - **科学延寿，不应该是富豪专属。**
-  - Three principles: 开放知识 / 可验证证据 / 开源工具.
+- Open manifesto section keeps **科学延寿，不应该是富豪专属。** on the
+  left and shows the bilingual desktop home screenshot on the right; do not
+  restore the former three-principle list there.
+- The following **人人都能看得懂的界面。** section shows the bilingual NAD+
+  knowledge-page screenshot instead of repeating the home screenshot.
 - Product-section title:
   - Chinese: **AI + 科学的时代**
   - English: **The age of AI + science**
