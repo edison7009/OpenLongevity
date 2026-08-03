@@ -4,6 +4,8 @@
 
 <h1 align="center">Open Longevity · 开源延寿</h1>
 
+<p align="center"><strong>延寿，是人类在 AI 时代最有价值的投资。</strong></p>
+
 ![Open Longevity 中文首页](docs/assets/product-ui/home-zh.webp)
 
 <p align="center">

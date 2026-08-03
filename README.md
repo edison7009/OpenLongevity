@@ -4,6 +4,8 @@
 
 <h1 align="center">Open Longevity(开源延寿)</h1>
 
+<p align="center"><strong>Longevity is humanity’s most valuable investment in the age of AI.</strong></p>
+
 ![Open Longevity home screen](docs/assets/product-ui/home-en.webp)
 
 <p align="center">
