@@ -179,7 +179,7 @@ const messages = {
     captureExample: 'Extract the population, sample size, main findings, limitations, and sources, then structure a science note for verification.',
     startChat: 'Go to chat',
     notNow: 'Not now',
-    captureNote: 'Webpage text and the draft are sent to your configured model. Your API key is saved in plaintext in the local app config.',
+    captureNote: 'Webpage text or notes will be sent to the model configured in Settings.',
     captureInputLabel: 'Webpage link or source material',
     captureInputPlaceholder: 'Paste https://… or paste an abstract, webpage text, or rough note',
     capturePrepare: 'Organize with AI',
