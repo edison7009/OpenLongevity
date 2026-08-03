@@ -194,8 +194,8 @@ to the product template.
   edge fading. The overlays sit behind content, never animate, and must preserve
   text contrast on desktop and mobile.
 - Website hero:
-  - Chinese: **让 AI 与科学，照亮你的生命之树**
-  - English: **Let AI and science illuminate your Tree of Life**
+  - Chinese: **延寿，是人类在 AI 时代最有价值的投资。**
+  - English: **Longevity is humanity’s most valuable investment in the age of AI.**
 - Website hero lead is one unified subtitle paragraph at one visual level:
   **富豪花费百万美元借助科技延寿，而 Open Longevity 希望把生命之光同样带给普通家庭；以
   Bryan Johnson 公开的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。**

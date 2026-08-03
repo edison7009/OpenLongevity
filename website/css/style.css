@@ -246,11 +246,21 @@ p {
 }
 
 .hero h1 em {
-  display: block;
+  display: inline;
   color: var(--teal-bright);
   font-style: italic;
   font-weight: 400;
   white-space: nowrap;
+}
+
+.hero-second-line {
+  display: block;
+  font-size: clamp(24px, 3.7vw, 56px);
+  white-space: nowrap;
+}
+
+html[lang="en"] .hero-second-line {
+  font-size: clamp(20px, 3.3vw, 50px);
 }
 
 .hero-body {
@@ -1303,10 +1313,6 @@ footer p:last-child {
 
   .hero h1 {
     font-size: clamp(46px, 13.5vw, 68px);
-  }
-
-  .hero h1 em {
-    white-space: normal;
   }
 
   .hero-visual {

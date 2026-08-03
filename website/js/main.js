@@ -9,10 +9,10 @@
 
   const copy = {
     zh: {
-      metaTitle: "Open Longevity · 让 AI 与科学滋养你的生命之树",
+      metaTitle: "延寿，是人类在 AI 时代最有价值的投资。 — Open Longevity",
       metaDescription: "本地优先、由科学依据支持的延寿知识与 AI 桌面应用。独立资料库，中英双语，支持 Windows、macOS 与 Linux。",
       brand: "Open Longevity（开源延寿）", navPrinciples: "理念", navProduct: "产品", navEvidence: "证据", navModels: "AI 模型",
-      heroLead: "让 AI 与科学，", heroAccent: "滋养你的生命之树",
+      heroLead: "延寿，是人类", heroSecondLine: "在 AI 时代最有价值的投资。",
       heroBody: "富豪花费百万美元借助科技延寿，而 Open Longevity 希望把生命之光同样带给普通家庭；以 Bryan Johnson 公开的延寿计划为蓝本，融入 AI 与科学依据，让普通人也能拥有富豪级的延寿策略。",
       install: "安装 Open Longevity", star: "在 GitHub 上点星", copy: "复制", copied: "已复制", copyCommand: "复制安装命令",
       macosNote: "macOS 首次需在「终端」",
@@ -35,10 +35,10 @@
       closing1: "AI 和科学，", closing2: "改变人类命运。", returnTop: "回到生命之树", footerNote: "科学延寿知识与 AI 桌面应用",
     },
     en: {
-      metaTitle: "Open Longevity · Let AI and science nurture your Tree of Life",
+      metaTitle: "Longevity is humanity’s most valuable investment in the age of AI. — Open Longevity",
       metaDescription: "A local-first longevity knowledge and AI desktop app grounded in scientific evidence, with an independent bilingual library for Windows, macOS, and Linux.",
       brand: "Open Longevity", navPrinciples: "Principles", navProduct: "Product", navEvidence: "Evidence", navModels: "AI models",
-      heroLead: "Let AI and science", heroAccent: "nurture your Tree of Life",
+      heroLead: "Longevity is humanity’s", heroSecondLine: "most valuable investment in the age of AI.",
       heroBody: "The wealthy spend millions on longevity technology, while Open Longevity aims to bring that same light of life to ordinary families; built on Bryan Johnson's publicly documented longevity plan and enriched with AI and scientific evidence, it makes longevity strategies once reserved for the wealthy accessible to ordinary people.",
       install: "Install Open Longevity", star: "Star on GitHub", copy: "Copy", copied: "Copied", copyCommand: "Copy the install command",
       macosNote: "On first launch, run in macOS Terminal:",

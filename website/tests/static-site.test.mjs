@@ -10,7 +10,8 @@ test("website is directly deployable without a build step", async () => {
   const stylesheet = await readFile(new URL("css/style.css", website), "utf8");
   const version = JSON.parse(await readFile(new URL("version.json", website), "utf8"));
 
-  assert.match(html, /<title>Open Longevity/);
+  assert.match(html, /<title>延寿，是人类在 AI 时代最有价值的投资。 — Open Longevity<\/title>/);
+  assert.match(javascript, /metaTitle: "Longevity is humanity’s most valuable investment in the age of AI\. — Open Longevity"/);
   assert.match(html, /src="\.\/js\/main\.js"/);
   assert.match(html, /href="\.\/css\/style\.css"/);
   assert.doesNotMatch(html, /\/src\/main\.tsx|%BASE_URL%/);
@@ -25,9 +26,17 @@ test("website is directly deployable without a build step", async () => {
   assert.match(stylesheet, /\.install-command code\s*\{[^}]*font-size:\s*13px/s);
   assert.match(stylesheet, /\.platform-note\s*\{[^}]*font-size:\s*14px/s);
   assert.match(stylesheet, /\.platform-note code\s*\{[^}]*display:\s*inline/s);
+  assert.match(stylesheet, /\.hero-second-line\s*\{[^}]*font-size:\s*clamp\(24px, 3\.7vw, 56px\)[^}]*white-space:\s*nowrap/s);
   assert.equal((html.match(/film-section/g) ?? []).length, 6);
   assert.match(stylesheet, /textures\/analog-film-grain\.webp/);
   assert.doesNotMatch(html, /data-i18n="heroDetail"|class="hero-detail"/);
+  assert.match(html, /data-i18n="heroLead">延寿，是人类<\/span>/);
+  assert.match(html, /class="hero-second-line" data-i18n="heroSecondLine">在 AI 时代最有价值的投资。<\/em>/);
+  assert.match(javascript, /heroSecondLine: "在 AI 时代最有价值的投资。"/);
+  assert.match(javascript, /heroLead: "Longevity is humanity’s"/);
+  assert.match(javascript, /heroSecondLine: "most valuable investment in the age of AI\."/);
+  assert.doesNotMatch(html, /让 AI 与科学|滋养你的生命之树/);
+  assert.doesNotMatch(javascript, /Let AI and science nurture your Tree of Life/);
   assert.match(javascript, /富豪花费百万美元借助科技延寿/);
   assert.match(javascript, /以 Bryan Johnson 公开的延寿计划为蓝本/);
   assert.doesNotMatch(javascript, /heroDetail:/);
