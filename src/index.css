@@ -84,8 +84,24 @@ a:focus-visible {
 }
 
 .titlebar-drag-area {
+  display: flex;
   align-self: stretch;
+  align-items: center;
   min-width: 0;
+  padding-left: 18px;
+  overflow: hidden;
+}
+
+.titlebar-statement {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(236, 255, 251, 0.76);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .window-controls {
@@ -120,7 +136,7 @@ a:focus-visible {
 }
 
 .app-titlebar.platform-macos .titlebar-drag-area {
-  margin-left: 80px;
+  padding-left: 92px;
 }
 
 .app-titlebar.platform-macos .window-controls .titlebar-settings {
