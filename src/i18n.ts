@@ -55,7 +55,7 @@ const messages = {
     captureExample: '请提取研究对象、样本量、主要结果、局限和来源，并整理成一篇待核查的科学笔记。',
     startChat: '去对话',
     notNow: '稍后',
-    captureNote: '网页正文和草稿会发送给你配置的模型；API Key 以明文保存在本机应用配置中。',
+    captureNote: '网页正文或笔记会发送给你在设置界面配置的模型',
     captureInputLabel: '网页链接或原始资料',
     captureInputPlaceholder: '粘贴 https://…，或直接粘贴论文摘要、网页正文和临时笔记',
     capturePrepare: '让 AI 整理',
