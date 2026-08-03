@@ -1,6 +1,6 @@
 # Open Longevity — portable Codex project memory
 
-Updated: 2026-08-01
+Updated: 2026-08-04
 
 This file preserves the decisions and working context needed to continue the
 project on another machine. It contains no API keys, private user parameters,
@@ -12,7 +12,7 @@ or temporary deployment credentials.
 - Chinese product name: **科学延寿**. Use **延寿** consistently in Chinese
   product, website, documentation, and starter-library copy; keep the previous
   product-domain term out of new copy.
-- Version: **0.1.0**.
+- Version: **0.1.1**.
 - Goal: a productized, local-first scientific-longevity desktop application for
   Windows, macOS, and Linux—not a personal wrapper around the developer's notes.
 - Product origin: inspired by the developer's `C:\Life extension` notes, but the
@@ -77,8 +77,10 @@ to the product template.
 - Avoid a visible sidebar scrollbar, but keep mouse-wheel scrolling.
 - The left, center, and right panes are resizable. While dragging, only the
   divider being manipulated is highlighted; the opposite divider stays idle.
-- Top title/drag bar uses a restrained blue–green gradient. It should not repeat
-  the logo, product name, or slogan.
+- Top title/drag bar uses a restrained blue–green gradient. Its left side shows
+  the bilingual statement **延寿，是人类在 AI 时代最有价值的投资。** /
+  **Longevity is humanity’s most valuable investment in the age of AI.**; it
+  should not repeat the logo, product name, or main-page slogan.
 - Windows/Linux use custom window controls; macOS uses native traffic-light
   controls on the left.
 - The desktop app is single-instance. Launching it again must restore and focus
@@ -265,6 +267,6 @@ and machine-specific. The website itself has no generated build directory.
    calls.
 4. Review the bilingual starter library for scientific sourcing and product
    neutrality.
-5. Test the published `v0.1.0` installers on real Windows, macOS, and Linux
+5. Test the published `v0.1.1` installers on real Windows, macOS, and Linux
    machines. Future production releases should add Windows and Apple code
    signing when certificates are available.
