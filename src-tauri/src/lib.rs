@@ -26,7 +26,7 @@ const MAX_CAPTURE_DOWNLOAD_BYTES: usize = 600_000;
 const MAX_CAPTURE_SOURCE_BYTES: usize = 110_000;
 const MAX_RESEARCH_CONTEXT_BYTES: usize = 32_000;
 // Increment whenever shipped starter-library content needs a safe in-place migration.
-const STARTER_PACK_VERSION: &str = "20";
+const STARTER_PACK_VERSION: &str = "23";
 const LATEST_RELEASE_API: &str =
     "https://api.github.com/repos/edison7009/OpenLongevity/releases/latest";
 const WEBSITE_VERSION_API: &str = "https://openlongevity.life/version.json?platform=windows";
@@ -932,6 +932,8 @@ fn localized_category(category: &str, locale: &str) -> String {
         "NAD 相关" => "NAD-related",
         "细胞稳态" => "Cellular homeostasis",
         "抗氧化" => "Antioxidants",
+        "抗氧化与线粒体" => "Antioxidants and mitochondria",
+        "多酚" => "Polyphenols",
         "代谢" => "Metabolic health",
         "前沿生物技术" => "Frontier biotechnology",
         _ => category,
@@ -961,10 +963,12 @@ fn load_supplements(root: &Path, locale: &str) -> Vec<Supplement> {
         "vitamin-d3",
         "magnesium",
         "vitamin-c",
+        "curcumin",
         "coq10",
         "nmn",
         "spermidine",
         "ergothioneine",
+        "glutathione",
         "pqq",
         "ca-akg",
         "glp1-ra",
@@ -3048,16 +3052,16 @@ mod tests {
         assert!(articles
             .iter()
             .any(|article| article.title == "补剂产品怎么选"));
-        assert_eq!(load_supplements(&root, "zh").len(), 18);
+        assert_eq!(load_supplements(&root, "zh").len(), 20);
         let training_plans = load_training_plans(&root, "zh");
         assert_eq!(training_plans.len(), 4);
         assert_eq!(training_plans[0].title, "全身训练（1 分化）");
         assert_eq!(
-            18 + load_people(&root, "zh").len()
+            20 + load_people(&root, "zh").len()
                 + load_stories(&root, "zh").len()
                 + training_plans.len()
                 + articles.len(),
-            33
+            35
         );
         let stories = load_stories(&root, "zh");
         assert_eq!(stories.len(), 1);
@@ -3077,6 +3081,26 @@ mod tests {
             .expect("partial reprogramming starter entry should exist");
         assert_eq!(reprogramming.tier, "T5");
         assert!(root.join("dossiers/partial-reprogramming.md").is_file());
+        let glutathione = supplements
+            .iter()
+            .find(|supplement| supplement.id == "glutathione")
+            .expect("glutathione starter entry should exist");
+        assert_eq!(glutathione.tier, "T5");
+        let glutathione_dossier = fs::read_to_string(root.join("dossiers/glutathione.md"))
+            .expect("glutathione dossier should be readable");
+        assert!(glutathione_dossier.contains("## 全球品牌排名（普通用户购买导向）"));
+        assert!(glutathione_dossier.contains("California Gold Nutrition"));
+        assert!(glutathione_dossier.contains("NSF Certified for Sport"));
+        let curcumin = supplements
+            .iter()
+            .find(|supplement| supplement.id == "curcumin")
+            .expect("curcumin starter entry should exist");
+        assert_eq!(curcumin.tier, "T3");
+        let curcumin_dossier = fs::read_to_string(root.join("dossiers/curcumin.md"))
+            .expect("curcumin dossier should be readable");
+        assert!(curcumin_dossier.contains("## 全球品牌排名（购买导向）"));
+        assert!(curcumin_dossier.contains("膝骨关节炎"));
+        assert!(curcumin_dossier.contains("NSF Certified for Sport"));
         assert!(root.join("guides/evidence-standards.md").is_file());
         assert!(root.join("guides/product-quality.md").is_file());
         assert!(!root.join("papers/existing-evidence-library.md").exists());

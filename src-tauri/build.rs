@@ -3,6 +3,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 fn collect_starter_files(root: &Path, path: &Path, files: &mut Vec<(String, PathBuf)>) {
+    println!("cargo:rerun-if-changed={}", path.display());
     let Ok(entries) = fs::read_dir(path) else {
         return;
     };
@@ -38,6 +39,9 @@ fn main() {
     let mut files = Vec::new();
     collect_starter_files(&starter_root, &starter_root, &mut files);
     files.sort_by(|left, right| left.0.cmp(&right.0));
+    for (_, absolute) in &files {
+        println!("cargo:rerun-if-changed={}", absolute.display());
+    }
 
     let mut generated = String::from("const STARTER_FILES: &[(&str, &str)] = &[\n");
     for (relative, absolute) in files {
@@ -51,7 +55,6 @@ fn main() {
     let output =
         PathBuf::from(env::var("OUT_DIR").expect("OUT_DIR is required")).join("starter_files.rs");
     fs::write(output, generated).expect("starter file manifest should be generated");
-    println!("cargo:rerun-if-changed={}", starter_root.display());
 
     tauri_build::build()
 }

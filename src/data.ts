@@ -92,6 +92,15 @@ export const fallbackSupplements: Supplement[] = [
     filePath: 'dossiers/vitamin-c.md',
   },
   {
+    id: 'curcumin',
+    nameZh: '姜黄素',
+    nameEn: 'Curcumin',
+    category: '多酚',
+    tier: 'T3',
+    summary: '重点评价膝骨关节炎症状、具体制剂、生物利用度与肝脏安全。',
+    filePath: 'dossiers/curcumin.md',
+  },
+  {
     id: 'coq10',
     nameZh: '辅酶 Q10',
     nameEn: 'CoQ10',
@@ -126,6 +135,15 @@ export const fallbackSupplements: Supplement[] = [
     tier: 'T5',
     summary: '以饮食来源、人体标志物和正在发展的研究为主线。',
     filePath: 'dossiers/ergothioneine.md',
+  },
+  {
+    id: 'glutathione',
+    nameZh: '谷胱甘肽',
+    nameEn: 'Glutathione',
+    category: '抗氧化与线粒体',
+    tier: 'T5',
+    summary: '区分直接口服谷胱甘肽、特殊剂型、NAC 与 GlyNAC。',
+    filePath: 'dossiers/glutathione.md',
   },
   {
     id: 'pqq',
@@ -365,6 +383,54 @@ export const fallbackMarkdown: Record<string, string> = {
 - 人体研究仍处于局部、早期安全性探索；
 - 细胞身份丢失、异常增殖、肿瘤和递送控制仍是核心风险；
 - 当前没有可供普通人自行实践的方案。
+
+## 当前等级
+
+T5：前沿探索。`,
+  'dossiers/curcumin.md': `# 姜黄素
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Thorne Curcumin Phytosome](https://cn.iherb.com/pr/thorne-curcumin-phytosome-120-capsules-500-mg-per-capsule/68448?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Meriva® 磷脂复合物；NSF Certified for Sport |  |
+|  | [Pure Encapsulations CurcumaSorb](https://cn.iherb.com/pr/pure-encapsulations-curcumasorb-180-capsules-250-mg-per-capsule/52423?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Meriva® 向日葵磷脂复合物，配方简洁 |  |
+| **P2** | [Life Extension Curcumin Elite](https://cn.iherb.com/pr/life-extension-curcumin-elite-turmeric-extract-60-vegetarian-capsules/97643?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | CGM 胡芦巴纤维复合物，一天 1 粒 |  |
+|  | [NOW Foods Curcumin Phytosome with Meriva](https://cn.iherb.com/pr/now-foods-turmeric-curcumin-phytosome-with-meriva-60-veg-capsules-500-mg-per-capsule/27026?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 每粒 500 mg Meriva® 复合物，同类价格较低 |  |
+| **P3** | [California Gold Nutrition Curcumin C3 Complex with BioPerine](https://cn.iherb.com/pr/california-gold-nutrition-curcumin-c3-complex-with-bioperine-black-pepper-extract-turmeric-curcumin-complex-enhanced-bioavailablity-120-veggie-capsules/60047?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | iTested、性价比高；胡椒碱增加药物相互作用顾虑 |  |
+
+## 当前判断
+
+- 最可用的人体证据是短期缓解膝骨关节炎疼痛、僵硬并改善功能；
+- 部分炎症和代谢指标可能小幅改善，但不等于减少重大疾病；
+- 没有证据证明普通健康人服用能够延寿；
+- 高生物利用度产品已有罕见急性肝损伤报告。
+
+## 当前等级
+
+T3：有条件地考虑。`,
+  'dossiers/glutathione.md': `# 谷胱甘肽系统
+
+谷胱甘肽是人体自行合成的重要抗氧化三肽，但“生理上重要”不等于“额外口服能够延寿”。
+
+## 全球品牌排名（普通用户购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [California Gold Nutrition L-Glutathione Reduced 500 mg](https://cn.iherb.com/pr/california-gold-nutrition-l-glutathione-reduced-500-mg-30-veggie-capsules/103269?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 500 mg × 1 粒/日；单方、iTested 成品检测，按当前价格比较性价比最高 |  |
+|  | [NOW Foods Glutathione 500 mg](https://cn.iherb.com/pr/now-foods-glutathione-with-milk-thistle-extract-alpha-lipoic-acid-30-veg-capsules/78094?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 500 mg × 1 粒/日；另含水飞蓟 100 mg 与 α-硫辛酸 50 mg |  |
+| **P2** | [Life Extension Glutathione](https://cn.iherb.com/pr/life-extension-glutathione-60-vegetarian-capsules/138619?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 500 mg × 2 粒/日；Opitac® 还原型原料，配方简单 |  |
+|  | [Codeage Liposomal Glutathione](https://cn.iherb.com/pr/codeage-liposomal-glutathione-60-vegetable-capsules-250-mg-per-capsule/104057?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 500 mg × 2 粒/日；Setria®、磷脂复合物与 NSF 内容认证 |  |
+| **P3** | [Thorne Glutathione-SR](https://cn.iherb.com/pr/thorne-glutathione-sr-60-capsules-175-mg-per-capsule/18512?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 175 mg/粒、每日 2–3 粒；单位剂量最贵，但有 NSF Certified for Sport |  |
+
+排名评价普通用户购买时的剂量、价格、标签和认证，不代表延寿效果强弱。
+
+## 当前判断
+
+- 直接口服谷胱甘肽在小型随机试验中能够提高部分血液和细胞储量；
+- 特殊剂型主要改善吸收指标，尚未证明长期健康结局；
+- NAC 是半胱氨酸前体和药物，GlyNAC 是甘氨酸与 NAC 的组合，不能与直接口服谷胱甘肽混为一谈；
+- 目前没有人体寿命或重大健康寿命结局证据。
 
 ## 当前等级
 

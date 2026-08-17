@@ -34,7 +34,7 @@ The application combines:
    navigation item.
 3. AI-assisted longevity planning grounded in the local knowledge library.
 
-The default starter library currently contains **50 Chinese documents plus 50
+The default starter library currently contains **52 Chinese documents plus 52
 English companion documents**. Run `npm run library:check` to verify the pairs.
 
 Primary knowledge categories:
@@ -64,7 +64,7 @@ Current default examples:
 
 - T1: strength training, aerobic exercise, high-quality/healthy diet
 - T2: creatine, soluble dietary fiber, Omega-3
-- T3: vitamin D3, magnesium, vitamin C
+- T3: vitamin D3, magnesium, vitamin C, curcumin
 - T4: CoQ10, NAD+, spermidine
 - T5: ergothioneine, PQQ, Ca-AKG
 

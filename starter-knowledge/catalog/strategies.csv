@@ -9,10 +9,12 @@ omega3,DHA / EPA,DHA / EPA,脂肪酸,example,starter,T2,review,结合膳食摄�
 vitamin-d3,维生素 D3,Vitamin D3,维生素,example,starter,T3,review,结合检测日照饮食和个体风险
 magnesium,镁,Magnesium,矿物质,example,starter,T3,review,关注剂型元素剂量和相互作用
 vitamin-c,维生素 C,Vitamin C,维生素,example,starter,T3,review,优先从饮食与缺乏风险理解
+curcumin,姜黄素,Curcumin,多酚,current-explicit,reviewed,T3,maintain,膝骨关节炎短期症状可能获益；普通健康人延寿和重大临床结局未证实
 coq10,辅酶 Q10,CoQ10,线粒体,example,starter,T4,review,结合具体健康情境理解
 nmn,NAD+,NAD+,NAD 相关,example,starter,T4,review,区分 NAD+ NADH NMN NR 与长期健康结局
 spermidine,亚精胺,Spermidine,细胞稳态,example,starter,T4,review,区分食物来源与提取物
 ergothioneine,麦角硫因,Ergothioneine,抗氧化,example,starter,T5,review,持续跟踪人体研究
+glutathione,谷胱甘肽,Glutathione,抗氧化与线粒体,current-explicit,reviewed,T5,review,区分直接口服谷胱甘肽、特殊剂型、NAC 与 GlyNAC；人体临床和延寿结局尚未确认
 pqq,PQQ,PQQ,线粒体,example,starter,T5,review,追踪认知疲劳与人体研究
 ca-akg,Ca-AKG,Ca-AKG,代谢,example,starter,T5,review,区分机制复方和人体数据
 glp1-ra,GLP-1 受体激动剂,GLP-1 receptor agonists,代谢,reference,reviewed,T2,maintain,处方药专题；必须由医生评估和开具处方

@@ -21,11 +21,13 @@ Tier 是研究优先级，不是购物榜。不同项目的证据成熟度差异
 | soluble-fiber | 可溶性膳食纤维（限定原料与目标） | T2 | [soluble-fiber.md](soluble-fiber.md) |
 | coq10 | 辅酶 Q10 | T4 | [coq10.md](coq10.md) |
 | vitamin-c | 维生素 C | T3 | [vitamin-c.md](vitamin-c.md) |
+| curcumin | 姜黄素 | T3 | [curcumin.md](curcumin.md) |
 | vitamin-d3 | 维生素 D3 | T3 | [vitamin-d3.md](vitamin-d3.md) |
 | magnesium | 镁 | T3 | [magnesium.md](magnesium.md) |
 | nmn | NAD+（NMN / NR） | T4 | [nmn.md](nmn.md) |
 | spermidine | 亚精胺 | T4 | [spermidine.md](spermidine.md) |
 | ergothioneine | 麦角硫因 | T5 | [ergothioneine.md](ergothioneine.md) |
+| glutathione | 谷胱甘肽 | T5 | [glutathione.md](glutathione.md) |
 | pqq | PQQ | T5 | [pqq.md](pqq.md) |
 | ca-akg | Ca-AKG | T5 | [ca-akg.md](ca-akg.md) |
 | glp1-ra | GLP-1 受体激动剂（处方药） | T2 | [glp1-ra.md](glp1-ra.md) |

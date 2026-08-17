@@ -8,6 +8,7 @@ b-complex,B族复合维生素,B-complex vitamins,维生素,current-blend,candida
 vitamin-b12,维生素B12,Vitamin B12,维生素,current-blend,candidate,pending,next,优先评审素食和吸收障碍人群
 folate,叶酸,Folate,维生素,current-blend,candidate,pending,backlog,需区分叶酸与甲基叶酸及特殊人群
 magnesium,镁,Magnesium,矿物质,current-blend,reviewed,T2,maintain,条件性使用需记录元素镁剂量剂型肾功能与药物相互作用
+calcium,钙,Calcium,矿物质,current-blend,candidate,pending,next,必须区分膳食不足和骨质疏松情境与普通人常规补充并评估结石等风险
 zinc,锌,Zinc,矿物质,needs-source-check,candidate,pending,backlog,先核对当前配方
 selenium,硒,Selenium,矿物质,needs-source-check,candidate,pending,backlog,安全窗口较窄需记录上限
 iodine,碘,Iodine,矿物质,needs-source-check,candidate,pending,backlog,甲状腺情境高度相关
@@ -15,11 +16,12 @@ iron,铁/Proferrin,Iron,矿物质,current-explicit,candidate,pending,next,仅能
 coq10,辅酶Q10/泛醇,Coenzyme Q10/Ubiquinol,抗氧化与线粒体,current-blend,reviewed,T2,maintain,健康人与疾病或他汀情境需分开
 pqq,PQQ,Pyrroloquinoline quinone,抗氧化与线粒体,historical-or-discussed,reviewed,T4,maintain,2022年随机双盲试验确认认知改善；Bryan Johnson方案曾采用
 quercetin,槲皮素,Quercetin,多酚,historical-or-discussed,candidate,pending,backlog,不能用机制或清除衰老细胞叙事直接判级
-curcumin,姜黄素,Curcumin,多酚,official-product,candidate,pending,next,评审需按适应症和制剂生物利用度拆分
+curcumin,姜黄素,Curcumin,多酚,current-explicit,reviewed,T3,maintain,膝骨关节炎短期疼痛与功能证据较可用；普通健康人延寿结局未证实；按制剂拆分
 resveratrol,白藜芦醇,Resveratrol,多酚,historical-or-discussed,candidate,pending,backlog,人体长期结局待系统核对
 egcg,EGCG/绿茶提取物,Epigallocatechin gallate,多酚,historical-or-discussed,candidate,pending,backlog,需记录浓缩提取物肝损伤风险
 grape-seed-extract,葡萄籽提取物,Grape seed extract,多酚,unverified,candidate,pending,backlog,先确认一手来源与具体结局
 alpha-lipoic-acid,α-硫辛酸,Alpha-lipoic acid,代谢,historical-or-discussed,candidate,pending,backlog,按糖尿病神经病变等具体场景评审
+allulose,阿洛酮糖,Allulose,代谢与代糖,current-blend,candidate,pending,backlog,属于低热量稀有糖需评审餐后血糖体重胃肠耐受和长期结局
 probiotics,益生菌,Probiotics,肠道,unverified,candidate,pending,next,必须按菌株疾病和结局拆分
 essential-microbiome,官方微生物组复方,Essential Microbiome,肠道,official-product,candidate,pending,backlog,产品为后生元组合不等于传统益生菌
 soluble-fiber,可溶性膳食纤维,Soluble fiber,肠道,current-explicit,reviewed,T1,split,仅限明确原料与目标需拆分车前子β葡聚糖菊粉GOS
@@ -27,6 +29,8 @@ gos,半乳寡糖,Galactooligosaccharides,肠道,current-explicit,candidate,pendi
 inulin,菊粉,Inulin,肠道,current-explicit,candidate,pending,backlog,当前日程直接列出
 arabinogalactan,阿拉伯半乳聚糖,Arabinogalactan,肠道,current-explicit,candidate,pending,backlog,当前日程直接列出
 collagen,胶原蛋白肽,Collagen peptides,皮肤与关节,current-explicit,candidate,pending,next,按皮肤关节和训练恢复分别评审
+glucosamine-sulfate,硫酸氨基葡萄糖,Glucosamine sulfate,关节与软骨,current-blend,candidate,pending,next,关节症状随机试验与死亡率观察关联必须分开不能直接写成延寿
+sodium-hyaluronate,透明质酸钠,Sodium hyaluronate,皮肤与关节,current-blend,candidate,pending,backlog,主要评审皮肤含水和关节症状结局暂无延寿临床结局
 melatonin,褪黑素,Melatonin,睡眠,historical-or-discussed,candidate,pending,next,剂量适应症和长期使用需分开
 potassium,钾,Potassium,电解质,historical-or-discussed,candidate,pending,backlog,优先食物和医疗监测避免自行高剂量
 sodium-electrolytes,钠与电解质,Sodium and electrolytes,电解质,historical-or-discussed,candidate,pending,backlog,仅在运动出汗或特定医疗情境讨论
@@ -37,9 +41,11 @@ nicotinamide,烟酰胺,Nicotinamide,NAD相关,needs-source-check,candidate,pendi
 nad-plus,NAD+,Nicotinamide adenine dinucleotide,NAD相关,unverified,candidate,pending,next,直接口服与静脉制剂必须分开评审
 spermidine,亚精胺,Spermidine,自噬,historical-or-discussed,reviewed,T3,maintain,欧洲队列确认全因死亡风险降低约40%；2026年免疫随机试验出现信号
 ca-akg,Ca-AKG/α-酮戊二酸钙,Calcium alpha-ketoglutarate,代谢与延寿,current-blend,reviewed,T4,maintain,Cell Metabolism确认动物延寿；人体生物年龄改善信号；ABLE随机试验推进中
+urolithin-a,尿石素A,Urolithin A,线粒体与线粒体自噬,unverified,candidate,pending,next,多项人体随机试验有肌耐力和生物标志物信号但主要功能终点并非一致阳性
 glycine,甘氨酸,Glycine,氨基酸,current-blend,candidate,pending,next,需区分单方与复方以及睡眠代谢结局
-taurine,牛磺酸,Taurine,氨基酸,current-blend,candidate,pending,next,Science 2023确认牛磺酸缺乏是衰老驱动因素；延寿证据强
+taurine,牛磺酸,Taurine,氨基酸,current-blend,candidate,pending,next,2023动物延寿信号突出但2025年多队列研究不支持血液牛磺酸随年龄普遍下降；缺少人体延寿试验
 nac,NAC/N-乙酰半胱氨酸,N-acetylcysteine,抗氧化与药理,official-product,candidate,pending,next,药物用途与健康人补充必须分开
+glynac,GlyNAC（甘氨酸+NAC）,GlyNAC (glycine plus NAC),抗氧化与线粒体,unverified,candidate,pending,next,小型老年人试验积极但较大短期试验总体主要终点未达标
 sulforaphane,萝卜硫素/西兰花芽素,Sulforaphane,植物活性物,historical-or-discussed,candidate,pending,backlog,制剂和生成方式影响实际暴露
 lutein,叶黄素,Lutein,类胡萝卜素,needs-source-check,candidate,pending,next,优先评审年龄相关黄斑变性情境
 zeaxanthin,玉米黄质,Zeaxanthin,类胡萝卜素,needs-source-check,candidate,pending,next,通常与叶黄素组合评审
@@ -49,6 +55,6 @@ nervonic-acid,神经酸/元宝枫籽油,Nervonic acid,脂肪酸,unverified,candi
 ergothioneine,麦角硫因,Ergothioneine,抗氧化,unverified,reviewed,T4,maintain,队列统计确认与更低心血管死亡风险相关；Bryan Johnson方案采纳
 ashwagandha,南非醉茄,Ashwagandha,适应原,current-explicit,candidate,pending,next,安全性药物相互作用和适用人群需评审
 rhodiola,红景天,Rhodiola rosea,适应原,current-explicit,candidate,pending,backlog,与南非醉茄复方使用
-glutathione,谷胱甘肽,Glutathione,抗氧化与线粒体,current-blend,candidate,pending,backlog,口服生物利用度和临床结局需核对
+glutathione,谷胱甘肽,Glutathione,抗氧化与线粒体,current-blend,reviewed,T5,maintain,直接口服可提高部分体内储量但尚无延寿临床结局；必须与NAC和GlyNAC分开
 l-theanine,L-茶氨酸,L-theanine,氨基酸,current-blend,candidate,pending,backlog,按睡眠压力和咖啡因组合拆分
 lysine,赖氨酸,Lysine,氨基酸,current-blend,candidate,pending,backlog,一般健康人额外补充价值需核对
