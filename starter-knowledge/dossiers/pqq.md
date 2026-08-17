@@ -4,7 +4,7 @@ name_zh: PQQ
 name_en: Pyrroloquinoline quinone
 status: reviewed
 tier: T5
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,17 @@ audit_date: 2026-07-20
 ---
 
 # PQQ
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Doctor's Best PQQ with BioPQQ 20 mg](https://www.iherb.com/search?kw=Doctor%27s%20Best%20PQQ%20BioPQQ%2020%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | BioPQQ 二钠盐、20 mg、完整产品名清楚；缺成品级独立认证 |  |
+| **P2** | [Jarrow PQQ 20 mg](https://www.iherb.com/search?kw=Jarrow%20PQQ%2020%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NIH 标签与 BioPQQ 目录可核对盐型和剂量 |  |
+|  | [Life Extension PQQ 20 mg](https://www.iherb.com/search?kw=Life%20Extension%20PQQ%2020%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 指定 BioPQQ 版本身份清楚；可请求成品 COA |  |
+| **P3** | [NOW PQQ Energy](https://www.iherb.com/search?kw=NOW%20PQQ%20Energy&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 渠道和价格有优势，但属于复方，须逐项核对剂量 |  |
+
+Bryan Johnson 的**历史方案**讨论过 PQQ，但未核实上表任何具体 SKU。并且本轮没有产品达到严格 P1 成品认证标准，详见完整产品梯队。
 
 ::: tip 30 秒结论
 PQQ 是一种氧化还原活性小分子，通过激活 PGC-1α 通路促进线粒体新生，这一机制发表在多个顶级期刊。2022 年随机双盲对照试验确认：PQQ 二钠盐 21.5 mg/日、12 周显著改善中老年人多个认知域。**Bryan Johnson 方案曾采用 PQQ。**
@@ -25,6 +36,10 @@ PQQ 是一种氧化还原活性小分子，通过激活 PGC-1α 通路促进线�
 | 延寿验证 | 随机对照试验确认认知改善；线粒体功能是衰老核心通路；Bryan Johnson 方案曾采用 |
 | Bryan Johnson 方案采纳 | 是，方案曾采用 |
 | 当前等级 | **T5：前沿探索** |
+
+## 具体产品全球梯队
+
+购买前查看 PQQ 具体品牌与产品 P1–P3 梯队。本轮 P1 空缺，避免把原料品牌当成品认证。
 
 ## 先说人话：它可能做什么？
 
@@ -80,14 +95,14 @@ PQQ 是一种氧化还原活性小分子，通过激活 PGC-1α 通路促进线�
 
 ## Tier 判断
 
-- 当前 Tier：**T4**；
+- 当前 Tier：**T5**；
 - 支持理由：2022 年随机双盲试验确认认知改善；线粒体新生机制明确；Bryan Johnson 方案曾采用；
 - 适用边界：当前试验以短周期为主，长期结局数据持续积累；
 - 会改变判断的证据：更长周期、功能结局的随机试验结果发布。
 
 ## Bryan 状态
 
-本地候选索引记录为 `historical-or-discussed`。当前公开方案状态尚未被本轮一手来源确认为每天使用；即使确认，也只属于人物采用信息，不进入疗效判级。
+本地候选索引记录为 `historical`。当前公开方案状态尚未被本轮一手来源确认为每天使用；即使确认，也只属于人物采用信息，不进入疗效判级。
 
 ## 关键来源
 
@@ -96,13 +111,13 @@ PQQ 是一种氧化还原活性小分子，通过激活 PGC-1α 通路促进线�
 - Akagawa M. [PQQ 人体健康研究综述](https://www.jstage.jst.go.jp/article/jmi/71/1.2/71_23/_pdf), 2024.
 - [FDA GRN 1118：PQQ 二钠盐通知文件](https://www.fda.gov/media/173619/download?attachment=).
 
-检索式、本地快照和筛选边界见 [前沿延寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
+检索式、本地快照和筛选边界见 前沿延寿候选来源批次。
 
 ## 研究审计
 
 - 审计状态：`partial`；
 - 待补：单方 RCT 完整统计计划、长期不良事件、药物相互作用，以及长期结局数据；
-- 详细记录：[PQQ 档案审计](../audits/pqq-2026-07-20.md)。
+- 详细记录：PQQ 档案审计。
 
 
 

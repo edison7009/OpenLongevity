@@ -4,7 +4,7 @@ name_zh: 亚精胺
 name_en: Spermidine
 status: reviewed
 tier: T4
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,18 @@ audit_date: 2026-07-20
 ---
 
 # 亚精胺
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Double Wood Spermidine 3HCl](https://www.iherb.com/search?kw=Double%20Wood%20Spermidine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 公开匹配批号、HPLC 活性、重金属和微生物结果 |  |
+| **P2** | [spermidineLIFE Original 365+](https://spermidinelife.com/products/spermidinelife-original-365-plus/?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 小麦胚芽提取物与实际亚精胺 2 mg/日标示清楚 |  |
+|  | [Renue By Science LIPO Spermidine](https://renuebyscience.com/products/lipo-spermidine-656165996902?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 3HCl 剂型、剂量、批次测试资料入口清楚 |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前复方标签明确含亚精胺；公开第三方检测入口 | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [California Gold Nutrition Spermidine](https://www.iherb.com/pr/california-gold-nutrition-spermidine-rice-germ-extract-1-mg-90-veggie-capsules/130825?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 稻米胚芽、1 mg 标示清楚、iHerb 渠道方便；成品认证较少 |  |
+
+化学单体、小麦胚芽和复方不是同一种产品暴露；Bryan 自有品牌的商业关系不为排名加分。详见完整产品梯队。
 
 ::: tip 30 秒结论
 亚精胺是人体和食物中天然存在的一种小分子。它最吸引人的地方，是在细胞和动物实验中能启动类似“细胞保洁与回收”的自噬过程；Bryan Johnson 方案曾采用亚精胺。**食物和补剂均可正常采用。**
@@ -26,6 +38,10 @@ audit_date: 2026-07-20
 | Bryan Johnson 方案采纳 | 是，方案曾采用 |
 | 食物还是补剂 | 优先全谷物、豆类、菌菇和蔬菜；补剂属于探索性选择 |
 | 当前等级 | **T4：食物来源与补充剂证据需分开理解** |
+
+## 具体产品全球梯队
+
+购买前查看 亚精胺具体品牌与产品 P1–P3 梯队。化学单体与富亚精胺小麦胚芽提取物分开比较。
 
 ## 本轮研究问题
 
@@ -185,7 +201,7 @@ audit_date: 2026-07-20
 - 框架：`openlongevity-ai4l-0.1`，参考 AI4L `1.2.0`；
 - 本轮已补：专用检索记录、2026 年免疫先导试验、研究利益冲突、个人探索边界；
 - 主要缺口：长期相互作用、肝肾与复杂疾病资料、确认性在研试验和不良事件频率；
-- 详细记录：[亚精胺档案首轮审计](../audits/spermidine-2026-07-20.md)。
+- 详细记录：亚精胺档案首轮审计。
 
 审计结果不是医学正确率，也不会因为检查项数量自动改变 Tier。
 
@@ -210,7 +226,7 @@ Leslie Kenny 是 Oxford Healthspan 创始人，旗舰产品为植物来源亚精
 - Tanaka S, et al. [日本 Takayama 队列](https://pubmed.ncbi.nlm.nih.gov/37964604/), 2024.
 - Muñoz-Esparza NC, et al. [Polyamines in Food](https://pmc.ncbi.nlm.nih.gov/articles/PMC6637774/), 2019.
 
-检索式、本地快照和筛选边界见 [前沿延寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
+检索式、本地快照和筛选边界见 前沿延寿候选来源批次。
 
 ## 待补
 

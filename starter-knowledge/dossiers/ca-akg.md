@@ -4,7 +4,7 @@ name_zh: Ca-AKG
 name_en: Calcium alpha-ketoglutarate
 status: reviewed
 tier: T5
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -13,8 +13,20 @@ audit_date: 2026-07-20
 
 # Ca-AKG
 
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [ProHealth Calcium AKG](https://www.iherb.com/pr/prohealth-longevity-calcium-akg-longevity-60-capsules-500-mg-per-capsule/114157?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | SKU、Ca-AKG 与元素钙含量清楚；提供 COA 入口 |  |
+|  | [Renue By Science CaAKG](https://renuebyscience.com/products/lipo-caakg-powdered-liposomal-90-x-300-mg?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前产品页披露批号、检测日期、COA 和实际 Ca/AKG |  |
+| **P2** | [DoNotAge Pure Ca-AKG](https://donotage.org/ca-akg?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 单一原料、400 mg 标示清楚；声明每批独立核验 |  |
+|  | [Rejuvant LifeAKG](https://rejuvant.com/product?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 缓释 Ca-AKG 复方；与已发表商业产品观察研究相匹配 |  |
+| **P3** | [Blueprint Longevity Mix](https://blueprint.bryanjohnson.com/products/longevity-mix?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前复方含 CaAKG；公开第三方检测入口，但不是单方 | [Bryan Johnson](#/person/bryan-johnson) |
+
+**本轮没有产品达到严格 P1 成品认证标准**；名人复方使用不改变这一点，普通 AKG / AAKG 也不能替代 Ca-AKG。详见完整产品梯队。
+
 ::: tip 30 秒结论
-AKG 是人体能量代谢中的天然中间体，Ca-AKG 是它的钙盐补剂形式。2020 年发表在 Cell Metabolism 的研究确认：Ca-AKG 延长小鼠寿命并压缩疾病期；人体研究中 DNA 甲基化生物年龄平均下降约 8 年，4,260 人队列观察到使用者生物年龄更低。Bryan Johnson 方案采纳。**这是机制与动物延寿证据明确、人体验证正在推进的 T4 候选。**
+AKG 是人体能量代谢中的天然中间体，Ca-AKG 是它的钙盐补剂形式。2020 年发表在 Cell Metabolism 的研究报告 Ca-AKG 延长小鼠寿命并压缩疾病期；人体研究中 DNA 甲基化生物年龄平均下降约 8 年，4,260 人队列观察到使用者生物年龄更低。Bryan Johnson 方案采纳。**这是人体验证仍在推进的 T5 前沿候选。**
 :::
 
 | 快速判断 | 当前答案 |
@@ -26,6 +38,10 @@ AKG 是人体能量代谢中的天然中间体，Ca-AKG 是它的钙盐补剂形
 | Bryan Johnson 方案采纳 | 是，方案曾采用（当前复方中出现） |
 | “年轻 8 岁”研究 | 42 人复方研究中 DNA 甲基化年龄平均下降约 8 年，为后续随机试验提供依据 |
 | 当前等级 | **T5：前沿探索** |
+
+## 具体产品全球梯队
+
+购买前查看 Ca-AKG 具体品牌与产品 P1–P3 梯队。本轮 P1 空缺，普通 AKG / AAKG 已明确排除。
 
 ## 先说人话：它可能做什么？
 
@@ -112,7 +128,7 @@ Ca-AKG 会增加钙暴露，需考虑总钙摄入、肾结石和钙代谢异常�
 
 ## Tier 判断
 
-- 当前 Tier：**T4**；
+- 当前 Tier：**T5**；
 - 支持理由：Cell Metabolism 确认动物延寿与疾病期压缩；人体生物年龄改善信号明确；ABLE 等随机试验正在进行；Bryan Johnson 方案采纳；
 - 适用边界：当前人体数据以生物年龄替代终点为主，随机试验疗效结果值得期待；
 - 会改变判断的证据：预注册随机试验在多个时钟与功能结局上的结果发布，以及长期随访数据。
@@ -131,13 +147,13 @@ Ca-AKG 会增加钙暴露，需考虑总钙摄入、肾结石和钙代谢异常�
 - [ClinicalTrials.gov NCT05706389](https://clinicaltrials.gov/study/NCT05706389).
 - [ClinicalTrials.gov NCT07114536](https://clinicaltrials.gov/study/NCT07114536).
 
-检索式、本地快照和筛选边界见 [前沿延寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
+检索式、本地快照和筛选边界见 前沿延寿候选来源批次。
 
 ## 研究审计
 
 - 审计状态：`partial`；
 - 待补：随机试验疗效结果发布后更新、长期安全与相互作用、不同制剂的人体药代比较；
-- 详细记录：[Ca-AKG 档案审计](../audits/ca-akg-2026-07-20.md)。
+- 详细记录：Ca-AKG 档案审计。
 
 
 

@@ -4,12 +4,26 @@ name_zh: 镁
 name_en: Magnesium
 status: reviewed
 tier: T3
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 locale: en
 translation_of: dossiers/magnesium.md
 ---
 
 # Magnesium
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Thorne Magnesium Bisglycinate](https://www.iherb.com/search?kw=Thorne%20Magnesium%20Bisglycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF-verifiable powder SKU with clear bisglycinate and elemental magnesium | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Momentous Magnesium](https://www.livemomentous.com/search?q=magnesium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Specified threonate/bisglycinate SKUs have NSF and clear forms |  |
+| **P2** | [Doctor's Best High Absorption Magnesium](https://www.iherb.com/search?kw=Doctor%27s%20Best%20High%20Absorption%20Magnesium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Albion TRAACS chelate with clear elemental magnesium at a moderate price |  |
+|  | [Pure Encapsulations Magnesium Glycinate](https://www.iherb.com/search?kw=Pure%20Encapsulations%20Magnesium%20Glycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Glycinate, hypoallergenic formula, mature practitioner channel |  |
+|  | [Blueprint Longevity Mix](https://blueprint.bryanjohnson.com/products/longevity-mix?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current blend contains magnesium citrate and publishes testing access | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW Magnesium Glycinate](https://www.iherb.com/search?kw=NOW%20Magnesium%20Glycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Glycinate, low cost, broad availability; no product-level independent certification |  |
+|  | [Natural Vitality CALM](https://www.iherb.com/search?kw=Natural%20Vitality%20CALM%20Magnesium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Mature citrate drink mix; may have a laxative effect |  |
+
+Compare **chemical form and elemental magnesium together**. Celebrity blend use is not endorsement of a single-magnesium product. See the full product tiers.
 
 ::: tip 30-second summary
 Magnesium acts as a “supporting tool” for hundreds of enzymes in the body and participates in energy metabolism, nerve transmission, muscle contraction, and heart rhythm. Large cohort analyses, including NHANES and ARIC, associate magnesium intake inversely with cardiovascular and all-cause mortality; meta-analyses of randomized trials support blood-pressure improvements, especially among people with hypertension or low magnesium status. **Included in Bryan Johnson’s protocol; prioritize legumes, nuts and seeds, whole grains, and leafy greens.**
@@ -24,6 +38,10 @@ Magnesium acts as a “supporting tool” for hundreds of enzymes in the body an
 | Included in Bryan Johnson’s protocol | Yes, included in the current protocol |
 | Food or supplement | Prioritize legumes, nuts and seeds, whole grains, and leafy greens |
 | Current tier | **T3: Focus on deficiency risk, formulation, and conditions of use** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific magnesium products. Chemical form and elemental magnesium must be checked together.
 
 ## In Plain Language: What Does It Do in the Body?
 

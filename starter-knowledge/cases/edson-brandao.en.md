@@ -149,6 +149,6 @@ Do not copy for now:
 - [Caters / Magazine Features: Age, residence, and first-person "no cosmetic surgery" claim in 2024](https://www.magazinefeatures.co.za/event/en/1/1918268/PEOPLE%2BDON%E2%80%99T%2BBELIEVE%2BMY%2BREAL%2BAGE)
 - [Hotmart: Commercial Page for *Young After 40*](https://hotmart.com/en/marketplace/products/young-after-40-the-definitive-guide-to-stay-younger-and-healthier/H39631226N)
 - [Personal Instagram](https://www.instagram.com/iamedsonbrandao/)
-- [Source Versions, Snapshots, and Evidence Record](../sources/edson-brandao-sources-2026-07-21.md)
+- Source Versions, Snapshots, and Evidence Record
 
 This page records public claims, commercial boundaries, and independent evidence. It is not diet, training, skin, or sleep-treatment advice.

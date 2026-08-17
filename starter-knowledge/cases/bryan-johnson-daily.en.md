@@ -38,6 +38,17 @@ All supplements should be taken at once in the morning:
 | Proferrin (Iron) | 10.5 mg | Iron Supplement |
 | NR or NMN | NR 450 mg or NMN 500 mg (choose one) | NAD⁺ Precursor |
 
+### Early products before the Blueprint brand
+
+| Supplement | Earlier specific product |
+|---|---|
+| Creatine | [Thorne Creatine](https://www.iherb.com/pr/thorne-creatine-16-oz-450-g/70006?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+| Omega-3 | [Nordic Naturals Ultimate Omega](https://www.iherb.com/search?kw=Nordic%20Naturals%20Ultimate%20Omega&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+| Magnesium | [Thorne Magnesium Bisglycinate](https://www.iherb.com/search?kw=Thorne%20Magnesium%20Bisglycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+| Vitamin D3/K2 | [Thorne Vitamin D/K2 Liquid](https://www.iherb.com/search?kw=Thorne%20Vitamin%20D%20K2%20Liquid&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+
+These are historical records from before the Blueprint brand, not his current protocol.
+
 ### 05:30–07:00 — Training (60–90 minutes)
 
 Bryan's training is not just lifting irons, but **covering all four abilities**:

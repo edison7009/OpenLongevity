@@ -4,12 +4,23 @@ name_zh: Soluble dietary fiber
 name_en: Soluble fiber
 status: reviewed
 tier: T2
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 locale: en
 translation_of: dossiers/soluble-fiber.md
 ---
 
 # Soluble Dietary Fiber
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Konsyl Daily Psyllium Fiber](https://www.iherb.com/search?kw=Konsyl%20Daily%20Psyllium%20Fiber&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF-verifiable psyllium products; single ingredient and clear 6 g serving |  |
+| **P2** | [Metamucil Sugar-Free](https://www.iherb.com/search?kw=Metamucil%20Sugar-Free%20Psyllium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear active ingredient and directions; established OTC psyllium product |  |
+|  | [Yerba Prima Whole Husks](https://www.iherb.com/search?kw=Yerba%20Prima%20Psyllium%20Whole%20Husks&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Whole psyllium husks, single ingredient, and straightforward label |  |
+| **P3** | [NOW Psyllium Husk Powder](https://www.iherb.com/search?kw=NOW%20Psyllium%20Husk%20Powder&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Single-ingredient powder, broad availability, low cost; no public full current lot |  |
+
+Bryan Johnson publishes several **fiber ingredients**, not these specific SKUs. Fibers are not interchangeable by brand alone; see the full product tiers.
 
 ::: tip 30-second summary
 When soluble dietary fibers enter water, some form viscous, gel-like structures while others are more readily fermented by gut microorganisms. A major 2019 meta-analysis commissioned by WHO and published in *The Lancet*—185 prospective studies plus 58 clinical trials—found that higher dietary-fiber intake was associated with a 15–30% reduction in all-cause mortality, one of nutrition science’s strongest longevity findings. **Psyllium and oat/barley β-glucan have the best evidence for LDL reduction and bowel regularity; Bryan Johnson’s current protocol directly includes several fiber ingredients.**
@@ -24,6 +35,10 @@ When soluble dietary fibers enter water, some form viscous, gel-like structures 
 | Included in Bryan Johnson’s protocol | Yes, directly included in the current protocol |
 | Food or supplement | Start with oats, barley, legumes, fruit, and vegetables; select a specific supplement according to the objective |
 | Current tier | **T2: Use by specific fiber ingredient and objective** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific soluble-fiber products. Psyllium, inulin, GOS, and other fibers are compared separately.
 
 ## In Plain Language: What Does It Do in the Body?
 

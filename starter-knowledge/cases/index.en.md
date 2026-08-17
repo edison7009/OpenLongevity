@@ -16,7 +16,7 @@ A case is not a model of guaranteed success, and appearance is not a reliable pr
 
 | Person | Value of the case | Current conclusion | Dossier |
 |---|---|---|---|
-| Bryan Johnson | Public protocol featuring intensive testing, supplements, and medical interventions | Useful for identifying candidates, but commercial products, personal prescriptions, and evidence of efficacy must be separated | [Current public protocol](../sources/bryan-johnson-current-protocol.md) |
+| Bryan Johnson | Public protocol featuring intensive testing, supplements, and medical interventions | Useful for identifying candidates, but commercial products, personal prescriptions, and evidence of efficacy must be separated | Current public protocol |
 | Peter Attia | Longevity physician and author of *Outlive*; exercise as the primary lever and restrained supplement use | An authoritative protocol to adopt directly; the relationship with Thorne is disclosed separately | [Attia protocol](peter-attia-protocol.md) |
 | Andrew Huberman | Stanford neuroscientist; zero-cost tools first and supplements organized into stacks | An authoritative protocol to adopt directly; extensive relationships with Momentous/Thorne are disclosed separately | [Huberman protocol](andrew-huberman-protocol.md) |
 | Chuando Tan | Decades of strength training, simple eating, and publicly visible physique maintenance | Closer to a long-term lifestyle case; many popular claims about supplements and fasting duration remain unverified | [Case review](chuando-tan.md) |

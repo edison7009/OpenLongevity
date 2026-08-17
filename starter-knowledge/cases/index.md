@@ -11,7 +11,7 @@
 
 | 人物 | 案例价值 | 当前结论 | 档案 |
 |---|---|---|---|
-| Bryan Johnson | 高强度检测、补剂与医疗干预的公开方案 | 适合发现候选，但商业产品、个人处方和疗效证据必须分开 | [当前公开方案](../sources/bryan-johnson-current-protocol.md) |
+| Bryan Johnson | 高强度检测、补剂与医疗干预的公开方案 | 适合发现候选，但商业产品、个人处方和疗效证据必须分开 | 当前公开方案 |
 | Peter Attia | 延寿医学医生、《Outlive》作者；运动为第一杠杆、补剂克制 | 权威方案，直接采纳；与 Thorne 合作关系单独披露 | [Attia 方案](peter-attia-protocol.md) |
 | Andrew Huberman | 斯坦福神经科学家；零成本工具优先、补剂分栈 | 权威方案，直接采纳；与 Momentous/Thorne 深度合作单独披露 | [Huberman 方案](andrew-huberman-protocol.md) |
 | 陈传多（Chuando Tan） | 数十年力量训练、简单饮食与公众可见的体态管理 | 更接近长期生活方式案例；补剂、空腹时长等热门说法多项未证实 | [案例核查](chuando-tan.md) |

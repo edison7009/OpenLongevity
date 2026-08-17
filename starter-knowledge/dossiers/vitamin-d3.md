@@ -4,10 +4,24 @@ name_zh: 维生素 D3
 name_en: Vitamin D3
 status: reviewed
 tier: T3
-last_reviewed: 2026-07-21
+last_reviewed: 2026-08-17
 ---
 
 # 维生素 D3
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Thorne Vitamin D/K2 Liquid](https://www.iherb.com/search?kw=Thorne%20Vitamin%20D%20K2%20Liquid&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF 可核对指定液体 SKU；D3/K2 滴剂便于匹配剂量 | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Momentous Vitamin D3 2000 IU](https://www.livemomentous.com/products/vitamin-d3-2000-iu?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF Certified for Sport；2000 IU、油基、单粒标签清楚 |  |
+| **P2** | [Sports Research D3 + K2](https://www.iherb.com/search?kw=Sports%20Research%20Vitamin%20D3%20K2&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | D3、K2 和油基标签清楚；适合明确需要复方者 |  |
+|  | [Nordic Naturals Vitamin D3](https://www.iherb.com/search?kw=Nordic%20Naturals%20Vitamin%20D3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 1000 IU 油基软胶囊；剂量温和、品牌渠道成熟 |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前标签含 D3；24 成分复方并公开第三方检测入口 | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW Vitamin D3](https://www.iherb.com/search?kw=NOW%20Vitamin%20D3%202000%20IU&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 剂量版本多、价格低、渠道广；缺产品级独立认证 |  |
+|  | [Life Extension Vitamin D3](https://www.iherb.com/search?kw=Life%20Extension%20Vitamin%20D3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 多种剂量可选、标签清楚；本轮无产品级独立认证 |  |
+
+维生素 D 先看检测和目标剂量，再看品牌；名人复方也不能证明个人需要高剂量。详见完整产品梯队。
 
 ::: tip 30 秒结论
 维生素 D 像一种由阳光、食物和补剂共同提供的“激素原料”，最明确的工作是帮助钙磷代谢和骨骼矿化。发表在《新英格兰医学杂志》的 VITAL 随机对照试验（25,871 人）确认：每日 2000 IU、约 5 年，确诊自身免疫病的相对发生率下降 22%（排除前两年后 HR 0.61）；BMJ 发表的荟萃分析确认维生素 D3 补充可降低老年人全因死亡率。**Bryan Johnson 方案采纳。**
@@ -22,6 +36,10 @@ last_reviewed: 2026-07-21
 | Bryan Johnson 方案采纳 | 是，当前方案采用 |
 | 食物还是补剂 | 日晒、富脂鱼、蛋黄和强化食品；特定人群可能需要补剂 |
 | 当前等级 | **T3：结合检测、日照与个体风险调整** |
+
+## 具体产品全球梯队
+
+购买前查看 维生素 D3 具体品牌与产品 P1–P3 梯队。先判断是否需要和剂量，再比较产品质量。
 
 ## 先说人话：它在身体里做什么？
 

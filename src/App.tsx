@@ -89,6 +89,7 @@ import type {
   ChatMessage,
   CaptureDraft,
   ConversationSummary,
+  LibraryArticle,
   LibrarySnapshot,
   Locale,
   MemorySuggestion,
@@ -224,6 +225,64 @@ function normalizeMarkdown(markdown: string): string {
     );
 }
 
+type MarkdownAstNode = {
+  type?: string;
+  value?: string;
+  children?: MarkdownAstNode[];
+  data?: {
+    hProperties?: Record<string, unknown>;
+  };
+};
+
+function markdownAstText(node?: MarkdownAstNode): string {
+  if (!node) return '';
+  if (typeof node.value === 'string') return node.value;
+  return (node.children || []).map(markdownAstText).join('');
+}
+
+function remarkTierTableRowSpans() {
+  const transform = (node: MarkdownAstNode) => {
+    if (node.type === 'table' && node.children && node.children.length > 1) {
+      const header = markdownAstText(node.children[0]?.children?.[0]).trim();
+      if (header === '档次' || header === 'Tier') {
+        node.data = node.data || {};
+        node.data.hProperties = {
+          ...node.data.hProperties,
+          className: 'tier-ranking-table',
+        };
+
+        for (let rowIndex = 1; rowIndex < node.children.length; rowIndex += 1) {
+          const row = node.children[rowIndex];
+          const tierCell = row.children?.[0];
+          if (!tierCell || !markdownAstText(tierCell).trim()) continue;
+
+          let rowSpan = 1;
+          while (rowIndex + rowSpan < node.children.length) {
+            const nextRow = node.children[rowIndex + rowSpan];
+            const nextTierCell = nextRow.children?.[0];
+            if (!nextTierCell || markdownAstText(nextTierCell).trim()) break;
+            rowSpan += 1;
+          }
+
+          tierCell.data = tierCell.data || {};
+          tierCell.data.hProperties = {
+            ...tierCell.data.hProperties,
+            className: 'tier-group-cell',
+            rowSpan,
+          };
+          for (let offset = 1; offset < rowSpan; offset += 1) {
+            node.children[rowIndex + offset].children?.shift();
+          }
+        }
+      }
+    }
+
+    node.children?.forEach(transform);
+  };
+
+  return transform;
+}
+
 const REASONING_DETAILS_PATTERN =
   /<details>\s*<summary>\s*reasoning\s*<\/summary>[\s\S]*?<\/details>\s*/gi;
 
@@ -255,7 +314,7 @@ type PlanSection = 'supplements' | 'exercise' | 'diet' | 'sleep' | 'log';
 
 const PLAN_SECTION_FILES: Record<Exclude<PlanSection, 'log'>, string> = {
   supplements: 'plans/supplements.md',
-  exercise: 'plans/exercise.md',
+  exercise: 'plans/training/index.md',
   diet: 'plans/diet.md',
   sleep: 'plans/daily-routine.md',
 };
@@ -363,11 +422,11 @@ function getPlanSections(locale: Locale): Array<{
     },
     {
       id: 'exercise',
-      title: locale === 'zh' ? '运动计划' : 'Exercise plan',
+      title: locale === 'zh' ? '健身计划' : 'Training plan',
       description:
         locale === 'zh'
-          ? '力量、有氧、活动量与恢复'
-          : 'Strength, cardio, activity, and recovery',
+          ? '选择分化，再按时间和恢复能力个性化'
+          : 'Choose a split, then adapt it to time and recovery',
       icon: <Dumbbell size={17} />,
       accent: '#d7e9e5',
     },
@@ -700,8 +759,12 @@ function App() {
     if (sectionId) {
       return getPlanSections(locale).find((section) => section.id === sectionId)?.title || '';
     }
+    const article = [...library.trainingPlans, ...library.articles].find(
+      (item) => item.filePath === fileNotePath,
+    );
+    if (article) return article.title;
     return fileNotePath.split('/').pop()?.replace(/\.md$/, '') || fileNotePath;
-  }, [fileNotePath, locale]);
+  }, [fileNotePath, library.articles, locale]);
   const currentPageTitle = useMemo(() => {
     if (view === 'file') return fileNoteTitle || undefined;
     if (view === 'supplement' && selectedSupplement) {
@@ -1499,6 +1562,12 @@ function App() {
     for (const story of library.stories) {
       add('story', story.id, [story.title, story.titleEn]);
     }
+    for (const plan of library.trainingPlans) {
+      add('file', plan.filePath, [plan.title]);
+    }
+    for (const article of library.articles) {
+      add('file', article.filePath, [article.title]);
+    }
     return targets;
   }, [library]);
 
@@ -1520,12 +1589,14 @@ function App() {
         selectedSupplement={selectedSupplement}
         selectedPerson={selectedPerson}
         selectedStory={selectedStory}
+        selectedArticlePath={fileNotePath}
         onNavigate={navigate}
         onNewChat={handleNewChat}
         chatBusy={chatBusy}
         onSupplement={openSupplement}
         onPerson={openPerson}
         onStory={openStory}
+        onArticle={(article) => openFileNote(article.filePath)}
         t={t}
       />
       <PaneResizer
@@ -1918,12 +1989,14 @@ interface SidebarProps {
   selectedSupplement: Supplement | null;
   selectedPerson: Person | null;
   selectedStory: Story | null;
+  selectedArticlePath: string | null;
   onNavigate: (view: View) => void;
   onNewChat: () => void;
   chatBusy: boolean;
   onSupplement: (supplement: Supplement) => void;
   onPerson: (person: Person) => void;
   onStory: (story: Story) => void;
+  onArticle: (article: LibraryArticle) => void;
   t: (key: TranslationKey) => string;
 }
 
@@ -1934,18 +2007,36 @@ function Sidebar({
   selectedSupplement,
   selectedPerson,
   selectedStory,
+  selectedArticlePath,
   onNavigate,
   onNewChat,
   chatBusy,
   onSupplement,
   onPerson,
   onStory,
+  onArticle,
   t,
 }: SidebarProps) {
   const mainSupplements = library.supplements;
+  const articleSections = useMemo(() => {
+    const grouped = new Map<string, { id: string; label: string; articles: LibraryArticle[] }>();
+    for (const article of library.articles) {
+      const section = grouped.get(article.sectionId) || {
+        id: article.sectionId,
+        label: article.sectionLabel,
+        articles: [],
+      };
+      section.articles.push(article);
+      grouped.set(article.sectionId, section);
+    }
+    return [...grouped.values()];
+  }, [library.articles]);
   const [strategiesExpanded, setStrategiesExpanded] = useState(true);
   const [peopleExpanded, setPeopleExpanded] = useState(true);
   const [storiesExpanded, setStoriesExpanded] = useState(true);
+  const [expandedArticleSections, setExpandedArticleSections] = useState<Set<string>>(
+    () => new Set(),
+  );
   const [availableVersion, setAvailableVersion] = useState<string | null>(null);
   const [installingUpdate, setInstallingUpdate] = useState(false);
   const [updateProgress, setUpdateProgress] = useState(0);
@@ -2005,12 +2096,32 @@ function Sidebar({
   }, [selectedSupplement]);
 
   useEffect(() => {
+    if (library.trainingPlans.some((plan) => plan.filePath === selectedArticlePath)) {
+      setStrategiesExpanded(true);
+    }
+  }, [library.trainingPlans, selectedArticlePath]);
+
+  useEffect(() => {
     if (selectedPerson) setPeopleExpanded(true);
   }, [selectedPerson]);
 
   useEffect(() => {
     if (selectedStory) setStoriesExpanded(true);
   }, [selectedStory]);
+
+  useEffect(() => {
+    if (!selectedArticlePath) return;
+    const section = library.articles.find(
+      (article) => article.filePath === selectedArticlePath,
+    )?.sectionId;
+    if (!section) return;
+    setExpandedArticleSections((current) => {
+      if (current.has(section)) return current;
+      const next = new Set(current);
+      next.add(section);
+      return next;
+    });
+  }, [library.articles, selectedArticlePath]);
 
   return (
     <aside className="sidebar">
@@ -2117,18 +2228,48 @@ function Sidebar({
 
             {strategiesExpanded && (
               <div className="tree-children">
-                {mainSupplements.map((supplement) => (
-                  <button
-                    key={supplement.id}
-                    className={`tree-child ${
-                      selectedSupplement?.id === supplement.id ? 'active' : ''
-                    }`}
-                    onClick={() => onSupplement(supplement)}
-                  >
-                    <span>{locale === 'zh' ? supplement.nameZh : supplement.nameEn}</span>
-                    <small>{supplement.tier}</small>
-                  </button>
-                ))}
+                {mainSupplements.map((supplement) => {
+                  const isStrengthTraining = supplement.id === 'strength-training';
+                  const hasSelectedTrainingPlan =
+                    isStrengthTraining &&
+                    library.trainingPlans.some(
+                      (plan) => plan.filePath === selectedArticlePath,
+                    );
+                  return (
+                    <div className="strategy-tree-item" key={supplement.id}>
+                      <button
+                        className={`tree-child ${
+                          selectedSupplement?.id === supplement.id || hasSelectedTrainingPlan
+                            ? 'active'
+                            : ''
+                        }`}
+                        onClick={() => onSupplement(supplement)}
+                      >
+                        <span>{locale === 'zh' ? supplement.nameZh : supplement.nameEn}</span>
+                        <small>{supplement.tier}</small>
+                      </button>
+                      {isStrengthTraining && library.trainingPlans.length > 0 && (
+                        <div
+                          className="tree-subchildren"
+                          aria-label={locale === 'zh' ? '训练分化' : 'Training splits'}
+                        >
+                          {library.trainingPlans.map((plan, index) => (
+                            <button
+                              key={plan.filePath}
+                              className={`tree-child tree-subchild ${
+                                selectedArticlePath === plan.filePath ? 'active' : ''
+                              }`}
+                              onClick={() => onArticle(plan)}
+                            >
+                              <span>{plan.title}</span>
+                              <small>{String(index + 1).padStart(2, '0')}</small>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -2208,6 +2349,54 @@ function Sidebar({
               </div>
             )}
           </div>
+
+          {articleSections.map((section) => {
+            const expanded = expandedArticleSections.has(section.id);
+            const active =
+              view === 'file' &&
+              section.articles.some((article) => article.filePath === selectedArticlePath);
+            return (
+              <div className="nav-tree-group" key={section.id}>
+                <button
+                  className={`nav-button nav-tree-toggle ${active ? 'active' : ''}`}
+                  onClick={() =>
+                    setExpandedArticleSections((current) => {
+                      const next = new Set(current);
+                      if (next.has(section.id)) next.delete(section.id);
+                      else next.add(section.id);
+                      return next;
+                    })
+                  }
+                  aria-expanded={expanded}
+                >
+                  <NotebookPen size={17} />
+                  <span>{section.label}</span>
+                  <small className="nav-count">{section.articles.length}</small>
+                  <ChevronRight
+                    size={14}
+                    className={`tree-chevron ${expanded ? 'expanded' : ''}`}
+                  />
+                </button>
+
+                {expanded && (
+                  <div className="tree-children">
+                    {section.articles.map((article, index) => (
+                      <button
+                        key={article.filePath}
+                        className={`tree-child article-child ${
+                          selectedArticlePath === article.filePath ? 'active' : ''
+                        }`}
+                        onClick={() => onArticle(article)}
+                      >
+                        <span>{article.title}</span>
+                        <small>{String(index + 1).padStart(2, '0')}</small>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
     </aside>
@@ -2611,7 +2800,10 @@ function NoteView({
         </div>
       ) : (
         <div className="markdown-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm, remarkTierTableRowSpans]}
+            components={components}
+          >
             {renderedMarkdown}
           </ReactMarkdown>
         </div>
@@ -3386,7 +3578,7 @@ function RightRail({
               <div>
                 <strong>
                   {library.noteCount}{' '}
-                  {locale === 'zh' ? '篇科学延寿资料' : 'scientific longevity resources'}
+                  {locale === 'zh' ? '篇可阅读文章' : 'readable articles'}
                 </strong>
                 <small>
                   {locale === 'zh'

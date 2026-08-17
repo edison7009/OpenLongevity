@@ -4,7 +4,7 @@ name_zh: 维生素C
 name_en: Vitamin C (Ascorbic acid)
 status: reviewed
 tier: T3
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-22
 audit_status: pending
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,19 @@ audit_date:
 ---
 
 # 维生素C
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Nature Made Vitamin C（USP 版本）](https://www.iherb.com/search?kw=Nature%20Made%20Vitamin%20C%20500%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | USP Verified 可核对指定 500 / 1000 mg SKU；单方清楚 |  |
+|  | [Thorne Vitamin C](https://www.iherb.com/search?kw=Thorne%20Vitamin%20C&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF 可核对指定胶囊 / 粉剂 SKU；剂型和份量明确 |  |
+| **P2** | [Life Extension Vitamin C](https://www.iherb.com/search?kw=Life%20Extension%20Vitamin%20C&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 完整标签与 SKU 清楚；可请求成品 COA |  |
+|  | [Blueprint Longevity Mix](https://blueprint.bryanjohnson.com/products/longevity-mix?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前复方含抗坏血酸；公开第三方检测入口 | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW C-500 / C-1000](https://www.iherb.com/search?kw=NOW%20C-500%20C-1000&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 单方版本、渠道广、价格低；缺当前产品级独立认证 |  |
+|  | [California Gold Nutrition Gold C](https://www.iherb.com/search?kw=California%20Gold%20Nutrition%20Gold%20C&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | iHerb 渠道方便、价格低；公开成品证据较少 |  |
+
+一般人未必需要 500–1000 mg 高剂量；名人复方使用也不能替代“是否需要”的判断。详见完整产品梯队。
 
 ::: tip 30 秒结论
 维生素 C 是经典抗氧化剂，2026 年中科院刘光慧团队在 Cell Metabolism 发表灵长类研究：中老年猴补充维 C 约 40 个月后，多器官生物学年龄显著逆转（大脑 7.4 岁、肌肉 4.4 岁、皮肤 4.2 岁），机制为直接抑制 ACSL4 酶、切断"铁衰老"通路。Bryan Johnson 方案含维 C。**日常通过水果、柠檬水等饮食即可满足，不需要额外补剂。**
@@ -25,6 +38,10 @@ audit_date:
 | Bryan Johnson 方案采纳 | 是，current-blend 中含维 C |
 | 食物还是补剂 | 饮食为主（水果、柠檬水）；不需要额外补剂 |
 | 当前等级 | **T3：优先满足营养需要并跟踪前沿研究** |
+
+## 具体产品全球梯队
+
+购买前查看 维生素 C 具体品牌与产品 P1–P3 梯队。P1 代表更可核验，不代表一般人需要高剂量。
 
 ## 先说人话：它在身体里做什么？
 

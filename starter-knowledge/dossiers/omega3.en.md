@@ -4,12 +4,27 @@ name_zh: DHA / EPA
 name_en: Omega-3 fatty acids
 status: reviewed
 tier: T2
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 locale: en
 translation_of: dossiers/omega3.md
 ---
 
 # DHA / EPA
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Sports Research Triple Strength](https://www.iherb.com/search?kw=Sports%20Research%20Triple%20Strength%20Omega-3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | IFOS-verifiable product and lots; high EPA/DHA in one softgel |  |
+|  | [Puori O3](https://www.iherb.com/search?kw=Puori%20O3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | IFOS listing plus manufacturer lot-level third-party lookup |  |
+|  | [Carlson Elite Omega-3 Gems](https://www.iherb.com/search?kw=Carlson%20Elite%20Omega-3%20Gems&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | IFOS-verifiable finished product with clear EPA/DHA and ethyl-ester form |  |
+| **P2** | [Nordic Naturals Ultimate Omega](https://www.iherb.com/search?kw=Nordic%20Naturals%20Ultimate%20Omega&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear label and form with bottle-lot COA lookup | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Life Extension Super Omega-3](https://www.iherb.com/search?kw=Life%20Extension%20Super%20Omega-3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Specified SKU is IFOS-verifiable; EPA/DHA and blend label are clear |  |
+|  | [Blueprint Omega-3](https://blueprint.bryanjohnson.com/products/omega-3?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Algal oil with 1:1 EPA/DHA, 800 mg total, and public testing access | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW Ultra Omega-3](https://www.iherb.com/search?kw=NOW%20Ultra%20Omega-3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear EPA/DHA, broad availability, low cost; no public full current oxidation lot |  |
+|  | [California Gold Nutrition Omega 800](https://www.iherb.com/pr/i/82845?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Lot-based iTested report and low price; historical report lacks full oxidation data |  |
+
+For omega-3, compare the **specific SKU's EPA/DHA, oxidation data, and batch report**. Own-brand use is disclosed as a commercial conflict and never adds quality points. See the full quality tiers.
 
 ::: tip 30-second summary
 DHA and EPA are two long-chain omega-3 fatty acids. DHA is an important structural component of cell membranes in the brain and retina, while EPA is more often discussed in relation to inflammatory mediators and blood lipids. The REDUCE-IT randomized controlled trial published in *The New England Journal of Medicine* found that highly purified EPA reduced major cardiovascular events by 25%. Large cohort analyses associate higher fish intake and blood omega-3 levels with lower cardiovascular and all-cause mortality. **Included in Bryan Johnson’s current protocol.**
@@ -46,7 +61,7 @@ Think of the cell membrane as the cell’s “outer shell and control panel.” 
 
 For specific brands, independent certifications, EPA/DHA per serving, public use, and batch transparency, see:
 
-- [DHA / EPA brand and product tiers](../products/omega3-brand-tiers-2026-07-20.md).
+- DHA / EPA brand and product tiers.
 
 That page uses P1–P3 product-quality grades, which are independent from the T1 scientific-evidence tier on this page.
 

@@ -4,7 +4,7 @@ name_zh: NAD+
 name_en: NAD+
 status: reviewed
 tier: T4
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -14,6 +14,20 @@ translation_of: dossiers/nmn.md
 ---
 
 # NAD+
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Tru Niagen (NR 300 mg)](https://www.iherb.com/pr/tru-niagen-nicotinamide-riboside-chloride-300-mg-30-vegetarian-capsules/120467?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | ChromaDex Niagen is the most widely used standard NR ingredient in human trials |  |
+| **P2** | [Elysium Basis (NR blend)](https://www.elysiumhealth.com/products/basis?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NR + pterostilbene blend with product-level human trials |  |
+|  | [ProHealth Longevity NMN](https://www.iherb.com/search?kw=ProHealth%20Longevity%20NMN&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear Uthever ingredient, dose, and COA route |  |
+|  | [DoNotAge NMN](https://donotage.org/pure-nmn?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear single-ingredient NMN and dose with every-lot verification claim |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current 24-ingredient blend explicitly contains NR and publishes testing access | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [Renue By Science NMN](https://renuebyscience.com/collections/nmn-supplements/?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Many NMN formats and price points; current product lot must be checked |  |
+|  | [Double Wood NMN](https://www.iherb.com/search?kw=Double%20Wood%20NMN&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Lower price with limited public finished-product certification and lot evidence |  |
+
+**NR and NMN are different molecules; do not swap or stack them based on this table.** Celebrity blend use does not remove regulatory, stability, or outcome uncertainty. See the full product tiers.
 
 ::: tip 30-second summary
 NMN and NR are two different NAD⁺ precursors. NAD⁺ metabolism has repeatedly been reported in leading journals such as *Science*, *Nature*, and *Cell* and is one of longevity research’s central pathways. Randomized human trials show that both can significantly raise blood NAD⁺ levels, and some studies report positive signals in walking speed, sleep, and metabolic measures. **Included in Bryan Johnson’s protocol: NR 450 mg or NMN 500 mg.**
@@ -28,6 +42,10 @@ NMN and NR are two different NAD⁺ precursors. NAD⁺ metabolism has repeatedly
 | Included in Bryan Johnson’s protocol | Yes: NR 450 mg or NMN 500 mg in the current protocol |
 | Are NMN and NR interchangeable? | No; research, doses, products, and safety records must remain separate |
 | Current tier | **T4: Clear pathway mechanism; frontier exploration** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific NR and NMN products. NR and NMN are different molecules and do not share a product ranking.
 
 ## In Plain Language: What Do They Do in the Body?
 
@@ -162,10 +180,10 @@ Japan, especially Tokyo, has recently seen many private-pay clinics offering int
 - Martens CR, et al. [Crossover trial of NR in healthy middle-aged and older adults](https://pubmed.ncbi.nlm.nih.gov/29599478/), 2018.
 - [ClinicalTrials.gov NCT04691986](https://clinicaltrials.gov/study/NCT04691986).
 
-Search strategy, local snapshots, and screening boundaries are available in the [frontier longevity candidates source batch](../sources/frontier-candidates-sources-2026-07-20.md).
+Search strategy, local snapshots, and screening boundaries are available in the frontier longevity candidates source batch.
 
 ## Research Audit
 
 - Audit status: `partial`;
 - Main gaps: long-term safety, drug interactions, complete product-quality comparisons, and checks of full text and preregistered results for some trials;
-- Detailed record: [NAD+ dossier audit](../audits/nmn-nr-2026-07-20.md).
+- Detailed record: NAD+ dossier audit.

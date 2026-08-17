@@ -15,24 +15,24 @@ Every page follows the same sequence:
 4. Provide food sources, supplement-label guidance, and safety boundaries;
 5. Retain the Tier, papers, and research tasks for deeper verification.
 
-Tier indicates research priority, not a shopping ranking. Every page explicitly states the status of longevity validation: all items in this list are supported by controlled trials and have been confirmed as effective through scientific analyses and publications in leading journals such as *The Lancet* and *Science*.
+Tier indicates research priority, not a shopping ranking. Evidence maturity varies substantially: some topics have human clinical outcomes, while others have only surrogate markers, observational associations, or animal mechanisms. Specific purchases use a separate P1–P3 product-quality tier.
 
 ## Current Dossiers
 
 | ID | Item | Tier | File |
 |---|---|---:|---|
-| creatine | Creatine monohydrate | T1 | [creatine.md](creatine.md) |
-| omega3 | DHA / EPA | T1 | [omega3.md](omega3.md) |
-| soluble-fiber | Soluble dietary fiber (specific ingredients and goals) | T1 | [soluble-fiber.md](soluble-fiber.md) |
-| coq10 | Coenzyme Q10 | T2 | [coq10.md](coq10.md) |
-| vitamin-c | Vitamin C | T2 | [vitamin-c.md](vitamin-c.md) |
-| vitamin-d3 | Vitamin D3 | T2 | [vitamin-d3.md](vitamin-d3.md) |
-| magnesium | Magnesium | T2 | [magnesium.md](magnesium.md) |
-| nmn | NMN / NR | T3 | [nmn.md](nmn.md) |
-| spermidine | Spermidine | T3 | [spermidine.md](spermidine.md) |
-| ergothioneine | Ergothioneine | T4 | [ergothioneine.md](ergothioneine.md) |
-| pqq | PQQ | T4 | [pqq.md](pqq.md) |
-| ca-akg | Ca-AKG | T4 | [ca-akg.md](ca-akg.md) |
+| creatine | Creatine monohydrate | T2 | [creatine.en.md](creatine.en.md) |
+| omega3 | DHA / EPA | T2 | [omega3.en.md](omega3.en.md) |
+| soluble-fiber | Soluble dietary fiber (specific ingredients and goals) | T2 | [soluble-fiber.en.md](soluble-fiber.en.md) |
+| coq10 | Coenzyme Q10 | T4 | [coq10.en.md](coq10.en.md) |
+| vitamin-c | Vitamin C | T3 | [vitamin-c.en.md](vitamin-c.en.md) |
+| vitamin-d3 | Vitamin D3 | T3 | [vitamin-d3.en.md](vitamin-d3.en.md) |
+| magnesium | Magnesium | T3 | [magnesium.en.md](magnesium.en.md) |
+| nmn | NAD+ (NMN / NR) | T4 | [nmn.en.md](nmn.en.md) |
+| spermidine | Spermidine | T4 | [spermidine.en.md](spermidine.en.md) |
+| ergothioneine | Ergothioneine | T5 | [ergothioneine.en.md](ergothioneine.en.md) |
+| pqq | PQQ | T5 | [pqq.en.md](pqq.en.md) |
+| ca-akg | Ca-AKG | T5 | [ca-akg.en.md](ca-akg.en.md) |
 | glp1-ra | GLP-1 receptor agonists (prescription medicines) | T2 | [glp1-ra.md](glp1-ra.md) |
 
 The first seven dossiers were migrated from the existing website. Vitamin D3, magnesium, and soluble fiber have completed an initial targeted literature search. NMN/NR, spermidine, PQQ, and Ca-AKG have completed a second-stage review of emerging candidates and 47 independent audits. Every dossier still requires ongoing updates as new trials appear.

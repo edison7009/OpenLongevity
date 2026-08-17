@@ -92,7 +92,7 @@ The currently verifiable sources do not place the following items in "Chuando Ta
 
 Even if his use is confirmed later, it would remain "public-figure adoption" information. Efficacy for each item is governed by its independent evidence page:
 
-- [NAD⁺ Metabolic Pathway](../topics/nad-pathway.md)
+- NAD⁺ Metabolic Pathway
 - [NMN / NR](../dossiers/nmn.md)
 - [PQQ](../dossiers/pqq.md)
 - [DHA / EPA](../dossiers/omega3.md)
@@ -129,6 +129,6 @@ Do not copy for now:
 - [The Straits Times: Diet and actual training frequency approaching age 60 (2026-02)](https://www.straitstimes.com/life/entertainment/riding-into-60-celeb-photographer-chuando-tan-on-his-viral-vitality-and-staying-young)
 - [Esquire HK: Age-60 cover interview including claims about eggs, water, and training (2026-06)](https://www.esquirehk.com/en/next/he-is-bold-buff-and-60)
 - [Personal Instagram](https://www.instagram.com/chuando_chuandoandfrey/)
-- [Source Versions and Review Record](../sources/chuando-tan-sources-2026-07-21.md)
+- Source Versions and Review Record
 
 This page records public claims by a notable individual and does not constitute a diet, exercise, or supplement prescription.

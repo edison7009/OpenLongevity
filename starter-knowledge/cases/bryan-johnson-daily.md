@@ -37,6 +37,17 @@ Bryan Johnson，1977 年生，企业家（Braintree/Venmo 创始人，2013 年�
 | Proferrin（铁） | 10.5 mg | 铁补充 |
 | NR 或 NMN | NR 450 mg 或 NMN 500 mg（二选一） | NAD⁺ 前体 |
 
+### 自建 Blueprint 品牌前的早期产品
+
+| 补剂 | 早期具体产品 |
+|---|---|
+| 肌酸 | [Thorne Creatine](https://www.iherb.com/pr/thorne-creatine-16-oz-450-g/70006?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+| Omega-3 | [Nordic Naturals Ultimate Omega](https://www.iherb.com/search?kw=Nordic%20Naturals%20Ultimate%20Omega&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+| 镁 | [Thorne Magnesium Bisglycinate](https://www.iherb.com/search?kw=Thorne%20Magnesium%20Bisglycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+| 维生素 D3/K2 | [Thorne Vitamin D/K2 Liquid](https://www.iherb.com/search?kw=Thorne%20Vitamin%20D%20K2%20Liquid&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) |
+
+以上为自建品牌前的历史记录，不代表当前方案。
+
 ### 05:30–07:00 — 训练（60–90 分钟）
 
 Bryan 的训练不是单纯举铁，而是**四种能力全覆盖**：

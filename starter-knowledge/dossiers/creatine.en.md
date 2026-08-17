@@ -4,12 +4,28 @@ name_zh: 肌酸一水合物
 name_en: Creatine monohydrate
 status: reviewed
 tier: T2
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 locale: en
 translation_of: dossiers/creatine.md
 ---
 
 # Creatine Monohydrate
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Thorne Creatine](https://www.iherb.com/pr/thorne-creatine-16-oz-450-g/70006?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF Certified for Sport; 5 g monohydrate; clear single-ingredient SKU | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Momentous Creatine](https://www.livemomentous.com/products/creatine-monohydrate?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF Certified for Sport; 5 g single ingredient; mature sports channel |  |
+|  | [Creapure®-licensed products](https://www.iherb.com/search?kw=Creapure%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Traceable German ingredient and licensing system; finished SKU still needs checking |  |
+| **P2** | [Blueprint Creatine](https://blueprint.bryanjohnson.com/products/creatine?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 5 g monohydrate, public third-party-testing route, mid-market price | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Optimum Nutrition (ON)](https://www.iherb.com/search?kw=Optimum%20Nutrition%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Informed Sport signal, broad sports use, and reasonable pricing |  |
+|  | [MuscleTech](https://www.iherb.com/search?kw=MuscleTech%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Established sports brand with mature monohydrate and bulk-pack channels |  |
+| **P3** | [California Gold Nutrition Sport](https://www.iherb.com/search?kw=California%20Gold%20Nutrition%20Sport%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Simple, inexpensive, easy to buy on iHerb; less finished-product certification |  |
+|  | [NOW Sports](https://www.iherb.com/search?kw=NOW%20Sports%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Simple and inexpensive; specified Sports SKU has an Informed Sport signal |  |
+|  | [MyProtein](https://www.myprotein.com/c/nutrition/creatine/?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Low per-gram promotional pricing; certification must be checked by version |  |
+
+The figure column shows only verifiable public use of the specific product and stays blank otherwise.
 
 ::: tip 30-second summary
 Creatine is like a short-term power bank for muscle: during high-intensity activities such as lifting and sprinting, it helps replenish immediately usable energy more quickly. It is one of the most extensively studied supplements in humans. Hundreds of randomized controlled trials and meta-analyses support improvements in strength, lean mass, and training adaptation. Large cohort analyses published in leading journals including *The Lancet*, such as the PURE study, identify muscle strength and muscle mass as strong predictors of all-cause mortality; preserving muscle is a core pillar of longevity. **If supplementation is being considered, single-ingredient creatine monohydrate is the most extensively studied form.**
@@ -24,6 +40,10 @@ Creatine is like a short-term power bank for muscle: during high-intensity activ
 | Included in Bryan Johnson’s protocol | Yes, included in the current protocol |
 | Food or supplement | Meat and fish provide it; creatine monohydrate is the most extensively studied supplemental form |
 | Current tier | **T2: High-value adjunct strategy** |
+
+## Global Product Tiers
+
+Scientific-evidence tiers and product-quality P grades are independent.
 
 ## In Plain Language: What Does It Do in the Body?
 

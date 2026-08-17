@@ -144,7 +144,7 @@ Edson 的公开身份同时包括作者、网红和营销业务经营者：
 - [Caters / Magazine Features：2024 年年龄、居住地和“无整形”本人声明](https://www.magazinefeatures.co.za/event/en/1/1918268/PEOPLE%2BDON%E2%80%99T%2BBELIEVE%2BMY%2BREAL%2BAGE)
 - [Hotmart：《Young After 40》商业产品页](https://hotmart.com/en/marketplace/products/young-after-40-the-definitive-guide-to-stay-younger-and-healthier/H39631226N)
 - [本人 Instagram](https://www.instagram.com/iamedsonbrandao/)
-- [来源版本、快照与证据记录](../sources/edson-brandao-sources-2026-07-21.md)
+- 来源版本、快照与证据记录
 
 本页记录人物公开说法、商业边界与独立证据，不构成饮食、训练、皮肤或睡眠治疗建议。
 

@@ -4,7 +4,7 @@ name_zh: PQQ
 name_en: Pyrroloquinoline quinone
 status: reviewed
 tier: T5
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -14,6 +14,17 @@ translation_of: dossiers/pqq.md
 ---
 
 # PQQ
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Doctor's Best PQQ with BioPQQ 20 mg](https://www.iherb.com/search?kw=Doctor%27s%20Best%20PQQ%20BioPQQ%2020%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear BioPQQ disodium salt, 20 mg, and product identity; no finished-product certification |  |
+| **P2** | [Jarrow PQQ 20 mg](https://www.iherb.com/search?kw=Jarrow%20PQQ%2020%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NIH label and BioPQQ directory match the salt and dose |  |
+|  | [Life Extension PQQ 20 mg](https://www.iherb.com/search?kw=Life%20Extension%20PQQ%2020%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear specified BioPQQ version with COA available on request |  |
+| **P3** | [NOW PQQ Energy](https://www.iherb.com/search?kw=NOW%20PQQ%20Energy&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Accessible and lower-priced blend; every ingredient dose requires checking |  |
+
+Bryan Johnson's **historical protocol** discussed PQQ, but no SKU above was verified. No product met strict P1 finished-product certification. See the full product tiers.
 
 ::: tip 30-second summary
 PQQ is a redox-active small molecule that promotes mitochondrial biogenesis by activating the PGC-1α pathway, a mechanism reported in several leading journals. A 2022 randomized, double-blind controlled trial found that PQQ disodium salt at 21.5 mg/day for 12 weeks significantly improved multiple cognitive domains in middle-aged and older adults. **Bryan Johnson’s protocol previously included PQQ.**
@@ -27,6 +38,10 @@ PQQ is a redox-active small molecule that promotes mitochondrial biogenesis by a
 | Longevity validation | A randomized controlled trial found cognitive improvements; mitochondrial function is a core aging pathway; Bryan Johnson’s protocol previously included it |
 | Included in Bryan Johnson’s protocol | Yes, previously included |
 | Current tier | **T5: Frontier exploration** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific PQQ products. P1 is vacant in this review; an ingredient brand is not finished-product certification.
 
 ## In Plain Language: What Might It Do?
 
@@ -82,14 +97,14 @@ Short-term trials report good tolerability; the 2022 trial observed no adverse e
 
 ## Tier Assessment
 
-- Current Tier: **T4**;
+- Current Tier: **T5**;
 - Rationale: a 2022 randomized double-blind trial found cognitive improvement; the mitochondrial-biogenesis mechanism is established; Bryan Johnson’s protocol previously included it;
 - Boundary: current trials are mainly short-term, while long-term outcome data continue to accumulate;
 - Evidence that would change the assessment: publication of longer-duration randomized trials with functional outcomes.
 
 ## Bryan Status
 
-The local candidate index records the status as `historical-or-discussed`. The current public protocol was not confirmed by a primary source in this review as involving daily use. Even if confirmed, this would only document personal adoption and would not affect the efficacy grade.
+The local candidate index records the status as `historical`. The current public protocol was not confirmed by a primary source in this review as involving daily use. Even if confirmed, this would only document personal adoption and would not affect the efficacy grade.
 
 ## Key Sources
 
@@ -98,10 +113,10 @@ The local candidate index records the status as `historical-or-discussed`. The c
 - Akagawa M. [Review of PQQ research in human health](https://www.jstage.jst.go.jp/article/jmi/71/1.2/71_23/_pdf), 2024.
 - [FDA GRN 1118: PQQ disodium salt notice](https://www.fda.gov/media/173619/download?attachment=).
 
-Search strategy, local snapshots, and screening boundaries are available in the [frontier longevity candidates source batch](../sources/frontier-candidates-sources-2026-07-20.md).
+Search strategy, local snapshots, and screening boundaries are available in the frontier longevity candidates source batch.
 
 ## Research Audit
 
 - Audit status: `partial`;
 - To add: full statistical plan for the single-ingredient RCT, long-term adverse events, drug interactions, and long-term outcome data;
-- Detailed record: [PQQ dossier audit](../audits/pqq-2026-07-20.md).
+- Detailed record: PQQ dossier audit.

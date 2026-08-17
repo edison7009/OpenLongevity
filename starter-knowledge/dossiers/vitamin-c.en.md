@@ -4,7 +4,7 @@ name_zh: 维生素C
 name_en: Vitamin C (Ascorbic acid)
 status: reviewed
 tier: T3
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-22
 audit_status: pending
 audit_framework: openlongevity-ai4l-0.1
@@ -14,6 +14,19 @@ translation_of: dossiers/vitamin-c.md
 ---
 
 # Vitamin C
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Nature Made Vitamin C (USP version)](https://www.iherb.com/search?kw=Nature%20Made%20Vitamin%20C%20500%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | USP Verified specified 500/1000 mg SKUs with a simple single ingredient |  |
+|  | [Thorne Vitamin C](https://www.iherb.com/search?kw=Thorne%20Vitamin%20C&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF-verifiable specified capsule/powder SKUs with clear servings |  |
+| **P2** | [Life Extension Vitamin C](https://www.iherb.com/search?kw=Life%20Extension%20Vitamin%20C&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear finished SKU/label with COA available on request |  |
+|  | [Blueprint Longevity Mix](https://blueprint.bryanjohnson.com/products/longevity-mix?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current blend contains ascorbic acid and publishes testing access | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW C-500 / C-1000](https://www.iherb.com/search?kw=NOW%20C-500%20C-1000&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Simple versions, broad availability, low cost; no current product certification |  |
+|  | [California Gold Nutrition Gold C](https://www.iherb.com/search?kw=California%20Gold%20Nutrition%20Gold%20C&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Convenient iHerb channel and low price; less public finished-product evidence |  |
+
+Many people do not need 500–1000 mg supplemental doses. Celebrity use of a blend does not answer whether supplementation is indicated. See the full product tiers.
 
 ::: tip 30-second summary
 Vitamin C is a classic antioxidant. In 2026, Guang-Hui Liu’s team at the Chinese Academy of Sciences published a primate study in *Cell Metabolism*: after middle-aged and older monkeys received vitamin C for about 40 months, biological age was significantly reversed across multiple organs—brain by 7.4 years, muscle by 4.4 years, and skin by 4.2 years. The proposed mechanism was direct inhibition of ACSL4, interrupting a “ferro-aging” pathway. Bryan Johnson’s protocol contains vitamin C. **Ordinary intake can be met through fruit, lemon water, and other foods; an additional supplement is not needed.**
@@ -27,6 +40,10 @@ Vitamin C is a classic antioxidant. In 2026, Guang-Hui Liu’s team at the Chine
 | Included in Bryan Johnson’s protocol | Yes, vitamin C is present in a `current-blend` |
 | Food or supplement | Primarily food, including fruit and lemon water; no additional supplement needed |
 | Current tier | **T3: Meet nutritional requirements first and follow frontier research** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific vitamin C products. P1 means more verifiable, not that most people need a high dose.
 
 ## In Plain Language: What Does It Do in the Body?
 

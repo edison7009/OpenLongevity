@@ -4,10 +4,26 @@ name_zh: 肌酸一水合物
 name_en: Creatine monohydrate
 status: reviewed
 tier: T2
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 ---
 
 # 肌酸一水合物
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Thorne Creatine](https://www.iherb.com/pr/thorne-creatine-16-oz-450-g/70006?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF Certified for Sport；5 g 一水合肌酸；单方且 SKU 清楚 | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Momentous Creatine](https://www.livemomentous.com/products/creatine-monohydrate?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF Certified for Sport；5 g 单方；运动渠道成熟 |  |
+|  | [Creapure® 授权产品](https://www.iherb.com/search?kw=Creapure%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 德国原料体系与授权可追溯；购买时仍须核对具体成品 |  |
+| **P2** | [Blueprint Creatine](https://blueprint.bryanjohnson.com/products/creatine?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 5 g 一水合肌酸；公开第三方检测；价格处于中档 | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Optimum Nutrition (ON)](https://www.iherb.com/search?kw=Optimum%20Nutrition%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Informed Sport 信号；运动人群覆盖广；价格合理 |  |
+|  | [MuscleTech](https://www.iherb.com/search?kw=MuscleTech%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 健身老牌；一水合肌酸版本和大包装渠道成熟 |  |
+| **P3** | [California Gold Nutrition Sport](https://www.iherb.com/search?kw=California%20Gold%20Nutrition%20Sport%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 单方、价格低、iHerb 渠道方便；独立成品认证较少 |  |
+|  | [NOW Sports](https://www.iherb.com/search?kw=NOW%20Sports%20Creatine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 简单配方、价格低；指定 Sports SKU 有 Informed Sport 信号 |  |
+|  | [MyProtein](https://www.myprotein.com/c/nutrition/creatine/?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 大包装促销时每克成本低；须核对具体版本认证 |  |
+
+名人栏只记录可核实的具体产品公开使用；没有记录则留空。
 
 ::: tip 30 秒结论
 肌酸像是肌肉的“短时充电宝”：在举重、冲刺等高强度活动时，帮助更快补回可立即使用的能量。它是人体研究最充分的补剂之一：数百项随机对照试验和荟萃分析确认它对力量、瘦体重和训练适应的改善作用；《柳叶刀》等顶级期刊发表的大型队列统计（如 PURE 研究）确认肌肉力量与肌肉量是全因死亡率的强预测因子，维持肌肉正是延寿的核心支柱。**若考虑补剂，成分单一的肌酸一水合物是研究最多的形式。**
@@ -22,6 +38,10 @@ last_reviewed: 2026-07-20
 | Bryan Johnson 方案采纳 | 是，当前方案采用 |
 | 食物还是补剂 | 肉和鱼可提供；研究最充分的补剂是肌酸一水合物 |
 | 当前等级 | **T2：高价值补充策略** |
+
+## 具体产品全球梯队
+
+科学证据 Tier 与产品质量 P 级相互独立。
 
 ## 先说人话：它在身体里做什么？
 

@@ -4,10 +4,21 @@ name_zh: 可溶性膳食纤维
 name_en: Soluble fiber
 status: reviewed
 tier: T2
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 ---
 
 # 可溶性膳食纤维
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Konsyl Daily Psyllium Fiber](https://www.iherb.com/search?kw=Konsyl%20Daily%20Psyllium%20Fiber&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF 可核对指定车前子成品；单一原料、6 g 份量清楚 |  |
+| **P2** | [Metamucil Sugar-Free](https://www.iherb.com/search?kw=Metamucil%20Sugar-Free%20Psyllium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 活性原料和用法清楚；成熟 OTC 车前子产品 |  |
+|  | [Yerba Prima Whole Husks](https://www.iherb.com/search?kw=Yerba%20Prima%20Psyllium%20Whole%20Husks&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 完整车前子壳、单一原料、标签易理解 |  |
+| **P3** | [NOW Psyllium Husk Powder](https://www.iherb.com/search?kw=NOW%20Psyllium%20Husk%20Powder&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 单一车前子壳粉、渠道广、价格低；缺当前公开完整批次 |  |
+
+Bryan Johnson 公开的是若干**纤维成分**，不是上表这些具体 SKU；不同纤维不能按品牌互换。详见完整产品梯队。
 
 ::: tip 30 秒结论
 可溶性膳食纤维进入水中后，有的会形成像凝胶一样的黏性结构，有的更容易被肠道微生物发酵。2019 年发表在《柳叶刀》的巨型荟萃分析（185 项前瞻性研究 + 58 项临床试验，WHO 委托）确认：较高的膳食纤维摄入使全因死亡率降低 15–30%——这是营养学中最扎实的延寿证据之一。**车前子和燕麦/大麦 β-葡聚糖的 LDL 与通便证据最好；Bryan Johnson 当前方案直接采用多种纤维原料。**
@@ -22,6 +33,10 @@ last_reviewed: 2026-07-20
 | Bryan Johnson 方案采纳 | 是，当前方案直接采用 |
 | 食物还是补剂 | 先吃燕麦、大麦、豆类、果蔬；按目标选择具体补剂 |
 | 当前等级 | **T2：按纤维原料与目标分别使用** |
+
+## 具体产品全球梯队
+
+购买前查看 可溶性膳食纤维具体产品 P1–P3 梯队。车前子、菊粉、GOS 等原料分开比较。
 
 ## 先说人话：它在身体里做什么？
 

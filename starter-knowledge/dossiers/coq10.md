@@ -4,10 +4,24 @@ name_zh: 辅酶 Q10
 name_en: Coenzyme Q10 / Ubiquinol
 status: reviewed
 tier: T4
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 ---
 
 # 辅酶 Q10
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Thorne CoQ10](https://www.iherb.com/search?kw=Thorne%20CoQ10&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF/ANSI 173 可核对指定 CoQ10 成品与剂型 |  |
+|  | [Nature Made CoQ10 100 mg（USP 版本）](https://www.iherb.com/search?kw=Nature%20Made%20CoQ10%20100%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | USP Verified 可核对指定油基软胶囊 SKU |  |
+| **P2** | [Life Extension Super Ubiquinol](https://www.iherb.com/search?kw=Life%20Extension%20Super%20Ubiquinol&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Kaneka 泛醇、油基与剂量透明；可请求成品 COA |  |
+|  | [Jarrow QH-absorb](https://www.iherb.com/search?kw=Jarrow%20QH-absorb&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Kaneka 泛醇和油基形式清楚；价格处于中档 |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前复方明确含 ubiquinol；公开第三方检测入口 | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW CoQ10](https://www.iherb.com/search?kw=NOW%20CoQ10&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 泛醌版本多、价格低；须逐一核对油基和剂量 |  |
+|  | [California Gold Nutrition CoQ10](https://www.iherb.com/search?kw=California%20Gold%20Nutrition%20CoQ10&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | iHerb 渠道方便、价格低；公开独立成品证据较少 |  |
+
+购买时必须区分泛醌、泛醇、油基和复方；名人复方使用不能为单方品牌背书。详见完整产品梯队。
 
 ::: tip 30 秒结论
 辅酶 Q10 是线粒体制造能量链条中的“电子传递员”，人体本来就会合成，但水平随年龄显著下降。发表在 JACC Heart Failure 的 Q-SYMBIO 随机对照试验确认：心衰患者补充辅酶 Q10 后，主要不良心血管事件减少 43%，心血管死亡显著降低；荟萃分析确认它对血管内皮功能、血压和他汀相关肌肉症状的改善作用。**Bryan Johnson 方案采纳。**
@@ -22,6 +36,10 @@ last_reviewed: 2026-07-20
 | Bryan Johnson 方案采纳 | 是，当前方案采用 |
 | 食物还是补剂 | 食物可提供少量，但人体合成是主要来源 |
 | 当前等级 | **T4：结合心衰、他汀使用等具体情境判断** |
+
+## 具体产品全球梯队
+
+购买前查看 辅酶 Q10 具体品牌与产品 P1–P3 梯队。泛醌、泛醇与复方分开判断。
 
 ## 先说人话：它在身体里做什么？
 

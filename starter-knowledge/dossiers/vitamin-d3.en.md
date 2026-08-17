@@ -4,11 +4,25 @@ name_zh: 维生素 D3
 name_en: Vitamin D3
 status: reviewed
 tier: T3
-last_reviewed: 2026-07-21
+last_reviewed: 2026-08-17
 locale: en
 translation_of: dossiers/vitamin-d3.md
 ---
 # Vitamin D3
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Thorne Vitamin D/K2 Liquid](https://www.iherb.com/search?kw=Thorne%20Vitamin%20D%20K2%20Liquid&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF-verifiable D3/K2 liquid SKU; drops support dose matching | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Momentous Vitamin D3 2000 IU](https://www.livemomentous.com/products/vitamin-d3-2000-iu?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF Certified for Sport; clear 2000 IU oil-based single-capsule label |  |
+| **P2** | [Sports Research D3 + K2](https://www.iherb.com/search?kw=Sports%20Research%20Vitamin%20D3%20K2&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear D3, K2, and oil-base label for people specifically choosing a blend |  |
+|  | [Nordic Naturals Vitamin D3](https://www.iherb.com/search?kw=Nordic%20Naturals%20Vitamin%20D3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Moderate 1000 IU oil-based softgel from a mature brand |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current 24-ingredient blend contains D3 and publishes testing access | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW Vitamin D3](https://www.iherb.com/search?kw=NOW%20Vitamin%20D3%202000%20IU&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Many doses, low cost, broad availability; no product-level independent certification |  |
+|  | [Life Extension Vitamin D3](https://www.iherb.com/search?kw=Life%20Extension%20Vitamin%20D3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Multiple clear doses; no product-level independent certification found |  |
+
+Determine need and dose before brand. A celebrity blend does not establish a personal need for high-dose D3. See the full product tiers.
 
 ::: tip 30-second summary
 Vitamin D is like a “hormone precursor” provided by sunlight, food, and supplements. Its clearest role is to support calcium and phosphorus metabolism and bone mineralization. The VITAL randomized controlled trial of 25,871 people, published in *The New England Journal of Medicine*, found that 2000 IU daily for about five years reduced the relative incidence of confirmed autoimmune disease by 22% (HR 0.61 after excluding the first two years). A meta-analysis published in *BMJ* found that vitamin D3 supplementation reduced all-cause mortality among older adults. **Included in Bryan Johnson’s protocol.**
@@ -23,6 +37,10 @@ Vitamin D is like a “hormone precursor” provided by sunlight, food, and supp
 | Included in Bryan Johnson’s protocol | Yes, included in the current protocol |
 | Food or supplements | Sun exposure, fatty fish, egg yolks, and fortified foods; supplements may be needed for certain groups |
 | Current tier | **T3: Adjust according to testing, sun exposure, and individual risk** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific vitamin D3 products. Determine need and dose before comparing product quality.
 
 ## In Plain Language: What Does It Do in the Body?
 

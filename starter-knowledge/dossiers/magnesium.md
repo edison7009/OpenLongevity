@@ -4,10 +4,24 @@ name_zh: 镁
 name_en: Magnesium
 status: reviewed
 tier: T3
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 ---
 
 # 镁
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Thorne Magnesium Bisglycinate](https://www.iherb.com/search?kw=Thorne%20Magnesium%20Bisglycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF 可核对粉剂 SKU；双甘氨酸镁与元素镁标示清楚 | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Momentous Magnesium](https://www.livemomentous.com/search?q=magnesium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 指定苏糖酸镁 / 双甘氨酸镁 SKU 有 NSF；剂型清楚 |  |
+| **P2** | [Doctor's Best High Absorption Magnesium](https://www.iherb.com/search?kw=Doctor%27s%20Best%20High%20Absorption%20Magnesium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Albion TRAACS 螯合原料；元素镁清楚、价格适中 |  |
+|  | [Pure Encapsulations Magnesium Glycinate](https://www.iherb.com/search?kw=Pure%20Encapsulations%20Magnesium%20Glycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 甘氨酸镁、低敏配方；医疗渠道成熟 |  |
+|  | [Blueprint Longevity Mix](https://blueprint.bryanjohnson.com/products/longevity-mix?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前复方含柠檬酸镁；公开第三方检测入口 | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW Magnesium Glycinate](https://www.iherb.com/search?kw=NOW%20Magnesium%20Glycinate&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 甘氨酸镁、价格低、渠道广；缺产品级独立认证 |  |
+|  | [Natural Vitality CALM](https://www.iherb.com/search?kw=Natural%20Vitality%20CALM%20Magnesium&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 柠檬酸镁冲饮粉；标签成熟、但可能产生通便效应 |  |
+
+镁必须同时看**化学形式与元素镁含量**；名人使用复方也不等于推荐某种单方镁。详见完整产品梯队。
 
 ::: tip 30 秒结论
 镁像身体里数百种酶的“辅助工具”，参与能量代谢、神经传导、肌肉收缩和心律。大型队列统计（NHANES、ARIC 等）确认镁摄入与心血管和全因死亡风险呈负相关；随机试验荟萃分析确认补镁可改善血压，在高血压和低镁人群中尤为明显。**Bryan Johnson 方案采纳；优先豆类、坚果种子、全谷物和绿叶菜。**
@@ -22,6 +36,10 @@ last_reviewed: 2026-07-20
 | Bryan Johnson 方案采纳 | 是，当前方案采用 |
 | 食物还是补剂 | 优先豆类、坚果种子、全谷物和绿叶菜 |
 | 当前等级 | **T3：重点关注缺乏风险、剂型与适用条件** |
+
+## 具体产品全球梯队
+
+购买前查看 镁具体品牌与产品 P1–P3 梯队。化学形式与元素镁含量必须一起核对。
 
 ## 先说人话：它在身体里做什么？
 

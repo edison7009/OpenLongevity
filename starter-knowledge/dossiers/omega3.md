@@ -4,10 +4,25 @@ name_zh: DHA / EPA
 name_en: Omega-3 fatty acids
 status: reviewed
 tier: T2
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 ---
 
 # DHA / EPA
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Sports Research Triple Strength](https://www.iherb.com/search?kw=Sports%20Research%20Triple%20Strength%20Omega-3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | IFOS 可核对具体产品和批次；单粒 EPA/DHA 浓度高 |  |
+|  | [Puori O3](https://www.iherb.com/search?kw=Puori%20O3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | IFOS 产品登记，并提供按批号查询第三方结果 |  |
+|  | [Carlson Elite Omega-3 Gems](https://www.iherb.com/search?kw=Carlson%20Elite%20Omega-3%20Gems&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | IFOS 具体产品可核对；EPA/DHA、乙酯形式和用法清楚 |  |
+| **P2** | [Nordic Naturals Ultimate Omega](https://www.iherb.com/search?kw=Nordic%20Naturals%20Ultimate%20Omega&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 标签和剂型清楚；支持按瓶身批号查询 COA | [Bryan Johnson](#/person/bryan-johnson) |
+|  | [Life Extension Super Omega-3](https://www.iherb.com/search?kw=Life%20Extension%20Super%20Omega-3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | IFOS 可核对指定 SKU；EPA/DHA 和复方标签清楚 |  |
+|  | [Blueprint Omega-3](https://blueprint.bryanjohnson.com/products/omega-3?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 藻油 1:1 EPA/DHA、总量 800 mg；公开第三方检测入口 | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW Ultra Omega-3](https://www.iherb.com/search?kw=NOW%20Ultra%20Omega-3&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | EPA/DHA 清楚、渠道广、价格低；缺当前公开完整氧化批次 |  |
+|  | [California Gold Nutrition Omega 800](https://www.iherb.com/pr/i/82845?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | iTested 有批号报告；价格低；历史报告缺完整氧化指标 |  |
+
+鱼油优先比较**具体 SKU 的 EPA/DHA、氧化与批次报告**。名人自有品牌必须同时披露商业关系，且不参与质量加分；完整原因见产品质量梯队。
 
 ::: tip 30 秒结论
 DHA 和 EPA 是两种长链 Omega-3 脂肪酸。DHA 是脑和视网膜细胞膜的重要组成部分，EPA 更常被讨论其炎症介质和血脂作用。发表在《新英格兰医学杂志》的 REDUCE-IT 随机对照试验确认：高纯度 EPA 使主要心血管事件减少 25%；大型队列统计确认较高的鱼类摄入和血液 Omega-3 水平与更低的心血管和全因死亡风险相关。**Bryan Johnson 当前方案采用。**
@@ -44,7 +59,7 @@ DHA 和 EPA 是两种长链 Omega-3 脂肪酸。DHA 是脑和视网膜细胞膜�
 
 具体品牌、独立认证、每份 EPA/DHA、公开使用和批次透明度见：
 
-- [DHA / EPA 品牌与产品梯队](../products/omega3-brand-tiers-2026-07-20.md)。
+- DHA / EPA 品牌与产品梯队。
 
 该页面使用 P1–P3 产品质量等级，与本页 T1 科学证据等级相互独立。
 

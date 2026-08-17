@@ -4,7 +4,7 @@ name_zh: 亚精胺
 name_en: Spermidine
 status: reviewed
 tier: T4
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -13,6 +13,18 @@ locale: en
 translation_of: dossiers/spermidine.md
 ---
 # Spermidine
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Double Wood Spermidine 3HCl](https://www.iherb.com/search?kw=Double%20Wood%20Spermidine&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Public lot, HPLC active assay, heavy-metal, and microbial results |  |
+| **P2** | [spermidineLIFE Original 365+](https://spermidinelife.com/products/spermidinelife-original-365-plus/?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Wheat-germ extract with explicit 2 mg/day spermidine amount |  |
+|  | [Renue By Science LIPO Spermidine](https://renuebyscience.com/products/lipo-spermidine-656165996902?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear 3HCl form, dose, and lot-testing route |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current blend explicitly lists spermidine and publishes testing access | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [California Gold Nutrition Spermidine](https://www.iherb.com/pr/california-gold-nutrition-spermidine-rice-germ-extract-1-mg-90-veggie-capsules/130825?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear rice-germ and 1 mg label with convenient iHerb access; less certification |  |
+
+The chemical compound, wheat-germ extract, and multi-ingredient blends are different exposures. Bryan's commercial ownership adds no ranking points. See the full product tiers.
 
 ::: tip 30-second summary
 Spermidine is a small molecule that occurs naturally in the human body and food. Its most compelling feature is its ability to activate an autophagy process resembling “cellular cleaning and recycling” in cell and animal experiments. Bryan Johnson’s protocol previously included spermidine. **Both food sources and supplements can be considered in ordinary use.**
@@ -27,6 +39,10 @@ Spermidine is a small molecule that occurs naturally in the human body and food.
 | Included in Bryan Johnson’s protocol | Yes, previously included |
 | Food or supplements | Prioritize whole grains, beans, mushrooms and vegetables; supplements are an exploratory choice |
 | Current tier | **T4: Evidence for food sources and supplements must be interpreted separately** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific spermidine products. The chemical compound and spermidine-rich wheat-germ extract are compared separately.
 
 ## Research questions for this round
 
@@ -186,7 +202,7 @@ Spermidine has an evidence chain extending from mechanism—autophagy research p
 - Framework: `openlongevity-ai4l-0.1`, refer to AI4L `1.2.0`;
 - Supplemented in this round: dedicated search records, 2026 immune pilot trial, research conflicts of interest, personal exploration boundaries;
 - Key gaps: long-term interactions, liver, kidney and complex disease data, confirmatory ongoing trials and frequency of adverse events;
-- Detailed records: [First round audit of spermidine files](../audits/spermidine-2026-07-20.md).
+- Detailed records: First round audit of spermidine files.
 
 The audit results are not medical accuracy, nor will the Tier automatically change based on the number of inspection items.
 
@@ -211,7 +227,7 @@ NOTE: Leslie Kenny is the business founder of Primeadine® and public statements
 - Tanaka S, et al. [Japanese Takayama Cohort](https://pubmed.ncbi.nlm.nih.gov/37964604/), 2024.
 - Muñoz-Esparza NC, et al. [Polyamines in Food](https://pmc.ncbi.nlm.nih.gov/articles/PMC6637774/), 2019.
 
-Search terms, local snapshots and filter boundaries can be found in [Frontier Longevity Candidate Source Batch](../sources/frontier-candidates-sources-2026-07-20.md).
+Search terms, local snapshots and filter boundaries can be found in Frontier Longevity Candidate Source Batch.
 
 ## To Add
 

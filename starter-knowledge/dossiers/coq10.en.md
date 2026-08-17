@@ -4,12 +4,26 @@ name_zh: 辅酶 Q10
 name_en: Coenzyme Q10 / Ubiquinol
 status: reviewed
 tier: T4
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 locale: en
 translation_of: dossiers/coq10.md
 ---
 
 # Coenzyme Q10
+
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [Thorne CoQ10](https://www.iherb.com/search?kw=Thorne%20CoQ10&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NSF/ANSI 173 matches the specified finished product and form |  |
+|  | [Nature Made CoQ10 100 mg (USP version)](https://www.iherb.com/search?kw=Nature%20Made%20CoQ10%20100%20mg&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | USP Verified specified oil-based softgel SKU |  |
+| **P2** | [Life Extension Super Ubiquinol](https://www.iherb.com/search?kw=Life%20Extension%20Super%20Ubiquinol&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Transparent Kaneka ubiquinol, oil base, and dose; COA on request |  |
+|  | [Jarrow QH-absorb](https://www.iherb.com/search?kw=Jarrow%20QH-absorb&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear Kaneka ubiquinol and oil-based form at a moderate price |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current blend explicitly contains ubiquinol and publishes testing access | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [NOW CoQ10](https://www.iherb.com/search?kw=NOW%20CoQ10&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Many low-cost ubiquinone versions; oil base and dose require SKU-level checking |  |
+|  | [California Gold Nutrition CoQ10](https://www.iherb.com/search?kw=California%20Gold%20Nutrition%20CoQ10&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Convenient iHerb channel and low cost; less independent product evidence |  |
+
+Distinguish ubiquinone, ubiquinol, oil-based delivery, and blends. Celebrity blend use does not endorse a single-ingredient brand. See the full product tiers.
 
 ::: tip 30-second summary
 Coenzyme Q10 is an “electron carrier” in the mitochondrial energy-production chain. The human body synthesizes it, but levels fall significantly with age. The Q-SYMBIO randomized controlled trial published in *JACC: Heart Failure* found that CoQ10 supplementation in patients with heart failure reduced major adverse cardiovascular events by 43% and significantly lowered cardiovascular mortality; meta-analyses support improvements in endothelial function, blood pressure, and statin-associated muscle symptoms. **Included in Bryan Johnson’s protocol.**
@@ -24,6 +38,10 @@ Coenzyme Q10 is an “electron carrier” in the mitochondrial energy-production
 | Included in Bryan Johnson’s protocol | Yes, included in the current protocol |
 | Food or supplement | Food provides small amounts, but endogenous synthesis is the primary source |
 | Current tier | **T4: Assess in specific contexts such as heart failure and statin use** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific CoQ10 products. Ubiquinone, ubiquinol, and blends are assessed separately.
 
 ## In Plain Language: What Does It Do in the Body?
 

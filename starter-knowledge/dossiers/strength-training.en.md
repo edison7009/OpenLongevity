@@ -19,6 +19,17 @@ Strength training is a T1 cornerstone of Open Longevity. It directly trains stre
 | How to track it | Movement quality, load, repetitions, training volume, grip strength, and functional tests |
 | What to combine it with | Aerobic exercise, adequate protein, sleep, and recovery |
 
+## Choose a Training Split
+
+| Consistent weekly sessions | First option to consider | Primary audience |
+|---:|---|---|
+| 2–3 days | [Full body (1-day split)](plans/training/01-full-body.en.md) | Beginners, returning trainees, limited time |
+| 4 days | [Upper/lower (2-day split)](plans/training/02-upper-lower.en.md) | Most consistent trainees |
+| 3 or 6 days | [Push/pull/legs (3-day split)](plans/training/03-push-pull-legs.en.md) | Familiar with exercises and enjoys a gym rhythm |
+| 4–5 days | [Chest/back/legs/shoulders and arms (4-day split)](plans/training/04-body-part.en.md) | Experienced trainees focused on hypertrophy |
+
+[Choose a training split](plans/training/index.en.md) · [Open my saved training plan](plans/exercise.en.md)
+
 ## Why Is It a Longevity Cornerstone?
 
 Longevity is not only about living longer. It also means preserving the ability to stand up, walk, carry objects, climb stairs, and respond to unexpected events later in life. Strength training acts directly on these capacities rather than relying on an indirect biomarker.

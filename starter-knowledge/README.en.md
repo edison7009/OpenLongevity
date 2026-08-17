@@ -13,19 +13,13 @@ Directory conventions:
 - `dossiers/`: strategy dossiers for exercise, diet, supplements, and other interventions;
 - `cases/`: public figures and protocol case studies;
 - `stories/`: longevity anecdotes from regions, cultures, and history; new Markdown files are discovered automatically;
-- `papers/`: paper records;
-- `sources/`: source registry;
-- `products/`: product and brand quality records;
-- `audits/`: dossier audits;
-- `methods/`: research and evidence-synthesis methods;
-- `topics/`: cross-strategy topics;
-- `research-log/`: research process records;
+- `guides/`: selected scientific and purchasing guides with independent reader value;
 - `inbox/`: newly captured material awaiting organization;
 - `profile/`: personal background entered voluntarily by the user;
 - `plans/`: the user's own current protocol;
 - `records/`: laboratory, diet, and training records.
 
-The starter library includes strategy dossiers, public-figure cases, papers, sources, product-quality records, research methods, and essential research logs. `profile/`, `plans/`, and `records/` contain blank templates only. Age, conditions, medications, dosages, laboratory results, diet, and training records are entered voluntarily by the user and stored locally. Users may freely modify or delete all materials.
+The starter library includes strategy dossiers, public-figure cases, longevity stories, and a small set of selected guides. Brand rankings live directly on each supplement page rather than in duplicate articles. Personal content in `profile/`, `plans/`, and `records/` is entered voluntarily by the user and stored locally.
 
 ## Internal Links Between Articles
 

@@ -1,6 +1,6 @@
 # Open Longevity — portable Codex project memory
 
-Updated: 2026-08-04
+Updated: 2026-08-17
 
 This file preserves the decisions and working context needed to continue the
 project on another machine. It contains no API keys, private user parameters,
@@ -34,7 +34,7 @@ The application combines:
    navigation item.
 3. AI-assisted longevity planning grounded in the local knowledge library.
 
-The default starter library currently contains **88 Chinese documents plus 88
+The default starter library currently contains **50 Chinese documents plus 50
 English companion documents**. Run `npm run library:check` to verify the pairs.
 
 Primary knowledge categories:
@@ -42,6 +42,12 @@ Primary knowledge categories:
 - Longevity strategies
 - People / public cases
 - Longevity stories and anecdotes
+- Selected reader guides
+
+When `STARTER_PACK_VERSION` changes, the first launch replaces all official
+starter articles and catalog data with the packaged versions and deletes known
+retired starter paths. Personal plans, profile and health records, plus files
+created under other names by the user, are preserved.
 
 The application must open reference websites in the user's system browser.
 Article keywords may link internally to other knowledge pages, and content pages

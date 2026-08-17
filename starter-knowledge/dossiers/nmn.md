@@ -4,7 +4,7 @@ name_zh: NAD+
 name_en: NAD+
 status: reviewed
 tier: T4
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,20 @@ audit_date: 2026-07-20
 ---
 
 # NAD+
+
+## 全球品牌排名（购买导向）
+
+| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |
+|---|---|---|---|
+| **P1** | [Tru Niagen（NR 300 mg）](https://www.iherb.com/pr/tru-niagen-nicotinamide-riboside-chloride-300-mg-30-vegetarian-capsules/120467?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | ChromaDex Niagen 是 NR 人体试验使用最广的标准原料；产品身份明确 |  |
+| **P2** | [Elysium Basis（NR 复方）](https://www.elysiumhealth.com/products/basis?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NR + 紫檀芪复方，有对应产品级人体试验 |  |
+|  | [ProHealth Longevity NMN](https://www.iherb.com/search?kw=ProHealth%20Longevity%20NMN&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Uthever 原料、剂量和 COA 入口清楚 |  |
+|  | [DoNotAge NMN](https://donotage.org/pure-nmn?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 单一 NMN、剂量清楚，声明每批独立核验 |  |
+|  | [Blueprint Essential Capsules](https://blueprint.bryanjohnson.com/products/essentials-capsules?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 当前 24 成分复方明确含 NR；公开第三方检测入口 | [Bryan Johnson](#/person/bryan-johnson) |
+| **P3** | [Renue By Science NMN](https://renuebyscience.com/collections/nmn-supplements/?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | NMN 剂型多、价格跨度大；必须核对当前产品批次 |  |
+|  | [Double Wood NMN](https://www.iherb.com/search?kw=Double%20Wood%20NMN&utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | 价格较低；公开产品级认证和批次证据有限 |  |
+
+**NR 与 NMN 是不同分子，不要按品牌榜互换或叠加。**名人复方使用也不改变监管、稳定性和人体结局的不确定性。详见完整产品梯队。
 
 ::: tip 30 秒结论
 NMN 和 NR 是两种不同的 NAD⁺ 前体。NAD⁺ 代谢研究多次发表在 Science、Nature、Cell 等顶级期刊，是延寿研究最核心的通路之一；人体随机试验确认它们能显著提升血液 NAD⁺ 水平，部分研究观察到步速、睡眠与代谢指标的积极信号。**Bryan Johnson 方案采纳（NR 450 mg 或 NMN 500 mg）。**
@@ -26,6 +40,10 @@ NMN 和 NR 是两种不同的 NAD⁺ 前体。NAD⁺ 代谢研究多次发表在
 | Bryan Johnson 方案采纳 | 是，当前方案采用（NR 450 mg 或 NMN 500 mg） |
 | NMN 与 NR 能否互换 | 不能；研究、剂量、产品和安全记录都应分开 |
 | 当前等级 | **T4：通路机制明确，前沿探索** |
+
+## 具体产品全球梯队
+
+购买前查看 NR / NMN 具体品牌与产品 P1–P3 梯队。NR 与 NMN 是不同分子，不能共享产品排名。
 
 ## 先说人话：它们在身体里做什么？
 
@@ -159,13 +177,13 @@ NMN 与 NR 都能进入 NAD⁺ 合成路线，但不是同一个分子。服用�
 - Martens CR, et al. [NR 在健康中老年人的交叉试验](https://pubmed.ncbi.nlm.nih.gov/29599478/), 2018.
 - [ClinicalTrials.gov NCT04691986](https://clinicaltrials.gov/study/NCT04691986).
 
-检索式、本地快照和筛选边界见 [前沿延寿候选来源批次](../sources/frontier-candidates-sources-2026-07-20.md)。
+检索式、本地快照和筛选边界见 前沿延寿候选来源批次。
 
 ## 研究审计
 
 - 审计状态：`partial`；
 - 主要缺口：长期安全、药物相互作用、完整产品质量比较，以及部分试验的全文与预注册结果核对；
-- 详细记录：[NAD+ 档案审计](../audits/nmn-nr-2026-07-20.md)。
+- 详细记录：NAD+ 档案审计。
 
 
 

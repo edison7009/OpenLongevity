@@ -4,7 +4,7 @@ name_zh: Ca-AKG
 name_en: Calcium alpha-ketoglutarate
 status: reviewed
 tier: T5
-last_reviewed: 2026-07-20
+last_reviewed: 2026-08-17
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -15,8 +15,20 @@ translation_of: dossiers/ca-akg.md
 
 # Ca-AKG
 
+## Global Brand Ranking (Buying Guide)
+
+| Tier | Brand / specific product | Why it is in this tier | Longevity figure |
+|---|---|---|---|
+| **P1** | [ProHealth Calcium AKG](https://www.iherb.com/pr/prohealth-longevity-calcium-akg-longevity-60-capsules-500-mg-per-capsule/114157?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear SKU, Ca-AKG, elemental calcium, and COA access |  |
+|  | [Renue By Science CaAKG](https://renuebyscience.com/products/lipo-caakg-powdered-liposomal-90-x-300-mg?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current product page exposes lot, date, COA, and actual Ca/AKG |  |
+| **P2** | [DoNotAge Pure Ca-AKG](https://donotage.org/ca-akg?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Clear single ingredient and 400 mg label with every-lot verification claim |  |
+|  | [Rejuvant LifeAKG](https://rejuvant.com/product?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Sustained-release Ca-AKG blend matching a published commercial-product observation |  |
+| **P3** | [Blueprint Longevity Mix](https://blueprint.bryanjohnson.com/products/longevity-mix?utm_source=openlongevity.life&utm_medium=referral&utm_campaign=supplement-ranking) | Current blend contains CaAKG and publishes testing access; not single ingredient | [Bryan Johnson](#/person/bryan-johnson) |
+
+**No product met strict P1 finished-product certification.** Celebrity blend use does not change that, and plain AKG/AAKG is not Ca-AKG. See the full product tiers.
+
 ::: tip 30-second summary
-AKG is a natural intermediate in human energy metabolism, and Ca-AKG is its calcium-salt supplement form. A 2020 study in *Cell Metabolism* found that Ca-AKG extended lifespan and compressed morbidity in mice. In human research, DNA-methylation biological age fell by about eight years on average, and a cohort of 4,260 people found lower biological age among users. Bryan Johnson’s protocol includes it. **This is a T4 candidate with clear mechanistic and animal-longevity evidence and ongoing human validation.**
+AKG is a natural intermediate in human energy metabolism, and Ca-AKG is its calcium-salt supplement form. A 2020 study in *Cell Metabolism* reported that Ca-AKG extended lifespan and compressed morbidity in mice. In human research, DNA-methylation biological age fell by about eight years on average, and a cohort of 4,260 people found lower biological age among users. Bryan Johnson’s protocol includes it. **This is a T5 frontier candidate with ongoing human validation.**
 :::
 
 | Quick assessment | Current answer |
@@ -28,6 +40,10 @@ AKG is a natural intermediate in human energy metabolism, and Ca-AKG is its calc
 | Included in Bryan Johnson’s protocol | Yes, previously included and present in a current blend |
 | The “eight years younger” study | DNA-methylation age fell by about eight years on average in a 42-person combination study, providing a basis for subsequent randomized trials |
 | Current tier | **T5: Frontier exploration** |
+
+## Global Product Tiers
+
+Before purchasing, see the P1–P3 tiers for specific Ca-AKG products. P1 is vacant in this review, and plain AKG / AAKG is explicitly excluded.
 
 ## In Plain Language: What Might It Do?
 
@@ -114,7 +130,7 @@ Ca-AKG increases calcium exposure, so total calcium intake, kidney stones, and d
 
 ## Tier Assessment
 
-- Current Tier: **T4**;
+- Current Tier: **T5**;
 - Rationale: *Cell Metabolism* reported animal longevity and compressed morbidity; signals of improved human biological age are clear; ABLE and other randomized trials are underway; Bryan Johnson’s protocol includes it;
 - Boundary: current human data rely mainly on biological-age surrogate endpoints, and randomized efficacy results remain awaited;
 - Evidence that would change the assessment: results from preregistered randomized trials across multiple clocks and functional outcomes, plus long-term follow-up.
@@ -133,10 +149,10 @@ The local candidate index records it as `current-blend`, meaning that the ingred
 - [ClinicalTrials.gov NCT05706389](https://clinicaltrials.gov/study/NCT05706389).
 - [ClinicalTrials.gov NCT07114536](https://clinicaltrials.gov/study/NCT07114536).
 
-Search strategy, local snapshots, and screening boundaries are available in the [frontier longevity candidates source batch](../sources/frontier-candidates-sources-2026-07-20.md).
+Search strategy, local snapshots, and screening boundaries are available in the frontier longevity candidates source batch.
 
 ## Research Audit
 
 - Audit status: `partial`;
 - To add: update when randomized efficacy results are published, long-term safety and interactions, and human pharmacokinetic comparisons of formulations;
-- Detailed record: [Ca-AKG dossier audit](../audits/ca-akg-2026-07-20.md).
+- Detailed record: Ca-AKG dossier audit.

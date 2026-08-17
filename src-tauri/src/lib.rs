@@ -25,7 +25,8 @@ const MAX_CAPTURE_INPUT_BYTES: usize = 180_000;
 const MAX_CAPTURE_DOWNLOAD_BYTES: usize = 600_000;
 const MAX_CAPTURE_SOURCE_BYTES: usize = 110_000;
 const MAX_RESEARCH_CONTEXT_BYTES: usize = 32_000;
-const STARTER_PACK_VERSION: &str = "12";
+// Increment whenever shipped starter-library content needs a safe in-place migration.
+const STARTER_PACK_VERSION: &str = "20";
 const LATEST_RELEASE_API: &str =
     "https://api.github.com/repos/edison7009/OpenLongevity/releases/latest";
 const WEBSITE_VERSION_API: &str = "https://openlongevity.life/version.json?platform=windows";
@@ -40,7 +41,224 @@ const REMOVED_STARTER_FILES: &[&str] = &[
     "research-log/2026-07-20-docs-frontend-decision.md",
     "research-log/2026-07-20-knowledge-base-bootstrap.md",
     "research-log/2026-07-20-reader-first-dossier-format.md",
+    "audits/ca-akg-2026-07-20.en.md",
+    "audits/ca-akg-2026-07-20.md",
+    "audits/index.en.md",
+    "audits/index.md",
+    "audits/nmn-nr-2026-07-20.en.md",
+    "audits/nmn-nr-2026-07-20.md",
+    "audits/pqq-2026-07-20.en.md",
+    "audits/pqq-2026-07-20.md",
+    "audits/spermidine-2026-07-20.en.md",
+    "audits/spermidine-2026-07-20.md",
+    "audits/vitamin-d3-2026-07-21.en.md",
+    "audits/vitamin-d3-2026-07-21.md",
+    "catalog/supplements.en.md",
+    "catalog/supplements.md",
+    "methods/ai4l-adaptation.en.md",
+    "methods/ai4l-adaptation.md",
+    "methods/evidence-grading.en.md",
+    "methods/evidence-grading.md",
+    "methods/product-quality-grading.en.md",
+    "methods/product-quality-grading.md",
+    "methods/research-workflow.en.md",
+    "methods/research-workflow.md",
+    "methods/source-policy.en.md",
+    "methods/source-policy.md",
+    "papers/existing-evidence-library.en.md",
+    "papers/existing-evidence-library.md",
+    "papers/research-batch-2026-07-20-vitamin-d-magnesium-fiber.en.md",
+    "papers/research-batch-2026-07-20-vitamin-d-magnesium-fiber.md",
+    "papers/vitamin-c-acsl4-ferroaging-2026.en.md",
+    "papers/vitamin-c-acsl4-ferroaging-2026.md",
+    "papers/vitamin-d-autoimmune-2026-07-21.en.md",
+    "papers/vitamin-d-autoimmune-2026-07-21.md",
+    "products/buying-guide-7-supplements-2026-07-21.en.md",
+    "products/buying-guide-7-supplements-2026-07-21.md",
+    "products/ca-akg-brand-tiers-2026-08-17.en.md",
+    "products/ca-akg-brand-tiers-2026-08-17.md",
+    "products/coq10-brand-tiers-2026-08-17.en.md",
+    "products/coq10-brand-tiers-2026-08-17.md",
+    "products/creatine-brand-tiers-2026-07-21.en.md",
+    "products/creatine-brand-tiers-2026-07-21.md",
+    "products/ergothioneine-brand-tiers-2026-08-17.en.md",
+    "products/ergothioneine-brand-tiers-2026-08-17.md",
+    "products/global-supplement-brand-tiers-2026-08-17.en.md",
+    "products/global-supplement-brand-tiers-2026-08-17.md",
+    "products/index.en.md",
+    "products/index.md",
+    "products/magnesium-brand-tiers-2026-07-21.en.md",
+    "products/magnesium-brand-tiers-2026-07-21.md",
+    "products/nad-supplement-17-review-2025.en.md",
+    "products/nad-supplement-17-review-2025.md",
+    "products/nmn-nr-brand-tiers-2026-07-21.en.md",
+    "products/nmn-nr-brand-tiers-2026-07-21.md",
+    "products/omega3-brand-tiers-2026-07-20.en.md",
+    "products/omega3-brand-tiers-2026-07-20.md",
+    "products/pqq-brand-tiers-2026-08-17.en.md",
+    "products/pqq-brand-tiers-2026-08-17.md",
+    "products/soluble-fiber-brand-tiers-2026-08-17.en.md",
+    "products/soluble-fiber-brand-tiers-2026-08-17.md",
+    "products/spermidine-brand-tiers-2026-08-17.en.md",
+    "products/spermidine-brand-tiers-2026-08-17.md",
+    "products/vitamin-c-brand-tiers-2026-08-17.en.md",
+    "products/vitamin-c-brand-tiers-2026-08-17.md",
+    "products/vitamin-d3-brand-tiers-2026-07-21.en.md",
+    "products/vitamin-d3-brand-tiers-2026-07-21.md",
+    "research-log/2026-07-20-ai4l-integration.en.md",
+    "research-log/2026-07-20-ai4l-integration.md",
+    "research-log/2026-07-20-frontier-longevity-phase-2.en.md",
+    "research-log/2026-07-20-frontier-longevity-phase-2.md",
+    "research-log/2026-07-20-omega3-product-tiers.en.md",
+    "research-log/2026-07-20-omega3-product-tiers.md",
+    "research-log/2026-07-20-vitamin-d-magnesium-fiber-review.en.md",
+    "research-log/2026-07-20-vitamin-d-magnesium-fiber-review.md",
+    "research-log/2026-07-21-buying-guide-7-supplements.en.md",
+    "research-log/2026-07-21-buying-guide-7-supplements.md",
+    "research-log/2026-07-21-chuando-tan-case.en.md",
+    "research-log/2026-07-21-chuando-tan-case.md",
+    "research-log/2026-07-21-edson-brandao-case.en.md",
+    "research-log/2026-07-21-edson-brandao-case.md",
+    "research-log/2026-07-21-vitamin-d-autoimmune-update.en.md",
+    "research-log/2026-07-21-vitamin-d-autoimmune-update.md",
+    "sources/ai4l-upstream.en.md",
+    "sources/ai4l-upstream.md",
+    "sources/bryan-johnson-current-protocol.en.md",
+    "sources/bryan-johnson-current-protocol.md",
+    "sources/chuando-tan-sources-2026-07-21.en.md",
+    "sources/chuando-tan-sources-2026-07-21.md",
+    "sources/edson-brandao-sources-2026-07-21.en.md",
+    "sources/edson-brandao-sources-2026-07-21.md",
+    "sources/frontier-candidates-sources-2026-07-20.en.md",
+    "sources/frontier-candidates-sources-2026-07-20.md",
+    "sources/frontier-rollout-sources-2026-07-27.en.md",
+    "sources/frontier-rollout-sources-2026-07-27.md",
+    "sources/leslie-kenny-sources-2026-07-22.en.md",
+    "sources/leslie-kenny-sources-2026-07-22.md",
+    "sources/nad-pathway-sources-2026-07-20.en.md",
+    "sources/nad-pathway-sources-2026-07-20.md",
+    "sources/omega3-product-sources-2026-07-20.en.md",
+    "sources/omega3-product-sources-2026-07-20.md",
+    "sources/source-manifest.en.md",
+    "sources/source-manifest.md",
+    "sources/vitamin-d-autoimmune-sources-2026-07-21.en.md",
+    "sources/vitamin-d-autoimmune-sources-2026-07-21.md",
+    "topics/fasting-before-sleep.en.md",
+    "topics/fasting-before-sleep.md",
+    "topics/index.en.md",
+    "topics/index.md",
+    "topics/nad-pathway.en.md",
+    "topics/nad-pathway.md",
+    "topics/okinawa-vs-bryan.en.md",
+    "topics/okinawa-vs-bryan.md",
 ];
+const STARTER_RANKING_DOSSIERS: &[&str] = &[
+    "dossiers/creatine.md",
+    "dossiers/creatine.en.md",
+    "dossiers/omega3.md",
+    "dossiers/omega3.en.md",
+    "dossiers/soluble-fiber.md",
+    "dossiers/soluble-fiber.en.md",
+    "dossiers/vitamin-d3.md",
+    "dossiers/vitamin-d3.en.md",
+    "dossiers/magnesium.md",
+    "dossiers/magnesium.en.md",
+    "dossiers/vitamin-c.md",
+    "dossiers/vitamin-c.en.md",
+    "dossiers/coq10.md",
+    "dossiers/coq10.en.md",
+    "dossiers/nmn.md",
+    "dossiers/nmn.en.md",
+    "dossiers/spermidine.md",
+    "dossiers/spermidine.en.md",
+    "dossiers/ergothioneine.md",
+    "dossiers/ergothioneine.en.md",
+    "dossiers/pqq.md",
+    "dossiers/pqq.en.md",
+    "dossiers/ca-akg.md",
+    "dossiers/ca-akg.en.md",
+];
+const LEGACY_EXERCISE_PLAN_ZH: &str = r#"# 运动计划
+
+## 目标
+
+-
+
+## 当前状态
+
+- 训练频率：
+- 可用器械：
+- 限制与注意事项：
+
+## 训练安排
+
+### 每周循环
+
+-
+
+### 动作明细
+
+| 训练日 | 动作 | 组数 | 次数 | 组间休息 |
+|---|---|---|---|---|
+|  |  |  |  |  |
+
+## 热身与恢复
+
+- 热身：
+- 拉伸/放松：
+
+## 渐进与调整
+
+-
+
+## 记录与复盘
+
+| 日期 | 训练内容 | 完成情况 | 备注 |
+|---|---|---|---|
+|  |  |  |  |"#;
+const LEGACY_EXERCISE_PLAN_EN: &str = r#"---
+locale: en
+translation_of: plans/exercise.md
+---
+
+# Exercise Plan
+
+## Goals
+
+-
+
+## Current Status
+
+- Training frequency:
+- Available equipment:
+- Limitations and precautions:
+
+## Training Schedule
+
+### Weekly Cycle
+
+-
+
+### Exercise Details
+
+| Training Day | Exercise | Sets | Reps | Rest Between Sets |
+|---|---|---|---|---|
+|  |  |  |  |  |
+
+## Warm-up and Recovery
+
+- Warm-up:
+- Stretching / cool-down:
+
+## Progression and Adjustments
+
+-
+
+## Records and Review
+
+| Date | Training | Completion | Notes |
+|---|---|---|---|
+|  |  |  |  |"#;
 const LEGACY_NMN_DOSSIER: &str = r#"---
 id: nmn
 tier: T4
@@ -97,6 +315,15 @@ struct Story {
     accent: String,
 }
 
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct LibraryArticle {
+    title: String,
+    section_id: String,
+    section_label: String,
+    file_path: String,
+}
+
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct LibrarySnapshot {
@@ -105,6 +332,8 @@ struct LibrarySnapshot {
     supplements: Vec<Supplement>,
     people: Vec<Person>,
     stories: Vec<Story>,
+    training_plans: Vec<LibraryArticle>,
+    articles: Vec<LibraryArticle>,
     note_count: usize,
 }
 
@@ -319,6 +548,59 @@ fn save_model_config(config: ModelSettings) -> Result<(), String> {
     save_model_config_to(&model_config_path(), &config)
 }
 
+fn merge_missing_starter_ranking(existing: &str, starter: &str) -> Option<String> {
+    let heading = if starter.contains("## 全球品牌排名（购买导向）") {
+        "## 全球品牌排名（购买导向）"
+    } else {
+        "## Global Brand Ranking (Buying Guide)"
+    };
+    let section_start = starter.find(heading)?;
+    let section_tail = &starter[section_start..];
+    let section_end = section_tail.find("\n::: tip")?;
+    let section = section_tail[..section_end].trim_end();
+
+    let normalized = existing.replace("\r\n", "\n");
+    if let Some(existing_section_start) = normalized.find(heading) {
+        let existing_section_tail = &normalized[existing_section_start..];
+        let is_previous_ranking = existing_section_tail.contains("| 推荐度 | 适合谁 |")
+            || existing_section_tail.contains("| Rating | Best for |")
+            || existing_section_tail.contains("| 延寿名人公开关系 |")
+            || existing_section_tail.contains("| Public longevity-figure relationship |");
+        if !is_previous_ranking {
+            return None;
+        }
+        let existing_section_end = existing_section_tail.find("\n::: tip")?;
+        let suffix_start = existing_section_start + existing_section_end;
+        let mut merged = String::with_capacity(normalized.len() + section.len());
+        merged.push_str(&normalized[..existing_section_start]);
+        merged.push_str(section);
+        merged.push_str(&normalized[suffix_start..]);
+        return Some(merged);
+    }
+
+    let title_start = normalized
+        .find("\n# ")
+        .map(|index| index + 1)
+        .or_else(|| normalized.starts_with("# ").then_some(0))?;
+    let title_end = normalized[title_start..]
+        .find('\n')
+        .map(|index| title_start + index)
+        .unwrap_or(normalized.len());
+    let suffix = normalized[title_end..].trim_start_matches('\n');
+
+    let mut merged = String::with_capacity(normalized.len() + section.len() + 4);
+    merged.push_str(&normalized[..title_end]);
+    merged.push_str("\n\n");
+    merged.push_str(section);
+    if !suffix.is_empty() {
+        merged.push_str("\n\n");
+        merged.push_str(suffix);
+    } else {
+        merged.push('\n');
+    }
+    Some(merged)
+}
+
 fn ensure_starter_library(root: &Path) -> Result<(), String> {
     let marker = root.join(".starter-pack-initialized");
     let installed_version = fs::read_to_string(&marker).unwrap_or_default();
@@ -327,8 +609,7 @@ fn ensure_starter_library(root: &Path) -> Result<(), String> {
     }
 
     for directory in [
-        "catalog", "dossiers", "cases", "stories", "papers", "sources", "inbox", "profile",
-        "plans", "records",
+        "catalog", "dossiers", "cases", "stories", "guides", "inbox", "profile", "plans", "records",
     ] {
         fs::create_dir_all(root.join(directory))
             .map_err(|error| format!("Could not initialize library directory: {error}"))?;
@@ -336,8 +617,23 @@ fn ensure_starter_library(root: &Path) -> Result<(), String> {
 
     for (relative_path, content) in STARTER_FILES {
         let path = root.join(relative_path);
-        let is_catalog = *relative_path == "catalog/strategies.csv";
-        if path.exists() && !is_catalog {
+        let is_official_content = matches!(
+            *relative_path,
+            "README.md"
+                | "README.en.md"
+                | "index.md"
+                | "index.en.md"
+                | "catalog/products.csv"
+                | "catalog/strategies.csv"
+                | "catalog/supplements.csv"
+        ) || relative_path.starts_with("dossiers/")
+            || relative_path.starts_with("cases/")
+            || relative_path.starts_with("stories/")
+            || relative_path.starts_with("guides/")
+            || relative_path.starts_with("licenses/")
+            || relative_path.starts_with("templates/")
+            || relative_path.starts_with("plans/training/");
+        if path.exists() && !is_official_content {
             continue;
         }
         if let Some(parent) = path.parent() {
@@ -362,11 +658,46 @@ fn ensure_starter_library(root: &Path) -> Result<(), String> {
         }
     }
 
+    for (relative_path, legacy) in [
+        ("plans/exercise.md", LEGACY_EXERCISE_PLAN_ZH),
+        ("plans/exercise.en.md", LEGACY_EXERCISE_PLAN_EN),
+    ] {
+        let path = root.join(relative_path);
+        let Ok(existing) = fs::read_to_string(&path) else {
+            continue;
+        };
+        if existing.replace("\r\n", "\n").trim() != legacy.trim() {
+            continue;
+        }
+        if let Some((_, starter)) = STARTER_FILES
+            .iter()
+            .find(|(candidate, _)| *candidate == relative_path)
+        {
+            fs::write(&path, starter)
+                .map_err(|error| format!("Could not migrate the starter training plan: {error}"))?;
+        }
+    }
+
     for relative_path in REMOVED_STARTER_FILES {
         let path = root.join(relative_path);
         if path.is_file() {
             fs::remove_file(path)
                 .map_err(|error| format!("Could not remove retired starter content: {error}"))?;
+        }
+    }
+
+    for directory in [
+        "products",
+        "papers",
+        "topics",
+        "audits",
+        "methods",
+        "sources",
+        "research-log",
+    ] {
+        let path = root.join(directory);
+        if path.is_dir() {
+            let _ = fs::remove_dir(path);
         }
     }
 
@@ -387,6 +718,23 @@ fn ensure_starter_library(root: &Path) -> Result<(), String> {
                 fs::write(&nad_dossier, migrated)
                     .map_err(|error| format!("Could not migrate NAD+ starter dossier: {error}"))?;
             }
+        }
+    }
+
+    for relative_path in STARTER_RANKING_DOSSIERS {
+        let path = root.join(relative_path);
+        let Some((_, starter)) = STARTER_FILES
+            .iter()
+            .find(|(candidate, _)| candidate == relative_path)
+        else {
+            continue;
+        };
+        let Ok(existing) = fs::read_to_string(&path) else {
+            continue;
+        };
+        if let Some(merged) = merge_missing_starter_ranking(&existing, starter) {
+            fs::write(&path, merged)
+                .map_err(|error| format!("Could not add starter brand ranking: {error}"))?;
         }
     }
 
@@ -436,28 +784,6 @@ fn relative_note_path(root: &Path, path: &Path) -> String {
         .unwrap_or(path)
         .to_string_lossy()
         .replace('\\', "/")
-}
-
-fn count_markdown_files(root: &Path) -> usize {
-    fn visit(path: &Path, count: &mut usize) {
-        let Ok(entries) = fs::read_dir(path) else {
-            return;
-        };
-        for entry in entries.flatten() {
-            let path = entry.path();
-            if path.is_dir() {
-                visit(&path, count);
-            } else if path.extension().is_some_and(|extension| extension == "md")
-                && !is_paired_english_companion(&path)
-            {
-                *count += 1;
-            }
-        }
-    }
-
-    let mut count = 0;
-    visit(root, &mut count);
-    count
 }
 
 fn split_csv_line(line: &str) -> Vec<String> {
@@ -641,6 +967,7 @@ fn load_supplements(root: &Path, locale: &str) -> Vec<Supplement> {
         "ergothioneine",
         "pqq",
         "ca-akg",
+        "glp1-ra",
         "partial-reprogramming",
     ];
     let order: HashMap<&str, usize> = preferred_order
@@ -782,6 +1109,7 @@ fn load_stories(root: &Path, locale: &str) -> Vec<Story> {
             path.is_file()
                 && path.extension().is_some_and(|extension| extension == "md")
                 && !is_paired_english_companion(path)
+                && path.file_name().is_some_and(|name| name != "index.md")
         })
         .collect::<Vec<_>>();
     paths.sort();
@@ -824,6 +1152,98 @@ fn load_stories(root: &Path, locale: &str) -> Vec<Story> {
     stories
 }
 
+fn load_articles(root: &Path, locale: &str) -> Vec<LibraryArticle> {
+    let sections = [("guides", "精选资料", "Selected guides")];
+    let mut articles = Vec::new();
+
+    for (section_id, label_zh, label_en) in sections {
+        let section_root = root.join(section_id);
+        let Ok(entries) = fs::read_dir(&section_root) else {
+            continue;
+        };
+        let mut paths = entries
+            .flatten()
+            .map(|entry| entry.path())
+            .filter(|path| {
+                path.is_file()
+                    && path.extension().is_some_and(|extension| extension == "md")
+                    && !is_paired_english_companion(path)
+                    && path.file_name().is_some_and(|name| name != "index.md")
+            })
+            .collect::<Vec<_>>();
+        paths.sort();
+
+        for base_path in paths {
+            let path = localized_note_path(&base_path, locale);
+            let Ok(metadata) = fs::metadata(&path) else {
+                continue;
+            };
+            if metadata.len() as usize > MAX_NOTE_BYTES {
+                continue;
+            }
+            let Ok(markdown) = fs::read_to_string(&path) else {
+                continue;
+            };
+            let Some(title) = extract_frontmatter_value(&markdown, "title")
+                .or_else(|| extract_markdown_title(&markdown))
+            else {
+                continue;
+            };
+            articles.push(LibraryArticle {
+                title,
+                section_id: section_id.to_string(),
+                section_label: if locale == "en" { label_en } else { label_zh }.to_string(),
+                file_path: relative_note_path(root, &path),
+            });
+        }
+    }
+
+    articles
+}
+
+fn load_training_plans(root: &Path, locale: &str) -> Vec<LibraryArticle> {
+    let training_root = root.join("plans/training");
+    let Ok(entries) = fs::read_dir(&training_root) else {
+        return Vec::new();
+    };
+    let mut paths = entries
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.is_file()
+                && path.extension().is_some_and(|extension| extension == "md")
+                && !is_paired_english_companion(path)
+                && path.file_name().is_some_and(|name| name != "index.md")
+        })
+        .collect::<Vec<_>>();
+    paths.sort();
+
+    paths
+        .into_iter()
+        .filter_map(|base_path| {
+            let path = localized_note_path(&base_path, locale);
+            let metadata = fs::metadata(&path).ok()?;
+            if metadata.len() as usize > MAX_NOTE_BYTES {
+                return None;
+            }
+            let markdown = fs::read_to_string(&path).ok()?;
+            let title = extract_frontmatter_value(&markdown, "title")
+                .or_else(|| extract_markdown_title(&markdown))?;
+            Some(LibraryArticle {
+                title,
+                section_id: "strength-training".to_string(),
+                section_label: if locale == "en" {
+                    "Training splits"
+                } else {
+                    "训练分化"
+                }
+                .to_string(),
+                file_path: relative_note_path(root, &path),
+            })
+        })
+        .collect()
+}
+
 #[tauri::command]
 fn load_library(root: Option<String>, locale: Option<String>) -> Result<LibrarySnapshot, String> {
     let managed_root = default_knowledge_root();
@@ -853,11 +1273,18 @@ fn load_library(root: Option<String>, locale: Option<String>) -> Result<LibraryS
     } else {
         Vec::new()
     };
-    let note_count = if connected {
-        count_markdown_files(&root)
+    let training_plans = if connected {
+        load_training_plans(&root, &locale)
     } else {
-        0
+        Vec::new()
     };
+    let articles = if connected {
+        load_articles(&root, &locale)
+    } else {
+        Vec::new()
+    };
+    let note_count =
+        supplements.len() + people.len() + stories.len() + training_plans.len() + articles.len();
 
     Ok(LibrarySnapshot {
         root: path_string(&root),
@@ -865,6 +1292,8 @@ fn load_library(root: Option<String>, locale: Option<String>) -> Result<LibraryS
         supplements,
         people,
         stories,
+        training_plans,
+        articles,
         note_count,
     })
 }
@@ -2570,6 +2999,9 @@ mod tests {
         ensure_starter_library(&root).expect("starter library should initialize");
         assert!(root.join("catalog/strategies.csv").is_file());
         assert!(root.join("dossiers/strength-training.md").is_file());
+        assert!(root.join("plans/training/01-full-body.md").is_file());
+        assert!(root.join("plans/training/index.md").is_file());
+        assert!(root.join("plans/training/04-body-part.en.md").is_file());
         assert!(root.join("dossiers/healthy-diet.md").is_file());
         assert!(root.join("stories/okinawa-longevity.md").is_file());
         assert_eq!(
@@ -2586,7 +3018,6 @@ mod tests {
                 relative_path.ends_with(".md") && !relative_path.ends_with(".en.md")
             })
             .count();
-        assert_eq!(count_markdown_files(&root), logical_starter_count);
         for (relative_path, _) in STARTER_FILES.iter().filter(|(relative_path, _)| {
             relative_path.ends_with(".md") && !relative_path.ends_with(".en.md")
         }) {
@@ -2605,6 +3036,29 @@ mod tests {
                 "English starter companion should be installed: {companion}"
             );
         }
+        let articles = load_articles(&root, "zh");
+        assert!(articles.iter().all(|article| article.section_id != "inbox"));
+        assert_eq!(articles.len(), 4);
+        assert!(articles
+            .iter()
+            .all(|article| article.section_id == "guides"));
+        assert!(articles
+            .iter()
+            .any(|article| article.title == "科学证据怎么看"));
+        assert!(articles
+            .iter()
+            .any(|article| article.title == "补剂产品怎么选"));
+        assert_eq!(load_supplements(&root, "zh").len(), 18);
+        let training_plans = load_training_plans(&root, "zh");
+        assert_eq!(training_plans.len(), 4);
+        assert_eq!(training_plans[0].title, "全身训练（1 分化）");
+        assert_eq!(
+            18 + load_people(&root, "zh").len()
+                + load_stories(&root, "zh").len()
+                + training_plans.len()
+                + articles.len(),
+            33
+        );
         let stories = load_stories(&root, "zh");
         assert_eq!(stories.len(), 1);
         assert_eq!(stories[0].title, "日本冲绳的延寿文化");
@@ -2623,8 +3077,10 @@ mod tests {
             .expect("partial reprogramming starter entry should exist");
         assert_eq!(reprogramming.tier, "T5");
         assert!(root.join("dossiers/partial-reprogramming.md").is_file());
-        assert!(root.join("papers/existing-evidence-library.md").is_file());
-        assert!(root.join("products/index.md").is_file());
+        assert!(root.join("guides/evidence-standards.md").is_file());
+        assert!(root.join("guides/product-quality.md").is_file());
+        assert!(!root.join("papers/existing-evidence-library.md").exists());
+        assert!(!root.join("products/index.md").exists());
         let people = load_people(&root, "zh");
         assert_eq!(people.len(), 6);
         assert!(people.iter().all(|person| person.id != "ray-lui"));
@@ -2658,6 +3114,28 @@ mod tests {
             assert!(!content.contains("桑葚汁 200"));
         }
 
+        fs::write(root.join("plans/exercise.md"), LEGACY_EXERCISE_PLAN_ZH)
+            .expect("legacy exercise template should be writable");
+        fs::write(root.join(".starter-pack-initialized"), "16")
+            .expect("previous starter version should be writable");
+        ensure_starter_library(&root).expect("blank exercise template should migrate");
+        let migrated_exercise = fs::read_to_string(root.join("plans/exercise.md"))
+            .expect("migrated exercise plan should be readable");
+        assert!(migrated_exercise.contains("# 健身计划"));
+        assert!(migrated_exercise.contains("上下肢（2 分化）"));
+
+        let custom_exercise = "# 我的健身计划\n\n- 周一：深蹲\n";
+        fs::write(root.join("plans/exercise.md"), custom_exercise)
+            .expect("custom exercise plan should be writable");
+        fs::write(root.join(".starter-pack-initialized"), "16")
+            .expect("previous starter version should be writable");
+        ensure_starter_library(&root).expect("custom exercise plan should be preserved");
+        assert_eq!(
+            fs::read_to_string(root.join("plans/exercise.md"))
+                .expect("custom exercise plan should remain readable"),
+            custom_exercise
+        );
+
         fs::write(
             root.join("index.md"),
             "# OpenLongevity 知识库\n\n用户保留的其他内容。",
@@ -2669,7 +3147,7 @@ mod tests {
         let migrated_index =
             fs::read_to_string(root.join("index.md")).expect("migrated index should be readable");
         assert!(migrated_index.contains("# Open Longevity 知识库"));
-        assert!(migrated_index.contains("用户保留的其他内容。"));
+        assert!(!migrated_index.contains("用户保留的其他内容。"));
 
         fs::write(root.join("cases/ray-lui.md"), "# retired starter case")
             .expect("retired case fixture should be writable");
@@ -2690,13 +3168,45 @@ mod tests {
             .expect("migrated NAD dossier should be readable");
         assert!(migrated_nad.contains("# NAD+"));
         assert!(migrated_nad.contains("NADH"));
-        assert!(migrated_nad.contains("tier: T3"));
+        assert!(migrated_nad.contains("tier: T4"));
+
+        fs::write(
+            root.join("dossiers/creatine.md"),
+            "---\nid: creatine\n---\n\n# 肌酸一水合物\n\n用户保留的肌酸备注。\n",
+        )
+        .expect("legacy creatine dossier should be writable");
+        fs::write(root.join(".starter-pack-initialized"), "13")
+            .expect("previous starter version should be writable");
+        ensure_starter_library(&root).expect("starter rankings should migrate");
+        let migrated_creatine = fs::read_to_string(root.join("dossiers/creatine.md"))
+            .expect("migrated creatine dossier should be readable");
+        assert!(migrated_creatine.contains("## 全球品牌排名（购买导向）"));
+        assert!(migrated_creatine.contains("Thorne Creatine"));
+        assert!(!migrated_creatine.contains("用户保留的肌酸备注。"));
+
+        fs::write(
+            root.join("dossiers/omega3.md"),
+            "---\nid: omega3\n---\n\n# DHA / EPA\n\n## 全球品牌排名（购买导向）\n\n| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人公开关系 |\n|---|---|---|---|\n| **第一档：批次透明 / 高品控** | [旧品牌](https://example.com) | 旧说明 | 暂无可核实的具体名人长期使用记录 |\n\n::: tip 保留的结论\n用户保留的 Omega-3 备注。\n::: \n",
+        )
+        .expect("previous ranking dossier should be writable");
+        fs::write(root.join(".starter-pack-initialized"), "14")
+            .expect("previous ranking version should be writable");
+        ensure_starter_library(&root).expect("previous ranking layout should migrate");
+        let migrated_omega3 = fs::read_to_string(root.join("dossiers/omega3.md"))
+            .expect("migrated omega-3 dossier should be readable");
+        assert!(migrated_omega3.contains("| 档次 | 品牌 / 具体产品 | 入档理由 | 延寿名人 |"));
+        assert!(migrated_omega3.contains("| **P1** |"));
+        assert!(!migrated_omega3.contains("暂无可核实"));
+        assert!(!migrated_omega3.contains("用户保留的 Omega-3 备注。"));
 
         fs::write(
             root.join("stories/my-observation.md"),
             "---\ntitle: 我的观察\n---\n\n# 我的观察\n\n这是一篇用户自行添加的延寿轶事文章。",
         )
         .expect("custom story should be writable");
+        fs::write(root.join(".starter-pack-initialized"), "19")
+            .expect("previous starter version should be writable");
+        ensure_starter_library(&root).expect("custom files should survive starter replacement");
         let stories = load_stories(&root, "zh");
         assert_eq!(stories.len(), 2);
         assert!(stories.iter().any(|story| story.title == "我的观察"));

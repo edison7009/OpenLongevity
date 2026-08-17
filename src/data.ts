@@ -225,7 +225,59 @@ export const fallbackLibrary: LibrarySnapshot = {
   supplements: fallbackSupplements,
   people: fallbackPeople,
   stories: fallbackStories,
-  noteCount: 84,
+  trainingPlans: [
+    {
+      title: '全身训练（1 分化）',
+      sectionId: 'strength-training',
+      sectionLabel: '训练分化',
+      filePath: 'plans/training/01-full-body.md',
+    },
+    {
+      title: '上下肢（2 分化）',
+      sectionId: 'strength-training',
+      sectionLabel: '训练分化',
+      filePath: 'plans/training/02-upper-lower.md',
+    },
+    {
+      title: '推拉腿（3 分化）',
+      sectionId: 'strength-training',
+      sectionLabel: '训练分化',
+      filePath: 'plans/training/03-push-pull-legs.md',
+    },
+    {
+      title: '胸背腿肩臂（4 分化）',
+      sectionId: 'strength-training',
+      sectionLabel: '训练分化',
+      filePath: 'plans/training/04-body-part.md',
+    },
+  ],
+  articles: [
+    {
+      title: '科学证据怎么看',
+      sectionId: 'guides',
+      sectionLabel: '精选资料',
+      filePath: 'guides/evidence-standards.md',
+    },
+    {
+      title: '补剂产品怎么选',
+      sectionId: 'guides',
+      sectionLabel: '精选资料',
+      filePath: 'guides/product-quality.md',
+    },
+    {
+      title: '晚间进食与睡眠',
+      sectionId: 'guides',
+      sectionLabel: '精选资料',
+      filePath: 'guides/meal-timing-and-sleep.md',
+    },
+    {
+      title: '维生素 D 与自身免疫病',
+      sectionId: 'guides',
+      sectionLabel: '精选资料',
+      filePath: 'guides/vitamin-d-autoimmune.md',
+    },
+  ],
+  noteCount: fallbackSupplements.length + fallbackPeople.length + fallbackStories.length + 8,
 };
 
 export const fallbackMarkdown: Record<string, string> = {

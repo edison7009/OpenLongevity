@@ -40,12 +40,21 @@ export interface Story {
   accent: string;
 }
 
+export interface LibraryArticle {
+  title: string;
+  sectionId: string;
+  sectionLabel: string;
+  filePath: string;
+}
+
 export interface LibrarySnapshot {
   root: string;
   connected: boolean;
   supplements: Supplement[];
   people: Person[];
   stories: Story[];
+  trainingPlans: LibraryArticle[];
+  articles: LibraryArticle[];
   noteCount: number;
 }
 

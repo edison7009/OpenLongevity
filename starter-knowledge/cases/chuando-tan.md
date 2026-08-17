@@ -87,7 +87,7 @@
 
 即使以后确认他在用，也属于“人物采用”信息。各项目的疗效以独立证据页为准：
 
-- [NAD⁺ 代谢轴](../topics/nad-pathway.md)
+- NAD⁺ 代谢轴
 - [NMN / NR](../dossiers/nmn.md)
 - [PQQ](../dossiers/pqq.md)
 - [DHA / EPA](../dossiers/omega3.md)
@@ -124,7 +124,7 @@
 - [The Straits Times：接近 60 岁时的饮食与实际训练频率（2026-02）](https://www.straitstimes.com/life/entertainment/riding-into-60-celeb-photographer-chuando-tan-on-his-viral-vitality-and-staying-young)
 - [Esquire HK：60 岁封面采访，包含鸡蛋、饮水和训练说法（2026-06）](https://www.esquirehk.com/en/next/he-is-bold-buff-and-60)
 - [本人 Instagram](https://www.instagram.com/chuando_chuandoandfrey/)
-- [来源版本与核查记录](../sources/chuando-tan-sources-2026-07-21.md)
+- 来源版本与核查记录
 
 本页记录人物公开说法，不构成饮食、运动或补剂处方。
 

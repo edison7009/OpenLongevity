@@ -99,4 +99,4 @@ Sleep stack (magnesium + apigenin + theanine) before going to bed, cool down and
 
 - [ ] Archives of Huberman Supplement Protocol episodes and first-hand quotes from the official website
 - [ ] File specific disclosure text of its partnership with Momentous/Thorne
-- [ ] Register the source research of the three ingredients of "Sleep Cocktail" separately to papers/
+- [ ] Add clinical sources for the three ingredients in the "Sleep Cocktail"
