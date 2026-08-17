@@ -2031,9 +2031,10 @@ function Sidebar({
     }
     return [...grouped.values()];
   }, [library.articles]);
-  const [strategiesExpanded, setStrategiesExpanded] = useState(true);
-  const [peopleExpanded, setPeopleExpanded] = useState(true);
-  const [storiesExpanded, setStoriesExpanded] = useState(true);
+  const [strategiesExpanded, setStrategiesExpanded] = useState(false);
+  const [strengthTrainingExpanded, setStrengthTrainingExpanded] = useState(false);
+  const [peopleExpanded, setPeopleExpanded] = useState(false);
+  const [storiesExpanded, setStoriesExpanded] = useState(false);
   const [expandedArticleSections, setExpandedArticleSections] = useState<Set<string>>(
     () => new Set(),
   );
@@ -2090,38 +2091,6 @@ function Sidebar({
       stopListening?.();
     }
   };
-
-  useEffect(() => {
-    if (selectedSupplement) setStrategiesExpanded(true);
-  }, [selectedSupplement]);
-
-  useEffect(() => {
-    if (library.trainingPlans.some((plan) => plan.filePath === selectedArticlePath)) {
-      setStrategiesExpanded(true);
-    }
-  }, [library.trainingPlans, selectedArticlePath]);
-
-  useEffect(() => {
-    if (selectedPerson) setPeopleExpanded(true);
-  }, [selectedPerson]);
-
-  useEffect(() => {
-    if (selectedStory) setStoriesExpanded(true);
-  }, [selectedStory]);
-
-  useEffect(() => {
-    if (!selectedArticlePath) return;
-    const section = library.articles.find(
-      (article) => article.filePath === selectedArticlePath,
-    )?.sectionId;
-    if (!section) return;
-    setExpandedArticleSections((current) => {
-      if (current.has(section)) return current;
-      const next = new Set(current);
-      next.add(section);
-      return next;
-    });
-  }, [library.articles, selectedArticlePath]);
 
   return (
     <aside className="sidebar">
@@ -2243,12 +2212,30 @@ function Sidebar({
                             ? 'active'
                             : ''
                         }`}
-                        onClick={() => onSupplement(supplement)}
+                        onClick={() => {
+                          onSupplement(supplement);
+                          if (isStrengthTraining) {
+                            setStrengthTrainingExpanded((expanded) => !expanded);
+                          }
+                        }}
+                        aria-expanded={
+                          isStrengthTraining ? strengthTrainingExpanded : undefined
+                        }
                       >
                         <span>{locale === 'zh' ? supplement.nameZh : supplement.nameEn}</span>
                         <small>{supplement.tier}</small>
+                        {isStrengthTraining && (
+                          <ChevronRight
+                            size={13}
+                            className={`tree-chevron ${
+                              strengthTrainingExpanded ? 'expanded' : ''
+                            }`}
+                          />
+                        )}
                       </button>
-                      {isStrengthTraining && library.trainingPlans.length > 0 && (
+                      {isStrengthTraining &&
+                        strengthTrainingExpanded &&
+                        library.trainingPlans.length > 0 && (
                         <div
                           className="tree-subchildren"
                           aria-label={locale === 'zh' ? '训练分化' : 'Training splits'}
