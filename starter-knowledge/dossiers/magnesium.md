@@ -4,10 +4,17 @@ name_zh: 镁
 name_en: Magnesium
 status: reviewed
 tier: T3
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 ---
 
 # 镁
+
+## 2026-09-25 证据更新
+
+近期研究需按剂型拆分：双甘氨酸镁对失眠量表的改善较小；苏糖酸镁研究未见客观睡眠指标组间差异。不能从主观量表或认知年龄分数推断人体逆龄。
+
+[PMID 40918053](papers/pmid-40918053.md) · [PMID 41601871](papers/pmid-41601871.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

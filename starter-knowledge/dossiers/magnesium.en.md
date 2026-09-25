@@ -4,12 +4,19 @@ name_zh: 镁
 name_en: Magnesium
 status: reviewed
 tier: T3
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 locale: en
 translation_of: dossiers/magnesium.md
 ---
 
 # Magnesium
+
+## Evidence checked — September 25, 2026
+
+Separate formulations: bisglycinate produced a small insomnia-score benefit; the threonate study found no objective sleep difference between groups. Subjective scores or cognitive-age estimates do not establish rejuvenation.
+
+[PMID 40918053](papers/pmid-40918053.md) · [PMID 41601871](papers/pmid-41601871.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

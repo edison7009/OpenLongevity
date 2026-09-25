@@ -11,6 +11,13 @@ translation_of: dossiers/partial-reprogramming.md
 
 # Partial Cellular Reprogramming (Yamanaka Factors)
 
+## September 2026 research update
+
+ER-100 has a registered phase 1 study in optic nerve disease, primarily evaluating safety, with no results posted when checked. OpenAI / Retro reported cellular protein-engineering experiments; these are different programs and do not establish whole-body human rejuvenation.
+
+[Trial registration](papers/er100-nct07290244.md) · [Developer announcement](papers/retro-gpt4b-2025.md) · [AI longevity research](guides/ai-longevity-2026-09.en.md)
+
+
 Partial cellular reprogramming attempts to activate reprogramming factors such as OCT4, SOX2, and KLF4 briefly, shifting some age-associated cellular states in a younger direction while avoiding the complete reset of mature cells into pluripotent stem cells. Its potential is substantial, but it remains a frontier biotechnology that must not be attempted independently.
 
 | Quick assessment | Current answer |

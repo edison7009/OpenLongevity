@@ -4,11 +4,18 @@ name_zh: 维生素 D3
 name_en: Vitamin D3
 status: reviewed
 tier: T3
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 locale: en
 translation_of: dossiers/vitamin-d3.md
 ---
 # Vitamin D3
+
+## Evidence checked — September 25, 2026
+
+The 2025 VITAL substudy found approximately 140 bp less telomere attrition over four years: a surrogate endpoint, not proof of longevity. The VITAL autoimmune-disease report was published in BMJ, distinct from other VITAL papers in NEJM.
+
+[PMID 40409468](papers/pmid-40409468.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 
@@ -25,15 +32,15 @@ translation_of: dossiers/vitamin-d3.md
 Determine need and dose before brand. A celebrity blend does not establish a personal need for high-dose D3. See the full product tiers.
 
 ::: tip 30-second summary
-Vitamin D is like a “hormone precursor” provided by sunlight, food, and supplements. Its clearest role is to support calcium and phosphorus metabolism and bone mineralization. The VITAL randomized controlled trial of 25,871 people, published in *The New England Journal of Medicine*, found that 2000 IU daily for about five years reduced the relative incidence of confirmed autoimmune disease by 22% (HR 0.61 after excluding the first two years). A meta-analysis published in *BMJ* found that vitamin D3 supplementation reduced all-cause mortality among older adults. **Included in Bryan Johnson’s protocol.**
+Vitamin D is like a “hormone precursor” provided by sunlight, food, and supplements. Its clearest role is to support calcium and phosphorus metabolism and bone mineralization. The VITAL randomized controlled trial of 25,871 people, published in *BMJ*, found that 2000 IU daily for about five years reduced the relative incidence of confirmed autoimmune disease by 22% (HR 0.61 after excluding the first two years). A meta-analysis published in *BMJ* found that vitamin D3 supplementation reduced all-cause mortality among older adults. **Included in Bryan Johnson’s protocol.**
 :::
 
 | Quick assessment | Current answer |
 |---|---|
 | What is it | A fat-soluble vitamin that is also a precursor to hormone signaling in the body |
 | Why it matters | Bones, immunity and a host of observed disease links |
-| What the human body has proven | VITAL (New England Journal of Medicine) confirms a 22% decrease in the incidence of autoimmune diseases; correcting deficiencies has clear bone health value; BMJ meta-analysis confirms a decrease in mortality in the elderly |
-| Life extension verification | BMJ meta-analysis confirms that vitamin D3 reduces all-cause mortality in the elderly; "New England Journal of Medicine" VITAL confirms the prevention of autoimmune diseases |
+| What the human body has proven | VITAL (BMJ) confirms a 22% decrease in the incidence of autoimmune diseases; correcting deficiencies has clear bone health value; BMJ meta-analysis confirms a decrease in mortality in the elderly |
+| Life extension verification | BMJ meta-analysis confirms that vitamin D3 reduces all-cause mortality in the elderly; "BMJ" VITAL confirms the prevention of autoimmune diseases |
 | Included in Bryan Johnson’s protocol | Yes, included in the current protocol |
 | Food or supplements | Sun exposure, fatty fish, egg yolks, and fortified foods; supplements may be needed for certain groups |
 | Current tier | **T3: Adjust according to testing, sun exposure, and individual risk** |
@@ -150,7 +157,7 @@ Vitamin D is an essential nutrient, and large randomized trials and meta-analyse
 ## Tier Assessment
 
 - Current Tier: **T2**
-- Reasons for support: VITAL (New England Journal of Medicine) confirms a 22% decrease in the incidence of autoimmune diseases; a BMJ meta-analysis confirms a decrease in all-cause mortality in the elderly; the value of correcting deficient bone health is clear;
+- Reasons for support: VITAL (BMJ) confirms a 22% decrease in the incidence of autoimmune diseases; a BMJ meta-analysis confirms a decrease in all-cause mortality in the elderly; the value of correcting deficient bone health is clear;
 - Applicable boundaries: 2000 IU/day is the confirmed dose of VITAL; 4000 IU/day is the upper limit of UL but not the target; special situations such as kidney stones and granulomatous disease should be evaluated by doctors;
 - What new evidence would change judgment: Release of results from a large clinical event trial stratified by baseline deficiency status.
 

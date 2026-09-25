@@ -4,12 +4,19 @@ name_zh: 肌酸一水合物
 name_en: Creatine monohydrate
 status: reviewed
 tier: T2
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 locale: en
 translation_of: dossiers/creatine.md
 ---
 
 # Creatine Monohydrate
+
+## Evidence checked — September 25, 2026
+
+A 2026 review in postmenopausal women supports small lean-mass and strength gains alongside resistance training, without an overall bone-density benefit. These are functional outcomes, not human lifespan results.
+
+[PMID 42141930](papers/pmid-42141930.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

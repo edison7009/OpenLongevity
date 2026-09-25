@@ -4,12 +4,19 @@ name_zh: 辅酶 Q10
 name_en: Coenzyme Q10 / Ubiquinol
 status: reviewed
 tier: T4
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 locale: en
 translation_of: dossiers/coq10.md
 ---
 
 # Coenzyme Q10
+
+## Evidence checked — September 25, 2026
+
+A 2024 heart-failure meta-analysis is collected as context. Findings in patients cannot be generalized to healthy adults; this selection includes no new trial establishing healthy-adult lifespan benefit.
+
+[PMID 39462324](papers/pmid-39462324.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

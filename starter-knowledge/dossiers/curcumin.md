@@ -4,11 +4,18 @@ name_zh: 姜黄素
 name_en: Curcumin
 status: reviewed
 tier: T3
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-08-17
 ---
 
 # 姜黄素
+
+## 2026-09-25 证据更新
+
+2026 年伞状综述仍把信号集中在骨关节炎疼痛和功能，配方异质性及安全性报告不足限制结论。不能升级为健康人延寿或优于常规治疗的证据。
+
+[PMID 42254374](papers/pmid-42254374.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

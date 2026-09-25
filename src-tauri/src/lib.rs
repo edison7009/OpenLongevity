@@ -26,7 +26,7 @@ const MAX_CAPTURE_DOWNLOAD_BYTES: usize = 600_000;
 const MAX_CAPTURE_SOURCE_BYTES: usize = 110_000;
 const MAX_RESEARCH_CONTEXT_BYTES: usize = 32_000;
 // Increment whenever shipped starter-library content needs a safe in-place migration.
-const STARTER_PACK_VERSION: &str = "23";
+const STARTER_PACK_VERSION: &str = "26";
 const LATEST_RELEASE_API: &str =
     "https://api.github.com/repos/edison7009/OpenLongevity/releases/latest";
 const WEBSITE_VERSION_API: &str = "https://openlongevity.life/version.json?platform=windows";
@@ -630,6 +630,7 @@ fn ensure_starter_library(root: &Path) -> Result<(), String> {
             || relative_path.starts_with("cases/")
             || relative_path.starts_with("stories/")
             || relative_path.starts_with("guides/")
+            || relative_path.starts_with("papers/")
             || relative_path.starts_with("licenses/")
             || relative_path.starts_with("templates/")
             || relative_path.starts_with("plans/training/");
@@ -3023,7 +3024,9 @@ mod tests {
             })
             .count();
         for (relative_path, _) in STARTER_FILES.iter().filter(|(relative_path, _)| {
-            relative_path.ends_with(".md") && !relative_path.ends_with(".en.md")
+            relative_path.ends_with(".md")
+                && !relative_path.ends_with(".en.md")
+                && !relative_path.starts_with("papers/")
         }) {
             let companion = relative_path
                 .strip_suffix(".md")
@@ -3042,7 +3045,7 @@ mod tests {
         }
         let articles = load_articles(&root, "zh");
         assert!(articles.iter().all(|article| article.section_id != "inbox"));
-        assert_eq!(articles.len(), 4);
+        assert_eq!(articles.len(), 7);
         assert!(articles
             .iter()
             .all(|article| article.section_id == "guides"));
@@ -3061,7 +3064,7 @@ mod tests {
                 + load_stories(&root, "zh").len()
                 + training_plans.len()
                 + articles.len(),
-            35
+            38
         );
         let stories = load_stories(&root, "zh");
         assert_eq!(stories.len(), 1);
@@ -3132,6 +3135,13 @@ mod tests {
         assert!(english_paths
             .iter()
             .any(|path| path.ends_with("dossiers/strength-training.en.md")));
+        assert!(english_paths
+            .iter()
+            .any(|path| path.ends_with("papers/pmid-42706338.md")));
+        assert!(!root.join("papers/pmid-42706338.en.md").exists());
+        assert!(articles
+            .iter()
+            .all(|article| !article.file_path.starts_with("papers/")));
         for (_, content) in STARTER_FILES {
             assert!(!content.contains("吕良伟"));
             assert!(!content.contains("肌钙蛋白 I"));

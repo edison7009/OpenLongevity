@@ -1,7 +1,7 @@
 id,name_zh,name_en,category,bryan_status,evidence_status,tier,review_priority,notes
 omega3,DHA/EPA/Omega-3,Omega-3 fatty acids,脂肪酸,current-explicit,reviewed,T1,maintain,适用性依赖饮食摄入和心血管风险
 creatine,肌酸一水合物,Creatine monohydrate,运动营养,current-explicit,reviewed,T1,maintain,主要证据在力量训练和肌肉功能
-vitamin-d3,维生素D3,Vitamin D3,维生素,current-blend,reviewed,T2,maintain,《新英格兰医学杂志》VITAL确认自身免疫病发生率下降22%；BMJ荟萃分析确认老年人死亡率下降；Bryan Johnson方案采纳
+vitamin-d3,维生素D3,Vitamin D3,维生素,current-blend,reviewed,T2,maintain,BMJ VITAL确认自身免疫病发生率下降22%；BMJ荟萃分析确认老年人死亡率下降；Bryan Johnson方案采纳
 vitamin-k2,维生素K2,Vitamin K2,维生素,unverified,candidate,pending,backlog,需核对当前配方及独立临床结局
 vitamin-c,维生素C,Vitamin C,维生素,current-blend,reviewed,T2,maintain,2026 Cell Metabolism 灵长类40月干预多器官年龄逆转；ACSL4铁衰老机制明确
 b-complex,B族复合维生素,B-complex vitamins,维生素,current-blend,candidate,pending,backlog,复方不能作为单一干预评估

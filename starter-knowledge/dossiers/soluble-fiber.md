@@ -4,10 +4,17 @@ name_zh: 可溶性膳食纤维
 name_en: Soluble fiber
 status: reviewed
 tier: T2
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 ---
 
 # 可溶性膳食纤维
+
+## 2026-09-25 证据更新
+
+补录 2023 年血脂荟萃分析作为背景依据；本轮未纳入改变判断的新寿命试验。继续区分具体纤维原料、LDL 等结局和耐受性。
+
+[PMID 36796439](papers/pmid-36796439.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

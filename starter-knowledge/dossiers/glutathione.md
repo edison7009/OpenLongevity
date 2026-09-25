@@ -4,11 +4,18 @@ name_zh: 谷胱甘肽
 name_en: Glutathione
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-08-17
 ---
 
 # 谷胱甘肽系统
+
+## 2026-09-25 证据更新
+
+本次收藏 GlyNAC 小型随机试验作为历史依据；GlyNAC 是甘氨酸加 NAC，并不等同直接口服谷胱甘肽。研究中的代谢和功能信号不能证明人体寿命延长。
+
+[PMID 35975308](papers/pmid-35975308.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（普通用户购买导向）
 

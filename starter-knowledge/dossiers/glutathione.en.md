@@ -4,13 +4,20 @@ name_zh: 谷胱甘肽
 name_en: Glutathione
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-08-17
 locale: en
 translation_of: dossiers/glutathione.md
 ---
 
 # Glutathione System
+
+## Evidence checked — September 25, 2026
+
+A small GlyNAC randomized trial is collected as historical context. Glycine plus NAC is not equivalent to directly supplemented glutathione; metabolic and functional signals do not establish longer human life.
+
+[PMID 35975308](papers/pmid-35975308.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (General-Consumer Buying Guide)
 

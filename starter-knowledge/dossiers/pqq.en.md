@@ -4,7 +4,7 @@ name_zh: PQQ
 name_en: Pyrroloquinoline quinone
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -14,6 +14,13 @@ translation_of: dossiers/pqq.md
 ---
 
 # PQQ
+
+## Evidence checked — September 25, 2026
+
+New 2026 mouse-survival and acute-exercise studies do not establish human longevity. A single-arm study found no significant overall AMH change; exploratory subgroups do not establish ovarian rejuvenation.
+
+[PMID 42132809](papers/pmid-42132809.md) · [PMID 41651893](papers/pmid-41651893.md) · [PMID 42500134](papers/pmid-42500134.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

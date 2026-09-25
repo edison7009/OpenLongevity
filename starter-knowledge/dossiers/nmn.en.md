@@ -4,7 +4,7 @@ name_zh: NAD+
 name_en: NAD+
 status: reviewed
 tier: T4
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -14,6 +14,13 @@ translation_of: dossiers/nmn.md
 ---
 
 # NAD+
+
+## Evidence checked — September 25, 2026
+
+A 2026 direct comparison found NR and NMN raised circulating NAD over 14 days. A contemporary systematic review found inconsistent clinical and functional benefits. Biochemical changes do not establish longevity or justify extrapolating oral findings to intravenous NAD.
+
+[PMID 41540253](papers/pmid-41540253.md) · [PMID 41655607](papers/pmid-41655607.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

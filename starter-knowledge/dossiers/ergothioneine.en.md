@@ -4,12 +4,19 @@ name_zh: 麦角硫因
 name_en: Ergothioneine
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 locale: en
 translation_of: dossiers/ergothioneine.md
 ---
 
 # Ergothioneine
+
+## Evidence checked — September 25, 2026
+
+A 2026 oyster-mushroom trial studied memory and mood in 80 older adults. Multiple food components prevent attributing the results directly to ergothioneine or treating them as isolated-supplement evidence.
+
+[PMID 42299921](papers/pmid-42299921.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

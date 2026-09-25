@@ -643,7 +643,8 @@ function locationsMatch(left: NavigationLocation, right: NavigationLocation): bo
     left.view === right.view &&
     left.supplementId === right.supplementId &&
     left.personId === right.personId &&
-    left.storyId === right.storyId
+    left.storyId === right.storyId &&
+    left.filePath === right.filePath
   );
 }
 
@@ -746,6 +747,7 @@ function App() {
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [activePlanSection, setActivePlanSection] = useState<PlanSection>('supplements');
   const [fileNotePath, setFileNotePath] = useState<string | null>(null);
+  const [noteMarkdown, setNoteMarkdown] = useState('');
   const libraryRootRef = useRef(library.root || knowledgeRoot || '');
   libraryRootRef.current = library.root || knowledgeRoot || '';
   const fileNotePathRef = useRef(fileNotePath);
@@ -763,8 +765,10 @@ function App() {
       (item) => item.filePath === fileNotePath,
     );
     if (article) return article.title;
+    const heading = noteMarkdown.match(/^#\s+(.+)$/m)?.[1]?.trim();
+    if (heading) return heading;
     return fileNotePath.split('/').pop()?.replace(/\.md$/, '') || fileNotePath;
-  }, [fileNotePath, library.articles, locale]);
+  }, [fileNotePath, library.articles, library.trainingPlans, locale, noteMarkdown]);
   const currentPageTitle = useMemo(() => {
     if (view === 'file') return fileNoteTitle || undefined;
     if (view === 'supplement' && selectedSupplement) {
@@ -776,7 +780,6 @@ function App() {
     }
     return undefined;
   }, [view, fileNoteTitle, selectedSupplement, selectedPerson, selectedStory, locale]);
-  const [noteMarkdown, setNoteMarkdown] = useState('');
   const [noteLoading, setNoteLoading] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [captureGuideOpen, setCaptureGuideOpen] = useState(false);
@@ -878,6 +881,7 @@ function App() {
     supplementId: selectedSupplement?.id,
     personId: selectedPerson?.id,
     storyId: selectedStory?.id,
+    filePath: view === 'file' ? fileNotePath || undefined : undefined,
   });
 
   const rememberCurrentLocation = (nextLocation: NavigationLocation) => {
@@ -1050,6 +1054,7 @@ function App() {
     if (remember) rememberCurrentLocation({ view: 'file', filePath });
     setView('file');
     setFileNotePath(filePath);
+    setNoteMarkdown('');
     setSelectedSupplement(null);
     setSelectedPerson(null);
     setSelectedStory(null);
@@ -1098,22 +1103,7 @@ function App() {
       }
     }
     if (target.kind === 'file') {
-      const filePath = target.id;
-      setView('supplement');
-      setSelectedSupplement(null);
-      setSelectedPerson(null);
-      setSelectedStory(null);
-      setNoteLoading(true);
-      readNote(library.root, filePath)
-        .then((raw) => setNoteMarkdown(raw))
-        .catch(() =>
-          setNoteMarkdown(
-            locale === 'zh'
-              ? `# 无法打开\n\n找不到文件 \`${filePath}\`。`
-              : `# Cannot open\n\nFile \`${filePath}\` not found.`,
-          ),
-        )
-        .finally(() => setNoteLoading(false));
+      openFileNote(target.id);
       return;
     }
     setToast({

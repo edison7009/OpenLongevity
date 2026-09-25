@@ -32,9 +32,21 @@ function markdownBody(markdown) {
 }
 
 const allFiles = markdownFiles(libraryRoot);
-const sourceFiles = allFiles.filter((path) => !path.endsWith('.en.md'));
+const evidenceFiles = allFiles.filter((path) => relativePath(path).startsWith('papers/'));
+const sourceFiles = allFiles.filter((path) => !path.endsWith('.en.md') && !evidenceFiles.includes(path));
 const englishFiles = allFiles.filter((path) => path.endsWith('.en.md'));
 const errors = [];
+
+for (const path of evidenceFiles) {
+  const markdown = readFileSync(path, 'utf8');
+  if (path.endsWith('.en.md') || fieldValue(markdown, 'content_type') !== 'evidence') {
+    errors.push(`Evidence must be one original-language record: ${relativePath(path)}`);
+  }
+  for (const field of ['title', 'source_type', 'source_language', 'last_checked']) {
+    if (!fieldValue(markdown, field)) errors.push(`Missing ${field}: ${relativePath(path)}`);
+  }
+  if (markdownLinkUrls(markdown).size === 0) errors.push(`Missing evidence source URL: ${relativePath(path)}`);
+}
 
 for (const source of sourceFiles) {
   const companion = source.replace(/\.md$/, '.en.md');
@@ -74,5 +86,5 @@ if (errors.length) {
 }
 
 console.log(
-  `Bilingual starter library is complete: ${sourceFiles.length} source files and ${englishFiles.length} English companions.`,
+  `Bilingual starter library is complete: ${sourceFiles.length} source files and ${englishFiles.length} English companions; ${evidenceFiles.length} original-language evidence records.`,
 );

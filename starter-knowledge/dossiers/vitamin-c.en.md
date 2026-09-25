@@ -4,7 +4,7 @@ name_zh: 维生素C
 name_en: Vitamin C (Ascorbic acid)
 status: reviewed
 tier: T3
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-22
 audit_status: pending
 audit_framework: openlongevity-ai4l-0.1
@@ -14,6 +14,13 @@ translation_of: dossiers/vitamin-c.md
 ---
 
 # Vitamin C
+
+## Evidence checked — September 25, 2026
+
+A new 2026 bone-marrow study complements ACSL4 work with nonhuman-primate mechanisms. Molecular-age and progenitor changes warrant study but do not prove longer life from extra supplementation in humans.
+
+[PMID 42462722](papers/pmid-42462722.md) · [PMID 41819088](papers/pmid-41819088.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

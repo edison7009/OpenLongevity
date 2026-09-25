@@ -1,7 +1,7 @@
 ---
 title: Bryan Johnson 的一天与一周
 status: active
-last_updated: 2026-07-23
+last_updated: 2026-09-25
 sources:
   - https://blueprint.bryanjohnson.com/blogs/news/bryan-johnsons-protocol
   - https://protocol.bryanjohnson.com/
@@ -10,6 +10,8 @@ sources:
 ---
 
 # Bryan Johnson 的一天与一周
+
+2026-09-25 局部核对：依据[当前官方方案](https://protocol.bryanjohnson.com/)修正下方每周力量与有氧训练频率。其余内容仍是此前整理，尚未逐项重新核实；人物方案记录不等于疗效研究证据。
 
 Bryan Johnson，1977 年生，企业家（Braintree/Venmo 创始人，2013 年以 8 亿美元卖给 PayPal）。2021 年启动 Project Blueprint，每年投入约 200 万美元，由专业医疗团队（ بقيادة Oliver Zolman 医生）分析、检测、调整方案。他是目前公开记录中**被生物测量最多的人**。
 
@@ -54,8 +56,8 @@ Bryan 的训练不是单纯举铁，而是**四种能力全覆盖**：
 
 | 类型 | 内容 | 频率 |
 |---|---|---|
-| **力量** | 复合动作为主（深蹲、硬拉、推举、划船等） | 每天 |
-| **有氧** | 跑步、骑车、游泳等 | 每天 |
+| **力量** | 复合动作为主（深蹲、硬拉、推举、划船等） | 每周 3 次 |
+| **有氧** | 跑步、骑车、游泳等 | 每周 3 次 |
 | **柔韧性** | 拉伸、瑜伽动作 | 每天 |
 | **平衡** | 单腿站立、平衡板等 | 每天 |
 

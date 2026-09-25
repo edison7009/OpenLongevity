@@ -21,3 +21,11 @@
 4. 结论必须同时写出适用人群、局限与安全边界。
 
 
+
+## 2026 年 9 月更新
+
+- [补剂证据更新](guides/supplement-evidence-2026-09.md)
+- [AI 延寿研发](guides/ai-longevity-2026-09.md)
+- [全球公开延寿方案](guides/global-protocols-2026-09.md)
+
+依据记录保留原文，通过阅读文章中的链接访问。

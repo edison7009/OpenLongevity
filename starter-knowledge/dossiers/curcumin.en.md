@@ -4,13 +4,20 @@ name_zh: 姜黄素
 name_en: Curcumin
 status: reviewed
 tier: T3
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-08-17
 locale: en
 translation_of: dossiers/curcumin.md
 ---
 
 # Curcumin
+
+## Evidence checked — September 25, 2026
+
+The 2026 umbrella review concerns osteoarthritis pain and function, with formulation heterogeneity and incomplete safety reporting. It does not establish healthy-adult longevity or superiority to standard treatment.
+
+[PMID 42254374](papers/pmid-42254374.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

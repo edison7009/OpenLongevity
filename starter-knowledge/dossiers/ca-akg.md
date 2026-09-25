@@ -4,7 +4,7 @@ name_zh: Ca-AKG
 name_en: Calcium alpha-ketoglutarate
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,13 @@ audit_date: 2026-07-20
 ---
 
 # Ca-AKG
+
+## 2026-09-25 证据更新
+
+2026 年 ITP 在所测条件下未发现 AKG 显著延长 UM-HET3 小鼠寿命。应与早期阳性研究同时阅读，并区分盐型、剂量与模型。人体“年轻 8 岁”的小型无对照复方研究不能证明寿命延长，也无法分离 Ca-AKG 单独效果。
+
+[PMID 41843349](papers/pmid-41843349.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 
@@ -34,7 +41,7 @@ AKG 是人体能量代谢中的天然中间体，Ca-AKG 是它的钙盐补剂形
 | 它是什么 | α-酮戊二酸的钙盐；AKG 是三羧酸循环中的代谢中间体 |
 | 为什么受关注 | 小鼠寿命、炎症和健康期研究；人体表观遗传时钟信号 |
 | 人体证明了什么 | 42 人研究观察到 DNA 甲基化生物年龄平均下降约 8 年；4,260 人队列观察到使用者生物年龄更低 |
-| 延寿验证 | Cell Metabolism 确认小鼠寿命延长与疾病期压缩；人体生物年龄改善信号明确 |
+| 延寿验证 | 早期小鼠研究阳性，2026 年 ITP 条件下未见寿命获益；人体时钟信号不能证明延寿 |
 | Bryan Johnson 方案采纳 | 是，方案曾采用（当前复方中出现） |
 | “年轻 8 岁”研究 | 42 人复方研究中 DNA 甲基化年龄平均下降约 8 年，为后续随机试验提供依据 |
 | 当前等级 | **T5：前沿探索** |

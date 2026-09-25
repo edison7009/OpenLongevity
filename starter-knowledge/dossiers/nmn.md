@@ -4,7 +4,7 @@ name_zh: NAD+
 name_en: NAD+
 status: reviewed
 tier: T4
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,13 @@ audit_date: 2026-07-20
 ---
 
 # NAD+
+
+## 2026-09-25 证据更新
+
+2026 年人体直接比较显示 NR 与 NMN 均可提高循环 NAD⁺，但研究仅 14 天。同期系统综述显示功能和临床获益不一致；升高 NAD⁺ 不能替代延寿证据，也不支持由口服研究推断静脉 NAD⁺ 疗效。
+
+[PMID 41540253](papers/pmid-41540253.md) · [PMID 41655607](papers/pmid-41655607.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

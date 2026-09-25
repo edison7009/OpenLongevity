@@ -4,12 +4,19 @@ name_zh: DHA / EPA
 name_en: Omega-3 fatty acids
 status: reviewed
 tier: T2
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 locale: en
 translation_of: dossiers/omega3.md
 ---
 
 # DHA / EPA
+
+## Evidence checked — September 25, 2026
+
+The 2025 DO-HEALTH post hoc analysis found changes in several aging clocks, whereas VITAL found no significant fish-oil effect on telomere attrition. These different surrogate endpoints cannot establish added years of life.
+
+[PMID 39900648](papers/pmid-39900648.md) · [PMID 40409468](papers/pmid-40409468.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

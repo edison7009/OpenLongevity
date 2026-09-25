@@ -1,6 +1,6 @@
 # Open Longevity — portable Codex project memory
 
-Updated: 2026-08-17
+Updated: 2026-09-25
 
 This file preserves the decisions and working context needed to continue the
 project on another machine. It contains no API keys, private user parameters,
@@ -12,7 +12,7 @@ or temporary deployment credentials.
 - Chinese product name: **科学延寿**. Use **延寿** consistently in Chinese
   product, website, documentation, and starter-library copy; keep the previous
   product-domain term out of new copy.
-- Version: **0.1.2**.
+- Version: **0.1.3**.
 - Goal: a productized, local-first scientific-longevity desktop application for
   Windows, macOS, and Linux—not a personal wrapper around the developer's notes.
 - Product origin: inspired by the developer's `C:\Life extension` notes, but the
@@ -34,8 +34,36 @@ The application combines:
    navigation item.
 3. AI-assisted longevity planning grounded in the local knowledge library.
 
-The default starter library currently contains **52 Chinese documents plus 52
-English companion documents**. Run `npm run library:check` to verify the pairs.
+The default starter library currently contains **55 Chinese documents plus 55
+English companion documents**, and **25 original-language evidence records**
+(23 papers, one trial registration, one developer announcement). Run
+`npm run library:check` to verify pairs and evidence metadata.
+
+### Standing content policy (confirmed by the user on 2026-09-25)
+
+- Papers and reference materials are collected as evidence in their original
+  language. Do not translate their titles, abstracts, or full text, or create
+  translated companion records. Preserve source links and DOI/PMID when available.
+  This policy covers all reference materials, not just files under `papers/`.
+- Translate the reader-facing presentation: strategies, short explanatory
+  articles, and other user-facing summaries remain Chinese/English bilingual.
+  These are separate explanations linked to evidence, not paper translations.
+- Write for ordinary users who are not experts. Keep explanations brief,
+  conversational, and easy to understand: what it is, why it matters to the
+  strategy, and the main limitation. Avoid academic detail and jargon unless
+  needed to understand the takeaway. Casual wording must still be factually
+  accurate; do not turn preliminary findings into proven longevity benefits.
+- Evidence stays out of the main article list but is linked from articles and
+  eligible for local AI retrieval. Keep peer-reviewed papers, trial registrations,
+  and announcements clearly distinguished.
+- Apply this policy to future collection, updates, and AI-assisted content work
+  unless the user explicitly changes it.
+
+The September 2026 update is a targeted review of 14 supplement strategies,
+AI drug development, and representative public protocols, not a full systematic
+review or a complete re-audit of older dossier text. Three new guides summarize
+the update; older background papers are explicitly dated. No tier changes were
+made solely on surrogate aging-clock results or celebrity adoption.
 
 Primary knowledge categories:
 
@@ -275,6 +303,6 @@ and machine-specific. The website itself has no generated build directory.
    calls.
 4. Review the bilingual starter library for scientific sourcing and product
    neutrality.
-5. Test the published `v0.1.2` installers on real Windows, macOS, and Linux
+5. Test the published `v0.1.3` installers on real Windows, macOS, and Linux
    machines. Future production releases should add Windows and Apple code
    signing when certificates are available.

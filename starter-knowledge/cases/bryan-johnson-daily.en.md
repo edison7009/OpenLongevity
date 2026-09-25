@@ -1,7 +1,7 @@
 ---
 title: Bryan Johnson’s Day and Week
 status: active
-last_updated: 2026-07-23
+last_updated: 2026-09-25
 sources:
   - https://blueprint.bryanjohnson.com/blogs/news/bryan-johnsons-protocol
   - https://protocol.bryanjohnson.com/
@@ -11,6 +11,8 @@ locale: en
 translation_of: cases/bryan-johnson-daily.md
 ---
 # Bryan Johnson’s Day and Week
+
+Partial review on 2026-09-25: the weekly strength and cardio frequencies below were corrected against the [current official protocol](https://protocol.bryanjohnson.com/). Other content remains from the earlier summary and has not been reverified item by item. A personal protocol is not research evidence of efficacy.
 
 Bryan Johnson, born in 1977, is an entrepreneur who founded Braintree/Venmo and sold it to PayPal for $800 million in 2013. He launched Project Blueprint in 2021, investing approximately US$2 million annually and using a professional medical team led by Dr. Oliver Zolman to analyze, test, and adjust the protocol. He is currently one of the most extensively measured people in the public record.
 
@@ -55,8 +57,8 @@ Bryan's training is not just lifting irons, but **covering all four abilities**:
 
 | Type | Content | Frequency |
 |---|---|---|
-| **Strength** | Mainly compound movements (squats, deadlifts, presses, rows, etc.) | Every day |
-| **Aerobics** | Running, cycling, swimming, etc. | Every day |
+| **Strength** | Mainly compound movements (squats, deadlifts, presses, rows, etc.) | 3 sessions per week |
+| **Aerobics** | Running, cycling, swimming, etc. | 3 sessions per week |
 | **Flexibility** | Stretching, yoga moves | Every day |
 | **Balance** | Stand on one leg, balance board, etc. | Every day |
 

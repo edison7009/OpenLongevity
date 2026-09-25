@@ -4,7 +4,7 @@ name_zh: Ca-AKG
 name_en: Calcium alpha-ketoglutarate
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -14,6 +14,13 @@ translation_of: dossiers/ca-akg.md
 ---
 
 # Ca-AKG
+
+## Evidence checked — September 25, 2026
+
+The 2026 ITP report found no significant AKG lifespan extension under its tested UM-HET3 mouse conditions. Read this alongside earlier positive work, distinguishing salt, dose, and model. The small uncontrolled human combination study reporting eight years younger cannot establish lifespan benefit or isolate Ca-AKG.
+
+[PMID 41843349](papers/pmid-41843349.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 
@@ -36,7 +43,7 @@ AKG is a natural intermediate in human energy metabolism, and Ca-AKG is its calc
 | What it is | The calcium salt of α-ketoglutarate; AKG is a metabolic intermediate in the tricarboxylic-acid cycle |
 | Why it attracts attention | Research on mouse lifespan, inflammation and healthspan; signals from human epigenetic clocks |
 | What human studies have shown | A 42-person study observed a mean reduction of about eight years in DNA-methylation biological age; a 4,260-person cohort found lower biological age among users |
-| Longevity validation | *Cell Metabolism* reported lifespan extension and compressed morbidity in mice; signals of improved human biological age are clear |
+| Longevity validation | Earlier mouse findings were positive, but the 2026 ITP conditions showed no lifespan benefit; human clock signals do not establish longevity |
 | Included in Bryan Johnson’s protocol | Yes, previously included and present in a current blend |
 | The “eight years younger” study | DNA-methylation age fell by about eight years on average in a 42-person combination study, providing a basis for subsequent randomized trials |
 | Current tier | **T5: Frontier exploration** |

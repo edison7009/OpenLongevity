@@ -4,10 +4,17 @@ name_zh: DHA / EPA
 name_en: Omega-3 fatty acids
 status: reviewed
 tier: T2
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 ---
 
 # DHA / EPA
+
+## 2026-09-25 证据更新
+
+DO-HEALTH 的 2025 年事后分析观察到部分衰老时钟变化，但 VITAL 端粒分析中鱼油结果不显著。时钟与端粒不是同一终点，都不能直接换算成延寿年数。
+
+[PMID 39900648](papers/pmid-39900648.md) · [PMID 40409468](papers/pmid-40409468.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

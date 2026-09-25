@@ -17,6 +17,24 @@ translation_of: path/to/name.md
 The application selects `name.en.md` when the interface language is English. If the companion is
 missing, it falls back to `name.md` instead of hiding the article.
 
+## Original-language evidence
+
+Standing user preference: translate the presentation for non-expert readers,
+not the source evidence. This applies to papers and all other reference materials.
+Keep reader-facing explanations short, conversational, and accurate; summarize
+the practical relevance and main limitation without reproducing a technical paper.
+
+Reader-facing strategies and guides remain bilingual. `papers/` contains evidence
+records in the source language, without translated companions or translated paper
+abstracts. Each record declares `content_type: evidence`, `source_type`,
+`source_language`, and `last_checked`, and preserves its original title and source
+URL (plus DOI/PMID when available). Trial registrations and company reports are
+explicitly distinguished from peer-reviewed papers.
+
+Evidence stays out of the main article list. Readers reach it through links in
+strategies and guides; local AI retrieval can use the same records in either UI
+language. The bilingual checker validates this narrowly scoped exception.
+
 ## User-authored notes
 
 User-created Markdown is not duplicated automatically. A note without a companion remains

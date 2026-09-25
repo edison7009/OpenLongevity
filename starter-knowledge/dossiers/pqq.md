@@ -4,7 +4,7 @@ name_zh: PQQ
 name_en: Pyrroloquinoline quinone
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,13 @@ audit_date: 2026-07-20
 ---
 
 # PQQ
+
+## 2026-09-25 证据更新
+
+2026 年增加小鼠寿命与急性运动研究，但这些不能证明人体延寿。另一个单臂研究的 AMH 总体无显著变化，不能把探索性小亚组当作卵巢年轻化证据。
+
+[PMID 42132809](papers/pmid-42132809.md) · [PMID 41651893](papers/pmid-41651893.md) · [PMID 42500134](papers/pmid-42500134.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

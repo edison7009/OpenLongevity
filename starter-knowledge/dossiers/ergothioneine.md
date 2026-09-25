@@ -4,10 +4,17 @@ name_zh: 麦角硫因
 name_en: Ergothioneine
 status: reviewed
 tier: T5
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 ---
 
 # 麦角硫因
+
+## 2026-09-25 证据更新
+
+2026 年平菇饮食试验研究了 80 名老年人的记忆和情绪。平菇含多种成分，结果不能直接归因于麦角硫因或替代单方补剂证据。
+
+[PMID 42299921](papers/pmid-42299921.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

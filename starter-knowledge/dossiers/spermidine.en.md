@@ -4,7 +4,7 @@ name_zh: 亚精胺
 name_en: Spermidine
 status: reviewed
 tier: T4
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -13,6 +13,13 @@ locale: en
 translation_of: dossiers/spermidine.md
 ---
 # Spermidine
+
+## Evidence checked — September 25, 2026
+
+A 2026 trial found a signal for radiotherapy-associated salivary dysfunction. This cancer-treatment context does not establish healthy-adult longevity, and observational associations are not causal supplement effects.
+
+[PMID 42460130](papers/pmid-42460130.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

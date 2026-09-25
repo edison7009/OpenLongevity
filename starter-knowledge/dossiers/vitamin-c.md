@@ -4,7 +4,7 @@ name_zh: 维生素C
 name_en: Vitamin C (Ascorbic acid)
 status: reviewed
 tier: T3
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-22
 audit_status: pending
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,13 @@ audit_date:
 ---
 
 # 维生素C
+
+## 2026-09-25 证据更新
+
+2026 年新增骨髓衰老论文，与 ACSL4 研究均提供非人灵长类机制线索。分子年龄和祖细胞变化值得研究，但尚不能证明普通人额外补充可延寿。
+
+[PMID 42462722](papers/pmid-42462722.md) · [PMID 41819088](papers/pmid-41819088.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

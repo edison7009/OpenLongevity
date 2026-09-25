@@ -4,10 +4,17 @@ name_zh: 辅酶 Q10
 name_en: Coenzyme Q10 / Ubiquinol
 status: reviewed
 tier: T4
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 ---
 
 # 辅酶 Q10
+
+## 2026-09-25 证据更新
+
+本次收藏 2024 年心衰荟萃分析作为背景；患者群体的获益不能直接推广至健康人。本轮未纳入可证明普通人延寿的新试验。
+
+[PMID 39462324](papers/pmid-39462324.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

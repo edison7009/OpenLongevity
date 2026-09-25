@@ -4,7 +4,7 @@ name_zh: 亚精胺
 name_en: Spermidine
 status: reviewed
 tier: T4
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 evidence_cutoff: 2026-07-20
 audit_status: partial
 audit_framework: openlongevity-ai4l-0.1
@@ -12,6 +12,13 @@ audit_date: 2026-07-20
 ---
 
 # 亚精胺
+
+## 2026-09-25 证据更新
+
+2026 年放疗相关口干随机试验出现保护信号，适用情境是肿瘤治疗期间的唾液腺损伤。不能由此推断健康人延寿，也不能把队列相关性写成补剂因果效果。
+
+[PMID 42460130](papers/pmid-42460130.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

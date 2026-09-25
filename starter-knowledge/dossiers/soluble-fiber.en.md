@@ -4,12 +4,19 @@ name_zh: Soluble dietary fiber
 name_en: Soluble fiber
 status: reviewed
 tier: T2
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 locale: en
 translation_of: dossiers/soluble-fiber.md
 ---
 
 # Soluble Dietary Fiber
+
+## Evidence checked — September 25, 2026
+
+The 2023 lipid meta-analysis is added as background. This selection includes no new lifespan trial changing the conclusion. Keep ingredient, LDL outcomes, and tolerability distinct.
+
+[PMID 36796439](papers/pmid-36796439.md) · [Supplement evidence update](guides/supplement-evidence-2026-09.en.md)
+
 
 ## Global Brand Ranking (Buying Guide)
 

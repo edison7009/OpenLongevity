@@ -497,9 +497,14 @@ fn normalize_link_target(source_path: &str, raw_target: &str) -> Option<String> 
         return None;
     }
 
-    let base = Path::new(source_path)
-        .parent()
-        .unwrap_or_else(|| Path::new(""));
+    // Evidence and guide links use the library-root paths opened by the desktop reader.
+    let base = if target.starts_with("papers/") || target.starts_with("guides/") {
+        Path::new("")
+    } else {
+        Path::new(source_path)
+            .parent()
+            .unwrap_or_else(|| Path::new(""))
+    };
     let joined = base.join(target);
     let mut parts = Vec::new();
     for component in joined.components() {
@@ -608,6 +613,34 @@ mod tests {
         assert!(context.len() < 10_000);
 
         fs::remove_dir_all(root).expect("fixture should be removed");
+    }
+
+    #[test]
+    fn original_language_evidence_is_retrieved_from_both_article_languages() {
+        let root = fixture_root();
+        fs::create_dir_all(root.join("papers")).unwrap();
+        fs::write(
+            root.join("dossiers/creatine.md"),
+            "# 肌酸更新\n\n[论文](papers/trial.md)",
+        )
+        .unwrap();
+        fs::write(
+            root.join("dossiers/creatine.en.md"),
+            "# Creatine update\n\n[Paper](papers/trial.md)",
+        )
+        .unwrap();
+        fs::write(
+            root.join("papers/trial.md"),
+            "# Original research\n\nUntranslated evidence.",
+        )
+        .unwrap();
+        for (locale, query) in [("zh", "肌酸更新"), ("en", "Creatine update")] {
+            let hits = search_library(&root, query, locale, 5);
+            assert!(hits
+                .iter()
+                .any(|hit| hit.path == "papers/trial.md" && hit.via_graph));
+        }
+        fs::remove_dir_all(root).unwrap();
     }
 
     #[test]

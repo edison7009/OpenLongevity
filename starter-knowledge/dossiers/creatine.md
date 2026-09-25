@@ -4,10 +4,17 @@ name_zh: 肌酸一水合物
 name_en: Creatine monohydrate
 status: reviewed
 tier: T2
-last_reviewed: 2026-08-17
+last_reviewed: 2026-09-25
 ---
 
 # 肌酸一水合物
+
+## 2026-09-25 证据更新
+
+2026 年绝经后女性随机试验综述支持配合阻力训练获得小幅瘦体重和力量改善，未见整体骨密度改善。结论针对肌肉功能，不是人类寿命。
+
+[PMID 42141930](papers/pmid-42141930.md) · [补剂证据更新](guides/supplement-evidence-2026-09.md)
+
 
 ## 全球品牌排名（购买导向）
 

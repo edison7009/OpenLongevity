@@ -24,3 +24,11 @@ A local-first longevity library designed for reading. Supplement brand rankings 
 2. A mechanistic or biomarker change is not equivalent to a healthspan benefit.
 3. Scientific-evidence Tiers and product-quality P grades are separate.
 4. Conclusions must state the applicable population, limitations, and safety boundaries together.
+
+## September 2026 updates
+
+- [Supplement evidence](guides/supplement-evidence-2026-09.en.md)
+- [AI longevity research](guides/ai-longevity-2026-09.en.md)
+- [Global public protocols](guides/global-protocols-2026-09.en.md)
+
+Evidence records stay in their original language and are linked from reader articles.
